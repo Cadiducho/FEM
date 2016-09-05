@@ -21,6 +21,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
@@ -47,10 +48,14 @@ public class PlayerListener implements Listener {
     }
     
     @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlayerLogin(PlayerLoginEvent e) {
+        if (e.getResult() == PlayerLoginEvent.Result.ALLOWED) {
+            plugin.getMysql().setupTable(e.getPlayer());
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent e) {
-        plugin.getMysql().setupTable(e.getPlayer());
-
-        plugin.log("IP:" + e.getPlayer().getAddress().getAddress().getHostAddress());
         FEMUser u = FEMServer.getUser(e.getPlayer());
         
         //Actualizar variables

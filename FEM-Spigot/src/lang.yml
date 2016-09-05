@@ -43,6 +43,9 @@ clear:
 cnick:
     uso: '&eUsa: &a/cnick <Nombre>'
     error: '&cNo se ha podido encontrar a &b{0} &cen las bases de datos de Mojang.{n}&cEl nombre está mal indicado o los servidores de Mojang caidos.'
+darrango:
+    uso: '&eUsa: &a/{0} <Usuario> <Rango (Número, máx. {1})>'
+    mensaje: '&aSe ha asignado a {0} el rango {1} correctamente.'
 extinguish:
     mensaje: '&6Has dejado de arder'
     mensajeOtro: '&6Has hecho que &e{0} &6deje de arder'

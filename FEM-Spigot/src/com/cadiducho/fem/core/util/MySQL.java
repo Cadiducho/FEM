@@ -1,5 +1,6 @@
 package com.cadiducho.fem.core.util;
 
+import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.api.FEMUser.UserData;
 import com.cadiducho.fem.core.cmds.FEMCmd;
@@ -63,88 +64,92 @@ public class MySQL {
 
     // -----------------
     public void setupTable(Player p) {
-        try {
-            PreparedStatement statement = connection.prepareStatement("SELECT `id` FROM `fem_datos` WHERE `uuid` = ?");
-            statement.setString(1, p.getUniqueId().toString());
-            ResultSet rs = statement.executeQuery();
-            if (!rs.next()) { //No hay filas encontradas, insertar nuevos datos
-                try {
-                    PreparedStatement inserDatos = connection.prepareStatement(
-                            "INSERT INTO `fem_datos` (`uuid`, `name`, `grupo`) VALUES (?, ?, ?)");
-                    inserDatos.setString(1, p.getUniqueId().toString());
-                    inserDatos.setString(2, p.getName());
-                    inserDatos.setInt(3, 0);
-                    inserDatos.executeUpdate();
-                    
-                    PreparedStatement inserStats = connection.prepareStatement(
-                            "INSERT INTO `fem_stats` (`uuid`) VALUES (?)");
-                    inserStats.setString(1, p.getUniqueId().toString());
-                    inserStats.executeUpdate();
-                    
-                    PreparedStatement inserSettings = connection.prepareStatement(
-                            "INSERT INTO `fem_settings` (`uuid`) VALUES (?)");
-                    inserSettings.setString(1, p.getUniqueId().toString());
-                    inserSettings.executeUpdate();
+        FEMCore.getInstance().getServer().getScheduler().runTaskAsynchronously(FEMCore.getInstance(), () -> {
+            try {
+                PreparedStatement statement = connection.prepareStatement("SELECT `id` FROM `fem_datos` WHERE `uuid` = ?");
+                statement.setString(1, p.getUniqueId().toString());
+                ResultSet rs = statement.executeQuery();
+                if (!rs.next()) { //No hay filas encontradas, insertar nuevos datos
+                    try {
+                        PreparedStatement inserDatos = connection.prepareStatement(
+                                "INSERT INTO `fem_datos` (`uuid`, `name`, `grupo`) VALUES (?, ?, ?)");
+                        inserDatos.setString(1, p.getUniqueId().toString());
+                        inserDatos.setString(2, p.getName());
+                        inserDatos.setInt(3, 0);
+                        inserDatos.executeUpdate();
 
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
+                        PreparedStatement inserStats = connection.prepareStatement(
+                                "INSERT INTO `fem_stats` (`uuid`) VALUES (?)");
+                        inserStats.setString(1, p.getUniqueId().toString());
+                        inserStats.executeUpdate();
+
+                        PreparedStatement inserSettings = connection.prepareStatement(
+                                "INSERT INTO `fem_settings` (`uuid`) VALUES (?)");
+                        inserSettings.setString(1, p.getUniqueId().toString());
+                        inserSettings.executeUpdate();
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
                 }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
             }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+        });
     }
 
     public void saveUser(FEMUser u) {
-        UserData data = u.getUserData();
-        try {
+        FEMCore.getInstance().getServer().getScheduler().runTaskAsynchronously(FEMCore.getInstance(), () -> {
+            UserData data = u.getUserData();
+            try {
 
-            PreparedStatement statementDatos = connection.prepareStatement("UPDATE `fem_datos` SET `grupo`=?,`god`=?,`coins`=?,`lastConnect`=?,`ip`=?,`nick`=? WHERE `uuid`=?");
-            statementDatos.setInt(1, data.getGrupo() != null ? data.getGrupo().getRank() : 0);
-            statementDatos.setBoolean(2, data.getGod() == null ? false : data.getGod());
-            statementDatos.setInt(3, data.getCoins() == null ? 0 : data.getCoins());
-            statementDatos.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime())); 
-            statementDatos.setString(5, data.getIp() == null ? "" : data.getIp().getAddress().getHostAddress());
-            statementDatos.setString(6, data.getNickname() == null ? "" : data.getNickname());
-            statementDatos.setString(7, u.getUuid().toString());
-            statementDatos.executeUpdate();
+                PreparedStatement statementDatos = connection.prepareStatement("UPDATE `fem_datos` SET `grupo`=?,`god`=?,`coins`=?,`lastConnect`=?,`ip`=?,`nick`=? WHERE `uuid`=?");
+                statementDatos.setInt(1, data.getGrupo() != null ? data.getGrupo().getRank() : 0);
+                statementDatos.setBoolean(2, data.getGod() == null ? false : data.getGod());
+                statementDatos.setInt(3, data.getCoins() == null ? 0 : data.getCoins());
+                statementDatos.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime())); 
+                statementDatos.setString(5, data.getIp() == null ? "" : data.getIp().getAddress().getHostAddress());
+                statementDatos.setString(6, data.getNickname() == null ? "" : data.getNickname());
+                statementDatos.setString(7, u.getUuid().toString());
+                statementDatos.executeUpdate();
 
-            //Stats
-            PreparedStatement statementStats = connection.prepareStatement("UPDATE `fem_stats` SET `kills_tnt`=?,`kills_gh`=?,`deaths_tnt`=?,`deaths_gh`=?,`jugadas_tnt`=?,"
-                    + "`jugadas_dod`=?,`jugadas_gh`=?,`ganadas_tnt`=?,`ganadas_dod`=?,`ganadas_gh`=?,`tntPuestas`=?,`tntQuitadas`=?,`tntExplotadas`=?,`genUpgraded`=?,"
-                    + " `gemDestroyed`=?,`gemPlanted`=?,`record_dod`=?,`rondas_dod`=? WHERE `uuid`=?");
-            statementStats.setInt(1, data.getKills().get(1));
-            statementStats.setInt(2, data.getKills().get(3));
-            statementStats.setInt(3, data.getDeaths().get(1));
-            statementStats.setInt(4, data.getDeaths().get(3));
-            statementStats.setInt(5, data.getPlays().get(1));
-            statementStats.setInt(6, data.getPlays().get(2));
-            statementStats.setInt(7, data.getPlays().get(3));
-            statementStats.setInt(8, data.getWins().get(1));
-            statementStats.setInt(9, data.getWins().get(2));
-            statementStats.setInt(10, data.getWins().get(3));
-            statementStats.setInt(11, data.getTntPuestas());
-            statementStats.setInt(12, data.getTntQuitadas());
-            statementStats.setInt(13, data.getTntExplotadas());
-            statementStats.setInt(14, data.getGenUpgraded());
-            statementStats.setInt(15, data.getGemDestroyed());
-            statementStats.setInt(16, data.getGemPlanted());
-            statementStats.setInt(17, data.getRecord_dod());
-            statementStats.setInt(18, data.getRondas_dod());
-            statementStats.setString(19, u.getUuid().toString());
-            statementStats.executeUpdate();
-            
-            //Settings
-            PreparedStatement statementSett = connection.prepareStatement("UPDATE `fem_settings` SET `friendRequest`=?,`hideMode`=? WHERE `uuid`=?");
-            statementSett.setBoolean(1, data.getFriendRequest() == null ? true : data.getFriendRequest());
-            statementSett.setInt(2, data.getHideMode() == null ? 1 : data.getHideMode());
-            statementSett.setString(3, u.getUuid().toString());
-            statementSett.executeUpdate();
-            
-        } catch (Exception ex) {
-            System.out.println("Ha ocurrido un error guardando los datos de " + u.getBase().getName());
-            ex.printStackTrace();
-        }
+                //Stats
+                PreparedStatement statementStats = connection.prepareStatement("UPDATE `fem_stats` SET `kills_tnt`=?,`kills_gh`=?,`deaths_tnt`=?,`deaths_gh`=?,`jugadas_tnt`=?,"
+                        + "`jugadas_dod`=?,`jugadas_gh`=?,`ganadas_tnt`=?,`ganadas_dod`=?,`ganadas_gh`=?,`tntPuestas`=?,`tntQuitadas`=?,`tntExplotadas`=?,`genUpgraded`=?,"
+                        + " `gemDestroyed`=?,`gemPlanted`=?,`record_dod`=?,`rondas_dod`=? WHERE `uuid`=?");
+                statementStats.setInt(1, data.getKills().get(1));
+                statementStats.setInt(2, data.getKills().get(3));
+                statementStats.setInt(3, data.getDeaths().get(1));
+                statementStats.setInt(4, data.getDeaths().get(3));
+                statementStats.setInt(5, data.getPlays().get(1));
+                statementStats.setInt(6, data.getPlays().get(2));
+                statementStats.setInt(7, data.getPlays().get(3));
+                statementStats.setInt(8, data.getWins().get(1));
+                statementStats.setInt(9, data.getWins().get(2));
+                statementStats.setInt(10, data.getWins().get(3));
+                statementStats.setInt(11, data.getTntPuestas());
+                statementStats.setInt(12, data.getTntQuitadas());
+                statementStats.setInt(13, data.getTntExplotadas());
+                statementStats.setInt(14, data.getGenUpgraded());
+                statementStats.setInt(15, data.getGemDestroyed());
+                statementStats.setInt(16, data.getGemPlanted());
+                statementStats.setInt(17, data.getRecord_dod());
+                statementStats.setInt(18, data.getRondas_dod());
+                statementStats.setString(19, u.getUuid().toString());
+                statementStats.executeUpdate();
+
+                //Settings
+                PreparedStatement statementSett = connection.prepareStatement("UPDATE `fem_settings` SET `friendRequest`=?,`hideMode`=? WHERE `uuid`=?");
+                statementSett.setBoolean(1, data.getFriendRequest() == null ? true : data.getFriendRequest());
+                statementSett.setInt(2, data.getHideMode() == null ? 1 : data.getHideMode());
+                statementSett.setString(3, u.getUuid().toString());
+                statementSett.executeUpdate();
+
+            } catch (Exception ex) {
+                System.out.println("Ha ocurrido un error guardando los datos de " + u.getBase().getName());
+                ex.printStackTrace();
+            }
+        });
     }
 
     public UserData loadUserData(UUID id) {
@@ -230,29 +235,33 @@ public class MySQL {
         } catch (Exception ex) {
             System.out.println("Ha ocurrido un error cargando los datos de " + id);
             ex.printStackTrace();
-        }
+        }   
         return data;
     }
     
     public void addFriend(FEMUser uuid, FEMUser to) {
-        try {
-            PreparedStatement statementAmigos = connection.prepareStatement("INSERT INTO `fem_amigos` (`uuid`, `to`) VALUES (?, ?)");
-            statementAmigos.setString(1, uuid.getUuid().toString());
-            statementAmigos.setString(2, to.getUuid().toString());
-            statementAmigos.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        FEMCore.getInstance().getServer().getScheduler().runTaskAsynchronously(FEMCore.getInstance(), () -> {
+            try {
+                PreparedStatement statementAmigos = connection.prepareStatement("INSERT INTO `fem_amigos` (`uuid`, `to`) VALUES (?, ?)");
+                statementAmigos.setString(1, uuid.getUuid().toString());
+                statementAmigos.setString(2, to.getUuid().toString());
+                statementAmigos.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }
     
     public void removeFriend(FEMUser uuid, FEMUser to) {
-        try {
-            PreparedStatement statementAmigos = connection.prepareStatement("DELETE FROM `fem_amigos` WHERE `uuid`=? AND `to`=?");
-            statementAmigos.setString(1, uuid.getUuid().toString());
-            statementAmigos.setString(2, to.getUuid().toString());
-            statementAmigos.executeUpdate();
-        } catch (SQLException ex) {
-            Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        FEMCore.getInstance().getServer().getScheduler().runTaskAsynchronously(FEMCore.getInstance(), () -> {
+            try {
+                PreparedStatement statementAmigos = connection.prepareStatement("DELETE FROM `fem_amigos` WHERE `uuid`=? AND `to`=?");
+                statementAmigos.setString(1, uuid.getUuid().toString());
+                statementAmigos.setString(2, to.getUuid().toString());
+                statementAmigos.executeUpdate();
+            } catch (SQLException ex) {
+                Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
     }
 }
