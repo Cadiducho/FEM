@@ -1,0 +1,4 @@
+name: ${project.artifactId}
+author: Cadiducho
+main: com.cadiducho.fem.bungee.FEMBungee
+version: ${project.version}

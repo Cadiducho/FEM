@@ -1,0 +1,9 @@
+name: GemHunters
+description: GemHunters
+version: 0.0.1
+main: com.cadiducho.fem.gem.GemHunters
+depend: [FEMCore]
+author: Cadiducho
+commands:
+    game:
+        description: a

@@ -1,0 +1,4 @@
+name: FEMCore
+main: com.cadiducho.fem.core.FEMCore
+version: ${project.version} - ${timestamp}
+author: Cadiducho

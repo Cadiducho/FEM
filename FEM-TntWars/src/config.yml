@@ -1,0 +1,11 @@
+id: tntwars1
+Tnt:
+    Arena:
+        usersMin: 2
+        usersMax: 8
+        areaBorder1: world%0.0%70.0%0.0%0.0%0.0
+        areaBorder2: world%0.0%70.0%0.0%0.0%0.0
+        islas:
+            1:
+                borderPos1: world%0.0%70.0%0.0%0.0%0.0
+                borderPos2: world%0.0%70.0%0.0%0.0%0.0

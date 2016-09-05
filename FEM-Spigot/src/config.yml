@@ -1,0 +1,13 @@
+debug: false
+mysql:
+  host: localhost
+  port: 3306
+  database: fem
+  username: cadi
+  password: password
+adminchat:
+  sintaxis: '&b{0}&f: &a{1}'
+helpop:
+  sintaxis: '&7[&4HelpOp&7] &b{0}&f: &c{1}'
+broadcast:
+  sintaxis: '&6[&4Broadcast&6]: &a{1}'

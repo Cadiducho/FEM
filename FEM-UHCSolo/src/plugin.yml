@@ -1,0 +1,14 @@
+name: FEM-UHCSolo
+description: UHC Plugin
+version: 0.0.1
+main: com.cadiducho.fem.uhc.Main
+authors: [Cadiducho]
+load: STARTUP
+commands:
+    start:
+        description: Inicia la partida
+    setup:
+        description: Haces el setup del servidor
+    lobby:
+        aliases: [hub, salir, leave, abandonar, volver]
+        description: volver al hub

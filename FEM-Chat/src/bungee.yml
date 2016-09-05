@@ -1,0 +1,4 @@
+name: ${project.artifactId}
+main : com.cadiducho.fem.chat.FEMChat
+version: ${project.version}
+author: Cadiducho

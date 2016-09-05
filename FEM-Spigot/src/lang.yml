@@ -1,0 +1,264 @@
+motd: '&aBienvenido, &b{0}&a!{n}&aUsa &b/help&a para ver una lista de comandos.{n}&aAhora mismo, hay:&b {1} usuarios &ajugando.'
+userDesconectado: '&c¡Ese jugador está desconectado!'
+userNotFound: '&cJugador no encontrado.'
+noPermiso: '&cNo tienes permiso para usar este comando'
+entrar: '&7se ha conectado'
+salir: '&7se ha desconectado'
+adminchat:
+    uso: '&eUso: &a/a <Mensaje>'
+    activado: '&eAdmin Chat: &aActivado'
+    desactivado: '&eAdmin Chat: &cDesactivado'
+afk:
+    activado: '&7{0} está AFK'
+    desactivado: '&7{0} ya no está AFK'
+aviso:
+    uso: '&eUsa: &a/aviso <nombre> <razón>'
+    error: '&cNo se ha podido advertir al jugador {0}{n}&c{1}'
+    lista: '&a&nLista de avisos de&f &6{0}&f &b({1} en total)'
+    noAvisos: '&aNo tienes avisos'
+    noAvisosOtros: '&e{0} &ano tiene avisos'
+    idInvalida: '&c{0} no es una ID válida'
+    modificada: '&6La advertencia #&7{0} &6ha sido modificada correctamente.{n}&6Nueva razón: &7{1}'
+    usoMod: '&eUsa: &a/modaviso <ID> <Nueva Razón>'
+    eliminada: '&6La advertencia #&7{0}&6 ha sido eliminada correctamente'
+    usoElim: '&cUsa /elimaviso <ID>'
+back:
+    notFound: '&cNo se ha podido encontrar localización anterior'
+    mensaje: '&6Teleportando a tu anterior posición...'
+book:
+    uso: '&cDebes tener un libro en la mano para escribir'
+    bloqueado: '&6El libro ha sido bloqueado'
+    desbloqueado: '&6El libro ha sido desbloqueado y ahora puedes editarlo'
+broadcast:
+    uso: '&eUsa: &a/bcast <Mensaje>'
+burn:
+    uso: '&eUsa: &a/burn <Usuario> [Tiempo (número)]'
+    limite: '&cEl tiempo debe ser un número mayor que 0'
+    mensaje: '&6Has prendido fuego a &e{0} &6durante &e{1} segundos'
+clear:
+    mensaje: '&aSe te ha limpiado el inventario'
+    otro: '&aHas limpiado el inventario a &e{0}'
+    armor: '&aTe has limpiado la armadura'
+    armorOtro: '&aHas limpiado la armadura a &e{0}'
+cnick:
+    uso: '&eUsa: &a/cnick <Nombre>'
+    error: '&cNo se ha podido encontrar a &b{0} &cen las bases de datos de Mojang.{n}&cEl nombre está mal indicado o los servidores de Mojang caidos.'
+extinguish:
+    mensaje: '&6Has dejado de arder'
+    mensajeOtro: '&6Has hecho que &e{0} &6deje de arder'
+fixtablist:
+    mensaje: '&aScoreboards reestablecidos correctamente.'
+fly:
+    otro: '&aLe has dado fly a &7{0}'
+    activado: '&aModo de vuelvo activado'
+    desactivado: '&aModo de vuelo &cdesactivado'
+friend:
+    uso: '&eUsa: &a/friend <add / list / remove> [Usuario]'
+    yaEs: '&e{0} &cya es tu amigo'
+    noEs: '&e{0} &cno es tu amigo'
+    mensaje: '&6Has agregado a &e{0}&6 como amigo'
+    mensajeOtro: '&e{0} &6te ha agregado como amigo. Usa &a/friend add {0} &6para agregarle tú'
+    msgRemove: '&aHas eliminado a &e{0} &ade tus amigos'
+    list: '&aUsuarios que son tus amigos:{n}&e{0}'
+    noTienes: '&cNo tienes amigos'
+gamemode:
+    uso: '&eUsa: /gm <Gamemode> [Usuario]'
+    mensaje: '&6Modo de juego cambiado a &e{0}'
+    otro: '&6Modo de juego  de &e{0} &6cambiado a &e{1}'
+god:
+    activado: '&6Modo God: &aactivado'
+    desactivado: '&6Modo God: &cdesactivado'
+    activadoOtro: '&6Modo God de &e{0}&6: &aactivado'
+    desactivadoOtro: '&6Modo God de &e{0}&6: &cdesactivado'
+hat:
+    mensaje: '&7Disfruta de tu nuevo sombrero ^^'
+    error: '&7No puedes ponerte eso de sombrero ):'
+heal:
+    mensaje: '&aHas sido curado'
+    otro: '&aHas curado a &7{0}'
+helpop:
+    uso: '&eUsa: &a/helpop <Mensaje>'
+    cooldown: '&cDebes esperar otros {0} segundos para pedir más ayuda.'
+    mensaje: '&aMensaje de ayuda enviado correctamente'
+home:
+    noHay: '&cNo hay Homes establecidas'
+    noHayOtro: 'cEste jugador no tiene homes establecidas.'
+    lista: '&aLista de Homes establecidos:{n}&e{0}'
+    permis: '&cNo tienes permiso para acceder a homes de otros usuarios.'
+    noExiste: '&cEsa home no existe.'
+    uso: '&eUsa: &a/home [Home]'
+    usoDel: '&eUsa: &a/delhome <Home>'
+    noHomeNombre: '&cNo hay ningún home llamado &e{0}'
+    creado: '&eHas creado el home {0} correctamente.'
+    eliminado: '&eHas eliminado el home {0} correctamente.'
+    limite: '&cNo puedes crear más homes'
+hoygan:
+    activado: '&eModo Hoygan: &aActivado'
+    desactivado: '&eModo Hoygan: &cDesactivado'
+    activadoOtro: '&eModo Hoygan a {0}: &aActivado'
+    desactivadoOtro: '&eModo Hoygan a {0}: &cDesactivado'
+invsee:
+    uso: '&eUsa: &a/invsee <Usuario>'
+itemdb:
+    mensaje: '&7La id del item en la mano es: {0} y el nombre {1}'
+jail:
+    uso: '&eUsa: &a/jail <Usuario> <Nombre de Cárcel> [Tiempo]'
+    yaEncarcelado: '&cEse jugador ya está encarcelado'
+    noExiste: '&cEsa cárcel no existe'
+    mensaje: '&aHas encarcelado a &e{0}'
+    mensajeOtro: '&aHas sido encarcelado'
+    mensajeTiempo: '&aHas encarcelado a &e{0} &adurante &e{1} segundos'
+    mensajeOtroTiempo: '&aHas sido encarcelado durante &e{0} segundos'
+    noHay: '&cNo hay jails establecidas'
+    chatBlock: '&e¡Estas en la carcel, no puedes hablar'
+    unjail:
+        uso: '&eUsa: &a/unjail <Usuario>'
+        mensaje: '&aHas liberado a &e{0} de la cárcel'
+        mensajeOtro: '&aHas sido liberado de la cárcel'
+        notFound: '&cEse jugador no está encarcelado'
+    setjail:
+        uso: '&eUsa: &a/setjail <Nombre>'
+        mensaje: '&aHas establecido la cárcel &e{0} en tu posición'
+    deljail:
+        uso: '&eUsa: &a/deljail <Nombre>'
+        mensaje: '&aHas eliminado la carcel &e{0}'
+lag:
+    mensaje: '&bTPS en los últimos 1, 5 y 15m: {0}'
+    ping: '&bUsa &7/ping &bpara consultar tu lag'
+    desglose: '&bUsa &7/lag -d &bpara un desglose por mundos'
+    mundo: '&a{0} &btiene: &a{1} &bchunks cargados, &a{2} &bentidades cargadas, &a{3} &bTileEntities cargadas. &a{4} &bjugadores en él'
+lastdead:
+    noHay: '&cNo hay última muerte registrada ):'
+likesign:
+    self: '&aNo puedes darte un like a ti mismo!'
+    limite: '&aYa has usado tus 3 likes diarios!'
+    yaHasDado: '&aYa has dado un like a {0} hoy!'
+    target: '&a{0} te ha dado un like!'
+    mensaje: '&aHas dado un like a {0}'
+    creada: '&aLike sign creada correctamente'
+    destruida: '&aHas destruido esta Like Sign'
+    noTuya: '&cEsta no es tu LikeSign'
+list:
+    mensaje: '&aJugadores conectados: {0}/75{n}{1}'
+me:
+    uso: '&eUsa: &a/me <Acción>'
+    cooldown: '&cDebes esperar otros {0} segundos para enviar una acción.'
+more:
+    aire: '&c¡No puedes usar este comando con aire!'
+near:
+    mensaje: '&7Jugadores cercanos:{n}&7{0}'
+nick:
+    uso: '&eUsa: &a/nick [Usuario] <Nick/Off>'
+    yaEnUso: '&c¡Ese nick ya lo está usando &e{0}&c!'
+    nuevoNick: '&aTu nuevo nick es &e{0}'
+    nuevoNickOtro: '&aEl nuevo nick de &e{0} &aes &e{1}'
+ping:
+    otro: '&e{0} &btiene un ping de {1}ms'
+    error: '&c¡Ha ocurrido un error obteniendo tu ping! Intentalo más tarde'
+    mensaje: '&bTienes un ping de {0}ms.{n}&bUsa &7/tps &bpara ver el estado de lag del servidor'
+realname:
+    uso: '&eUsa: &a/realname <Usuario>'
+    mensaje: '&7Nombre de Minecraft: {0}'
+repair:
+    mensaje: '&7Se ha tratado de reparar el item que tienes en la mano'
+seed:
+    mensaje: '&7La seed del mundo es: &a{0}'
+signeditor:
+    ayuda: '&aComandos de SignEditor{n}
+            &a/se setLine <Linea> <Texto>{n}
+            &a/se clear{n}
+            &a/se clearLine <Linea>{n}
+            &a/se append <Linea> <TextoAAñadir>{n}
+            &a/se copy <Linea>{n}
+            &a/se paste <ALinea>{n}
+            &a/se copyLines{n}
+            &a/se pasteLines{n}
+            &a/se shiftLine <Linea> <Up | Down>{n}
+            &a/se shiftAllLines <Up | Down>'
+    lineasCopiadas: '&aLineas copiadas'
+    error:
+        lineas: '&cLa linea debe ser de 1 a 4'
+        uso: '&eUso correcto: &a{0}'
+        letreto: '&cDebes mirar a un letreto'
+        caracteres: '&cEl texto solo puede ser de 15 caracteres'
+        direccion: '&cDirección invalida! Usa "up" o "down"'
+        fuera: '&cNo se puede mover el texto fuera del letrero'
+spawn:
+    mensaje: '&aTeleportando al spawn...'
+    limiteConsola: '&a¡Desde consola solo puedes mandar jugadores al spawn!'
+    set: '&aNuevo Spawn point ajustado a &e{0}&a, &e{1}&a, &e{2}&a, &e{3}&a, &e{4}'
+spawner:
+    uso: '&eUsa: &a/spawner <Tipo>'
+    tipoDesconocido: '&cTipo &e{0} &cno reconocido'
+    mirando: '&c¡Debes mirar a un Spawner!'
+    mensaje: '&6Tipo del Spawner cambiado correctamente a &e{0}'
+speed:
+    uso: '&eUsa: &a/speed [Usuario] <Velocidad (número)>'
+    limite: '&cLa velocidad debe ser un número entre 0 y 10'
+    nuevaVelocidad: '&aVelocidad ajustada a &e{0}'
+    nuevaVelocidadOtro: '&aVelocidad de &e{0} &aajustada a &e{1}'
+staff:
+    menu '&aLista de Staff &7>> &6FEM'
+sudo:
+    uso: '&eUsa: &a/sudo <Usuario> <Comando>'
+    mensaje: '&aEjecutando comando &e/"{0} a través de &e{1}'
+suicide:
+    mensaje: '&6* {0} &cse ha suicidado...'
+    cooldown: '&cDebes esperar otros {0} segundos para suicidarte'
+tp:
+    here: '&6Teleportando a &e{0} &6 a tu posición'
+    to: '&6Teleportandote hacia &e{0}'
+    toOtro: '&6Teleportando a &e{0} &6 hasta &e{1}'
+    all: '&6Teleportando a todo el servidor a {0}'
+    uso: '&eUsa: &a/tp <Usuario> [otroUsuario]'
+    tpa:
+        solicitud: '&6Has enviado una petición de teletransporte {0}'
+        solicitudTarget: '&e{0} &6pide que te teletransportarte hasta él{n}
+        &6Usa &e/tpaccept &6para aceptar el teletransporte{n}
+        &6Para denegar el teletransporte, usa &e/tpadeny'
+        expirada: '&6Tu petición de tpa (o tpahere) ha expirado'
+        aceptada: '&6Petición de teletransporte de &e{0} &6aceptada'
+        denegada: '&6Has denegado la solicitud de teletransporte'
+        denegadaOtro: '&e{0} &6ha denegado tu petición de teletransporte'
+        noSolicitud: '&cNo tienes ninguna solicitud de teletransporte'
+        uso: '&eUsa: &a/tpa <Usuario>'
+        usoHere: '&eUsa: &a/tphere <Usuario>'
+    pos:
+        uso: '&eUsa: /tppos <x> <y> <z> (Deben ser números de coordenadas)'
+        to: '&6Teleportando a &e{0}&6, &e{1}&6, &e{2}'
+    usoHere: '&eUsa: &a/tphere <Usuario>'
+telegram:
+    uso: '&eUsa: &a/telegram [mensaje]'
+    error: 'Ha ocurrido un error ):{n}{0}'
+vagonetas:
+    no: '&eAhora las vagonetas &cNO &ese romperán cuando bajes de estas.'
+    si: '&eAhora las vagonetas &aSÍ &ese romperán cuando bajes de estas.'
+vanish:
+    entrar: '&7Has entrado en vanish.'
+    salir: '&7Ya no estás en vanish.'
+    activado: '&d&lModo Vanish activado'
+vip:
+    obteniendo: '&aObteniendo fecha &7(&6...&7)'
+    error: '&cHa ocurrido un error. Avisa a un administrador'
+    restante: '&aTu vip {0} caduca el {1}{n}&aTe quedan {2}'
+    restanteOtro: '&aEl vip {0} de {1} caduca el {2}{n}&aLe quedan {3}'
+    caduco: '&aTu vip {0} caducó el {1}'
+    caducoOtro: '&aEl vip {0} de {1} caducó el {2}'
+    nunca: '&aNunca has comprado un paquete vip'
+    nuncaOtro: '&a{0} nunca ha comprado un paquete vip'
+warp:
+    noHay: '&cNo hay warps establecidos'
+    noExiste: '&cNo hay ningún warp llamado &e{0}'
+    yaExiste: '&c¡Ese warp ya existe!'
+    creado: '&eHas creado el warp {0} correctamente.'
+    eliminado: '&eHas eliminado el warp {0} correctamente.'
+    menu: '&aLista de Warps &7>> &6FEM'
+    usoSet: '&eUsa: &a/setwarp <Warp> [descripción] [icono]'
+    usoDel: '&eUsa: &a/delwarp <Warp>'
+weather:
+    modo: '&7Especifica un modo: sol/lluvia/tormenta'
+    sol: '&7Se ha puesto sol en este mundo'
+    lluvia: '&7Se ha puesto lluvia en este mundo'
+    tormenta: '&7Se ha puesto tormenta en este mundo'
+whois:
+    uso: '&eUsa: &a/whois <Usuario>'
