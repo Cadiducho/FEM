@@ -27,9 +27,9 @@ public class WorldListener implements Listener {
     }
     
     @EventHandler
-    public void onAnvilPlace(BlockPlaceEvent e) {
+    public void onGemPlace(BlockPlaceEvent e) {
         Block b = e.getBlock();
-        if (b.getType() == Material.EMERALD_BLOCK) {
+        if (b.getType() == plugin.getAm().getTypeGema()) {
             if (plugin.getGm().isHidding()) {
                 e.getPlayer().sendMessage("Has puesto tu gema");
                 plugin.getMsg().sendBroadcast(e.getPlayer().getName() + " ha puesto su gema");
@@ -44,9 +44,9 @@ public class WorldListener implements Listener {
     }
     
     @EventHandler
-    public void onAnvilBreak(BlockBreakEvent e) {
+    public void onGemBreak(BlockBreakEvent e) {
         Block b = e.getBlock();
-        if (b.getType() == Material.EMERALD_BLOCK) {
+        if (b.getType() == plugin.getAm().getTypeGema()) {
             if (plugin.getGm().isInGame()) {
                 e.setCancelled(!plugin.getTm().tryRemovePunto(e.getPlayer(), b.getLocation()));
                 return;

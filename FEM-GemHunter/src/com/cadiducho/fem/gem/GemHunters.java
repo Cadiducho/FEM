@@ -38,11 +38,7 @@ public class GemHunters extends JavaPlugin {
             try {
                 getConfig().options().copyDefaults(true);
                 saveConfig();
-                //log("Generando archivo config.yml correctamente");
-            } catch (Exception e) {
-                /*log("Fallo al generar el config.yml!");
-                debugLog("Causa: " + e.toString());*/
-            }
+            } catch (Exception e) {}
         }
 
         gm = new GameManager(instance);
@@ -93,5 +89,4 @@ public class GemHunters extends JavaPlugin {
         }
         return us;
     }
-
 }

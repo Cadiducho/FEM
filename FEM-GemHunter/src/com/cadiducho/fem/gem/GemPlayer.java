@@ -55,7 +55,7 @@ public class GemPlayer {
                 if (base.getPlayer() == null) cancel();
                 
                 if (plugin.getGm().isHidding()) {
-                    board.setName("§d§lBuscar§a§ly§e§lDestruir");
+                    board.setName("§d§lGem§e§lHunter");
                     board.text(12, "§7Equipos:");
                     board.text(11, "§dMorado: §f" + plugin.getTm().getPuntos(plugin.getTm().morado));
                     board.text(10, "§eAmarillo: §f" + plugin.getTm().getPuntos(plugin.getTm().amarillo));
@@ -150,7 +150,7 @@ public class GemPlayer {
         base.getPlayer().getInventory().setHelmet(helmet);
 
         if (plugin.getGm().isHidding()) {
-            base.getPlayer().getInventory().setItem(0, new ItemStack(Material.EMERALD_BLOCK));
+            base.getPlayer().getInventory().setItem(0, new ItemStack(plugin.getAm().getTypeGema()));
         } else if (plugin.getGm().isInGame()) {
             base.getPlayer().getInventory().setItem(0, new ItemStack(Material.IRON_PICKAXE));
             base.getPlayer().getInventory().setItem(8, new ItemStack(Material.IRON_SWORD));

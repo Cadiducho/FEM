@@ -1,7 +1,10 @@
+id: gemhunter1
 GemHunters:
+    material: EMERALD_ORE
     Arena:
         usersMin: 2
         usersMax: 16
+        mundo: world
         borderPos1: world%0.0%70.0%0.0%0.0%0.0
         borderPos2: world%0.0%70.0%0.0%0.0%0.0
         Spawn:

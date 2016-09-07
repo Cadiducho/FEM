@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
@@ -24,7 +23,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 public class PlayerListener implements Listener {
 
@@ -90,10 +88,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent e) {
         if (e instanceof LivingEntity) {
-            LivingEntity le = (LivingEntity) e;
-            if (le.hasAI()) { //No spawnear salvo las ovejas tontas del juego
-                e.setCancelled(true);
-            }
+            e.setCancelled(true);
         }
     }
     
@@ -135,22 +130,6 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerToggleSneakEvent(PlayerToggleSneakEvent e) {
-    
-    }
-    
-    @EventHandler
-    public void onEntityDamageByBlock(EntityDamageByBlockEvent e) {
-        /*if (plugin.getGm().isInLobby() || plugin.getGm().isTeleporting() || plugin.getGm().isEnding()) {
-            e.setCancelled(true);
-        } else if (plugin.getGm().isInPVE()) {
-            e.setCancelled(false);
-        } else if (plugin.getGm().isInPVP() || plugin.getGm().isInDeathMatch()) {
-            e.setCancelled(false);
-        }*/
-    }
-
-    @EventHandler
     public void onPlayerDrop(PlayerDropItemEvent e) {
         if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown() || plugin.getGm().isEnding()) {
             e.setCancelled(true);
@@ -170,5 +149,4 @@ public class PlayerListener implements Listener {
             e.setCancelled(true);
         }
     }
-
 }

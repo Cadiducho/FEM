@@ -4,8 +4,6 @@ import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.core.util.Metodos;
 import java.util.logging.Level;
 import lombok.Getter;
-
-
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -16,11 +14,11 @@ import org.bukkit.entity.EntityType;
 public class ArenaManager {
 
     private final GemHunters plugin;
-
     private int minPlayers = 2;
     private int maxPlayers = 16;
     @Getter private final Location pos1;
     @Getter private final Location pos2;
+    @Getter private final Material typeGema;
     
     public ArenaManager(GemHunters instance) {
         plugin = instance;
@@ -29,12 +27,8 @@ public class ArenaManager {
         
         pos1 = Metodos.stringToLocation(plugin.getConfig().getString("GemHunters.Arena.borderPos1"));
         pos2 = Metodos.stringToLocation(plugin.getConfig().getString("GemHunters.Arena.borderPos2"));
+        typeGema = Material.getMaterial(plugin.getConfig().getString("GemHunters.material"));
     }
-
-    private final double bordeSize = 1000;
-    private final double deathMatchSize = 50;
-
-    
 
     public void prepareWorld(World w) {
         w.setPVP(true);
@@ -50,14 +44,6 @@ public class ArenaManager {
         muro(w, true);
         
         plugin.getLogger().log(Level.INFO, "Mundo para {0}/{1} preparado", new Object[]{minPlayers, maxPlayers});
-    }
-
-    public double getBordeSize() {
-        return bordeSize;
-    }
-
-    public double getDeathMatchSize() {
-        return deathMatchSize;
     }
 
     public int getMaxPlayers() {
@@ -91,9 +77,5 @@ public class ArenaManager {
                 }
             }
         }
-
-
-}
-
-
+    }
 }
