@@ -110,6 +110,13 @@ public class PlayerListener implements Listener {
         if (e.getEntity() instanceof Player) {
             if (e.getCause() == DamageCause.BLOCK_EXPLOSION) {
                 e.setCancelled(true);
+                return;
+            }
+            if (e.getCause() == DamageCause.FALL) {
+                if (!plugin.getGm().isDañoEnCaida()) {
+                    e.setCancelled(true);
+                    return;
+                }
             }
             Player p = (Player) e.getEntity();
             TntPlayer pl = TntWars.getPlayer(p);

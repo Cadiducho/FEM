@@ -79,7 +79,7 @@ public class ArenaManager {
     public void initArena() {
         for (String str : plugin.getConfig().getConfigurationSection("Tnt.Arena.islas").getKeys(false)) {
             plugin.getLogger().log(Level.INFO, "Intentando cargar isla {0}", str);
-            ConfigurationSection cfg = plugin.getConfig().getConfigurationSection("Tnt.Arena.islas."+str);
+            ConfigurationSection cfg = plugin.getConfig().getConfigurationSection("Tnt.Arena.islas." + str);
             Location loc1 = Metodos.stringToLocation(cfg.getString("borderPos1"));
             Location loc2 = Metodos.stringToLocation(cfg.getString("borderPos2"));
             

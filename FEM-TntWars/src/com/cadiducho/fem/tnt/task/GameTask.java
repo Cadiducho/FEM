@@ -21,6 +21,10 @@ public class GameTask extends BukkitRunnable {
     public void run() {
         instance = this;
         checkWinner();
+        
+        if (count == 5) { //Desactivar a los 5 segundos la inmunidad por caidas
+            plugin.getGm().setDañoEnCaida(false);
+        }
 
         ++count;
         plugin.getGm().getPlayersInGame().forEach(pl -> pl.setLevel(count));
@@ -46,7 +50,6 @@ public class GameTask extends BukkitRunnable {
         //Iniciar hilo del juego
         new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
     }
-
 
     public static int getTimeLeft() {
         return count;

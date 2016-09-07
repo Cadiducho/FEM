@@ -5,6 +5,7 @@ import com.cadiducho.fem.tnt.task.CountdownTask;
 import java.util.ArrayList;
 import java.util.HashMap;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
@@ -21,6 +22,7 @@ public class GameManager {
     @Getter private final HashMap<Team, ArrayList<Location>> gemas = new HashMap<>();
 
     private boolean checkStart = false;
+    @Getter @Setter private boolean dañoEnCaida = true;
 
     public void init() {
         playersInGame.clear();

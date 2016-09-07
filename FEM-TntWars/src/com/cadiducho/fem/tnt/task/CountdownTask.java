@@ -49,6 +49,7 @@ public class CountdownTask extends BukkitRunnable {
                     i.getSpawn().getBlock().getRelative(BlockFace.DOWN).setType(Material.AIR);
                 }
             }
+            plugin.getGm().setDañoEnCaida(false);
             
             //Iniciar hilo de la fase de esconder
             plugin.getAm().getGeneradores().forEach(gen -> gen.init());
