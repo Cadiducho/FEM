@@ -7,7 +7,6 @@ import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.lobby.Lobby;
 import com.cadiducho.fem.lobby.Lobby.FEMServerInfo;
-import com.cadiducho.fem.lobby.LobbySign;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -56,13 +55,11 @@ public class PlayerListener implements Listener, PluginMessageListener {
         e.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.DIAMOND, "Ajustes", "Cambia alguno de tus ajustes de usuario"));
         
         u.tryHidePlayers();
-        for (Player p : plugin.getServer().getOnlinePlayers()) {
-            FEMServer.getUser(p).tryHidePlayers();
-        }
+        plugin.getServer().getOnlinePlayers().forEach(p -> FEMServer.getUser(p).tryHidePlayers());
     }
     
     @EventHandler
-    public void onPlayerDrop(PlayerDropItemEvent  e) {
+    public void onPlayerDrop(PlayerDropItemEvent e) {
         e.setCancelled(true);
     }
     
@@ -141,7 +138,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
             }
             e.getPlayer().openInventory(inv);
         }
-        if (e.getClickedBlock().getType() == Material.WALL_SIGN) {
+        /*if (e.getClickedBlock().getType() == Material.WALL_SIGN) {
             LobbySign lb = LobbySign.getLobbySignByLoc(e.getClickedBlock().getLocation());
             if (lb == null) return;
             
@@ -154,7 +151,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 e.getPlayer().sendMessage("No puedes entrar ahora a este juego!");
             }
             e.setCancelled(true);
-        }
+        }*/
     }
     
     @EventHandler
@@ -264,27 +261,5 @@ public class PlayerListener implements Listener, PluginMessageListener {
             String json = in.readUTF();
             plugin.setServers(new Gson().fromJson(json, listType));
         }
-        if (subchannel.equalsIgnoreCase("serverstatus")) {
-            LobbySign lb = new LobbySign();
-            lb.setRawname(in.readUTF());
-            lb.setStatus(in.readUTF());
-            lb.setPlayers(in.readUTF());
-            if (!checkLobbySign(lb)) {
-                plugin.getSigns().add(lb);
-            }
-            
-            plugin.updateSigns();
-        } 
-    }
-    
-    public boolean checkLobbySign(LobbySign lb) {
-        for (LobbySign lobbys : plugin.getSigns()) {
-            if (lobbys.getRawname().equals(lb.getRawname())) {
-                plugin.getSigns().remove(lobbys);
-                plugin.getSigns().add(lb);
-                return true;
-            }
-        }
-        return false;
     }
 }

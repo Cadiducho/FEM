@@ -61,7 +61,6 @@ public class GemHunters extends JavaPlugin {
                 tm.initTeams();
             }
         }.runTaskLater(this, 1);
-        getServer().getScheduler().runTaskTimer(this, () -> FEMServer.sendStatus(getConfig().getString("id"), GameState.getParsedStatus(), getGm().getPlayersInGame().size() + "/" + getAm().getMaxPlayers()), 20L, 20L);
     }
 
     @Override

@@ -12,23 +12,23 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Sign;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Lobby extends JavaPlugin {
 
-    private static Lobby instance;
+    @Getter private static Lobby instance;
 
     @Getter @Setter private ArrayList<FEMServerInfo> servers;
-    @Getter @Setter private ArrayList<LobbySign> signs;
+    @Getter @Setter private ArrayList<ServerSign> signs;
     
     @Override
     public void onEnable() {
         instance = this;
         
+        System.setProperty("java.net.preferIPv4Stack", "true");
         File fConf = new File(getDataFolder(), "config.yml");
         if (!fConf.exists()) {
             try {
@@ -40,35 +40,29 @@ public class Lobby extends JavaPlugin {
                 debugLog("Causa: " + e.toString());*/
             }
         }
+
+        ServerSign.plugin = instance;
+        SignManager.plugin = instance; 
         
         servers = new ArrayList<>();
         signs = new ArrayList<>();
         
+        ServerSign.loadSignLines();
+        loadServerSigns();
+        
+        start();
+        loadSigns();
+        ServerSign.loadSignLines();
+        SignManager.getSignManager().start();
+        
         PluginManager pluginManager = getServer().getPluginManager();
         PlayerListener pl = new PlayerListener(instance);
         pluginManager.registerEvents(pl, instance);
+        pluginManager.registerEvents(SignManager.getSignManager(), instance);
         
         getServer().getMessenger().registerOutgoingPluginChannel(instance, "BungeeCord");
         getServer().getMessenger().registerOutgoingPluginChannel(instance, "FEM");
         getServer().getMessenger().registerIncomingPluginChannel(instance, "FEM", pl);
-        
-        for (String str : getConfig().getConfigurationSection("lobby.sign").getKeys(false)) {
-            ConfigurationSection cfg = getConfig().getConfigurationSection("lobby.sign."+str);
-            Location pos = Metodos.stringToLocation(cfg.getString("loc"));
-            LobbySign lb = new LobbySign();
-            lb.setRawname(str);
-            
-            Sign s = (Sign) pos.getBlock().getState();
-            s.setLine(0, Metodos.colorizar(lb.getName()));
-            s.setLine(1, Metodos.colorizar("&aEsperando"));
-            s.setLine(2, "");
-            s.setLine(3, Metodos.colorizar(lb.getPlayers()));
-            s.update();
-            
-            getSigns().remove(lb);
-            lb.setLoc(pos);
-            getSigns().add(lb);
-        }
         
         try {
             //Comandos solo para el lobby
@@ -86,39 +80,69 @@ public class Lobby extends JavaPlugin {
         getLogger().log(Level.INFO, "Lobby: Desativado correctamente");
     }
 
-    public static Lobby getInstance() {
-        return instance;
-    }
-    
-    public void updateSigns() {
-        for (String str : getConfig().getConfigurationSection("lobby.sign").getKeys(false)) {
-            getLogger().log(Level.INFO, "Actualizando sign de {0}", str);
-            ConfigurationSection cfg = getConfig().getConfigurationSection("lobby.sign."+str);
-            Location pos = Metodos.stringToLocation(cfg.getString("loc"));
-            
-            LobbySign lb = LobbySign.getLobbySignByName(str);
-            if (pos.getBlock().getType() != Material.WALL_SIGN) {
-                getLogger().log(Level.INFO, "No es un letrero, es " + pos.getBlock().getType().name() + " en " +pos.getBlockX()+"/"+pos.getBlockY()+"/"+pos.getBlockZ()+"");
-                return;
+    public void loadServerSigns() {
+        if (!getConfig().contains("default")) {
+            getConfig().set("servers.default.hostname", "localhost");
+            getConfig().set("servers.default.port", 25565);
+            getConfig().set("servers.default.mapname", "Testmap");
+            saveConfig();
+        }
+        for (String s : getConfig().getConfigurationSection("servers").getKeys(false)) {
+            if (!s.contains("default")) {
+                ServerSign serverSign = new ServerSign(s);
+                signs.add(serverSign);
+                if (serverSign.isOnline()) {
+                    SignManager.getSignManager().addToQueue(serverSign);
+                }
             }
-            if (lb == null) {
-                getLogger().log(Level.INFO, "No es un letrero (null)");
-                return;
-            }
-            
-            Sign s = (Sign) pos.getBlock().getState();
-            s.setLine(0, Metodos.colorizar(lb.getName()));
-            s.setLine(1, Metodos.colorizar(lb.getStatus()));
-            s.setLine(2, "");
-            s.setLine(3, Metodos.colorizar(lb.getPlayers()));
-            s.update();
-            
-            getSigns().remove(lb);
-            lb.setLoc(pos);
-            getSigns().add(lb);
         }
     }
-    
+
+    private void loadSigns() {
+        for (String path : getConfig().getConfigurationSection("signs.signlocations").getKeys(false)) {
+            path = "signs.signlocations." + path;
+
+            Location loc = Metodos.stringToLocation(getConfig().getString(path));
+            if ((loc.getBlock().getState() instanceof Sign)) {
+                SignManager.getSignManager().registerSign((Sign) loc.getBlock().getState());
+            } else {
+                System.out.println("Block at given location " + path + " isn't a sign!");
+            }
+        }
+    }
+
+    public void start() {
+        getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+            int offlinecounter = 0;
+            int onlinecounter = 0;
+
+            @Override
+            public void run() {
+                if (offlinecounter == 10) {
+                    for (ServerSign serverSign : signs) {
+                        if (!serverSign.isOnline()) {
+                            serverSign.updateServer();
+                            if (serverSign.isOnline()) {
+                                SignManager.getSignManager().addToQueue(serverSign);
+                            }
+                        }
+                    }
+                    offlinecounter = 0;
+                }
+                offlinecounter += 1;
+                if (onlinecounter == 1) {
+                    for (ServerSign serverSign : signs) {
+                        if (serverSign.isOnline()) {
+                            serverSign.updateServer();
+                        }
+                    }
+                    onlinecounter = 0;
+                }
+                onlinecounter += 1;
+            }
+        }, 20L, 20L);
+    }
+
     @Data
     @AllArgsConstructor
     public class FEMServerInfo {

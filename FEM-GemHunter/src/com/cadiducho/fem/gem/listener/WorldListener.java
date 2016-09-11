@@ -2,6 +2,7 @@ package com.cadiducho.fem.gem.listener;
 
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.gem.GemHunters;
+import com.cadiducho.fem.gem.manager.GameState;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -10,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.server.ServerListPingEvent;
 
 public class WorldListener implements Listener {
 
@@ -54,5 +56,10 @@ public class WorldListener implements Listener {
         }
         //Cancelar los que no son gemas validas
         e.setCancelled(true);
+    }
+    
+    @EventHandler
+    public void onMotdChange(ServerListPingEvent e){
+        e.setMotd(GameState.getParsedStatus());
     }
 }

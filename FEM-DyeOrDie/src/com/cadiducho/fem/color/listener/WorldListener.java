@@ -1,6 +1,7 @@
 package com.cadiducho.fem.color.listener;
 
 import com.cadiducho.fem.color.DyeOrDie;
+import com.cadiducho.fem.color.manager.GameState;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
@@ -8,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.server.ServerListPingEvent;
 
 public class WorldListener implements Listener {
 
@@ -33,5 +35,10 @@ public class WorldListener implements Listener {
                 fallingBlock.remove();
             }
         }
+    }
+    
+    @EventHandler
+    public void onMotdChange(ServerListPingEvent e){
+        e.setMotd(GameState.getParsedStatus());
     }
 }

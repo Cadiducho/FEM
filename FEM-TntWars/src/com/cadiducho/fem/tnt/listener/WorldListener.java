@@ -3,6 +3,7 @@ package com.cadiducho.fem.tnt.listener;
 import com.cadiducho.fem.tnt.TntIsland;
 import com.cadiducho.fem.tnt.TntPlayer;
 import com.cadiducho.fem.tnt.TntWars;
+import com.cadiducho.fem.tnt.manager.GameState;
 import com.cadiducho.fem.tnt.task.TntExplodeTask;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 public class WorldListener implements Listener {
@@ -77,6 +79,11 @@ public class WorldListener implements Listener {
             }
         }
         return null;
+    }
+    
+    @EventHandler
+    public void onMotdChange(ServerListPingEvent e){
+        e.setMotd(GameState.getParsedStatus());
     }
 
 }

@@ -1,4 +1,79 @@
-lobby:
-    sign:
-        tntwars1:
-            loc: world%0.0%70.0%0.0%0.0%0.0
+signs:
+  format:
+    WAITING_FOR_PLAYERS:
+      lines:
+        '1': "&2[Entrar]"
+        '2': '%MAPNAME%'
+        '3': '%SERVER%'
+        '4': "&5[%PLAYERSIZE%/%MAXPLAYERS%]"
+    STARTING:
+      lines:
+        '1': "&2[Entrar]"
+        '2': '%MAPNAME%'
+        '3': '%SERVER%'
+        '4': "&5[%PLAYERSIZE%/%MAXPLAYERS%]"
+    INGAME:
+      lines:
+        '1': "&c[En Juego]"
+        '2': '%MAPNAME%'
+        '3': '%SERVER%'
+        '4': "&5[%PLAYERSIZE%/%MAXPLAYERS%]"
+    ENDING:
+      lines:
+        '1': "&c----------"
+        '2': "&cTerminando"
+        '3': "&c----------"
+        '4': "&c----------"
+    RESTARTING:
+      lines:
+        '1': "&c----------"
+        '2': "&cReiniciando"
+        '3': "&c----------"
+        '4': "&c----------"
+  signlocations:
+    example: world,-169.0,4.0,-332.0,0.0,0.0
+    '1': world,-192.0,26.0,-329.0,0.0,0.0
+    '2': world,-192.0,26.0,-330.0,0.0,0.0
+    '3': world,-192.0,26.0,-331.0,0.0,0.0
+    '4': world,-192.0,26.0,-332.0,0.0,0.0
+    '5': world,-192.0,26.0,-333.0,0.0,0.0
+    '6': world,-192.0,26.0,-334.0,0.0,0.0
+    '7': world,-192.0,26.0,-335.0,0.0,0.0
+    '8': world,-192.0,26.0,-336.0,0.0,0.0
+servers:
+  fm01:
+    hostname: 0.0.0.0
+    port: 25567
+    mapname: fm01
+  fm02:
+    hostname: 0.0.0.0
+    port: 25568
+    mapname: fm02
+  fm03:
+    hostname: 0.0.0.0
+    port: 25569
+    mapname: fm03
+  fm04:
+    hostname: 0.0.0.0
+    port: 25570
+    mapname: fm04
+  fm05:
+    hostname: 0.0.0.0
+    port: 25571
+    mapname: fm05
+  fm06:
+    hostname: 0.0.0.0
+    port: 25572
+    mapname: fm06
+  fm07:
+    hostname: 0.0.0.0
+    port: 25573
+    mapname: fm07
+  fm08:
+    hostname: 0.0.0.0
+    port: 25574
+    mapname: fm08
+  default:
+    hostname: localhost
+    port: 25565
+    mapname: Testmap

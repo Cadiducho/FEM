@@ -67,7 +67,6 @@ public class DyeOrDie extends JavaPlugin {
                         .forEach(player -> getPlayer(player).endGame());
             }
         }, 20, 20);
-        getServer().getScheduler().runTaskTimer(this, () -> FEMServer.sendStatus(getConfig().getString("id"), GameState.getParsedStatus(), getGm().getPlayersInGame().size() + "/" + getAm().getMaxPlayers()), 20L, 20L);
     }
 
     @Override
