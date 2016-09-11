@@ -376,7 +376,7 @@ public class SignListener implements Listener {
                 }
             } else if (e.getInventory().getTitle().contains("§7Generador Oro")) {
                 if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§2Mejorar a: §2Generador de §7Oro §2- Nivel 2")) {
-                    if (p.getInventory().contains(Material.GOLD_INGOT, 20)) {
+                    if (p.getInventory().contains(Material.GOLD_INGOT, 10)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 10)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
                         Generador.getGenerador(clickedSign.get(p).add(0, -1, 0)).setLevel(2);

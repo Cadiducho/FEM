@@ -42,7 +42,7 @@ public class TntIsland {
         
         Random rand = new Random();
         matblocks.stream()
-                .filter(loc -> rand.nextInt(3) == 1) // 1/3 de probabilidad
+                .filter(loc -> rand.nextInt(9) < 7) // 7/10 de probabilidad
                 .forEach(loc -> loc.getBlock().setType(Material.AIR)); //Simular destruccion
     }
 
