@@ -230,7 +230,9 @@ public class ArenaManager {
             carpetblock.setType(Material.AIR);
             iceblock = carpetblock.getRelative(BlockFace.DOWN);
             iceblock.setType(Material.AIR);
-            iceblock.getWorld().spawnFallingBlock(iceblock.getLocation(), Material.WOOL, arenacolor.getWoolData()).setDropItem(false);
+            if (rand.nextInt(3) == 1) { //No hacer caer todos
+                iceblock.getWorld().spawnFallingBlock(iceblock.getLocation(), Material.WOOL, arenacolor.getWoolData()).setDropItem(false);
+            }
         }
         for (DyeMiniArea mat : this.colormats) {
             if (mat.color != currentcolor) {
@@ -239,7 +241,9 @@ public class ArenaManager {
                     carpetblock.setType(Material.AIR);
                     iceblock = carpetblock.getRelative(BlockFace.DOWN);
                     iceblock.setType(Material.AIR);
-                    iceblock.getWorld().spawnFallingBlock(iceblock.getLocation(), Material.WOOL, mat.color.getWoolData()).setDropItem(false);
+                    if (rand.nextInt(3) == 1) { //No hacer caer todos
+                        iceblock.getWorld().spawnFallingBlock(iceblock.getLocation(), Material.WOOL, mat.color.getWoolData()).setDropItem(false);
+                    }
                 }
             }
         }
