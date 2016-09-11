@@ -17,7 +17,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +29,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
 public class PlayerListener implements Listener, PluginMessageListener {
@@ -53,6 +53,15 @@ public class PlayerListener implements Listener, PluginMessageListener {
         e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "Viajar", "Desplazate entre los juegos del servidor"));
         //e.getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.EMPTY_MAP, "Lobbies", "Cambia a otro lobbie"));
         e.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.DIAMOND, "Ajustes", "Cambia alguno de tus ajustes de usuario"));
+        
+        ItemStack guia = new ItemStack(Material.WRITTEN_BOOK);
+        BookMeta meta = (BookMeta) guia.getItemMeta();
+        meta.setDisplayName(Metodos.colorizar("&bGuía de inicio"));
+        meta.setAuthor(Metodos.colorizar("&6Staff"));
+        meta.addPage(Metodos.colorizar("Bueno, aquí hay que poner cosas interesantes"));
+        meta.addPage(Metodos.colorizar("y otras menos interesantes"));
+        guia.setItemMeta(meta);
+        e.getPlayer().getInventory().setItem(1, guia);
         
         u.tryHidePlayers();
         plugin.getServer().getOnlinePlayers().forEach(p -> FEMServer.getUser(p).tryHidePlayers());
