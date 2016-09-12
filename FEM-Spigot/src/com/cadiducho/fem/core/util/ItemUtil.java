@@ -30,7 +30,7 @@ public class ItemUtil {
     public static ItemStack createItem(Material material, String displayname, List<String> lore) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(displayname);
+        meta.setDisplayName(Metodos.colorizar(displayname));
         meta.setLore(lore);
 
         item.setItemMeta(meta);
@@ -40,7 +40,7 @@ public class ItemUtil {
     public static ItemStack createItem(Material material, int amount, String displayname, String lore) {
         ItemStack item = new ItemStack(material, amount);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(displayname);
+        meta.setDisplayName(Metodos.colorizar(displayname));
         ArrayList<String> Lore = new ArrayList<>();
         Lore.add(lore);
         meta.setLore(Lore);
@@ -52,7 +52,7 @@ public class ItemUtil {
     public static ItemStack createItem(Material material, String displayname) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(displayname);
+        meta.setDisplayName(Metodos.colorizar(displayname));
         item.setItemMeta(meta);
         return item;
     }

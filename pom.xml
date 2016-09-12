@@ -13,6 +13,8 @@
         <module>FEM-GemHunter</module>
         <module>FEM-DyeOrDie</module>
         <module>FEM-TntWars</module>
+        <module>FEM-Pictograma</module>
+        <module>FEM-BattleRoyale</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
