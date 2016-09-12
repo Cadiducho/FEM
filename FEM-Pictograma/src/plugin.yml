@@ -1,0 +1,9 @@
+name: Pictograma
+description: Pictograma
+version: 0.0.1
+main: com.cadiducho.fem.pic.Pictograma
+depend: [FEMCore]
+author: Cadiducho
+commands:
+    game:
+        description: a
