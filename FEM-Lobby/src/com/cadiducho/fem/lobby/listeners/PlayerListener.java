@@ -19,11 +19,17 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -68,16 +74,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
     }
     
     @EventHandler
-    public void onPlayerDrop(PlayerDropItemEvent e) {
-        e.setCancelled(true);
-    }
-    
-    @EventHandler
-    public void onPlayerBreak(BlockBreakEvent e) {
-        e.setCancelled(true);
-    }
-    
-    @EventHandler
     public void onPlayerGetDrop(PlayerPickupItemEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
         ItemStack is = e.getItem().getItemStack();
@@ -95,72 +91,62 @@ public class PlayerListener implements Listener, PluginMessageListener {
         if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR)) {
             e.setCancelled(true);
         }
-        if (e.getAction() != Action.PHYSICAL && e.getItem() != null) {
-            Inventory inv = null;
-            FEMUser u = FEMServer.getUser(e.getPlayer());
-            switch (e.getItem().getType()) {
-                case COMPASS:
-                    inv = plugin.getServer().createInventory(e.getPlayer(), 36, "Viajar");
-                    String amistades = u.getUserData().getFriendRequest() ? "Aceptas" : "No aceptas";
-                    String otros = u.getUserData().getHideMode() == 0 ? "Nadie" : (u.getUserData().getHideMode() == 1 ? "Amigos" : "Todos");
-                    inv.setItem(31, ItemUtil.createHeadPlayer("Información", Arrays.asList("Pulsa para ver estadísticas", 
-                            "Amistades: " + amistades, 
-                            "Ver a: " + otros)));
-                    inv.setItem(27, ItemUtil.createItem(Material.BEACON, "Lobby"));
-                    inv.setItem(35, ItemUtil.createItem(Material.BONE, "Cerrar menú"));
-                    
-                    inv.setItem(4, ItemUtil.createItem(Material.TNT, "TntWars"));
-                    inv.setItem(12, ItemUtil.createItem(Material.GOLD_SWORD, "Battle Royale", "&cEn Mantenimiento"));
-                    inv.setItem(13, ItemUtil.createItem(Material.WOOL, "Dye or Die"));
-                    inv.setItem(14, ItemUtil.createItem(Material.DIAMOND_AXE, "Lucky Gladiators", "&cEn Mantenimiento"));
-                    inv.setItem(22, ItemUtil.createItem(Material.EMERALD_BLOCK, "Gem Hunters"));
-                    e.setCancelled(true);
-                    break;
-                case DIAMOND:
-                    inv = plugin.getServer().createInventory(e.getPlayer(), 18, "Ajustes del jugador");
-                    String lore1 = u.getUserData().getFriendRequest() ? "Aceptas amistades" : "No aceptas amistades";
-                    inv.setItem(2, ItemUtil.createItem(Material.CHORUS_FRUIT, "Aceptar amistades", lore1));
-                    DyeColor glassColor = u.getUserData().getFriendRequest() ? DyeColor.LIME : DyeColor.RED;
-                    inv.setItem(11, ItemUtil.createGlass("Aceptar amistades", lore1, glassColor));
-                    
-                    inv.setItem(6, ItemUtil.createItem(Material.BANNER, "Ver a otros jugadores", "Escoge si ver a tus amigos, a todos o a nadie"));
-                    inv.setItem(14, ItemUtil.createWool("No ver a nadie", DyeColor.RED));
-                    inv.setItem(15, ItemUtil.createWool("Ver solo a tus amigos", DyeColor.PURPLE));
-                    inv.setItem(16, ItemUtil.createWool("Ver a todos los usuarios", DyeColor.LIME));
-                    e.setCancelled(true);
-                    break;
-                case EMPTY_MAP:
-                    inv = plugin.getServer().createInventory(e.getPlayer(), 18, "Lobbies");
-                    int i = 0;
-                    if (!plugin.getServers().isEmpty()) {
-                        for (FEMServerInfo server : plugin.getServers()) {
-                            if (server.getName().contains("lobby")) {
-                                Material mat = server.getUsers().contains(e.getPlayer().getUniqueId().toString()) ? Material.DIAMOND : Material.BEACON;
-                                inv.setItem(i, ItemUtil.createItem(mat, server.getName(), server.getPlayers() + "/200"));
-                                i++;
+        
+        //Menu
+        if (e.getItem() != null) {
+            if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                Inventory inv = null;
+                FEMUser u = FEMServer.getUser(e.getPlayer());
+                switch (e.getItem().getType()) {
+                    case COMPASS:
+                        inv = plugin.getServer().createInventory(e.getPlayer(), 36, "Viajar");
+                        String amistades = u.getUserData().getFriendRequest() ? "Aceptas" : "No aceptas";
+                        String otros = u.getUserData().getHideMode() == 0 ? "Nadie" : (u.getUserData().getHideMode() == 1 ? "Amigos" : "Todos");
+                        inv.setItem(31, ItemUtil.createHeadPlayer("Información", Arrays.asList("Pulsa para ver estadísticas", 
+                                "Amistades: " + amistades, 
+                                "Ver a: " + otros)));
+                        inv.setItem(27, ItemUtil.createItem(Material.BEACON, "Lobby"));
+                        inv.setItem(35, ItemUtil.createItem(Material.BONE, "Cerrar menú"));
+
+                        inv.setItem(4, ItemUtil.createItem(Material.TNT, "TntWars"));
+                        inv.setItem(12, ItemUtil.createItem(Material.GOLD_SWORD, "Battle Royale", "&cEn Mantenimiento"));
+                        inv.setItem(13, ItemUtil.createItem(Material.WOOL, "Dye or Die"));
+                        inv.setItem(14, ItemUtil.createItem(Material.DIAMOND_AXE, "Lucky Gladiators", "&cEn Mantenimiento"));
+                        inv.setItem(22, ItemUtil.createItem(Material.EMERALD_BLOCK, "Gem Hunters"));
+                        e.setCancelled(true);
+                        break;
+                    case DIAMOND:
+                        inv = plugin.getServer().createInventory(e.getPlayer(), 18, "Ajustes del jugador");
+                        String lore1 = u.getUserData().getFriendRequest() ? "Aceptas amistades" : "No aceptas amistades";
+                        inv.setItem(2, ItemUtil.createItem(Material.CHORUS_FRUIT, "Aceptar amistades", lore1));
+                        DyeColor glassColor = u.getUserData().getFriendRequest() ? DyeColor.LIME : DyeColor.RED;
+                        inv.setItem(11, ItemUtil.createGlass("Aceptar amistades", lore1, glassColor));
+
+                        inv.setItem(6, ItemUtil.createItem(Material.BANNER, "Ver a otros jugadores", "Escoge si ver a tus amigos, a todos o a nadie"));
+                        inv.setItem(14, ItemUtil.createWool("No ver a nadie", DyeColor.RED));
+                        inv.setItem(15, ItemUtil.createWool("Ver solo a tus amigos", DyeColor.PURPLE));
+                        inv.setItem(16, ItemUtil.createWool("Ver a todos los usuarios", DyeColor.LIME));
+                        e.setCancelled(true);
+                        break;
+                    case EMPTY_MAP:
+                        inv = plugin.getServer().createInventory(e.getPlayer(), 18, "Lobbies");
+                        int i = 0;
+                        if (!plugin.getServers().isEmpty()) {
+                            for (FEMServerInfo server : plugin.getServers()) {
+                                if (server.getName().contains("lobby")) {
+                                    Material mat = server.getUsers().contains(e.getPlayer().getUniqueId().toString()) ? Material.DIAMOND : Material.BEACON;
+                                    inv.setItem(i, ItemUtil.createItem(mat, server.getName(), server.getPlayers() + "/200"));
+                                    i++;
+                                }
                             }
                         }
-                    }
-                    e.setCancelled(true);
-                    break;
-                default: break;
+                        e.setCancelled(true);
+                        break;
+                    default: break;
+                }
+                e.getPlayer().openInventory(inv);
             }
-            e.getPlayer().openInventory(inv);
         }
-        /*if (e.getClickedBlock().getType() == Material.WALL_SIGN) {
-            LobbySign lb = LobbySign.getLobbySignByLoc(e.getClickedBlock().getLocation());
-            if (lb == null) return;
-            
-            Sign s = (Sign) e.getClickedBlock().getState();
-            int jug = Integer.parseInt(s.getLine(3).split("/")[0]);
-            int max = Integer.parseInt(s.getLine(3).split("/")[1]);
-            if (jug < max) {
-                FEMServer.getUser(e.getPlayer()).sendToServer(lb.getRawname());
-            } else {
-                e.getPlayer().sendMessage("No puedes entrar ahora a este juego!");
-            }
-            e.setCancelled(true);
-        }*/
     }
     
     @EventHandler
@@ -270,5 +256,46 @@ public class PlayerListener implements Listener, PluginMessageListener {
             String json = in.readUTF();
             plugin.setServers(new Gson().fromJson(json, listType));
         }
+    }
+    
+    //Eventos a cancelar en el lobby
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onPlayerBreak(BlockBreakEvent e) {
+        e.setCancelled(true);
+    }
+    
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onPlayerDrop(PlayerDropItemEvent e) {
+        e.setCancelled(true);
+    }
+
+    @EventHandler(ignoreCancelled = false, priority = EventPriority.HIGHEST)
+    public void onPlayerInteractEntity(PlayerInteractEntityEvent e) {
+        e.setCancelled(true);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onBlockDamage(BlockDamageEvent e) {
+        e.setCancelled(true);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onPlayerPickupItem(PlayerPickupItemEvent e) {
+        e.setCancelled(true);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onEntityTarget(EntityTargetEvent e) {
+        e.setCancelled(true);
+    }
+    
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onFoodLevelChange(FoodLevelChangeEvent e) {
+        e.setCancelled(true);
+    }
+    
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onDeath(PlayerDeathEvent e) {
+        e.setDeathMessage("");
     }
 }

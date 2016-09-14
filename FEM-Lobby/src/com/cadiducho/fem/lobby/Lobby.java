@@ -4,6 +4,7 @@ import com.cadiducho.fem.core.FEMCommands;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.lobby.cmds.DropPuntosCMD;
 import com.cadiducho.fem.lobby.listeners.PlayerListener;
+import com.cadiducho.fem.lobby.listeners.WorldListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -34,11 +35,7 @@ public class Lobby extends JavaPlugin {
             try {
                 getConfig().options().copyDefaults(true);
                 saveConfig();
-                //log("Generando archivo config.yml correctamente");
-            } catch (Exception e) {
-                /*log("Fallo al generar el config.yml!");
-                debugLog("Causa: " + e.toString());*/
-            }
+            } catch (Exception e) { }
         }
 
         ServerSign.plugin = instance;
@@ -58,6 +55,7 @@ public class Lobby extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         PlayerListener pl = new PlayerListener(instance);
         pluginManager.registerEvents(pl, instance);
+        pluginManager.registerEvents(new WorldListener(instance), instance);
         pluginManager.registerEvents(SignManager.getSignManager(), instance);
         
         getServer().getMessenger().registerOutgoingPluginChannel(instance, "BungeeCord");
