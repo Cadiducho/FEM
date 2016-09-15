@@ -1,0 +1,13 @@
+worldName: world
+gameTime: 600
+deathMatchTime: 180
+worldBorderSize: 1200
+worldBorderCenterX: 0
+worldBorderCenterY: 0
+Arena:
+    Min: 2
+    Max: 8
+    Lobby: world%0.0%0.0%0.0%0.0%0.0
+    Spawn:
+        1: world%0.0%0.0%0.0%0.0%0.0
+        2: world%0.0%0.0%0.0%0.0%0.0
