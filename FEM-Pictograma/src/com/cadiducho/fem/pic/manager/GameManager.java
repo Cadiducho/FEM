@@ -15,6 +15,7 @@ import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
@@ -27,6 +28,7 @@ public class GameManager {
     @Getter private final ArrayList<Player> hasFound = new ArrayList<>();
     private int playerFound = 0;
     @Getter private final HashMap<Player, Integer> score = new HashMap<>();
+    private ArrayList<BukkitTask> tasks = new ArrayList<>();
     private final BossBar barra;
     private final BossBar barraCheta; //Para los pros que saben la palabra
     @Getter private Scoreboard board;
@@ -63,6 +65,7 @@ public class GameManager {
     
     //ToDo: Mejorar esto por completo
     public void startRound() {
+        cancelTasks();
         searchBuilder();
         hasFound.clear();
         playerFound = 0;
@@ -82,16 +85,20 @@ public class GameManager {
         Pictograma.getPlayer(builder).getBase().sendMessage("La palabara es &e" + word);
         barra.setTitle(wordf.toString());
     
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getMsg().sendBroadcast("&630 segundos para terminar la ronda!"), 600L);
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> addRandomLetter(), 800L);
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> addRandomLetter(), 1000L);
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> addRandomLetter(), 1100L);
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getMsg().sendBroadcast("&610 segundos para terminar la ronda!"), 1200L);
+        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getMsg().sendBroadcast("&630 segundos para terminar la ronda!"), 600L));
+        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> addRandomLetter(), 800L));
+        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> addRandomLetter(), 1000L));
+        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> addRandomLetter(), 1100L));
+        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getMsg().sendBroadcast("&610 segundos para terminar la ronda!"), 1200L));
         prepareNextRound();     
+    }
+
+    public void cancelTasks() {
+        tasks.stream().forEach(r -> r.cancel());
     }
     
     public void prepareNextRound() {
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             Pictograma.getPlayer(builder).setCleanPlayer(GameMode.ADVENTURE);
             Pictograma.getPlayer(builder).spawn();
             barraCheta.removePlayer(builder);
@@ -102,8 +109,8 @@ public class GameManager {
                 return;
             }
             plugin.getMsg().sendBroadcast("&aSe acabó el tiempo! La siguiente ronda comenzará en 5 segundos"); 
-        }, 1400L);
-        plugin.getServer().getScheduler().runTaskLater(plugin, () -> startRound(), 1500L);
+        }, 1400L));
+        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> startRound(), 1500L));
     }
     
     public void end() {
@@ -169,6 +176,7 @@ public class GameManager {
             playerFound += 1;
         }
         if (playerFound == (getPlayersInGame().size() - 1)) {
+            cancelTasks();
             prepareNextRound();
         }
     }

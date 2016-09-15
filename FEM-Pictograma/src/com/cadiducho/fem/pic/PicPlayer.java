@@ -49,7 +49,6 @@ public class PicPlayer {
         setWaitScoreboard();
         plugin.getGm().addPlayerToGame(base.getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);
-        //plugin.getAm().teleport(base.getPlayer());
     }
 
     public void setCleanPlayer(GameMode gameMode) {

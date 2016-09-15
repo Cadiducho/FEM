@@ -82,9 +82,7 @@ public class PlayerListener implements Listener {
     
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
-        if (plugin.getGm().isInLobby() || plugin.getGm().isEnding()) {
-            e.setCancelled(true);
-        }
+        e.setCancelled(true);
     }
 
     @EventHandler
@@ -94,22 +92,16 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerDrop(PlayerDropItemEvent e) {
-        if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown() || plugin.getGm().isEnding()) {
-            e.setCancelled(true);
-        }
+        e.setCancelled(true);
     }
 
     @EventHandler
     public void onPlayerFood(FoodLevelChangeEvent e) {
-        if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown()|| plugin.getGm().isEnding()) {
-            e.setCancelled(true);
-        }
+        e.setCancelled(true);
     }
 
     @EventHandler
     public void onPlayerPickUp(PlayerPickupItemEvent e) {
-        if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown()|| plugin.getGm().isEnding()) {
-            e.setCancelled(true);
-        }
+        e.setCancelled(true);
     }
 }
