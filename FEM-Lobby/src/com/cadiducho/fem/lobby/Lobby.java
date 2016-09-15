@@ -15,6 +15,7 @@ import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -69,6 +70,14 @@ public class Lobby extends JavaPlugin {
         } catch (Exception ex) {
             getLogger().log(Level.INFO, "Lobby: No se han podido cargar sus comandos");
         }
+        
+        getServer().getScheduler().runTaskTimer(instance, () -> {
+            getServer().getOnlinePlayers().stream().forEach(p -> {
+                if (p.getLocation().getBlockY() < 0) {
+                    p.teleport(p.getWorld().getSpawnLocation());
+                }
+            });
+        }, 20, 20);
         
         getLogger().log(Level.INFO, "Lobby: Activado correctamente");
     }

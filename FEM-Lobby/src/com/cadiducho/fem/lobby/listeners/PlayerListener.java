@@ -17,17 +17,21 @@ import java.util.Arrays;
 import java.util.List;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -68,6 +72,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
         meta.addPage(Metodos.colorizar("y otras menos interesantes"));
         guia.setItemMeta(meta);
         e.getPlayer().getInventory().setItem(1, guia);
+        e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
         
         u.tryHidePlayers();
         plugin.getServer().getOnlinePlayers().forEach(p -> FEMServer.getUser(p).tryHidePlayers());
@@ -87,11 +92,19 @@ public class PlayerListener implements Listener, PluginMessageListener {
     }
     
     @EventHandler
-    public void onRightClick(PlayerInteractEvent e) {
-        if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR)) {
-            e.setCancelled(true);
+    public void onPlayerInteract(PlayerInteractEvent e) {
+        //No abrir trampillas
+        if (e.getClickedBlock() != null) {
+            if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR)) {
+                e.setCancelled(true);
+            }
         }
         
+        //No destruir tirras de cultivo (soil)
+        if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.SOIL) {
+            e.setCancelled(true);
+        }
+
         //Menu
         if (e.getItem() != null) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -244,6 +257,8 @@ public class PlayerListener implements Listener, PluginMessageListener {
             default:
                 break;
         }
+        
+        e.setCancelled(true); //Prevenir que muevan / oculten / tiren objetos de la interfaz del Lobby
     }
     
     @Override
@@ -256,6 +271,11 @@ public class PlayerListener implements Listener, PluginMessageListener {
             String json = in.readUTF();
             plugin.setServers(new Gson().fromJson(json, listType));
         }
+    }
+    
+     @EventHandler(priority = EventPriority.NORMAL)
+    public void onInventoryMoveItemEvent(InventoryMoveItemEvent e) {
+        e.setCancelled(true);
     }
     
     //Eventos a cancelar en el lobby
@@ -291,6 +311,11 @@ public class PlayerListener implements Listener, PluginMessageListener {
     
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onFoodLevelChange(FoodLevelChangeEvent e) {
+        e.setCancelled(true);
+    }
+    
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onEntityDamage(EntityDamageEvent e) {
         e.setCancelled(true);
     }
     
