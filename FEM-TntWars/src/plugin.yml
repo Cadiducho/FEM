@@ -2,7 +2,7 @@ name: TntWars
 description: TntWars
 version: 0.0.1
 main: com.cadiducho.fem.tnt.TntWars
-depend: [FEMCore]
+depend: [FEMCore, Merchants]
 author: Cadiducho
 commands:
     game:

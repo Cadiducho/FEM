@@ -18,7 +18,7 @@ public class CountdownTask extends BukkitRunnable {
         plugin = instance;
     }
 
-    private int count = 7;
+    private int count = 30;
 
     @Override
     public void run() {       

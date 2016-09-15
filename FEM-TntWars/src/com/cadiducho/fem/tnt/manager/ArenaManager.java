@@ -214,7 +214,7 @@ public class ArenaManager {
         armourShop.addOffer(api.newOffer(new ItemStack(Material.CHAINMAIL_HELMET, 1), new ItemStack(Material.GOLD_INGOT, 10)));
         armourShop.addOffer(api.newOffer(new ItemStack(Material.CHAINMAIL_CHESTPLATE, 1), new ItemStack(Material.GOLD_INGOT, 10)));
         armourShop.addOffer(api.newOffer(new ItemStack(Material.CHAINMAIL_LEGGINGS, 1), new ItemStack(Material.GOLD_INGOT, 10)));
-        armourShop.addOffer(api.newOffer( new ItemStack(Material.CHAINMAIL_BOOTS, 1), new ItemStack(Material.GOLD_INGOT, 10)));
+        armourShop.addOffer(api.newOffer(new ItemStack(Material.CHAINMAIL_BOOTS, 1), new ItemStack(Material.GOLD_INGOT, 10)));
         armourShop.addOffer(api.newOffer(new ItemStack(Material.IRON_HELMET, 1), new ItemStack(Material.DIAMOND, 5)));
         armourShop.addOffer(api.newOffer(new ItemStack(Material.IRON_CHESTPLATE, 1), new ItemStack(Material.DIAMOND, 5)));
         armourShop.addOffer(api.newOffer(new ItemStack(Material.IRON_LEGGINGS, 1), new ItemStack(Material.DIAMOND, 5)));

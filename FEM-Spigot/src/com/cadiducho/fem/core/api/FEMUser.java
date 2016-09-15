@@ -157,6 +157,10 @@ public class FEMUser {
         getPlayer().sendPluginMessage(plugin, "BungeeCord", out.toByteArray()); 
     }
     
+    public void sendToLobby() {
+        sendToServer("lobby"); //Próximamente cambiar y adapatar a varios lobbies
+    }
+    
     /*
      * Reflection
      */

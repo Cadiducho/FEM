@@ -17,7 +17,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class FEMCore extends JavaPlugin {
 
@@ -29,7 +28,7 @@ public class FEMCore extends JavaPlugin {
 
     public static FEMServer server;
 
-    @Getter private final String tag = Metodos.colorizar("&7[&eFEM&7]&r");
+    @Getter private final String tag = Metodos.colorizar("&7[&4Under&8Games&7]&r");
 
     @Override
     public void onEnable() {
