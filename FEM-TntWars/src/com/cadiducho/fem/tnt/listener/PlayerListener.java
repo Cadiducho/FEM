@@ -7,25 +7,23 @@ import com.cadiducho.fem.tnt.TntIsland;
 import com.cadiducho.fem.tnt.TntPlayer;
 import com.cadiducho.fem.tnt.TntWars;
 import com.cadiducho.fem.tnt.manager.GameState;
-import com.cadiducho.fem.tnt.task.DeathTask;
 import com.cadiducho.fem.tnt.task.RespawnTask;
 import java.util.HashMap;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Sheep;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -80,6 +78,7 @@ public class PlayerListener implements Listener {
         Player player = e.getPlayer();
         e.setJoinMessage(null);
         if (plugin.getGm().isInLobby()) {
+            player.teleport(plugin.getAm().getLobby());
             TntWars.getPlayer(player).setLobbyPlayer();
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
             plugin.getGm().checkStart();
@@ -131,7 +130,7 @@ public class PlayerListener implements Listener {
                 if (!TntIsland.getIsland(p.getUniqueId()).getDestroyed()) {
                     new RespawnTask(pl).runTaskTimer(plugin, 20L, 20L);
                 } else {
-                    new DeathTask(pl).runTaskTimer(plugin, 1l, 20L);
+                    pl.death();
                 }
             }
         }      
@@ -162,7 +161,7 @@ public class PlayerListener implements Listener {
                     if (!TntIsland.getIsland(p.getUniqueId()).getDestroyed()) {
                         new RespawnTask(pl).runTaskTimer(plugin, 20L, 20L);
                     } else {
-                        new DeathTask(pl).runTaskTimer(plugin, 1l, 20L);
+                        pl.death();
                     }
                 }
             }
@@ -188,5 +187,13 @@ public class PlayerListener implements Listener {
         if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown()|| plugin.getGm().isEnding()) {
             e.setCancelled(true);
         }
+    }
+    
+    @EventHandler
+    public void onPlayerChat(AsyncPlayerChatEvent e) {
+        if (e.getPlayer().getGameMode().equals(GameMode.SPECTATOR)) {
+            e.setCancelled(true);
+        }
+        e.setFormat(ChatColor.GREEN + e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + ChatColor.GRAY + e.getMessage());
     }
 }

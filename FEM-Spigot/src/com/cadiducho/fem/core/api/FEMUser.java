@@ -3,6 +3,7 @@ package com.cadiducho.fem.core.api;
 import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.cmds.FEMCmd.Grupo;
 import com.cadiducho.fem.core.util.FEMFileLoader;
+import com.cadiducho.fem.core.util.LobbyMessageTask;
 import com.cadiducho.fem.core.util.Metodos;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -59,7 +60,7 @@ public class FEMUser {
     }
     
     public boolean isOnline() { 
-        return (base.isOnline() || base == null); 
+        return (base == null || base.isOnline()); 
     }
     
     // FEM
@@ -178,6 +179,10 @@ public class FEMUser {
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchFieldException | InstantiationException ex) {}
     }
 
+    public void repeatActionBar(String msg) {
+        new LobbyMessageTask(this, msg).runTaskTimer(plugin, 2L, 20L);
+    }
+    
     public int getPing() {
         try {
             Method getHandleMethod = getBase().getClass().getDeclaredMethod("getHandle");

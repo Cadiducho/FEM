@@ -45,7 +45,7 @@ public class BattleRoyale extends JavaPlugin {
         am = new ArenaManager(instance);
         gm = new GameManager(instance);
         pm = new PlayerManager(instance);
-        msg = new Messages(this);
+        msg = new Messages(instance);
         world = getServer().getWorld(getConfig().getString("worldName"));
         msg.init();
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");

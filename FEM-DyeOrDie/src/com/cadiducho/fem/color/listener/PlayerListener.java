@@ -2,24 +2,23 @@ package com.cadiducho.fem.color.listener;
 
 import com.cadiducho.fem.color.DyeOrDie;
 import com.cadiducho.fem.color.manager.GameState;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 public class PlayerListener implements Listener {
 
@@ -47,6 +46,7 @@ public class PlayerListener implements Listener {
         Player player = e.getPlayer();
         e.setJoinMessage(null);
         if (plugin.getGm().isInLobby()) {
+            player.teleport(plugin.getAm().getLobby());
             DyeOrDie.getPlayer(player).setLobbyPlayer();
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
             plugin.getGm().checkStart();
@@ -75,21 +75,10 @@ public class PlayerListener implements Listener {
             e.setCancelled(true);
         }
     }
-    
-    public void onPlayerInteract(PlayerInteractEntityEvent e) {
-        if (plugin.getGm().isInGame()) {
-
-        }
-    }
 
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent e) {
-        if (e instanceof LivingEntity) {
-            LivingEntity le = (LivingEntity) e;
-            if (le.hasAI()) { //No spawnear salvo las ovejas tontas del juego
-                e.setCancelled(true);
-            }
-        }
+        e.setCancelled(true);
     }
     
     @EventHandler
@@ -102,22 +91,6 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
         e.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onPlayerToggleSneakEvent(PlayerToggleSneakEvent e) {
-    
-    }
-    
-    @EventHandler
-    public void onEntityDamageByBlock(EntityDamageByBlockEvent e) {
-        /*if (plugin.getGm().isInLobby() || plugin.getGm().isTeleporting() || plugin.getGm().isEnding()) {
-            e.setCancelled(true);
-        } else if (plugin.getGm().isInPVE()) {
-            e.setCancelled(false);
-        } else if (plugin.getGm().isInPVP() || plugin.getGm().isInDeathMatch()) {
-            e.setCancelled(false);
-        }*/
     }
 
     @EventHandler
@@ -140,5 +113,12 @@ public class PlayerListener implements Listener {
             e.setCancelled(true);
         }
     }
-
+    
+    @EventHandler
+    public void onPlayerChat(AsyncPlayerChatEvent e) {
+        if (e.getPlayer().getGameMode().equals(GameMode.SPECTATOR)) {
+            e.setCancelled(true);
+        }
+        e.setFormat(ChatColor.GREEN + e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + ChatColor.GRAY + e.getMessage());
+    }
 }

@@ -1,12 +1,10 @@
 package com.cadiducho.fem.royale.manager;
 
-import com.cadiducho.fem.core.util.ItemUtil;
 import java.util.HashMap;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.utils.ScoreboardUtil;
 import lombok.Getter;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 

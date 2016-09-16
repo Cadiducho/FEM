@@ -4,6 +4,7 @@ GemHunters:
         usersMax: 16
         borderPos1: world%0.0%70.0%0.0%0.0%0.0
         borderPos2: world%0.0%70.0%0.0%0.0%0.0
+        lobby: world%0.0%70.0%0.0%0.0%0.0
         Spawn:
             morado: world%200.0%70.0%0.0%0.0%0.0
             amarillo: world%210.0%70.0%0.0%0.0%0.0

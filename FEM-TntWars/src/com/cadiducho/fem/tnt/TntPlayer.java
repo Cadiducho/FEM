@@ -2,6 +2,7 @@ package com.cadiducho.fem.tnt;
 
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
+import java.util.HashMap;
 import lombok.Getter;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -72,6 +73,14 @@ public class TntPlayer {
         setCleanPlayer(GameMode.ADVENTURE);
         plugin.getAm().teleport(base.getPlayer());
     }
+    
+    public void setSpectator() {
+        setCleanPlayer(GameMode.SPECTATOR);
+        plugin.getGm().getSpectators().add(base.getPlayer());
+        plugin.getGm().getPlayersInGame().stream().forEach((inGamePlayers) -> {
+            inGamePlayers.hidePlayer(base.getPlayer());
+        });
+    }
 
     public void setCleanPlayer(GameMode gameMode) {
         base.getPlayer().setHealth(base.getPlayer().getMaxHealth());
@@ -84,6 +93,17 @@ public class TntPlayer {
         base.getPlayer().getInventory().setArmorContents(null);
         base.getPlayer().setGameMode(gameMode);
         base.getPlayer().getActivePotionEffects().forEach(ef -> base.getPlayer().removePotionEffect(ef.getType()));
+    }
+    
+    public void death() {
+        getBase().getPlayer().getInventory().clear();
+        setSpectator();
+        base.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
+        base.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
+        HashMap<Integer, Integer> deaths = base.getUserData().getDeaths();
+        deaths.replace(1, deaths.get(1) + 1);
+        base.getUserData().setDeaths(deaths);
+        base.save();
     }
 
     public void spawn() {

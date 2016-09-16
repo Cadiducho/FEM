@@ -14,17 +14,13 @@ public class GameManager {
     private final DyeOrDie plugin;
 
     public GameManager(DyeOrDie instance) {
-        playersInGame = new ArrayList<>();
         plugin = instance;
     }
 
-    @Getter private final ArrayList<Player> playersInGame;
+    @Getter private final ArrayList<Player> playersInGame = new ArrayList<>();
+    @Getter private final ArrayList<Player> spectators = new ArrayList<>();
 
     private boolean checkStart = false;
-
-    public void init() {
-        playersInGame.clear();
-    }
 
     public void checkStart() {
         if (checkStart == false && playersInGame.size() >= plugin.getAm().getMinPlayers()) {

@@ -41,6 +41,7 @@ public class ArenaManager {
     @Getter private int maxPlayers = 16;
     @Getter private final Location pos1;
     @Getter private final Location pos2;
+    @Getter private final Location lobby;
     @Getter private final ArrayList<DyeMiniArea> colormats = new ArrayList<>();
     
     public ArenaManager(DyeOrDie instance) {
@@ -50,6 +51,7 @@ public class ArenaManager {
         
         pos1 = Metodos.stringToLocation(plugin.getConfig().getString("Color.Arena.borderPos1"));
         pos2 = Metodos.stringToLocation(plugin.getConfig().getString("Color.Arena.borderPos2"));
+        lobby = Metodos.stringToLocation(plugin.getConfig().getString("Color.Arena.obby"));
     }
 
     public void prepareWorld(World w) {

@@ -16,8 +16,8 @@ public class PlayerListener implements Listener {
 
     private final BattleRoyale plugin;
 
-    public PlayerListener(BattleRoyale plugin) {
-        this.plugin = plugin;
+    public PlayerListener(BattleRoyale instance) {
+        plugin = instance;
     }
 
     @EventHandler

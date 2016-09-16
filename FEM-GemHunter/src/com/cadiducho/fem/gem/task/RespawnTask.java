@@ -1,6 +1,5 @@
 package com.cadiducho.fem.gem.task;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.gem.GemPlayer;
 import java.util.HashMap;
 import org.bukkit.GameMode;

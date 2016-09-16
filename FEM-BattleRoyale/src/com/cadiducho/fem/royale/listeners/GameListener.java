@@ -1,5 +1,6 @@
 package com.cadiducho.fem.royale.listeners;
 
+import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
 import java.util.HashMap;
@@ -39,23 +40,6 @@ public class GameListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEntityEvent e) {
-        /*if (plugin.getGm().isInGame()) {
-            if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)) { //destruir?
-                if (e.getClickedBlock() != null) {
-                    if (blocksPlaced.containsKey(e.getClickedBlock().getLocation()) && blocksPlaced.containsValue(e.getClickedBlock())) {
-                        if (e.getClickedBlock().getType() == Material.WOOD) {
-                            e.getClickedBlock().setType(Material.AIR);
-                            e.getClickedBlock().getDrops().clear();
-                            e.getClickedBlock().getWorld().dropItem(e.getClickedBlock().getLocation().add(0.5, 0.5, 0.5), new ItemStack(Material.WOOD, 1)).setVelocity(new Vector(0, 0, 0));
-                        } else if (e.getClickedBlock().getType() == Material.COBBLESTONE) {
-                            e.getClickedBlock().setType(Material.AIR);
-                            e.getClickedBlock().getDrops().clear();
-                            e.getClickedBlock().getWorld().dropItem(e.getClickedBlock().getLocation().add(0.5, 0.5, 0.5), new ItemStack(Material.COBBLESTONE, 1)).setVelocity(new Vector(0, 0, 0));
-                        }
-                    }
-                }
-            }
-        }*/
         if (e.getRightClicked() instanceof Villager) {
             if (plugin.getGm().isInGame()) {
                 e.setCancelled(true);
@@ -81,6 +65,8 @@ public class GameListener implements Listener {
                 plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
                 plugin.getGm().getPlayersInGame().remove(e.getEntity());
                 plugin.getPm().setSpectator(e.getEntity());
+                FEMServer.getUser(e.getEntity()).sendMessage("Escribe &e/lobby &fpara volver al Lobby");
+                FEMServer.getUser(e.getEntity()).repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
                 plugin.getPm().addKillToPlayer(e.getEntity().getKiller());
             } else {
                 plugin.getMsg().sendMessage(e.getEntity(), "Has muerto");
@@ -88,6 +74,8 @@ public class GameListener implements Listener {
                 plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
                 plugin.getGm().getPlayersInGame().remove(e.getEntity());
                 plugin.getPm().setSpectator(e.getEntity());
+                FEMServer.getUser(e.getEntity()).sendMessage("Escribe &e/lobby &fpara volver al Lobby");
+                FEMServer.getUser(e.getEntity()).repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
             }
             if (!plugin.getGm().checkWinner()) {
                 plugin.getGm().checkDm();

@@ -1,6 +1,5 @@
 package com.cadiducho.fem.color;
 
-import com.cadiducho.fem.color.task.DeathTask;
 import com.cadiducho.fem.color.util.ScoreboardUtil;
 import com.cadiducho.fem.core.api.FEMUser;
 import java.util.Random;
@@ -47,6 +46,14 @@ public class DyePlayer {
         setCleanPlayer(GameMode.ADVENTURE);
         //plugin.getAm().teleport(base.getPlayer());
     }
+    
+    public void setSpectator() {
+        setCleanPlayer(GameMode.SPECTATOR);
+        plugin.getGm().getSpectators().add(base.getPlayer());
+        plugin.getGm().getPlayersInGame().stream().forEach((inGamePlayers) -> {
+            inGamePlayers.hidePlayer(base.getPlayer());
+        });
+    }
 
     public void setCleanPlayer(GameMode gameMode) {
         base.getPlayer().setHealth(base.getPlayer().getMaxHealth());
@@ -67,8 +74,9 @@ public class DyePlayer {
     
     public void endGame() {
         getBase().getPlayer().getInventory().clear();
-        setCleanPlayer(GameMode.ADVENTURE);
-        new DeathTask(this).runTaskTimer(plugin, 1l, 20l);
+        setSpectator();
+        base.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
+        base.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
         plugin.getMsg().sendBroadcast(getBase().getDisplayName() + " ha caido en la ronda " + plugin.getAm().getRound() + "!");
         getBase().sendMessage("¡Enhorabuena! Has llegado hasta la ronda " + plugin.getAm().getRound());
     }

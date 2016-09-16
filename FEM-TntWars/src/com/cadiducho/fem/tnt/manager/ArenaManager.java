@@ -40,6 +40,7 @@ public class ArenaManager {
     @Getter @Setter private ArrayList<TntIsland> unAssignedIslas = new ArrayList<>();
     Location areaBorder1;
     Location areaBorder2;
+    @Getter private Location lobby;
     
     //Aldeanos
     @Getter private Merchant buildingShop;
@@ -57,6 +58,7 @@ public class ArenaManager {
         
         areaBorder1 = Metodos.stringToLocation(plugin.getConfig().getString("Tnt.Arena.areaBorder1"));
         areaBorder2 = Metodos.stringToLocation(plugin.getConfig().getString("Tnt.Arena.areaBorder2"));
+        lobby = Metodos.stringToLocation(plugin.getConfig().getString("Tnt.Arena.lobby"));
     }
 
     public void prepareWorld(World w) {

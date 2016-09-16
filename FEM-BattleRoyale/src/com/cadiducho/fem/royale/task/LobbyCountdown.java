@@ -8,8 +8,8 @@ public class LobbyCountdown extends BukkitRunnable {
 
     private final BattleRoyale plugin;
 
-    public LobbyCountdown(BattleRoyale plugin) {
-        this.plugin = plugin;
+    public LobbyCountdown(BattleRoyale instance) {
+        plugin = instance;
     }
 
     private int count = 12;

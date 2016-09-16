@@ -3,7 +3,9 @@ package com.cadiducho.fem.pic.listener;
 import com.cadiducho.fem.pic.Pictograma;
 import java.util.Set;
 import lombok.Getter;
+import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -86,6 +88,10 @@ public class GameListener implements Listener {
                 }
             }
         }
+        if (e.getPlayer().getGameMode().equals(GameMode.SPECTATOR)) {
+            e.setCancelled(true);
+        }
+        e.setFormat(ChatColor.GREEN + e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + ChatColor.GRAY + e.getMessage());
     }
 
     @EventHandler

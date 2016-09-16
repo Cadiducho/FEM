@@ -20,6 +20,7 @@ public class ArenaManager {
     @Getter private final Location pos1;
     @Getter private final Location pos2;
     @Getter private final Location spawn;
+    @Getter private final Location lobby;
     @Getter private final Location paintLoc;
     @Getter @Setter private ArrayList<Player> colaPintar = new ArrayList<>();
     @Getter private final CuboidZone buildZone;
@@ -34,6 +35,7 @@ public class ArenaManager {
         buildZone = new CuboidZone(pos1.getBlock(), pos2.getBlock());
         spawn = Metodos.stringToLocation(plugin.getConfig().getString("Pictograma.Arena.spawn"));
         paintLoc = Metodos.stringToLocation(plugin.getConfig().getString("Pictograma.Arena.paintLoc"));
+        lobby = Metodos.stringToLocation(plugin.getConfig().getString("Pictograma.Arena.lobby"));
     }
 
     public void prepareWorld(World w) {

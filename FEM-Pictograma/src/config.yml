@@ -4,6 +4,7 @@ Pictograma:
         usersMin: 2
         usersMax: 8
         mundo: pinta1
+        lobby: pinta1%-1002.0%72.0%334.0%0.0%0.0
         borderPos1: pinta1%-958.0%55.0%310.0%0.0%0.0
         borderPos2: pinta1%-958.0%84.0%359.0%0.0%0.0
         spawn: pinta1%-1006.0%58.0%334.0%0.0%0.0
