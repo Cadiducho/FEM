@@ -26,7 +26,7 @@ public class FEMBungee extends Plugin implements Listener {
         ProxyServer.getInstance().getPluginManager().registerListener(this, this);
         getProxy().getScheduler().schedule(this, () -> {
             sendUpdatedServerStatus();
-        }, 1, 1, TimeUnit.SECONDS);
+        }, 5, 5, TimeUnit.SECONDS);
     }
 
     @EventHandler
