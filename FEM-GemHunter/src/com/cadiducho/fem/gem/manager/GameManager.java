@@ -24,10 +24,6 @@ public class GameManager {
 
     private boolean checkStart = false;
 
-    public void init() {
-        playersInGame.clear();
-    }
-
     public void checkStart() {
         if (checkStart == false && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
             checkStart = true;

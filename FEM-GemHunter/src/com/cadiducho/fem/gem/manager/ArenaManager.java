@@ -19,6 +19,7 @@ public class ArenaManager {
     @Getter private final Location pos1;
     @Getter private final Location pos2;
     @Getter private final Material typeGema;
+    @Getter private final Location lobby;
     
     public ArenaManager(GemHunters instance) {
         plugin = instance;
@@ -28,6 +29,7 @@ public class ArenaManager {
         pos1 = Metodos.stringToLocation(plugin.getConfig().getString("GemHunters.Arena.borderPos1"));
         pos2 = Metodos.stringToLocation(plugin.getConfig().getString("GemHunters.Arena.borderPos2"));
         typeGema = Material.getMaterial(plugin.getConfig().getString("GemHunters.material"));
+        lobby = Metodos.stringToLocation(plugin.getConfig().getString("GemHunters.Arena.Lobby"));
     }
 
     public void prepareWorld(World w) {

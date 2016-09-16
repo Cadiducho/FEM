@@ -6,6 +6,7 @@ import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.manager.GameState;
 import com.cadiducho.fem.gem.task.RespawnTask;
 import java.util.HashMap;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -16,6 +17,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -50,6 +52,7 @@ public class PlayerListener implements Listener {
         Player player = e.getPlayer();
         e.setJoinMessage(null);
         if (plugin.getGm().isInLobby()) {
+            player.teleport(plugin.getAm().getLobby());
             GemHunters.getPlayer(player).setLobbyPlayer();
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
             plugin.getGm().checkStart();
@@ -148,5 +151,13 @@ public class PlayerListener implements Listener {
         if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown()|| plugin.getGm().isEnding()) {
             e.setCancelled(true);
         }
+    }
+    
+    @EventHandler
+    public void onPlayerChat(AsyncPlayerChatEvent e) {
+        if (e.getPlayer().getGameMode().equals(GameMode.SPECTATOR)) {
+            e.setCancelled(true);
+        }
+        e.setFormat(ChatColor.GREEN + e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + ChatColor.GRAY + e.getMessage());
     }
 }

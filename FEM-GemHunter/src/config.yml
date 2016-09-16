@@ -4,6 +4,7 @@ GemHunters:
     Arena:
         usersMin: 2
         usersMax: 16
+        Lobby: world%0.0%0.0%0.0%0.0%0.0
         mundo: world
         borderPos1: world%0.0%70.0%0.0%0.0%0.0
         borderPos2: world%0.0%70.0%0.0%0.0%0.0

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import lombok.Getter;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -106,7 +107,7 @@ public class GemPlayer {
         setCleanPlayer(GameMode.ADVENTURE);
         //plugin.getAm().teleport(base.getPlayer());
     }
-
+   
     public void setCleanPlayer(GameMode gameMode) {
         base.getPlayer().setHealth(base.getPlayer().getMaxHealth());
         base.getPlayer().setFoodLevel(20);
