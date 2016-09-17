@@ -2,6 +2,7 @@ package com.cadiducho.fem.lobby.listeners;
 
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.cmds.FEMCmd;
 import com.cadiducho.fem.core.util.FEMFileLoader;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
@@ -18,6 +19,7 @@ import java.util.List;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -59,7 +61,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
         e.getPlayer().setFoodLevel(20);
         e.getPlayer().getInventory().clear();
         e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "Viajar", "Desplazate entre los juegos del servidor"));
-        //e.getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.EMPTY_MAP, "Lobbies", "Cambia a otro lobbie"));
+        e.getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.EMPTY_MAP, "Lobbies", "Cambia a otro lobbie"));
         e.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.DIAMOND, "Ajustes", "Cambia alguno de tus ajustes de usuario"));
         
         ItemStack guia = new ItemStack(Material.WRITTEN_BOOK);
@@ -69,7 +71,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
         meta.addPage(Metodos.colorizar("Bueno, aquí hay que poner cosas interesantes"));
         meta.addPage(Metodos.colorizar("y otras menos interesantes"));
         guia.setItemMeta(meta);
-        e.getPlayer().getInventory().setItem(1, guia);
+        e.getPlayer().getInventory().setItem(7, guia);
         e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
         
         u.tryHidePlayers();
@@ -86,6 +88,13 @@ public class PlayerListener implements Listener, PluginMessageListener {
             u.getUserData().setCoins(u.getUserData().getCoins() + 1);
             u.save();
             u.sendMessage("Has obtenido un punto del suelo");
+        }
+    }
+    
+    @EventHandler
+    public void onPlayerInteractVillager(PlayerInteractEntityEvent e) {
+        if (e.getRightClicked() instanceof Villager) {
+            e.setCancelled(false);
         }
     }
     
@@ -133,7 +142,8 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         DyeColor glassColor = u.getUserData().getFriendRequest() ? DyeColor.LIME : DyeColor.RED;
                         inv.setItem(11, ItemUtil.createGlass("Aceptar amistades", lore1, glassColor));
 
-                        inv.setItem(6, ItemUtil.createItem(Material.BANNER, "Ver a otros jugadores", "Escoge si ver a tus amigos, a todos o a nadie"));
+                        DyeColor bannerColor = (u.getUserData().getHideMode() == 0 ? DyeColor.RED : (u.getUserData().getHideMode() == 1 ? DyeColor.PURPLE : DyeColor.LIME));
+                        inv.setItem(6, ItemUtil.createBanner("Ver a otros jugadores", "Escoge si ver a tus amigos, a todos o a nadie", bannerColor));
                         inv.setItem(14, ItemUtil.createWool("No ver a nadie", DyeColor.RED));
                         inv.setItem(15, ItemUtil.createWool("Ver solo a tus amigos", DyeColor.PURPLE));
                         inv.setItem(16, ItemUtil.createWool("Ver a todos los usuarios", DyeColor.LIME));
@@ -146,14 +156,16 @@ public class PlayerListener implements Listener, PluginMessageListener {
                             for (FEMServerInfo server : plugin.getServers()) {
                                 if (server.getName().contains("lobby")) {
                                     Material mat = server.getUsers().contains(e.getPlayer().getUniqueId().toString()) ? Material.DIAMOND : Material.BEACON;
-                                    inv.setItem(i, ItemUtil.createItem(mat, server.getName(), server.getPlayers() + "/200"));
+                                    inv.setItem(i, ItemUtil.createItem(mat, normalize(server.getName()), server.getPlayers() + "/200"));
                                     i++;
                                 }
                             }
                         }
                         e.setCancelled(true);
                         break;
-                    default: break;
+                    default: 
+                        e.setCancelled(false);
+                        return;
                 }
                 e.getPlayer().openInventory(inv);
             }
@@ -168,7 +180,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
             case "Ajustes del jugador":
                 e.setCancelled(true);
                 switch (e.getSlot()) {
-                    case 2:
                     case 11:
                         u.getUserData().setFriendRequest(!u.getUserData().getFriendRequest());
                         u.save();
@@ -192,7 +203,10 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         u.tryHidePlayers();
                         p.closeInventory();
                         break;
-                }   u.sendMessage("Ajuste cambiado");
+                    default:
+                        return;
+                }   
+                u.sendMessage("Ajuste cambiado");
                 break;
             case "Lobbies":
                 e.setCancelled(true);
@@ -256,7 +270,17 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 break;
         }
         
+        if (u.isOnRank(FEMCmd.Grupo.Moderador)) { //Staff poder usar inventarios
+            e.setCancelled(false);
+            return;
+        }
         e.setCancelled(true); //Prevenir que muevan / oculten / tiren objetos de la interfaz del Lobby
+    }
+    
+    String normalize(String str) {
+        String[] a = str.split("y");
+        String i = a[1];
+        return a[0].replace('l', 'L') + "y " + i;
     }
     
     @Override

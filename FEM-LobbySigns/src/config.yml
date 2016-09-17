@@ -1,0 +1,61 @@
+#message when a player tries to connect to offline server
+offline-message: '&cServer is offline!'
+show-offline-message: true
+#time between pings/signupdate in seconds
+interval: 5
+#signs updates per tick
+sign-updates: 20
+#connect timeout
+timeout: 1500
+#cooldown for being teleported (milliseconds)
+cooldown: 500
+#debugmode
+debug: false
+#specify your servers here
+servers:
+  pvp:
+    address: '127.0.0.1:25566'
+    displayname: '&cPVP'
+  survival:
+    address: '127.0.0.1:25565'
+    displayname: '&aSurvival'
+
+
+#placeholders:
+#%numpl% = online players
+#%maxpl% = max players
+#%motd% = motd
+#%displayname% = displayname
+#%isonline% whether the server is online or offline
+layouts:
+  #you can change the default layout but don't delete it!
+  default:
+    teleport: true
+    layout:
+      - '&bEntrar a:'
+      - '%motd%'
+      - '&f&l%numpl%/%maxpl%'
+      - '%isonline%'
+    online: '&aOnline'
+    offline: '&cOffline'
+    offline-int: '-'
+  info:
+    teleport: false
+    layout:
+      - '%displayname%'
+      - '&c%numpl%&a/&c%maxpl%'
+      - '&6&fInfosign'
+      - ''
+    online: 'En Linea'
+    offline: 'Desconectado'
+    offline-int: '-'
+  game:
+    teleport: true
+    layout:
+      - '&n&fPvP-Match'
+      - '%motd%'
+      - '&1%numpl%&a/&1%maxpl%'
+      - '%isonline%'
+    online: '&aEntrar'
+    offline: '&cNo puedes entrar'
+    offline-int: '-'

@@ -11,6 +11,7 @@ public class LobbyCMD extends FEMCmd {
 
     @Override
     public void run(FEMUser user, String label, String[] args) {
-        user.sendMessage("&6olviendo al Lobby...");
+        user.sendMessage("&6Volviendo al Lobby...");
+        user.sendToLobby();
     }
 }

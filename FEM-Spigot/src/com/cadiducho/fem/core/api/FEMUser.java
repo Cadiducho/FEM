@@ -159,7 +159,7 @@ public class FEMUser {
     }
     
     public void sendToLobby() {
-        sendToServer("lobby"); //Próximamente cambiar y adapatar a varios lobbies
+        sendToServer("lobby1"); //Próximamente cambiar y adapatar a varios lobbies
     }
     
     /*

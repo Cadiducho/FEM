@@ -158,7 +158,7 @@ public class PlayerListener implements Listener {
             return;
         }
  
-        if (e.getMessage().startsWith("/?") || e.getMessage().startsWith("/bukkit:") || e.getMessage().startsWith("/pl") || e.getMessage().startsWith("/plugins")) {
+        if (e.getMessage().startsWith("/?") || e.getMessage().startsWith("/bukkit:") || e.getMessage().startsWith("/pl") || e.getMessage().startsWith("/plugins") || e.getMessage().startsWith("/minecraft:")) {
             u.sendMessage("&aPor aquí no hay nada que ver...");
             e.setCancelled(true);
         }

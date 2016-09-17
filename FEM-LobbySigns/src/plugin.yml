@@ -1,0 +1,25 @@
+name: Lobby Signs
+version: 0.0.1
+description: Lobby
+author: zh32
+
+main: de.zh32.teleportsigns.BukkitPlugin
+
+commands:
+  tsreload:
+    description: Reload config from disk
+    permission: teleportsigns.reload
+
+permissions:
+  teleportsigns.use:
+    description: Use TeleportSigns
+    default: true
+  teleportsigns.create:
+    description: Create TeleportSigns
+    default: op
+  teleportsigns.destroy:
+    description: Destroy TeleportSigns
+    default: op
+  teleportsigns.reload:
+    description: Reload config from disk
+    default: op
