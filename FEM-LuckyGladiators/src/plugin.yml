@@ -1,0 +1,6 @@
+name: LuckyGladiators
+description: LuckyGladiators
+version: 0.0.1
+author: Cadiducho
+depend: [FEMCore]
+main: com.cadiducho.fem.lucky.LuckyGladiators

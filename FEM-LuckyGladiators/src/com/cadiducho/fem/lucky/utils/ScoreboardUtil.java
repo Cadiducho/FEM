@@ -1,4 +1,4 @@
-package com.cadiducho.fem.gem.util;
+package com.cadiducho.fem.lucky.utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -19,9 +19,9 @@ public class ScoreboardUtil {
 
     private final HashMap<Integer, String> scores;
 
-    public ScoreboardUtil(String displayName, String score) {
+    public ScoreboardUtil(String displayName) {
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        this.objective = this.scoreboard.registerNewObjective(score, "dummy");
+        this.objective = this.scoreboard.registerNewObjective("dummy", "dummy");
         this.objective.setDisplayName(displayName);
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         this.scores = new HashMap<>();
