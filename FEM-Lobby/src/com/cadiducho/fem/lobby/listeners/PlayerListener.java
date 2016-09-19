@@ -16,7 +16,9 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
+import org.bukkit.Color;
 import org.bukkit.DyeColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -40,6 +42,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
 public class PlayerListener implements Listener, PluginMessageListener {
@@ -60,18 +63,47 @@ public class PlayerListener implements Listener, PluginMessageListener {
         e.getPlayer().setHealth(e.getPlayer().getMaxHealth());
         e.getPlayer().setFoodLevel(20);
         e.getPlayer().getInventory().clear();
-        e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "Viajar", "Desplazate entre los juegos del servidor"));
-        e.getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.EMPTY_MAP, "Lobbies", "Cambia a otro lobbie"));
-        e.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.DIAMOND, "Ajustes", "Cambia alguno de tus ajustes de usuario"));
+        e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&lJuegos", "Desplazate entre los juegos del servidor"));
+        e.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.COMMAND, "&lAjustes", "Cambia alguno de tus ajustes de usuario"));
         
         ItemStack guia = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta meta = (BookMeta) guia.getItemMeta();
-        meta.setDisplayName(Metodos.colorizar("&bGuía de inicio"));
+        meta.setDisplayName(Metodos.colorizar("Guía del novato"));
         meta.setAuthor(Metodos.colorizar("&6Staff"));
-        meta.addPage(Metodos.colorizar("Bueno, aquí hay que poner cosas interesantes"));
-        meta.addPage(Metodos.colorizar("y otras menos interesantes"));
+        
+        meta.addPage(Metodos.colorizar("    &lItroducción&r:\n" +
+                                        " \n" +
+                                        "UnderGames es un servidor de &2Mine&6craft&0 patrocinado por &aNVIDIA&0 en el cual se puede disfrutar de distintos minijuegos. Para saber más sobre estos minijuegos, pasa a la siguiente página."));
+        meta.addPage(Metodos.colorizar("    &lServidores&r:\n" +
+                                        " \n" +
+                                        "-&aGemHunters\n" +
+                                        "-&5DyeOrDie\n" +
+                                        "-&1TntWars\n" +
+                                        "-&6BattleRoyale\n" +
+                                        "-&4LuckyGladiators\n" +
+                                        "-&ePictograma&r\n" +
+                                        " \n" +
+                                        "En las siguientes páginas se encuentran sus descripciones."));
+        meta.addPage(Metodos.colorizar("    &a&lGemHunters&r:\n" +
+                                        " \n" +
+                                        "Al comenzar el servidor te asignará un equipo. Durante 30 segundos tu objetivo será esconder la gema de tu inventario lo mejor posible. Tras ese tiempo, tu objetivo cambiará a encontrar las gemas del enemigo y defender las propias."));
+        meta.addPage(Metodos.colorizar("    &5&lDyeOrDie&r:\n" +
+                                        " \n" +
+                                        "El objetivo será situarse sobre el color que haya sido seleccionado en la ronda, tras unos segundos toda la pista excepto el bloque con el color escogido caerá al vacío. Si caes al vacío perderás."));
+        meta.addPage(Metodos.colorizar("      &1&lTntWars&r:\n" +
+                                        " \n" +
+                                        "El objetivo en este juego se basa en colocar una TNT en la torre del enemigo al mismo tiempo que defiendes tu torre. Cuando esta sea colocada en tu torre tendrás 5 segundos para quitarla o tu base explotará y no podrás reaparecer."));
+        meta.addPage(Metodos.colorizar("     &6&lBattleRoyale&r:\n" +
+                                        " \n" +
+                                        "Serás teletransportado a un mapa en el cual se ecuentran escondidos infinidad de cofres con objetos para equiparse. El objetivo consistirá en ser el último jugador vivo en el mapa."));
+        meta.addPage(Metodos.colorizar(" &4&lLuckyGladiators&r:\n" +
+                                        " \n" +
+                                        "Te econtarás ante LuckyBlocks los cuales te darán objetos aleatorios. Pasado un tiempo, dispondrás de una sala para encantar y/o craftear. Después, serás llevado a un coliseo para pelear hasta que solo sobreviva uno."));
+        meta.addPage(Metodos.colorizar("    &e&lPictograma&r:\n" +
+                                        " \n" +
+                                        "El objetivo en este juego se basa en dibujar. Cada ronda será seleccionado un artista el cual intentará la palabra que se aleatoriamente escogida mientras los demás usuarios intentan adivinarla."));
         guia.setItemMeta(meta);
-        e.getPlayer().getInventory().setItem(7, guia);
+        e.getPlayer().getInventory().setItem(4, guia);
         e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
         
         u.tryHidePlayers();
@@ -82,7 +114,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
     public void onPlayerGetDrop(PlayerPickupItemEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
         ItemStack is = e.getItem().getItemStack();
-        if (is.getType().equals(Material.YELLOW_FLOWER) && is.getItemMeta().getDisplayName().equals("Coin")) {
+        if (is.getType().equals(Material.DOUBLE_PLANT) && is.getItemMeta().getDisplayName().equals("Coin")) {
             e.setCancelled(true);
             e.getItem().remove();
             u.getUserData().setCoins(u.getUserData().getCoins() + 1);
@@ -119,23 +151,28 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 FEMUser u = FEMServer.getUser(e.getPlayer());
                 switch (e.getItem().getType()) {
                     case COMPASS:
-                        inv = plugin.getServer().createInventory(e.getPlayer(), 36, "Viajar");
+                        inv = plugin.getServer().createInventory(e.getPlayer(), 27, "Viajar");
                         String amistades = u.getUserData().getFriendRequest() ? "Aceptas" : "No aceptas";
                         String otros = u.getUserData().getHideMode() == 0 ? "Nadie" : (u.getUserData().getHideMode() == 1 ? "Amigos" : "Todos");
-                        inv.setItem(31, ItemUtil.createHeadPlayer("Información", Arrays.asList("Pulsa para ver estadísticas", 
+                        inv.setItem(26, ItemUtil.createHeadPlayer("Información", u.getDisplayName(), Arrays.asList("Pulsa para ver estadísticas", 
                                 "Amistades: " + amistades, 
                                 "Ver a: " + otros)));
-                        inv.setItem(27, ItemUtil.createItem(Material.BEACON, "Lobby"));
-                        inv.setItem(35, ItemUtil.createItem(Material.BONE, "Cerrar menú"));
-
-                        inv.setItem(4, ItemUtil.createItem(Material.TNT, "TntWars"));
-                        inv.setItem(12, ItemUtil.createItem(Material.GOLD_SWORD, "Battle Royale", "&cEn Mantenimiento"));
-                        inv.setItem(13, ItemUtil.createItem(Material.WOOL, "Dye or Die"));
-                        inv.setItem(14, ItemUtil.createItem(Material.DIAMOND_AXE, "Lucky Gladiators", "&cEn Mantenimiento"));
-                        inv.setItem(22, ItemUtil.createItem(Material.EMERALD_BLOCK, "Gem Hunters"));
+                        inv.setItem(18, ItemUtil.createItem(Material.BEACON, "Lobbies"));
+                        inv.setItem(22, ItemUtil.createItem(Material.DOUBLE_PLANT, "Dinero", "(Proximamente)"));
+                        
+                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&ePictograma"));
+                        inv.setItem(4, ItemUtil.createItem(Material.TNT, "&1TNT Wars"));
+                        ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&cDye or Die");
+                            LeatherArmorMeta lam = (LeatherArmorMeta) letherBoots.getItemMeta();
+                            lam.setColor(Color.BLUE);
+                            letherBoots.setItemMeta(lam);
+                        inv.setItem(5, letherBoots);
+                        inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&2Lucky Gladiators"));
+                        inv.setItem(13, ItemUtil.createItem(Material.EMERALD, "&aGem Hunters"));
+                        inv.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6Battle Royale"));
                         e.setCancelled(true);
                         break;
-                    case DIAMOND:
+                    case COMMAND:
                         inv = plugin.getServer().createInventory(e.getPlayer(), 18, "Ajustes del jugador");
                         String lore1 = u.getUserData().getFriendRequest() ? "Aceptas amistades" : "No aceptas amistades";
                         inv.setItem(2, ItemUtil.createItem(Material.CHORUS_FRUIT, "Aceptar amistades", lore1));
@@ -149,31 +186,21 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         inv.setItem(16, ItemUtil.createWool("Ver a todos los usuarios", DyeColor.LIME));
                         e.setCancelled(true);
                         break;
-                    case EMPTY_MAP:
-                        inv = plugin.getServer().createInventory(e.getPlayer(), 18, "Lobbies");
-                        int i = 0;
-                        if (!plugin.getServers().isEmpty()) {
-                            for (FEMServerInfo server : plugin.getServers()) {
-                                if (server.getName().contains("lobby")) {
-                                    Material mat = server.getUsers().contains(e.getPlayer().getUniqueId().toString()) ? Material.DIAMOND : Material.BEACON;
-                                    inv.setItem(i, ItemUtil.createItem(mat, normalize(server.getName()), server.getPlayers() + "/200"));
-                                    i++;
-                                }
-                            }
-                        }
-                        e.setCancelled(true);
-                        break;
                     default: 
                         e.setCancelled(false);
                         return;
                 }
-                e.getPlayer().openInventory(inv);
+                if (inv != null) {
+                    e.getPlayer().openInventory(inv);
+                }
             }
         }
     }
     
     @EventHandler
     public void inventoryClick(InventoryClickEvent e) {
+        if (!(e.getWhoClicked() instanceof Player)) return;
+
         Player p = (Player) e.getWhoClicked();
         FEMUser u = FEMServer.getUser(p);
         switch (e.getInventory().getTitle()) {
@@ -211,22 +238,66 @@ public class PlayerListener implements Listener, PluginMessageListener {
             case "Lobbies":
                 e.setCancelled(true);
                 switch (e.getCurrentItem().getType()) {
-                    case DIAMOND:
+                    case BEACON:
                         u.sendMessage("Ya estás en ese lobby");
                         break;
-                    case BEACON:
+                    case GLASS:
                         String name = e.getCurrentItem().getItemMeta().getDisplayName();
                         ByteArrayDataOutput out = ByteStreams.newDataOutput();
                         out.writeUTF("Connect");
-                        out.writeUTF(name);
+                        out.writeUTF(name.toLowerCase().replace(" ", ""));
                         p.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
+                        break;
+                    default:
                         break;
                 }   p.closeInventory();
                 break;
             case "Viajar":
                 e.setCancelled(true);
                 switch (e.getSlot()) {
-                    case 31:
+                    case 3: //pictograma
+                        p.teleport(Metodos.stringToLocation(plugin.getConfig().getString("brujula.pic")));
+                        p.closeInventory();
+                        break;
+                    case 4: //tnt
+                        p.teleport(Metodos.stringToLocation(plugin.getConfig().getString("brujula.tnt")));
+                        p.closeInventory();
+                        break;
+                    case 5: //dieordye
+                        p.teleport(Metodos.stringToLocation(plugin.getConfig().getString("brujula.dod")));
+                        p.closeInventory();
+                        break;
+                    case 12: //lucky
+                        p.teleport(Metodos.stringToLocation(plugin.getConfig().getString("brujula.lg")));
+                        p.closeInventory();
+                        break;
+                    case 13: //gem
+                        p.teleport(Metodos.stringToLocation(plugin.getConfig().getString("brujula.gem")));
+                        p.closeInventory();
+                        break;
+                    case 14: //royale
+                        p.teleport(Metodos.stringToLocation(plugin.getConfig().getString("brujula.br")));
+                        p.closeInventory();
+                        break;
+                    case 18: //menu lobbies
+                        Inventory invLobbies = plugin.getServer().createInventory(p, 18, "Lobbies");
+                        int i = 0;
+                        if (!plugin.getServers().isEmpty()) {
+                            for (FEMServerInfo server : plugin.getServers()) {
+                                if (server.getName().contains("lobby")) {
+                                    Material mat = server.getUsers().contains(p.getUniqueId().toString()) ? Material.BEACON : Material.GLASS;
+                                    invLobbies.setItem(i, ItemUtil.createItem(mat, normalize(server.getName()), server.getPlayers() + "/200"));
+                                    i++;
+                                }
+                            }
+                        }
+                        p.closeInventory();
+                        p.openInventory(invLobbies);
+                        break;
+                    case 22: //puntos
+                        p.closeInventory();
+                        break;
+                    case 26:
                         Inventory inv = plugin.getServer().createInventory(p, 9, "Estadisticas del jugador");
                         inv.setItem(3, ItemUtil.createItem(Material.TNT, "TntWars", 
                                 Arrays.asList("Partidas Jugadas: " + u.getUserData().getPlays().get(1), "Partidas Ganadas: " + u.getUserData().getWins().get(1),
@@ -242,29 +313,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         p.closeInventory();
                         plugin.getServer().getScheduler().runTask(plugin, () -> p.openInventory(inv));
                         break;
-                    case 4:
-                        u.sendToServer("tntwars");
-                        p.closeInventory();
-                        break;
-                    case 13:
-                        u.sendToServer("dyeordie");
-                        p.closeInventory();
-                        break;
-                    case 22:
-                        u.sendToServer("gemhunters");
-                        p.closeInventory();
-                        break;
-                    case 27:
-                        u.sendToServer("lobby");
-                        p.closeInventory();
-                        break;
-                    case 35:
-                        p.closeInventory();
-                        break;
                 }
-                break;
-            case "Estadisticas del jugador":
-                e.setCancelled(true);
                 break;
             default:
                 break;

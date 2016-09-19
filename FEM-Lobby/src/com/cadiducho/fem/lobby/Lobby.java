@@ -1,8 +1,8 @@
 package com.cadiducho.fem.lobby;
 
 import com.cadiducho.fem.core.FEMCommands;
-import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.lobby.cmds.DropPuntosCMD;
+import com.cadiducho.fem.lobby.cmds.SetBrujulaCMD;
 import com.cadiducho.fem.lobby.listeners.PlayerListener;
 import com.cadiducho.fem.lobby.listeners.WorldListener;
 import java.io.File;
@@ -12,10 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.block.Sign;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,8 +24,7 @@ public class Lobby extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        
-        System.setProperty("java.net.preferIPv4Stack", "true");
+
         File fConf = new File(getDataFolder(), "config.yml");
         if (!fConf.exists()) {
             try {
@@ -52,6 +47,7 @@ public class Lobby extends JavaPlugin {
         try {
             //Comandos solo para el lobby
             FEMCommands.registrar(new DropPuntosCMD());
+            FEMCommands.registrar(new SetBrujulaCMD());
             getLogger().log(Level.INFO, "Lobby: Registrado sus comandos");
         } catch (Exception ex) {
             getLogger().log(Level.INFO, "Lobby: No se han podido cargar sus comandos");

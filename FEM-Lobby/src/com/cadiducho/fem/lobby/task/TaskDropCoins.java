@@ -16,7 +16,7 @@ public class TaskDropCoins extends BukkitRunnable {
     public void run() {
         if (!user.isOnline()) cancel();
 
-        user.getPlayer().getWorld().dropItem(user.getPlayer().getLocation().add(user.getPlayer().getLocation().getDirection().multiply(-1)), ItemUtil.createItem(Material.YELLOW_FLOWER, "Coin"));
+        user.getPlayer().getWorld().dropItem(user.getPlayer().getLocation().add(user.getPlayer().getLocation().getDirection().multiply(-1)), ItemUtil.createItem(Material.DOUBLE_PLANT, "Coin"));
         user.getUserData().setCoins(user.getUserData().getCoins() - 1);
     }
 }
