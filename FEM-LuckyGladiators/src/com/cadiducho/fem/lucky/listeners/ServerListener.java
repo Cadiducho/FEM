@@ -3,7 +3,6 @@ package com.cadiducho.fem.lucky.listeners;
 import com.cadiducho.fem.lucky.LuckyGladiators;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;

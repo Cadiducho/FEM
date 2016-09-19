@@ -13,6 +13,7 @@ import com.cadiducho.fem.lucky.utils.Messages;
 import java.io.File;
 import lombok.Getter;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -38,6 +39,7 @@ public class LuckyGladiators extends JavaPlugin {
             } catch (Exception e) {}
         }
         
+        new WorldCreator("espera").createWorld();
         am = new ArenaManager(instance);
         gm = new GameManager(instance);
         pm = new PlayerManager(instance);

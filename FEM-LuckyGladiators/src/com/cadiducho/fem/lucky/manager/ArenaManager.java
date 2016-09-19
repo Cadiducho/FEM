@@ -59,6 +59,7 @@ public class ArenaManager {
         w.setStorm(false);
         w.setDifficulty(Difficulty.NORMAL);
         w.setTime(6000);
+        w.setAutoSave(false);
     }
 
     public void teleportLucky(Player p) {
