@@ -55,14 +55,8 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         e.setQuitMessage(null);
-        if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown()) {
-            plugin.getGm().removePlayerFromGame(player);
-            plugin.getMsg().sendBroadcast("&7abandonó el juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
-        } else if (plugin.getGm().isInGame()) {
-            plugin.getGm().removePlayerFromGame(player);
-        } else if (plugin.getGm().isEnding()) {
-            plugin.getGm().removePlayerFromGame(player);
-        }
+        plugin.getGm().removePlayerFromGame(player);
+        plugin.getMsg().sendBroadcast("&e " + player.getDisplayName() + "&7abandonó la partida");
         
         Pictograma.players.remove(Pictograma.getPlayer(player));
     }

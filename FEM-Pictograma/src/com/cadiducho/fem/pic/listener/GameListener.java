@@ -96,13 +96,6 @@ public class GameListener implements Listener {
     }
     
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent e) {
-        Player player = e.getPlayer();
-        e.setQuitMessage(Metodos.colorizar("&e" + player + " &a haabandonado la partida."));
-        plugin.getGm().removePlayerFromGame(player);
-    }
-
-    @EventHandler
     public void onInvClick(InventoryClickEvent event) {
         Player p = (Player) event.getWhoClicked();
         if (event.getInventory().getName().equals(plugin.colorPicker.getTitle())) {

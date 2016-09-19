@@ -149,7 +149,6 @@ public class GameManager {
             }
             playerFound += 1;
         }
-        System.out.println("Han encontrado la palabra " + playerFound + " jugadores y hay "+ (getPlayersInGame().size() - 1) + " jugadores sin el artista");
         if (playerFound == (getPlayersInGame().size() - 1)) {
             GameTask.getGameInstance().prepareNextRound(); 
         }
@@ -166,6 +165,11 @@ public class GameManager {
 
     public void removePlayerFromGame(Player player) {
         playersInGame.remove(player);
+        for (Player p : plugin.getAm().getColaPintar()) {
+            if (p.getUniqueId() == player.getUniqueId()) {
+                plugin.getAm().getColaPintar().remove(p);
+            }
+        }
     }
 
     public boolean isEnding() {
