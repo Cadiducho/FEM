@@ -1,5 +1,6 @@
 package com.cadiducho.fem.pic.listener;
 
+import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.pic.Pictograma;
 import java.util.Set;
 import lombok.Getter;
@@ -15,7 +16,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 
 public class GameListener implements Listener {
@@ -35,7 +38,6 @@ public class GameListener implements Listener {
                 return;
             }
             b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1.0F, 1.0F);
             return;
         }
         if (((event.getPlayer().getInventory().getItemInMainHand().getType() == Material.WOOL) && (event.getAction() == Action.RIGHT_CLICK_AIR)) || (event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
@@ -60,7 +62,6 @@ public class GameListener implements Listener {
             b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
             b2.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
             b3.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1.0F, 1.0F);
             return;
         }
         if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.COMPASS) {
@@ -72,9 +73,9 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent e) {
+    public void onPlayerChat(PlayerChatEvent e) {
         if (plugin.getGm().isInGame()) {
-            if (plugin.getGm().builder.getUniqueId() == e.getPlayer().getUniqueId()) {
+            if (plugin.getGm().builder != null  && (plugin.getGm().builder.getUniqueId() == e.getPlayer().getUniqueId())) {
                 Pictograma.getPlayer(e.getPlayer()).getBase().sendMessage("No puedes hablar mientras eres el artista");
                 e.setCancelled(true);
             } else {
@@ -92,6 +93,13 @@ public class GameListener implements Listener {
             e.setCancelled(true);
         }
         e.setFormat(ChatColor.GREEN + e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + ChatColor.GRAY + e.getMessage());
+    }
+    
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        Player player = e.getPlayer();
+        e.setQuitMessage(Metodos.colorizar("&e" + player + " &a haabandonado la partida."));
+        plugin.getGm().removePlayerFromGame(player);
     }
 
     @EventHandler

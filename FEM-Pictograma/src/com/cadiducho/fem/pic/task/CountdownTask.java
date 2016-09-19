@@ -25,6 +25,7 @@ public class CountdownTask extends BukkitRunnable {
             //Colocar jugadores
             plugin.getGm().getPlayersInGame().forEach(p -> Pictograma.getPlayer(p).spawn());
             plugin.getAm().setColaPintar((ArrayList<Player>) plugin.getGm().getPlayersInGame().clone());
+            plugin.getAm().getColaPintar().addAll(plugin.getGm().getPlayersInGame()); //Dos veces, dos rondas por cabeza
         } else if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
 

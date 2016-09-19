@@ -20,7 +20,7 @@ public class ShutdownTask extends BukkitRunnable {
         if (count == 0) {
             plugin.getServer().getOnlinePlayers().stream().forEach((players) -> {
                 players.sendMessage("Servidor desconectado");
-                FEMServer.getUser(players).sendToServer("lobby");
+                FEMServer.getUser(players).sendToLobby();
             });
             plugin.getServer().spigot().restart();
             cancel();

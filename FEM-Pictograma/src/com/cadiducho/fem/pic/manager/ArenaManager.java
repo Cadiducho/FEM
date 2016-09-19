@@ -45,7 +45,7 @@ public class ArenaManager {
         w.getLivingEntities().stream()
                     .filter(e -> !e.getType().equals(EntityType.PLAYER))
                     .forEach(e -> e.damage(e.getMaxHealth()));
-        
+        w.setAutoSave(false);
         plugin.getLogger().log(Level.INFO, "Mundo para {0}/{1} preparado", new Object[]{minPlayers, maxPlayers});
     }
 }

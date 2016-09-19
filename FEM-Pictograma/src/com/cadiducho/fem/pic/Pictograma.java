@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import lombok.Getter;
 import org.bukkit.DyeColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.WorldCreator;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,6 +47,7 @@ public class Pictograma extends JavaPlugin {
             } catch (Exception e) {}
         }
 
+        new WorldCreator("espera").createWorld();
         gm = new GameManager(instance);
         am = new ArenaManager(instance);
         am.prepareWorld(getServer().getWorld(getConfig().getString("Pictograma.Arena.mundo")));
@@ -69,7 +71,7 @@ public class Pictograma extends JavaPlugin {
         colorPicker.setItem(8, ItemUtil.createWool("Marron", DyeColor.BROWN));
         
         GameState.state = GameState.LOBBY;
-        getLogger().log(Level.INFO, "ByD: Activado correctamente");
+        getLogger().log(Level.INFO, "Pictograma: Activado correctamente");
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.cadiducho.fem.pic.manager;
 
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.pic.Pictograma;
+import com.cadiducho.fem.pic.task.GameTask;
 import com.cadiducho.fem.pic.task.LobbyTask;
 import com.cadiducho.fem.pic.task.ShutdownTask;
 import java.util.ArrayList;
@@ -9,13 +10,11 @@ import java.util.HashMap;
 import java.util.Random;
 import lombok.Getter;
 import org.bukkit.DyeColor;
-import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
@@ -28,9 +27,8 @@ public class GameManager {
     @Getter private final ArrayList<Player> hasFound = new ArrayList<>();
     private int playerFound = 0;
     @Getter private final HashMap<Player, Integer> score = new HashMap<>();
-    private ArrayList<BukkitTask> tasks = new ArrayList<>();
-    private final BossBar barra;
-    private final BossBar barraCheta; //Para los pros que saben la palabra
+    @Getter private final BossBar barra;
+    @Getter private final BossBar barraCheta; //Para los pros que saben la palabra
     @Getter private Scoreboard board;
     @Getter private Objective objective;
     
@@ -65,12 +63,13 @@ public class GameManager {
     
     //ToDo: Mejorar esto por completo
     public void startRound() {
-        cancelTasks();
         searchBuilder();
         hasFound.clear();
+        wordHasBeenFound = false;
+        acceptWords = true;
         playerFound = 0;
         word = plugin.getRandomWord();
-        barraCheta.setTitle(Metodos.colorizar("&e" + word));
+        barraCheta.setTitle(Metodos.colorizar("&e" + word.toUpperCase()));
         wordf = new StringBuilder(word.replaceAll("[a-zA-Z]", "_"));
         plugin.getAm().getBuildZone().clear();
         plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
@@ -85,35 +84,10 @@ public class GameManager {
         Pictograma.getPlayer(builder).getBase().sendMessage("La palabara es &e" + word);
         barra.setTitle(wordf.toString());
     
-        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getMsg().sendBroadcast("&630 segundos para terminar la ronda!"), 600L));
-        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> addRandomLetter(), 800L));
-        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> addRandomLetter(), 1000L));
-        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> addRandomLetter(), 1100L));
-        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getMsg().sendBroadcast("&610 segundos para terminar la ronda!"), 1200L));
-        prepareNextRound();     
-    }
-
-    public void cancelTasks() {
-        tasks.stream().forEach(r -> r.cancel());
+        new GameTask(plugin).runTaskTimer(plugin, 2l, 20l);    
     }
     
-    public void prepareNextRound() {
-        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            Pictograma.getPlayer(builder).setCleanPlayer(GameMode.ADVENTURE);
-            Pictograma.getPlayer(builder).spawn();
-            barraCheta.removePlayer(builder);
-            builder = null;
-            barra.setTitle(word);
-            if (plugin.getAm().getColaPintar().isEmpty()) {
-                end();
-                return;
-            }
-            plugin.getMsg().sendBroadcast("&aSe acabó el tiempo! La siguiente ronda comenzará en 5 segundos"); 
-        }, 1400L));
-        tasks.add(plugin.getServer().getScheduler().runTaskLater(plugin, () -> startRound(), 1500L));
-    }
-    
-    public void end() {
+    public void endGame() {
         plugin.getMsg().sendBroadcast("¡El juego ha acabado!");
         
         //Checkwinner          
@@ -148,7 +122,7 @@ public class GameManager {
         int randomLetter = r.nextInt(word.length());
         wordf.setCharAt(randomLetter, word.charAt(randomLetter));
         plugin.getMsg().sendBroadcast("&aLa palabra es &e" + wordf);
-        barra.setTitle(Metodos.colorizar("&e"+wordf.toString()));
+        barra.setTitle(Metodos.colorizar("&e"+wordf.toString().toUpperCase()));
     }
    
     public void increaseScore(Player p, int value) {
@@ -175,9 +149,9 @@ public class GameManager {
             }
             playerFound += 1;
         }
+        System.out.println("Han encontrado la palabra " + playerFound + " jugadores y hay "+ (getPlayersInGame().size() - 1) + " jugadores sin el artista");
         if (playerFound == (getPlayersInGame().size() - 1)) {
-            cancelTasks();
-            prepareNextRound();
+            GameTask.getGameInstance().prepareNextRound(); 
         }
     }
 
