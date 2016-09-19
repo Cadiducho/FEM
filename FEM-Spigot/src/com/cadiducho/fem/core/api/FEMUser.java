@@ -159,7 +159,9 @@ public class FEMUser {
     }
     
     public void sendToLobby() {
-        sendToServer("lobby1"); //Próximamente cambiar y adapatar a varios lobbies
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("bestLobby");
+        getPlayer().sendPluginMessage(plugin, "FEM", out.toByteArray()); 
     }
     
     /*

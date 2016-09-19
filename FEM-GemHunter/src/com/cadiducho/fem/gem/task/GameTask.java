@@ -62,7 +62,7 @@ public class GameTask extends BukkitRunnable {
         plugin.getMsg().sendBroadcast("Ha ganado el equipo " + winner.getDisplayName());
         for (Player p : plugin.getTm().getJugadores().get(winner)) {
             HashMap<Integer, Integer> wins = FEMServer.getUser(p).getUserData().getWins();
-            wins.replace(3, wins.get(1) + 1);
+            wins.replace(3, wins.get(3) + 1);
             FEMServer.getUser(p).getUserData().setWins(wins);
             FEMServer.getUser(p).save();
         }

@@ -3,7 +3,6 @@ package com.cadiducho.fem.gem.listener;
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.manager.GameState;
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
