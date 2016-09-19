@@ -5,7 +5,6 @@ import com.cadiducho.fem.color.manager.GameState;
 import com.cadiducho.fem.core.api.FEMServer;
 import java.util.HashMap;
 import java.util.Random;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 

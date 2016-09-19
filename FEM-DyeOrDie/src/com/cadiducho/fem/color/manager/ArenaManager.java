@@ -51,7 +51,7 @@ public class ArenaManager {
         
         pos1 = Metodos.stringToLocation(plugin.getConfig().getString("Color.Arena.borderPos1"));
         pos2 = Metodos.stringToLocation(plugin.getConfig().getString("Color.Arena.borderPos2"));
-        lobby = Metodos.stringToLocation(plugin.getConfig().getString("Color.Arena.obby"));
+        lobby = Metodos.stringToLocation(plugin.getConfig().getString("Color.Arena.Lobby"));
     }
 
     public void prepareWorld(World w) {
@@ -63,7 +63,7 @@ public class ArenaManager {
         w.getLivingEntities().stream()
                 .filter(e -> !e.getType().equals(EntityType.PLAYER))
                 .forEach(e -> e.damage(e.getMaxHealth()));
-        
+        w.setAutoSave(false);
         initArena();
         
         plugin.getLogger().log(Level.INFO, "Mundo para {0}/{1} preparado", new Object[]{minPlayers, maxPlayers});

@@ -132,7 +132,7 @@ public class ArenaManager {
             isla.setId(str);
             if (!"centro".equals(str)) {
                 isla.setSpawn(Metodos.stringToLocation(cfg.getString("spawn")));
-                Villager v = (Villager) loc1.getWorld().spawnEntity(Metodos.stringToLocation(cfg.getString("aldeano")), EntityType.VILLAGER);
+                Villager v = (Villager) loc1.getWorld().spawnEntity(Metodos.centre(Metodos.stringToLocation(cfg.getString("aldeano"))), EntityType.VILLAGER);
                 v.setCustomName(Metodos.colorizar("&6Tienda TNTWars"));
                 v.setAI(false);
                 islas.add(isla);

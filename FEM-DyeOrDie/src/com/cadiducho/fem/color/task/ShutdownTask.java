@@ -19,7 +19,7 @@ public class ShutdownTask extends BukkitRunnable {
         plugin.getMsg().sendBroadcast("Volverás al lobby en: " + (count - 1));
         if (count == 1) {            
             plugin.getServer().getOnlinePlayers().stream().forEach((players) -> {
-                FEMServer.getUser(players).sendToServer("lobby");
+                FEMServer.getUser(players).sendToLobby();
                 players.sendMessage("Servidor desconectado");
             });
         }

@@ -25,9 +25,6 @@ public class CountdownTask extends BukkitRunnable {
     @Override
     public void run() {       
         if (count == 7) {            
-            /*Colocar jugadores
-            plugin.getTm().cleanTeams();
-            plugin.getTm().drawTeams(plugin.getGm().getPlayersInGame());*/
             plugin.getGm().getPlayersInGame().forEach(p -> TntWars.getPlayer(p).spawn());
             
         } else if (count > 0 && count <= 5) {

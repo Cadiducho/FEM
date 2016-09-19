@@ -29,9 +29,13 @@ public class WorldListener implements Listener {
             Block placed = e.getBlock();
             TntPlayer pl = TntWars.getPlayer(e.getPlayer());
             if (placed.getType() == Material.TNT) {
-                TntIsland isla = checkBedrock(placed.getRelative(BlockFace.DOWN));
+                TntIsland isla = checkBedrock(placed.getRelative(BlockFace.DOWN)); 
                 if (isla == null) {
                     e.getPlayer().sendMessage("Sólo puedes poner TNT en el núcleo de la isla de otros");
+                    e.setCancelled(true);
+                    return;
+                }
+                if (isla.getDestroyed()) {
                     e.setCancelled(true);
                     return;
                 }

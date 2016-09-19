@@ -1,6 +1,7 @@
 package com.cadiducho.fem.tnt;
 
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
 import java.util.HashMap;
 import lombok.Getter;
@@ -107,6 +108,6 @@ public class TntPlayer {
     }
 
     public void spawn() {
-        getBase().getPlayer().teleport(TntIsland.getIsland(getBase().getUuid()).getSpawn());
+        getBase().getPlayer().teleport(Metodos.centre(TntIsland.getIsland(getBase().getUuid()).getSpawn()));
     }
 }

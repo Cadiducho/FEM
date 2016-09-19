@@ -10,13 +10,12 @@ import com.cadiducho.fem.tnt.manager.GameManager;
 import com.cadiducho.fem.tnt.manager.GameState;
 import com.cadiducho.fem.tnt.util.ChestItems;
 import com.cadiducho.fem.tnt.util.Messages;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import lombok.Getter;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.WorldCreator;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -44,6 +43,7 @@ public class TntWars extends JavaPlugin {
             } catch (Exception e) {}
         }
 
+        new WorldCreator("espera").createWorld();
         gm = new GameManager(instance);
         chestItems = new ChestItems(instance);
         am = new ArenaManager(instance);

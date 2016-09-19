@@ -75,6 +75,8 @@ public class DyePlayer {
     public void endGame() {
         getBase().getPlayer().getInventory().clear();
         setSpectator();
+        base.getPlayer().teleport(plugin.getGm().getPlayersInGame().get(0));
+        plugin.getGm().removePlayerFromGame(base.getPlayer());
         base.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
         base.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
         plugin.getMsg().sendBroadcast(getBase().getDisplayName() + " ha caido en la ronda " + plugin.getAm().getRound() + "!");

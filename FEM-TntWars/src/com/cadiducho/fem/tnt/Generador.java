@@ -1,5 +1,6 @@
 package com.cadiducho.fem.tnt;
 
+import com.cadiducho.fem.core.util.Metodos;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -58,8 +59,7 @@ public class Generador {
     }
     
     public Location getItemSpawn() {
-        return new Location(genAnnon.getSign().getWorld(), genAnnon.getSign().getBlockX() > 0 ? genAnnon.getSign().getBlockX() + 0.5 : genAnnon.getSign().getBlockX() - 0.5, 
-                genAnnon.getSign().getBlockY(), genAnnon.getSign().getBlockZ() > 0 ? genAnnon.getSign().getBlockZ() + 0.5 : genAnnon.getSign().getBlockZ() - 0.5);
+        return Metodos.centre(genAnnon.getSign());
     }
     
     public void setLevel(int i) {

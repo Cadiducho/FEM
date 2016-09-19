@@ -14,7 +14,9 @@ import java.util.Random;
 import java.util.logging.Level;
 import lombok.Getter;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.WorldCreator;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -47,6 +49,7 @@ public class DyeOrDie extends JavaPlugin {
             }
         }
 
+        new WorldCreator("espera").createWorld();
         gm = new GameManager(instance);
         am = new ArenaManager(instance);
         am.prepareWorld(getServer().getWorld(getConfig().getString("Color.Arena.mundo")));
@@ -58,12 +61,11 @@ public class DyeOrDie extends JavaPlugin {
 
         GameState.state = GameState.LOBBY;
         getLogger().log(Level.INFO, "Color: Activado correctamente");
-        
         //Evento para la caida al vacio
         getServer().getScheduler().runTaskTimer(instance, () -> {
             if (getGm().isInGame()) {
                 getGm().getPlayersInGame().stream()
-                        .filter(player -> (player.getLocation().getBlockY() < 0))
+                        .filter(player -> ((player.getLocation().getBlockY() < 0) && (player.getGameMode() != GameMode.SPECTATOR)))
                         .forEach(player -> getPlayer(player).endGame());
             }
         }, 20, 20);
