@@ -1,5 +1,6 @@
 package com.cadiducho.fem.pic.manager;
 
+import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.task.GameTask;
@@ -101,10 +102,14 @@ public class GameManager {
                 winner = p;
             }
         }
-        if (this.score.containsKey(winner)) {
+        if (score.containsKey(winner)) {
             plugin.getMsg().sendBroadcast("&aPuntuaciones:");
             score.keySet().forEach(p -> plugin.getMsg().sendBroadcast("&b" + p.getName() + ":&e " + score.get(p)));
             plugin.getMsg().sendBroadcast("&6Ganador: " + winner.getName());
+            HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
+            wins.replace(4, wins.get(1) + 1);
+            FEMServer.getUser(winner).getUserData().setWins(wins);
+            FEMServer.getUser(winner).save();
         }
         new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
     }
@@ -137,9 +142,11 @@ public class GameManager {
         if (acceptWords && !hasFound.contains(player)) {
             hasFound.add(player);
             score.keySet().forEach(p -> p.getWorld().playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0F, 1.0F));
+            FEMServer.getUser(player).getUserData().setPicAcertadas(FEMServer.getUser(player).getUserData().getPicAcertadas()+ 1);
             if (!wordHasBeenFound) {
                 plugin.getMsg().sendBroadcast("&6+3 &a" + player.getName() + " ha encontrado la palabra, y ha sido el más rápido!");
                 plugin.getMsg().sendMessage(builder, "&6+2 &aalguien ha adivinado tu palabra!");
+                FEMServer.getUser(builder).getUserData().setPicDibujadas(FEMServer.getUser(builder).getUserData().getPicDibujadas() + 1);
                 increaseScore(player, 3);
                 increaseScore(builder, 2);
                 wordHasBeenFound = true;

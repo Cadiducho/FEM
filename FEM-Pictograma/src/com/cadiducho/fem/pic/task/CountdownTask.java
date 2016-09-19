@@ -1,9 +1,11 @@
 package com.cadiducho.fem.pic.task;
 
+import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.manager.GameState;
 import java.util.ArrayList;
+import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -39,11 +41,10 @@ public class CountdownTask extends BukkitRunnable {
                 plugin.getGm().getScore().put(p, 0);
                 plugin.getGm().increaseScore(p, 0);
                 p.setScoreboard(plugin.getGm().getBoard());  
-                /*Pictograma.getPlayer(players).setHiddingScoreboard();
-                HashMap<Integer, Integer> plays = FEMServer.getUser(players).getUserData().getPlays();
-                plays.replace(3, plays.get(1) + 1);
-                FEMServer.getUser(players).getUserData().setPlays(plays);
-                FEMServer.getUser(players).save();*/
+                HashMap<Integer, Integer> plays = FEMServer.getUser(p).getUserData().getPlays();
+                plays.replace(4, plays.get(1) + 1);
+                FEMServer.getUser(p).getUserData().setPlays(plays);
+                FEMServer.getUser(p).save();
             }
             
             //Iniciar hilo de la fase de esconder
