@@ -30,6 +30,7 @@ public class FEMCommands implements TabCompleter {
         cmds.add(new CnickCMD());
         cmds.add(new ClearCMD());
         cmds.add(new ClearArmorCMD());
+        cmds.add(new DarRangoCMD());
         cmds.add(new EncantarCMD());
         cmds.add(new ExtinguishCMD());
         cmds.add(new FriendCMD());

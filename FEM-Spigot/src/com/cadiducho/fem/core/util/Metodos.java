@@ -137,6 +137,10 @@ public class Metodos {
 	return loc;
     }
     
+    public static Location centre(Location loc) {
+        return loc.add(0.5, 0, 0.5);
+    }
+    
     public static Class<?> getNMSClass(String name) {
         try {
             return Class.forName("net.minecraft.server." + getVersion() + "." + name);

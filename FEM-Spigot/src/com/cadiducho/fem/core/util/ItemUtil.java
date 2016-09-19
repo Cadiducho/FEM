@@ -85,12 +85,12 @@ public class ItemUtil {
         return item;
     }
     
-    public static ItemStack createHeadPlayer(String name, List<String> lore) {
+    public static ItemStack createHeadPlayer(String displayname, String username, List<String> lore) {
         ItemStack playerHead = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
         SkullMeta sm = (SkullMeta)playerHead.getItemMeta();
-        sm.setOwner(name);
+        sm.setOwner(username);
         sm.setLore(lore);
-        sm.setDisplayName(Metodos.colorizar("&e"+name));
+        sm.setDisplayName(Metodos.colorizar(displayname));
         playerHead.setItemMeta(sm);
         return playerHead;
     }
