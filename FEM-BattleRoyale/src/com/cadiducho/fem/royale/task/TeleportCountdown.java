@@ -25,7 +25,7 @@ public class TeleportCountdown extends BukkitRunnable {
                 plugin.getAm().fixPlayer(p.getLocation());
                 plugin.getPm().loadKit(p);
                 HashMap<Integer, Integer> plays = FEMServer.getUser(p).getUserData().getPlays();
-                plays.replace(5, plays.get(1) + 1);
+                plays.replace(5, plays.get(5) + 1);
                 FEMServer.getUser(p).getUserData().setPlays(plays);
                 FEMServer.getUser(p).save();
             });

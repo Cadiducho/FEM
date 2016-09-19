@@ -121,7 +121,7 @@ public class PlayerListener implements Listener {
                     e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                     plugin.getMsg().sendBroadcast("&e" + p.getDisplayName() + " &7ha muerto a manos de &e" + damager.getDisplayName());            
                     HashMap<Integer, Integer> kills = FEMServer.getUser(damager).getUserData().getKills();
-                    kills.replace(3, kills.get(1) + 1);
+                    kills.replace(3, kills.get(3) + 1);
                     FEMServer.getUser(damager).getUserData().setKills(kills);
                     FEMServer.getUser(damager).save();
                     //Limpiar jugador y respawn

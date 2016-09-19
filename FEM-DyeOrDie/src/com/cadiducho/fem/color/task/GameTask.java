@@ -95,7 +95,7 @@ public class GameTask extends BukkitRunnable {
             Player winner = plugin.getGm().getPlayersInGame().get(0);
             plugin.getMsg().sendBroadcast(winner.getName() + " ha ganado llegando hasta la ronda " + plugin.getAm().getRound() + "!");
             HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
-            wins.replace(2, wins.get(1) + 1);
+            wins.replace(2, wins.get(2) + 1);
             FEMServer.getUser(winner).getUserData().setWins(wins);
             FEMServer.getUser(winner).save();
             

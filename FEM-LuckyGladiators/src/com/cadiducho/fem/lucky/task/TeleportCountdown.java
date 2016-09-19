@@ -1,6 +1,8 @@
 package com.cadiducho.fem.lucky.task;
 
+import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.lucky.LuckyGladiators;
+import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -25,6 +27,10 @@ public class TeleportCountdown extends BukkitRunnable {
                     plugin.getAm().teleportLucky(p);
                     plugin.getAm().fixPlayer(p.getLocation());
                     plugin.getPm().setCleanPlayer(p, GameMode.SURVIVAL);
+                    HashMap<Integer, Integer> plays = FEMServer.getUser(p).getUserData().getPlays();
+                    plays.replace(6, plays.get(6) + 1);
+                    FEMServer.getUser(p).getUserData().setPlays(plays);
+                    FEMServer.getUser(p).save();
                 });
                 new BreakLuckyCountdown(plugin).runTaskTimer(plugin, 1l, 20l);
                 cancel();

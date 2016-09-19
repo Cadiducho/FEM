@@ -107,7 +107,7 @@ public class GameManager {
             score.keySet().forEach(p -> plugin.getMsg().sendBroadcast("&b" + p.getName() + ":&e " + score.get(p)));
             plugin.getMsg().sendBroadcast("&6Ganador: " + winner.getName());
             HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
-            wins.replace(4, wins.get(1) + 1);
+            wins.replace(4, wins.get(4) + 1);
             FEMServer.getUser(winner).getUserData().setWins(wins);
             FEMServer.getUser(winner).save();
         }
@@ -143,10 +143,12 @@ public class GameManager {
             hasFound.add(player);
             score.keySet().forEach(p -> p.getWorld().playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0F, 1.0F));
             FEMServer.getUser(player).getUserData().setPicAcertadas(FEMServer.getUser(player).getUserData().getPicAcertadas()+ 1);
+            FEMServer.getUser(player).save();
             if (!wordHasBeenFound) {
                 plugin.getMsg().sendBroadcast("&6+3 &a" + player.getName() + " ha encontrado la palabra, y ha sido el más rápido!");
                 plugin.getMsg().sendMessage(builder, "&6+2 &aalguien ha adivinado tu palabra!");
                 FEMServer.getUser(builder).getUserData().setPicDibujadas(FEMServer.getUser(builder).getUserData().getPicDibujadas() + 1);
+                FEMServer.getUser(builder).save();
                 increaseScore(player, 3);
                 increaseScore(builder, 2);
                 wordHasBeenFound = true;

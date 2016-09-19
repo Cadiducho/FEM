@@ -37,7 +37,7 @@ public class CountdownTask extends BukkitRunnable {
                 new Title("&b&l¡Comienza a correr!", "", 1, 2, 1).send(players);
                 players.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 HashMap<Integer, Integer> plays = FEMServer.getUser(players).getUserData().getPlays();
-                plays.replace(2, plays.get(1) + 1);
+                plays.replace(2, plays.get(2) + 1);
                 FEMServer.getUser(players).getUserData().setPlays(plays);
                 FEMServer.getUser(players).save();
             }

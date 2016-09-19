@@ -71,11 +71,11 @@ public class GameListener implements Listener {
                 
                 //Stats
                 HashMap<Integer, Integer> kills = FEMServer.getUser(e.getEntity().getKiller()).getUserData().getKills();
-                kills.replace(5, kills.get(1) + 1);
+                kills.replace(5, kills.get(5) + 1);
                 FEMServer.getUser(e.getEntity().getKiller()).getUserData().setKills(kills);
                 FEMServer.getUser(e.getEntity().getKiller()).save();
                 HashMap<Integer, Integer> deaths = FEMServer.getUser(e.getEntity()).getUserData().getDeaths();
-                deaths.replace(5, deaths.get(1) + 1);
+                deaths.replace(5, deaths.get(5) + 1);
                 FEMServer.getUser(e.getEntity()).getUserData().setDeaths(deaths);
                 FEMServer.getUser(e.getEntity()).save();
             } else {
@@ -87,7 +87,7 @@ public class GameListener implements Listener {
                 FEMServer.getUser(e.getEntity()).sendMessage("Escribe &e/lobby &fpara volver al Lobby");
                 FEMServer.getUser(e.getEntity()).repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
                 HashMap<Integer, Integer> deaths = FEMServer.getUser(e.getEntity()).getUserData().getDeaths();
-                deaths.replace(5, deaths.get(1) + 1);
+                deaths.replace(5, deaths.get(5) + 1);
                 FEMServer.getUser(e.getEntity()).getUserData().setDeaths(deaths);
                 FEMServer.getUser(e.getEntity()).save();
             }

@@ -23,7 +23,7 @@ public class RespawnTask extends BukkitRunnable {
             player.getBase().sendMessage("Respawnearás en 5 segundos");
             player.getBase().sendMessage("En 5 segundos serás enviado al Lobby");
             HashMap<Integer, Integer> deaths = player.getBase().getUserData().getDeaths();
-            deaths.replace(3, deaths.get(1) + 1);
+            deaths.replace(3, deaths.get(3) + 1);
             player.getBase().getUserData().setDeaths(deaths);
             player.getBase().save();
         } else if (count == 0) {

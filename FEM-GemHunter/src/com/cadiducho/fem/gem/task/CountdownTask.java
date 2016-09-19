@@ -43,7 +43,7 @@ public class CountdownTask extends BukkitRunnable {
                 players.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 GemHunters.getPlayer(players).setHiddingScoreboard();
                 HashMap<Integer, Integer> plays = FEMServer.getUser(players).getUserData().getPlays();
-                plays.replace(3, plays.get(1) + 1);
+                plays.replace(3, plays.get(3) + 1);
                 FEMServer.getUser(players).getUserData().setPlays(plays);
                 FEMServer.getUser(players).save();
             }

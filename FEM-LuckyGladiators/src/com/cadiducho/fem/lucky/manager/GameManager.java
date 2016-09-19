@@ -1,9 +1,11 @@
 package com.cadiducho.fem.lucky.manager;
 
+import com.cadiducho.fem.core.api.FEMServer;
 import java.util.ArrayList;
 import com.cadiducho.fem.lucky.LuckyGladiators;
 import com.cadiducho.fem.lucky.task.DeathMatchCountdown;
 import com.cadiducho.fem.lucky.task.WinnerCountdown;
+import java.util.HashMap;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
@@ -43,6 +45,10 @@ public class GameManager {
             if (playersInGame.size() < 2) {
                 playersInGame.stream().forEach((winner) -> {
                     plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
+                    HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
+                    wins.replace(6, wins.get(6) + 1);
+                    FEMServer.getUser(winner).getUserData().setWins(wins);
+                    FEMServer.getUser(winner).save();
                 });
                 new WinnerCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
                 GameState.state = GameState.ENDING;

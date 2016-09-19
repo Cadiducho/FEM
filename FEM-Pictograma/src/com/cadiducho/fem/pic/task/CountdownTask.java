@@ -42,7 +42,7 @@ public class CountdownTask extends BukkitRunnable {
                 plugin.getGm().increaseScore(p, 0);
                 p.setScoreboard(plugin.getGm().getBoard());  
                 HashMap<Integer, Integer> plays = FEMServer.getUser(p).getUserData().getPlays();
-                plays.replace(4, plays.get(1) + 1);
+                plays.replace(4, plays.get(4) + 1);
                 FEMServer.getUser(p).getUserData().setPlays(plays);
                 FEMServer.getUser(p).save();
             }

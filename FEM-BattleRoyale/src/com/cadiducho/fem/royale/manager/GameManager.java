@@ -46,7 +46,7 @@ public class GameManager {
                 playersInGame.stream().forEach((winner) -> {
                     plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
                     HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
-                    wins.replace(5, wins.get(1) + 1);
+                    wins.replace(5, wins.get(5) + 1);
                     FEMServer.getUser(winner).getUserData().setWins(wins);
                     FEMServer.getUser(winner).save();
                 });
