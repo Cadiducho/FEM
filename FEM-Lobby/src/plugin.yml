@@ -4,6 +4,4 @@ version: 0.0.1
 main: com.cadiducho.fem.lobby.Lobby
 depend: [FEMCore]
 author: Cadiducho
-commands:
-    game:
-        description: a
+authors: Felipe Fonseca
