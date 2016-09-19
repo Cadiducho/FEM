@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -154,22 +153,22 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         inv = plugin.getServer().createInventory(e.getPlayer(), 27, "Viajar");
                         String amistades = u.getUserData().getFriendRequest() ? "Aceptas" : "No aceptas";
                         String otros = u.getUserData().getHideMode() == 0 ? "Nadie" : (u.getUserData().getHideMode() == 1 ? "Amigos" : "Todos");
-                        inv.setItem(26, ItemUtil.createHeadPlayer("Información", u.getDisplayName(), Arrays.asList("Pulsa para ver estadísticas", 
+                        inv.setItem(26, ItemUtil.createHeadPlayer("Información", e.getPlayer().getName(), Arrays.asList("Pulsa para ver estadísticas", 
                                 "Amistades: " + amistades, 
                                 "Ver a: " + otros)));
                         inv.setItem(18, ItemUtil.createItem(Material.BEACON, "Lobbies"));
                         inv.setItem(22, ItemUtil.createItem(Material.DOUBLE_PLANT, "Dinero", "(Proximamente)"));
                         
-                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&ePictograma"));
-                        inv.setItem(4, ItemUtil.createItem(Material.TNT, "&1TNT Wars"));
-                        ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&cDye or Die");
+                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&e&lPICTOGRAMA"));
+                        inv.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS"));
+                        ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE");
                             LeatherArmorMeta lam = (LeatherArmorMeta) letherBoots.getItemMeta();
                             lam.setColor(Color.BLUE);
                             letherBoots.setItemMeta(lam);
                         inv.setItem(5, letherBoots);
-                        inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&2Lucky Gladiators"));
-                        inv.setItem(13, ItemUtil.createItem(Material.EMERALD, "&aGem Hunters"));
-                        inv.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6Battle Royale"));
+                        inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lGLADIATOR"));
+                        inv.setItem(13, ItemUtil.createItem(Material.EMERALD, "&a&lGEM HUNTERS"));
+                        inv.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6&lBATTLE ROYALE"));
                         e.setCancelled(true);
                         break;
                     case COMMAND:
@@ -298,18 +297,45 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         p.closeInventory();
                         break;
                     case 26:
-                        Inventory inv = plugin.getServer().createInventory(p, 9, "Estadisticas del jugador");
-                        inv.setItem(3, ItemUtil.createItem(Material.TNT, "TntWars", 
-                                Arrays.asList("Partidas Jugadas: " + u.getUserData().getPlays().get(1), "Partidas Ganadas: " + u.getUserData().getWins().get(1),
-                                        "Bajas: " + u.getUserData().getKills().get(1), "Muertes: " + u.getUserData().getDeaths().get(1),
-                                        "TNT Activadas: " + u.getUserData().getTntPuestas(), "TNT Desactivadas: " + u.getUserData().getTntQuitadas(), 
-                                        "TNT Explotadas: " + u.getUserData().getTntExplotadas(), "Generadores mejorados: " + u.getUserData().getGenUpgraded())));
-                        inv.setItem(4, ItemUtil.createItem(Material.WOOL, "Dye or Die", Arrays.asList("Partidas Jugadas: " + u.getUserData().getPlays().get(2), "Partidas Ganadas: " + u.getUserData().getWins().get(2),
-                                        "Rondas superadas: " + u.getUserData().getRondas_dod(), "Récord de ronda: " + u.getUserData().getRecord_dod())));
-                        inv.setItem(5, ItemUtil.createItem(Material.EMERALD_BLOCK, "Gem Hunter", 
-                                Arrays.asList("Partidas Jugadas: " + u.getUserData().getPlays().get(3), "Partidas Ganadas: " + u.getUserData().getWins().get(3),
-                                        "Bajas: " + u.getUserData().getKills().get(3), "Muertes: " + u.getUserData().getDeaths().get(3),
-                                        "Gemas escondidas: " + u.getUserData().getGemPlanted(), "Gemas destruidas: " + u.getUserData().getGemDestroyed())));
+                        Inventory inv = plugin.getServer().createInventory(p, 18, "Estadisticas del jugador");
+                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&e&lPICTOGRAMA", 
+                                Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(4), 
+                                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(4),
+                                        "&e---{*}---",
+                                        "&fPalabras acertadas: &l" + u.getUserData().getPicAcertadas(),
+                                        "&fPalabras bien dibujadas: &l" + u.getUserData().getPicDibujadas())));
+                        inv.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS", 
+                                Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(1), 
+                                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(1),
+                                        "&fBajas: &l" + u.getUserData().getKills().get(1), "&fMuertes: &l" + u.getUserData().getDeaths().get(1),
+                                        "&1---{*}---",
+                                        "&fTNT Activadas: &l" + u.getUserData().getTntPuestas(), "&fTNT Desactivadas: &l" + u.getUserData().getTntQuitadas(), 
+                                        "&fTNT Explotadas: &f" + u.getUserData().getTntExplotadas(), "&fGeneradores mejorados: &l" + u.getUserData().getGenUpgraded())));
+                        ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(1), 
+                                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(1),
+                                        "&5---{*}---",
+                                        "&fRecord de ronda: &l" + u.getUserData().getRecord_dod(),
+                                        "&fRondas jugadas: &l" + u.getUserData().getRondas_dod()));
+                        LeatherArmorMeta lam = (LeatherArmorMeta) letherBoots.getItemMeta();
+                        lam.setColor(Color.BLUE);
+                        letherBoots.setItemMeta(lam);
+                        inv.setItem(5, letherBoots);
+                        inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lGLADIATOR", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(6), 
+                                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(6),
+                                        "&fBajas: &l" + u.getUserData().getKills().get(6), "&fMuertes: &l" + u.getUserData().getDeaths().get(6),
+                                        "&4---{*}---",
+                                        "&fLuckies rotos: &l" + u.getUserData().getLuckyRotos())));
+                        inv.setItem(13, ItemUtil.createItem(Material.EMERALD, "&a&lGEM HUNTERS",  
+                                Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(3), 
+                                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(3),
+                                        "&fBajas: &l" + u.getUserData().getKills().get(3), "&fMuertes: &l" + u.getUserData().getDeaths().get(3),
+                                        "&a---{*}---",
+                                        "&fGemas escondidas: &l" + u.getUserData().getGemPlanted(), "&fGemas destruidas: &l" + u.getUserData().getGemDestroyed())));
+                        inv.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6&lBATTLE ROYALE", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(5), 
+                                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(5),
+                                        "&fBajas: &l" + u.getUserData().getKills().get(5), "&fMuertes: &l" + u.getUserData().getDeaths().get(5),
+                                        "&6---{*}---",
+                                        "&fIntercambios realizados: &l" + u.getUserData().getBrIntercambios())));
                         p.closeInventory();
                         plugin.getServer().getScheduler().runTask(plugin, () -> p.openInventory(inv));
                         break;

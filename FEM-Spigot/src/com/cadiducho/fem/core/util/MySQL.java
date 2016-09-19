@@ -107,7 +107,7 @@ public class MySQL {
                 statementDatos.setInt(1, data.getGrupo() != null ? data.getGrupo().getRank() : 0);
                 statementDatos.setBoolean(2, data.getGod() == null ? false : data.getGod());
                 statementDatos.setInt(3, data.getCoins() == null ? 0 : data.getCoins());
-                statementDatos.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime())); 
+                statementDatos.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime()));
                 statementDatos.setString(5, data.getIp() == null ? "" : data.getIp().getAddress().getHostAddress());
                 statementDatos.setString(6, data.getNickname() == null ? "" : data.getNickname());
                 statementDatos.setString(7, u.getUuid().toString());
@@ -119,6 +119,7 @@ public class MySQL {
                         + "`gemDestroyed`=?,`gemPlanted`=?,`record_dod`=?,`rondas_dod`=?,`picAcertadas`=?,`picDibujadas`=?,`ganadas_pic`=?,`jugadas_pic`=?,"
                         + "`jugadas_br`=?,`ganadas_br`=?,`kills_br`=?,`deaths_br`=?,`brIntercambios`=?,`jugadas_lg`=?,`ganadas_lg`=?,`kills_lg`=?,`deaths_lg`=?,`luckyRotos`=? "
                         + "WHERE `uuid`=?");
+                
                 statementStats.setInt(1, data.getKills().get(1));
                 statementStats.setInt(2, data.getKills().get(3));
                 statementStats.setInt(3, data.getDeaths().get(1));
@@ -136,7 +137,7 @@ public class MySQL {
                 statementStats.setInt(15, data.getGemDestroyed());
                 statementStats.setInt(16, data.getGemPlanted());
                 statementStats.setInt(17, data.getRecord_dod());
-                statementStats.setInt(18, data.getRondas_dod());  
+                statementStats.setInt(18, data.getRondas_dod());
                 statementStats.setInt(19, data.getPicAcertadas());
                 statementStats.setInt(20, data.getPicDibujadas());
                 statementStats.setInt(21, data.getWins().get(4));
@@ -150,7 +151,7 @@ public class MySQL {
                 statementStats.setInt(29, data.getWins().get(6));
                 statementStats.setInt(30, data.getKills().get(6));
                 statementStats.setInt(31, data.getDeaths().get(6));
-                statementStats.setInt(32, data.getLuckyRotos());                
+                statementStats.setInt(32, data.getLuckyRotos());
                 statementStats.setString(33, u.getUuid().toString());
                 statementStats.executeUpdate();
 
@@ -265,7 +266,7 @@ public class MySQL {
         } catch (Exception ex) {
             System.out.println("Ha ocurrido un error cargando los datos de " + id);
             ex.printStackTrace();
-        }   
+        }
         return data;
     }
     

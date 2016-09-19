@@ -5,6 +5,7 @@ import com.cadiducho.fem.core.cmds.FEMCmd.Grupo;
 import com.cadiducho.fem.core.util.FEMFileLoader;
 import com.cadiducho.fem.core.util.LobbyMessageTask;
 import com.cadiducho.fem.core.util.Metodos;
+import com.google.common.collect.Lists;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import java.lang.reflect.Constructor;
@@ -200,52 +201,16 @@ public class FEMUser {
         return -1;
     }
     
-    public void addPlayed(int id, int q) {
-        HashMap<Integer, Integer> plays = getUserData().plays;
-        int n = plays.get(id);
-        plays.remove(id);
-        n = n + q;
-        plays.put(id, n);
-        save();
-    }
-    
-    public void addKilled(int id, int q) {
-        HashMap<Integer, Integer> kills = getUserData().kills;
-        int n = kills.get(id);
-        kills.remove(id);
-        n = n + q;
-        kills.put(id, n);
-        save();
-    }
-    
-    public void addDied(int id, int q) {
-        HashMap<Integer, Integer> deaths = getUserData().deaths;
-        int n = deaths.get(id);
-        deaths.remove(id);
-        n = n + q;
-        deaths.put(id, n);
-        save();
-    }
-    
-    public void addWon(int id, int q) {
-        HashMap<Integer, Integer> wins = getUserData().wins;
-        int n = wins.get(id);
-        wins.remove(id);
-        n = n + q;
-        wins.put(id, n);
-        save();
-    }
-    
     @Data
     public static class UserData {
         //Datos
-        Grupo grupo = null;
+        Grupo grupo = Grupo.Usuario;
         Location lastLocation = null;
-        Boolean god = null;
-        Long lastConnect = null;
-        Long timeJoin = null;
-        String nickname = null;
-        Integer coins = null;
+        Boolean god = false;
+        Long lastConnect = 0L;
+        Long timeJoin = 0L;
+        String nickname = "";
+        Integer coins = 0;
         InetSocketAddress ip = null;
         
         //Stats
@@ -261,24 +226,51 @@ public class FEMUser {
         HashMap<Integer, Integer> deaths = new HashMap<>();
         HashMap<Integer, Integer> wins = new HashMap<>();
         HashMap<Integer, Integer> plays = new HashMap<>();
-        Integer tntPuestas = null;
-        Integer tntQuitadas = null;
-        Integer tntExplotadas = null;
-        Integer genUpgraded = null;
-        Integer gemDestroyed = null;
-        Integer gemPlanted = null;
-        Integer record_dod = null;
-        Integer rondas_dod = null;
-        Integer picAcertadas = null;
-        Integer picDibujadas = null; //Bien dibujadas, que alguien lo acertó
-        Integer brIntercambios = null;
-        Integer luckyRotos = null;
+        Integer tntPuestas = 0;
+        Integer tntQuitadas = 0;
+        Integer tntExplotadas = 0;
+        Integer genUpgraded = 0;
+        Integer gemDestroyed = 0;
+        Integer gemPlanted = 0;
+        Integer record_dod = 0;
+        Integer rondas_dod = 0;
+        Integer picAcertadas = 0;
+        Integer picDibujadas = 0; //Bien dibujadas, que alguien lo acertó
+        Integer brIntercambios = 0;
+        Integer luckyRotos = 0;
         
         //Settings
-        Boolean friendRequest = null;
-        Integer hideMode = null; //0 nadie, 1 amigos, 2 todos
+        Boolean friendRequest = false;
+        Integer hideMode = 1; //0 nadie, 1 amigos, 2 todos
         
-        ArrayList<UUID> amigos = null;
+        ArrayList<UUID> amigos = Lists.newArrayList();
+        
+        public UserData() {
+            kills.put(1, 0);
+            kills.put(2, 0);
+            kills.put(3, 0);
+            kills.put(4, 0);
+            kills.put(5, 0);
+            kills.put(6, 0);
+            deaths.put(1, 0);
+            deaths.put(2, 0);
+            deaths.put(3, 0);
+            deaths.put(4, 0);
+            deaths.put(5, 0);
+            deaths.put(6, 0);
+            wins.put(1, 0);
+            wins.put(2, 0);
+            wins.put(3, 0);
+            wins.put(4, 0);
+            wins.put(5, 0);
+            wins.put(6, 0);
+            plays.put(1, 0);
+            plays.put(2, 0);
+            plays.put(3, 0);
+            plays.put(4, 0);
+            plays.put(5, 0);
+            plays.put(6, 0);
+        }
     }
     //-----
     

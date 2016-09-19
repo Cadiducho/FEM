@@ -1,6 +1,7 @@
 package com.cadiducho.fem.core.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -30,10 +31,12 @@ public class ItemUtil {
     }
     
     public static ItemStack createItem(Material material, String displayname, List<String> lore) {
+        ArrayList<String> colorLore = new ArrayList<>();
+        lore.forEach(str -> colorLore.add(Metodos.colorizar(str)));
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(Metodos.colorizar(displayname));
-        meta.setLore(lore);
+        meta.setLore(colorLore);
 
         item.setItemMeta(meta);
         return item;
@@ -86,7 +89,7 @@ public class ItemUtil {
     }
     
     public static ItemStack createHeadPlayer(String displayname, String username, List<String> lore) {
-        ItemStack playerHead = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
+        ItemStack playerHead = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta sm = (SkullMeta)playerHead.getItemMeta();
         sm.setOwner(username);
         sm.setLore(lore);
