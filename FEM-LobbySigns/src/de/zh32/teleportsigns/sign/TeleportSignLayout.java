@@ -66,7 +66,7 @@ public class TeleportSignLayout implements SignLayout {
                     join = true;
                     return "&aEsperando";
                 case "INGAME":
-                    return "&cIngame";
+                    return "&cEn juego";
                 case "ENDING":
                     return "&dTerminando";
             }
