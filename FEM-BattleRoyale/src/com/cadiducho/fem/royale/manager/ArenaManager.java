@@ -1,5 +1,6 @@
 package com.cadiducho.fem.royale.manager;
 
+import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.Metodos;
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,6 +10,8 @@ import com.cadiducho.fem.royale.utils.ChestItems;
 import lombok.Getter;
 import me.cybermaxke.merchants.api.Merchant;
 import me.cybermaxke.merchants.api.MerchantAPI;
+import me.cybermaxke.merchants.api.MerchantOffer;
+import me.cybermaxke.merchants.api.MerchantTradeListener;
 import me.cybermaxke.merchants.api.Merchants;
 import org.bukkit.Chunk;
 import org.bukkit.Difficulty;
@@ -168,5 +171,12 @@ public class ArenaManager {
         vendo.addOffer(api.newOffer(new ItemStack(Material.DIAMOND_SWORD, 1), moneda3));
         vendo.addOffer(api.newOffer(new ItemStack(Material.BOW, 1), plugin.getMoneda()));
         vendo.addOffer(api.newOffer(new ItemStack(Material.ARROW, 32), moneda4));
+        
+        vendo.addListener((Merchant merchant, MerchantOffer offer, Player customer) -> {
+            FEMServer.getUser(customer).getUserData().setBrIntercambios(FEMServer.getUser(customer).getUserData().getBrIntercambios() + 1);
+        }); 
+        compro.addListener((Merchant merchant, MerchantOffer offer, Player customer) -> {
+            FEMServer.getUser(customer).getUserData().setBrIntercambios(FEMServer.getUser(customer).getUserData().getBrIntercambios() + 1);
+        });
     }
 }

@@ -68,6 +68,16 @@ public class GameListener implements Listener {
                 FEMServer.getUser(e.getEntity()).sendMessage("Escribe &e/lobby &fpara volver al Lobby");
                 FEMServer.getUser(e.getEntity()).repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
                 plugin.getPm().addKillToPlayer(e.getEntity().getKiller());
+                
+                //Stats
+                HashMap<Integer, Integer> kills = FEMServer.getUser(e.getEntity().getKiller()).getUserData().getKills();
+                kills.replace(5, kills.get(1) + 1);
+                FEMServer.getUser(e.getEntity().getKiller()).getUserData().setKills(kills);
+                FEMServer.getUser(e.getEntity().getKiller()).save();
+                HashMap<Integer, Integer> deaths = FEMServer.getUser(e.getEntity()).getUserData().getDeaths();
+                deaths.replace(5, deaths.get(1) + 1);
+                FEMServer.getUser(e.getEntity()).getUserData().setDeaths(deaths);
+                FEMServer.getUser(e.getEntity()).save();
             } else {
                 plugin.getMsg().sendMessage(e.getEntity(), "Has muerto");
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
@@ -76,6 +86,10 @@ public class GameListener implements Listener {
                 plugin.getPm().setSpectator(e.getEntity());
                 FEMServer.getUser(e.getEntity()).sendMessage("Escribe &e/lobby &fpara volver al Lobby");
                 FEMServer.getUser(e.getEntity()).repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
+                HashMap<Integer, Integer> deaths = FEMServer.getUser(e.getEntity()).getUserData().getDeaths();
+                deaths.replace(5, deaths.get(1) + 1);
+                FEMServer.getUser(e.getEntity()).getUserData().setDeaths(deaths);
+                FEMServer.getUser(e.getEntity()).save();
             }
             if (!plugin.getGm().checkWinner()) {
                 plugin.getGm().checkDm();
