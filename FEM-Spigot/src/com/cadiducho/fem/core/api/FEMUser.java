@@ -162,6 +162,7 @@ public class FEMUser {
     public void sendToLobby() {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("bestLobby");
+        out.writeUTF(getPlayer().getName());
         getPlayer().sendPluginMessage(plugin, "FEM", out.toByteArray()); 
     }
     

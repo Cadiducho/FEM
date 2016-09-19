@@ -1,14 +1,12 @@
 package com.cadiducho.fem.tnt.manager;
 
+import com.cadiducho.fem.tnt.TntIsland;
 import com.cadiducho.fem.tnt.TntWars;
 import com.cadiducho.fem.tnt.task.CountdownTask;
 import java.util.ArrayList;
-import java.util.HashMap;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Team;
 
 public class GameManager {
 
@@ -20,7 +18,6 @@ public class GameManager {
 
     @Getter private final ArrayList<Player> playersInGame = new ArrayList<>();
     @Getter private final ArrayList<Player> spectators = new ArrayList<>();
-    @Getter private final HashMap<Team, ArrayList<Location>> gemas = new HashMap<>();
 
     private boolean checkStart = false;
     @Getter @Setter private boolean dañoEnCaida = true;
@@ -41,8 +38,10 @@ public class GameManager {
         }
     }
 
-    public void removePlayerFromGame(Player player) {
-        playersInGame.remove(player);
+    public void removePlayerFromGame(Player p) {
+        TntIsland isla = TntIsland.getIsland(p.getUniqueId());
+        if (isla != null) plugin.getAm().getUnAssignedIslas().add(TntIsland.getIsland(p.getUniqueId()));
+        playersInGame.remove(p);
     }
 
     public boolean isEnding() {

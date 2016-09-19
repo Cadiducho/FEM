@@ -64,43 +64,49 @@ public class PlayerListener implements Listener, PluginMessageListener {
         e.getPlayer().getInventory().clear();
         e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&lJuegos", "Desplazate entre los juegos del servidor"));
         e.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.COMMAND, "&lAjustes", "Cambia alguno de tus ajustes de usuario"));
-        
+
         ItemStack guia = new ItemStack(Material.WRITTEN_BOOK);
         BookMeta meta = (BookMeta) guia.getItemMeta();
         meta.setDisplayName(Metodos.colorizar("Guía del novato"));
         meta.setAuthor(Metodos.colorizar("&6Staff"));
-        
-        meta.addPage(Metodos.colorizar("    &lItroducción&r:\n" +
-                                        " \n" +
-                                        "UnderGames es un servidor de &2Mine&6craft&0 patrocinado por &aNVIDIA&0 en el cual se puede disfrutar de distintos minijuegos. Para saber más sobre estos minijuegos, pasa a la siguiente página."));
-        meta.addPage(Metodos.colorizar("    &lServidores&r:\n" +
-                                        " \n" +
-                                        "-&aGemHunters\n" +
-                                        "-&5DyeOrDie\n" +
-                                        "-&1TntWars\n" +
-                                        "-&6BattleRoyale\n" +
-                                        "-&4LuckyGladiators\n" +
-                                        "-&ePictograma&r\n" +
-                                        " \n" +
-                                        "En las siguientes páginas se encuentran sus descripciones."));
-        meta.addPage(Metodos.colorizar("    &a&lGemHunters&r:\n" +
-                                        " \n" +
-                                        "Al comenzar el servidor te asignará un equipo. Durante 30 segundos tu objetivo será esconder la gema de tu inventario lo mejor posible. Tras ese tiempo, tu objetivo cambiará a encontrar las gemas del enemigo y defender las propias."));
-        meta.addPage(Metodos.colorizar("    &5&lDyeOrDie&r:\n" +
-                                        " \n" +
-                                        "El objetivo será situarse sobre el color que haya sido seleccionado en la ronda, tras unos segundos toda la pista excepto el bloque con el color escogido caerá al vacío. Si caes al vacío perderás."));
-        meta.addPage(Metodos.colorizar("      &1&lTntWars&r:\n" +
-                                        " \n" +
-                                        "El objetivo en este juego se basa en colocar una TNT en la torre del enemigo al mismo tiempo que defiendes tu torre. Cuando esta sea colocada en tu torre tendrás 5 segundos para quitarla o tu base explotará y no podrás reaparecer."));
-        meta.addPage(Metodos.colorizar("     &6&lBattleRoyale&r:\n" +
-                                        " \n" +
-                                        "Serás teletransportado a un mapa en el cual se ecuentran escondidos infinidad de cofres con objetos para equiparse. El objetivo consistirá en ser el último jugador vivo en el mapa."));
-        meta.addPage(Metodos.colorizar(" &4&lLuckyGladiators&r:\n" +
-                                        " \n" +
-                                        "Te econtarás ante LuckyBlocks los cuales te darán objetos aleatorios. Pasado un tiempo, dispondrás de una sala para encantar y/o craftear. Después, serás llevado a un coliseo para pelear hasta que solo sobreviva uno."));
-        meta.addPage(Metodos.colorizar("    &e&lPictograma&r:\n" +
-                                        " \n" +
-                                        "El objetivo en este juego se basa en dibujar. Cada ronda será seleccionado un artista el cual intentará la palabra que se aleatoriamente escogida mientras los demás usuarios intentan adivinarla."));
+
+        meta.addPage(Metodos.colorizar("&8&lIntroducción&r:\n"
+                + " \n"
+                + "&lUnderGames&r es un servidor apoyado por &a&lNVIDIA&r, en el cual puedes disfrutar de muchos minijuegos con tus amigos. Para saber más sobre estos minijuegos, primero lee las normas."));
+        meta.addPage(Metodos.colorizar("&8&lNormas&r:\n"
+                + " \n"
+                + "◾&lNo insultes&r, ni ofendas a otros jugadores\n"
+                + "◾&lNo hagas spam&r de productos, webs o enlaces.\n"
+                + "◾&lNo escribas abusivamente&r en el chat (flood).\n"
+                + "◾&lNo uses hacks/mods&r, excepto Optifine.\n"
+                + "◾&lNo uses bugs&r, repórtalos al staff!"));
+        meta.addPage(Metodos.colorizar("&e&lPICTOGRAMA:&r\n"
+                + " \n"
+                + "En cada ronda será seleccionado un artista, el cual intentará representar la palabra oculta, mientras los demás usuarios intentan adivinarla. El jugador con más puntos, ¡gana!"));
+        meta.addPage(Metodos.colorizar("&1&lTNT WARS:&r\n"
+                + " \n"
+                + "Compite contra el resto de jugadores comprando armas, defensas y bloques. Pero ten cuidado, si algún jugador hace estallar tu isla colocando la TNT que aparece en el centro, perderás la oportunidad de revivir. ¡Ganará el último jugador vivo!"));
+        meta.addPage(Metodos.colorizar("&5&lDYE or DIE:&r\n"
+                + " \n"
+                + "Sitúate sobre el color que haya sido seleccionado en la ronda, tras unos segundos toda la pista caerá excepto el color correcto. Sobrevive todas las rondas posibles, si caes al vacío perderás."));
+        meta.addPage(Metodos.colorizar("&4&lGLADIATOR:&r\n"
+                + " \n"
+                + "Rompe los &oluckyblocks&r, que te darán objetos aleatorios. Pasado un tiempo, podrás cocinar, craftear, encantar y equiparte. Una vez listos, apareceréis en la arena donde solo uno de vosotros vencerá!"));
+        meta.addPage(Metodos.colorizar("&a&lGEM HUNTERS:&r\n"
+                + " \n"
+                + "Dos equipos deberán esconder sus gemas por el mapa. Tras ese tiempo, el muro divisorio se abrirá y tu objetivo será encontrar las gemas del enemigo y defender las propias, atacando al equipo contrario."));
+        meta.addPage(Metodos.colorizar("&6&lBATTLE ROYALE:&r\n"
+                + " \n"
+                + "Busca los cofres repartidos por el mapa. Equípate, compra o vende lo que necesites en las tiendas y se el último jugador con vida. Recuerda que los limites del mapa disminuyen y te pueden eliminar.\n"
+                + " \n"
+                + "&oTiendas:\n"
+                + "◾Aldeano blanco (-): Compra objetos\n"
+                + "◾Aldeano negro (+): Vende objetos&r"));
+        meta.addPage(Metodos.colorizar("Síguenos en Twitter:\n"
+                + "&8&l@UnderGames_info\n"
+                + " \n"
+                + " \n"
+                + "¡Bienvenido al servidor y disfruta! ;)"));
         guia.setItemMeta(meta);
         e.getPlayer().getInventory().setItem(4, guia);
         e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());

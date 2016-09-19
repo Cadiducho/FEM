@@ -36,7 +36,9 @@ public class Generador {
             @Override
             public void run() {
                 if (TntWars.getInstance().getGm().isInGame()) {
-                    genAnnon.getSign().getWorld().dropItemNaturally(genAnnon.getItemSpawn(), genAnnon.getItem()).setVelocity(new Vector(0, 0, 0));
+                    if (genAnnon.getLevel() != 0) {
+                        genAnnon.getSign().getWorld().dropItemNaturally(genAnnon.getItemSpawn(), genAnnon.getItem()).setVelocity(new Vector(0, 0, 0));
+                    }
                 }
                 TntWars.getInstance().getServer().getScheduler().runTaskLater(TntWars.getInstance(), this, (long) (20 * genAnnon.timeForTask()));
             }

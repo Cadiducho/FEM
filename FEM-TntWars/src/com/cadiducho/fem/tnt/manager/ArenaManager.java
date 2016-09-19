@@ -40,7 +40,7 @@ public class ArenaManager {
     @Getter @Setter private ArrayList<TntIsland> unAssignedIslas = new ArrayList<>();
     Location areaBorder1;
     Location areaBorder2;
-    @Getter private Location lobby;
+    @Getter private final Location lobby;
     
     //Aldeanos
     @Getter private Merchant buildingShop;
@@ -114,6 +114,9 @@ public class ArenaManager {
                             gen.setLoc(block.getLocation());
                             gen.setType(GenType.DIAMOND);
                             generadores.add(gen);
+                            if (!"centro".equals(str)) { //Los de las islas personales no estar iniciados
+                                gen.setLevel(0);
+                            }
                         } else if (block.getType() == Material.TNT) {
                             Generador gen = new Generador();
                             gen.setLoc(block.getLocation());
@@ -131,7 +134,8 @@ public class ArenaManager {
             }
             isla.setId(str);
             if (!"centro".equals(str)) {
-                isla.setSpawn(Metodos.stringToLocation(cfg.getString("spawn")));
+                System.out.println("Poniendo isla en " + Metodos.stringToLocation(cfg.getString("spawn")));
+                isla.setSpawn(Metodos.centre(Metodos.stringToLocation(cfg.getString("spawn"))));
                 Villager v = (Villager) loc1.getWorld().spawnEntity(Metodos.centre(Metodos.stringToLocation(cfg.getString("aldeano"))), EntityType.VILLAGER);
                 v.setCustomName(Metodos.colorizar("&6Tienda TNTWars"));
                 v.setAI(false);
@@ -185,7 +189,6 @@ public class ArenaManager {
     public void setupVillagersTrades() {
         MerchantAPI api = Merchants.get();
 
-        //tntWarsShop = api.newMerchant(Metodos.colorizar("&6Tienda TNTWars"));
         buildingShop = api.newMerchant(Metodos.colorizar("&aConstrucción"));
         weaponsShop = api.newMerchant(Metodos.colorizar("&aArmas"));
         armourShop = api.newMerchant(Metodos.colorizar("&aArmadura"));

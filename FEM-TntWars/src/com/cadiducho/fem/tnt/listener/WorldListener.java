@@ -30,8 +30,8 @@ public class WorldListener implements Listener {
             TntPlayer pl = TntWars.getPlayer(e.getPlayer());
             if (placed.getType() == Material.TNT) {
                 TntIsland isla = checkBedrock(placed.getRelative(BlockFace.DOWN)); 
-                if (isla == null) {
-                    e.getPlayer().sendMessage("Sólo puedes poner TNT en el núcleo de la isla de otros");
+                if (isla == null || isla.getOwner() == null) {
+                    e.getPlayer().sendMessage("Sólo puedes poner TNT en el núcleo de la isla de otros jugadores conectados");
                     e.setCancelled(true);
                     return;
                 }
@@ -46,7 +46,7 @@ public class WorldListener implements Listener {
                     return;
                 }
                 
-                BukkitTask bt = new TntExplodeTask(isla, pl).runTaskTimer(plugin, 1L, 20L);
+                BukkitTask bt = new TntExplodeTask(isla, e.getPlayer()).runTaskTimer(plugin, 1L, 20L);
                 isla.setDestroyTaskId(bt.getTaskId());
             }
         }

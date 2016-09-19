@@ -1,16 +1,17 @@
 package com.cadiducho.fem.tnt.task;
 
+import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.tnt.TntIsland;
-import com.cadiducho.fem.tnt.TntPlayer;
 import com.cadiducho.fem.tnt.TntWars;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class TntExplodeTask extends BukkitRunnable {
     
     private final TntIsland isla;
-    private final TntPlayer exploder;
+    private final Player exploder;
     
-    public TntExplodeTask(TntIsland instance, TntPlayer p) {
+    public TntExplodeTask(TntIsland instance, Player p) {
         isla = instance;
         exploder = p;
     }
@@ -20,15 +21,15 @@ public class TntExplodeTask extends BukkitRunnable {
     @Override
     public void run() {    
         if (count == 5) {
-            exploder.getBase().getUserData().setTntPuestas(exploder.getBase().getUserData().getTntPuestas() + 1);
-            exploder.getBase().save();
-            exploder.getBase().sendMessage("Has puesto la TNT y explotará en 5 segundos");
+            FEMServer.getUser(exploder).getUserData().setTntPuestas(FEMServer.getUser(exploder).getUserData().getTntPuestas() + 1);
+            FEMServer.getUser(exploder).save();
+            FEMServer.getUser(exploder).sendMessage("Has puesto la TNT y explotará en 5 segundos");
             isla.getOwner().sendMessage("Tu isla explotará en 5 segundos si no lo evitas");
         } else if (count == 0) {
             isla.explode();
-            exploder.getBase().getUserData().setTntExplotadas(exploder.getBase().getUserData().getTntExplotadas() + 1);
-            exploder.getBase().save();
-            TntWars.getInstance().getMsg().sendBroadcast("La isla de " + isla.getOwner().getDisplayName() + " ha sido destruida por " + exploder.getBase().getDisplayName());
+            FEMServer.getUser(exploder).getUserData().setTntExplotadas(FEMServer.getUser(exploder).getUserData().getTntExplotadas() + 1);
+            FEMServer.getUser(exploder).save();
+            TntWars.getInstance().getMsg().sendBroadcast("La isla de " + isla.getOwner().getDisplayName() + " ha sido destruida por " + exploder.getDisplayName());
             cancel();
         }
         

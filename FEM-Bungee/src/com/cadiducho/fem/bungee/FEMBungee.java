@@ -12,6 +12,7 @@ import lombok.Data;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.Connection;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
@@ -41,8 +42,9 @@ public class FEMBungee extends Plugin implements Listener {
         
         ByteArrayDataInput in = ByteStreams.newDataInput(e.getData().clone());
         String subchannel = in.readUTF();
-        if (subchannel.equals("bestLobby")) {
-            ProxiedPlayer p = (ProxiedPlayer) e.getSender();
+        if (subchannel.equals("bestLobby")) { 
+            ProxiedPlayer p = ProxyServer.getInstance().getPlayer(in.readUTF());
+            System.out.println("Moviendo al lobby a " + p.getName());
             p.connect(getOneLobby());
             return;
         }
@@ -79,7 +81,7 @@ public class FEMBungee extends Plugin implements Listener {
                 if (s.getPlayers().size() < bestOption.getPlayers().size()) bestOption = s;
             }
         }
-        
+        System.out.println("Best: " + bestOption.getName());
         return bestOption;
     }
     

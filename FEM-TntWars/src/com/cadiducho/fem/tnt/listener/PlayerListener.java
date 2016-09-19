@@ -106,6 +106,9 @@ public class PlayerListener implements Listener {
         if (plugin.getGm().isInLobby() || plugin.getGm().isEnding()) {
             e.setCancelled(true);
         }
+        if (e.getEntity() instanceof Villager) {
+            e.setCancelled(true);
+        }
         if (e.getEntity() instanceof Player) {
             if (e.getCause() == DamageCause.BLOCK_EXPLOSION) {
                 e.setCancelled(true);

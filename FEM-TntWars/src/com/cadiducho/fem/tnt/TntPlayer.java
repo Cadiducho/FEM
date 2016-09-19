@@ -99,6 +99,7 @@ public class TntPlayer {
     public void death() {
         getBase().getPlayer().getInventory().clear();
         setSpectator();
+        plugin.getGm().removePlayerFromGame(base.getPlayer());
         base.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
         base.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
         HashMap<Integer, Integer> deaths = base.getUserData().getDeaths();
