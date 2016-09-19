@@ -38,9 +38,9 @@ public class HiddingTask extends BukkitRunnable {
         }
         
         //Comprobar si se han puesto todos las gemas
-        Team t = plugin.getTm().amarillo;
+        Team t = plugin.getTm().azul;
         if (plugin.getTm().getPuntos(t) == plugin.getTm().getJugadores().get(t).size()) { //Amarillos totales
-            t = plugin.getTm().morado;
+            t = plugin.getTm().rojo;
             if (plugin.getTm().getPuntos(t) == plugin.getTm().getJugadores().get(t).size()) { //Morado tambien
                 end();
             }
@@ -52,11 +52,11 @@ public class HiddingTask extends BukkitRunnable {
     public void end() {
         
         //Si alguno no ha puesto gemas, terminar aquí
-        if (plugin.getTm().getPuntos(plugin.getTm().amarillo) == 0) {
+        if (plugin.getTm().getPuntos(plugin.getTm().azul) == 0) {
             plugin.getMsg().sendBroadcast("El equipo morado ha ganado ya que el amarillo no ha escondido gemas!");
             GameState.state = GameState.ENDING;
             new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
-        } else if (plugin.getTm().getPuntos(plugin.getTm().morado) == 0) {
+        } else if (plugin.getTm().getPuntos(plugin.getTm().rojo) == 0) {
             plugin.getMsg().sendBroadcast("El equipo amarillo ha ganado ya que el morado no ha escondido gema!");
             GameState.state = GameState.ENDING;
             new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);

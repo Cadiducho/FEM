@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import lombok.Getter;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.WorldCreator;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -41,6 +42,7 @@ public class GemHunters extends JavaPlugin {
             } catch (Exception e) {}
         }
 
+        new WorldCreator("espera").createWorld();
         gm = new GameManager(instance);
         tm = new TeamManager(instance);
         am = new ArenaManager(instance);
@@ -54,7 +56,6 @@ public class GemHunters extends JavaPlugin {
         
         GameState.state = GameState.LOBBY;
         getLogger().log(Level.INFO, "ByD: Activado correctamente");
-
         new BukkitRunnable() {
             @Override
             public void run() {

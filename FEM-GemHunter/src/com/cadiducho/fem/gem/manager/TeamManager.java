@@ -21,8 +21,8 @@ public class TeamManager {
     }
 
     public Scoreboard board;
-    public Team morado;
-    public Team amarillo;
+    public Team rojo;
+    public Team azul;
     
     @Getter private final HashMap<Team,  ArrayList<Player>> jugadores = new HashMap<>();
     @Getter private final HashMap<Team, Location> teams = new HashMap<>();
@@ -31,27 +31,27 @@ public class TeamManager {
         board = plugin.getServer().getScoreboardManager().getMainScoreboard();
         cleanTeams();
         
-        morado = board.getTeam("1byd_morado") == null ? board.registerNewTeam("1byd_morado") : board.getTeam("1byd_morado");
-        amarillo = board.getTeam("2byd_ama") == null ? board.registerNewTeam("2byd_ama") : board.getTeam("2byd_ama");
+        rojo = board.getTeam("1byd_rojo") == null ? board.registerNewTeam("1byd_rojo") : board.getTeam("1byd_rojo");
+        azul = board.getTeam("2byd_azul") == null ? board.registerNewTeam("2byd_azul") : board.getTeam("2byd_azul");
 
-        morado.setPrefix("§d");
-        amarillo.setPrefix("§e");
+        rojo.setPrefix("§c");
+        azul.setPrefix("§1");
 
-        morado.setDisplayName("Morado");
-        amarillo.setDisplayName("Amarillo");
+        rojo.setDisplayName("Rojo");
+        azul.setDisplayName("Azul");
         
-        morado.setAllowFriendlyFire(false);
-        amarillo.setAllowFriendlyFire(false);
+        rojo.setAllowFriendlyFire(false);
+        azul.setAllowFriendlyFire(false);
         
         //Evitar nulls
-        plugin.getGm().getGemas().put(morado, new ArrayList<>()); 
-        plugin.getGm().getGemas().put(amarillo, new ArrayList<>());
+        plugin.getGm().getGemas().put(rojo, new ArrayList<>()); 
+        plugin.getGm().getGemas().put(azul, new ArrayList<>());
         
-        jugadores.put(morado, new ArrayList<>());
-        jugadores.put(amarillo, new ArrayList<>());
+        jugadores.put(rojo, new ArrayList<>());
+        jugadores.put(azul, new ArrayList<>());
         
-        teams.put(morado, Metodos.stringToLocation(plugin.getConfig().getString("GemHunters.Arena.Spawn.morado")));
-        teams.put(amarillo, Metodos.stringToLocation(plugin.getConfig().getString("GemHunters.Arena.Spawn.amarillo")));
+        teams.put(rojo, Metodos.stringToLocation(plugin.getConfig().getString("GemHunters.Arena.Spawn.morado")));
+        teams.put(azul, Metodos.stringToLocation(plugin.getConfig().getString("GemHunters.Arena.Spawn.amarillo")));
     }
 
     public int getPuntos(Team t) {
@@ -97,21 +97,18 @@ public class TeamManager {
     }
     
     public Team getOpositeTeam(Team t) {
-        if (t.getDisplayName().equals("Morado")) return amarillo;
-        if (t.getDisplayName().equals("Amarillo")) return morado;
+        if (t.getDisplayName().equals("Rojo")) return azul;
+        if (t.getDisplayName().equals("Azul")) return rojo;
         else return null;
     }
     
     public Color getColor(Player pl) {
         switch (getTeam(pl).getPrefix()) {
-            case "§d":
-                return Color.FUCHSIA;
-            case "§e":
-                return Color.YELLOW;
-            case "§a":
-                return Color.GREEN;
-            case "§b":
-                return Color.AQUA;
+            case "§c":
+                return Color.RED;
+            case "§3":
+            case "§1":
+                return Color.BLUE;
         }
         return Color.MAROON;
     }

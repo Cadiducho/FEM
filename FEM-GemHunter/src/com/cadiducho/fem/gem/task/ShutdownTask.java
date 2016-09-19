@@ -21,13 +21,13 @@ public class ShutdownTask extends BukkitRunnable {
         
         plugin.getMsg().sendBroadcast("Volverás al lobby en: " + count);
         if (count == 0) {
-            ArrayList<Location> gemas = plugin.getGm().getGemas().get(plugin.getTm().amarillo);
-            gemas.addAll(plugin.getGm().getGemas().get(plugin.getTm().morado));
+            ArrayList<Location> gemas = plugin.getGm().getGemas().get(plugin.getTm().azul);
+            gemas.addAll(plugin.getGm().getGemas().get(plugin.getTm().rojo));
             gemas.forEach(loc -> loc.getBlock().setType(Material.AIR));
             
             plugin.getServer().getOnlinePlayers().stream().forEach((players) -> {
                 players.sendMessage("Servidor desconectado");
-                FEMServer.getUser(players).sendToServer("lobby");
+                FEMServer.getUser(players).sendToLobby();
             });
             plugin.getServer().spigot().restart();
             cancel();

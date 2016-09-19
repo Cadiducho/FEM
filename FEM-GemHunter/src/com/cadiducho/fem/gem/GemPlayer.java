@@ -1,14 +1,13 @@
 package com.cadiducho.fem.gem;
 
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.gem.task.GameTask;
 import com.cadiducho.fem.gem.task.HiddingTask;
-import com.cadiducho.fem.gem.util.ScoreboardUtil;
 import java.util.ArrayList;
 import lombok.Getter;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.entity.Sheep;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -58,8 +57,8 @@ public class GemPlayer {
                 if (plugin.getGm().isHidding()) {
                     board.setName("§d§lGem§e§lHunter");
                     board.text(12, "§7Equipos:");
-                    board.text(11, "§dMorado: §f" + plugin.getTm().getPuntos(plugin.getTm().morado));
-                    board.text(10, "§eAmarillo: §f" + plugin.getTm().getPuntos(plugin.getTm().amarillo));
+                    board.text(11, "§cRojo: §f" + plugin.getTm().getPuntos(plugin.getTm().rojo));
+                    board.text(10, "§3Azul: §f" + plugin.getTm().getPuntos(plugin.getTm().azul));
                     board.text(7, "§f☺ ");
                     board.text(6, "§7Tiempo restante:");
                     board.text(5, "§e" + HiddingTask.getTimeLeft() + " segundos");
@@ -84,8 +83,8 @@ public class GemPlayer {
                 if (plugin.getGm().isInGame()) {
                     board.setName("§d§lGem§e§lHunter");
                     board.text(12, "§7Equipos:");
-                    board.text(11, "§dMorado: §f" + plugin.getTm().getPuntos(plugin.getTm().morado));
-                    board.text(10, "§eAmarillo: §f" + plugin.getTm().getPuntos(plugin.getTm().amarillo));
+                    board.text(11, "§cRojo: §f" + plugin.getTm().getPuntos(plugin.getTm().rojo));
+                    board.text(10, "§1Azul: §f" + plugin.getTm().getPuntos(plugin.getTm().azul));
                     board.text(7, "§f☺ ");
                     board.text(6, "§7Tiempo restante:");
                     board.text(5, "§e" + GameTask.getTimeLeft() + " segundos");

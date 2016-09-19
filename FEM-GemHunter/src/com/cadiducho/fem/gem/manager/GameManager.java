@@ -35,8 +35,8 @@ public class GameManager {
         if (!isInGame()) return null;
         Team winner = null;
         
-        if (plugin.getTm().getPuntos(plugin.getTm().amarillo) == 0) winner = plugin.getTm().morado;
-        if (plugin.getTm().getPuntos(plugin.getTm().morado) == 0) winner = plugin.getTm().amarillo;
+        if (plugin.getTm().getPuntos(plugin.getTm().azul) == 0) winner = plugin.getTm().rojo;
+        if (plugin.getTm().getPuntos(plugin.getTm().rojo) == 0) winner = plugin.getTm().azul;
         
         if (winner == null) return null;
         

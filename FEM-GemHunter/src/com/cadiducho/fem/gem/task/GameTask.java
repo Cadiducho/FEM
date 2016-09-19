@@ -50,8 +50,8 @@ public class GameTask extends BukkitRunnable {
     
     public Team checkMinWinner() {
         Team winner = null;
-        Team a = plugin.getTm().amarillo;
-        Team m = plugin.getTm().morado;
+        Team a = plugin.getTm().azul;
+        Team m = plugin.getTm().rojo;
         
         if (plugin.getTm().getPuntos(a) > plugin.getTm().getPuntos(m)) winner = a;
         if (plugin.getTm().getPuntos(a) < plugin.getTm().getPuntos(m)) winner = m;
