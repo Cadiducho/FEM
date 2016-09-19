@@ -15,6 +15,7 @@ import java.io.File;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,7 +29,7 @@ public class BattleRoyale extends JavaPlugin {
     @Getter private PlayerManager pm;
     @Getter private Messages msg;    
     @Getter private World world;
-    @Getter private ItemStack moneda = ItemUtil.createItem(Material.YELLOW_FLOWER, "&6Moneda", "&aTe permitirá comprar otros objetos");
+    @Getter private final ItemStack moneda = ItemUtil.createItem(Material.DOUBLE_PLANT, "&6Moneda", "&aTe permitirá comprar otros objetos");
 
     @Override
     public void onEnable() {
@@ -42,6 +43,7 @@ public class BattleRoyale extends JavaPlugin {
             } catch (Exception e) {}
         }
         
+        new WorldCreator("espera").createWorld();
         am = new ArenaManager(instance);
         gm = new GameManager(instance);
         pm = new PlayerManager(instance);

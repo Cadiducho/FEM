@@ -17,7 +17,7 @@ public class WinnerCountdown extends BukkitRunnable{
     @Override
     public void run() {
         if(game == 5){
-            plugin.getServer().getOnlinePlayers().stream().forEach(p -> FEMServer.getUser(p).sendToServer("lobby"));
+            plugin.getServer().getOnlinePlayers().stream().forEach(p -> FEMServer.getUser(p).sendToLobby());
         } else if(game == 0){
             plugin.getServer().shutdown();
             cancel();            

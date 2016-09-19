@@ -26,8 +26,8 @@ public class ArenaManager {
 
     private final BattleRoyale plugin;
 
-    public ArenaManager(BattleRoyale plugin) {
-        this.plugin = plugin;
+    public ArenaManager(BattleRoyale instance) {
+        plugin = instance;
     }
 
     @Getter private int maxPlayers;
@@ -69,6 +69,7 @@ public class ArenaManager {
                 }
                 if (e.getType().equals(Material.ENDER_PORTAL_FRAME)) {
                     chestRandomList.add(e.getLocation().add(0D, 2D, 0D));
+                    System.out.println("Localizacion de cofre añadida");
                 }
             }
         }
@@ -106,6 +107,7 @@ public class ArenaManager {
         w.setStorm(false);
         w.setDifficulty(Difficulty.NORMAL);
         w.setTime(6000);
+        w.setAutoSave(false);
         
         wb = w.getWorldBorder();
         wb.setCenter(plugin.getConfig().getInt("worldBorderCenterX"), plugin.getConfig().getInt("worldBorderCenterY"));

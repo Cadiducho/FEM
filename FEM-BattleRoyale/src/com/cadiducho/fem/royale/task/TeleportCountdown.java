@@ -8,8 +8,8 @@ public class TeleportCountdown extends BukkitRunnable {
 
     private final BattleRoyale plugin;
 
-    public TeleportCountdown(BattleRoyale plugin) {
-        this.plugin = plugin;
+    public TeleportCountdown(BattleRoyale instance) {
+        plugin = instance;
     }
 
     private int count = 5;
