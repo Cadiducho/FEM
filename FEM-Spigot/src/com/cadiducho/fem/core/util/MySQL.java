@@ -116,7 +116,9 @@ public class MySQL {
                 //Stats
                 PreparedStatement statementStats = connection.prepareStatement("UPDATE `fem_stats` SET `kills_tnt`=?,`kills_gh`=?,`deaths_tnt`=?,`deaths_gh`=?,`jugadas_tnt`=?,"
                         + "`jugadas_dod`=?,`jugadas_gh`=?,`ganadas_tnt`=?,`ganadas_dod`=?,`ganadas_gh`=?,`tntPuestas`=?,`tntQuitadas`=?,`tntExplotadas`=?,`genUpgraded`=?,"
-                        + " `gemDestroyed`=?,`gemPlanted`=?,`record_dod`=?,`rondas_dod`=? WHERE `uuid`=?");
+                        + "`gemDestroyed`=?,`gemPlanted`=?,`record_dod`=?,`rondas_dod`=?,`picAcertadas`=?,`picDibujadas`=?,`ganadas_pic`=?,`jugadas_pic`=?,"
+                        + "`jugadas_br`=?,`ganadas_br`=?,`kills_br`=?,`deaths_br`=?,`brIntercambios`=?,`jugadas_lg`=?,`ganadas_lg`=?,`kills_lg`=?,`deaths_lg`=?,`luckyRotos`=? "
+                        + "WHERE `uuid`=?");
                 statementStats.setInt(1, data.getKills().get(1));
                 statementStats.setInt(2, data.getKills().get(3));
                 statementStats.setInt(3, data.getDeaths().get(1));
@@ -134,8 +136,22 @@ public class MySQL {
                 statementStats.setInt(15, data.getGemDestroyed());
                 statementStats.setInt(16, data.getGemPlanted());
                 statementStats.setInt(17, data.getRecord_dod());
-                statementStats.setInt(18, data.getRondas_dod());
-                statementStats.setString(19, u.getUuid().toString());
+                statementStats.setInt(18, data.getRondas_dod());  
+                statementStats.setInt(19, data.getPicAcertadas());
+                statementStats.setInt(20, data.getPicDibujadas());
+                statementStats.setInt(21, data.getWins().get(4));
+                statementStats.setInt(22, data.getPlays().get(4));
+                statementStats.setInt(23, data.getPlays().get(5));
+                statementStats.setInt(24, data.getWins().get(5));
+                statementStats.setInt(25, data.getKills().get(5));
+                statementStats.setInt(26, data.getDeaths().get(5));
+                statementStats.setInt(27, data.getBrIntercambios());
+                statementStats.setInt(28, data.getPlays().get(6));
+                statementStats.setInt(29, data.getWins().get(6));
+                statementStats.setInt(30, data.getKills().get(6));
+                statementStats.setInt(31, data.getDeaths().get(6));
+                statementStats.setInt(32, data.getLuckyRotos());                
+                statementStats.setString(33, u.getUuid().toString());
                 statementStats.executeUpdate();
 
                 //Settings
@@ -183,17 +199,27 @@ public class MySQL {
                 
                 kills.put(1, rsStats.getInt("kills_tnt"));
                 kills.put(3, rsStats.getInt("kills_gh"));
+                kills.put(5, rsStats.getInt("kills_br"));
+                kills.put(6, rsStats.getInt("kills_lg"));
                 
                 deaths.put(1, rsStats.getInt("deaths_tnt"));
                 deaths.put(3, rsStats.getInt("deaths_gh"));
+                deaths.put(5, rsStats.getInt("deaths_br"));
+                deaths.put(6, rsStats.getInt("deaths_lg"));
                 
                 wins.put(1, rsStats.getInt("ganadas_tnt"));
                 wins.put(2, rsStats.getInt("ganadas_dod"));
                 wins.put(3, rsStats.getInt("ganadas_gh"));
+                wins.put(4, rsStats.getInt("ganadas_pic"));
+                wins.put(5, rsStats.getInt("ganadas_br"));
+                wins.put(6, rsStats.getInt("ganadas_lg"));
                 
                 plays.put(1, rsStats.getInt("jugadas_tnt"));
                 plays.put(2, rsStats.getInt("jugadas_dod"));
                 plays.put(3, rsStats.getInt("jugadas_gh"));
+                plays.put(4, rsStats.getInt("jugadas_pic"));
+                plays.put(5, rsStats.getInt("jugadas_br"));
+                plays.put(6, rsStats.getInt("jugadas_lg"));
                 
                 data.setKills(kills);
                 data.setDeaths(deaths);
@@ -208,6 +234,10 @@ public class MySQL {
                 data.setGemPlanted(rsStats.getInt("gemPlanted"));
                 data.setRecord_dod(rsStats.getInt("record_dod"));
                 data.setRondas_dod(rsStats.getInt("rondas_dod"));
+                data.setPicAcertadas(rsStats.getInt("picAcertadas"));
+                data.setPicDibujadas(rsStats.getInt("picDibujadas"));
+                data.setBrIntercambios(rsStats.getInt("brIntercambios"));
+                data.setLuckyRotos(rsStats.getInt("luckyRotos"));          
                 
             }
             

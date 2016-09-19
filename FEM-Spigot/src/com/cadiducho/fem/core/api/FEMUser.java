@@ -251,6 +251,9 @@ public class FEMUser {
             * 1: TntWars
             * 2: DyeOrDie
             * 3: GemHunters
+            * 4: Pictograma
+            * 5: BattleRoyale
+            * 6: Lucky Gladiators
         */
         HashMap<Integer, Integer> kills = new HashMap<>(); //id Juego, cantidad
         HashMap<Integer, Integer> deaths = new HashMap<>();
@@ -264,11 +267,14 @@ public class FEMUser {
         Integer gemPlanted = null;
         Integer record_dod = null;
         Integer rondas_dod = null;
-
+        Integer picAcertadas = null;
+        Integer picDibujadas = null; //Bien dibujadas, que alguien lo acertó
+        Integer brIntercambios = null;
+        Integer luckyRotos = null;
+        
         //Settings
         Boolean friendRequest = null;
         Integer hideMode = null; //0 nadie, 1 amigos, 2 todos
-        
         
         ArrayList<UUID> amigos = null;
     }
