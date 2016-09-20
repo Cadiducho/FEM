@@ -39,8 +39,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -65,50 +65,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
         e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&lJuegos", "Desplazate entre los juegos del servidor"));
         e.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.COMMAND, "&lAjustes", "Cambia alguno de tus ajustes de usuario"));
 
-        ItemStack guia = new ItemStack(Material.WRITTEN_BOOK);
-        BookMeta meta = (BookMeta) guia.getItemMeta();
-        meta.setDisplayName(Metodos.colorizar("Guía del novato"));
-        meta.setAuthor(Metodos.colorizar("&6Staff"));
-
-        meta.addPage(Metodos.colorizar("&8&lIntroducción&r:\n"
-                + " \n"
-                + "&lUnderGames&r es un servidor apoyado por &a&lNVIDIA&r, en el cual puedes disfrutar de muchos minijuegos con tus amigos. Para saber más sobre estos minijuegos, primero lee las normas."));
-        meta.addPage(Metodos.colorizar("&8&lNormas&r:\n"
-                + " \n"
-                + "◾&lNo insultes&r, ni ofendas a otros jugadores\n"
-                + "◾&lNo hagas spam&r de productos, webs o enlaces.\n"
-                + "◾&lNo escribas abusivamente&r en el chat (flood).\n"
-                + "◾&lNo uses hacks/mods&r, excepto Optifine.\n"
-                + "◾&lNo uses bugs&r, repórtalos al staff!"));
-        meta.addPage(Metodos.colorizar("&e&lPICTOGRAMA:&r\n"
-                + " \n"
-                + "En cada ronda será seleccionado un artista, el cual intentará representar la palabra oculta, mientras los demás usuarios intentan adivinarla. El jugador con más puntos, ¡gana!"));
-        meta.addPage(Metodos.colorizar("&1&lTNT WARS:&r\n"
-                + " \n"
-                + "Compite contra el resto de jugadores comprando armas, defensas y bloques. Pero ten cuidado, si algún jugador hace estallar tu isla colocando la TNT que aparece en el centro, perderás la oportunidad de revivir. ¡Ganará el último jugador vivo!"));
-        meta.addPage(Metodos.colorizar("&5&lDYE or DIE:&r\n"
-                + " \n"
-                + "Sitúate sobre el color que haya sido seleccionado en la ronda, tras unos segundos toda la pista caerá excepto el color correcto. Sobrevive todas las rondas posibles, si caes al vacío perderás."));
-        meta.addPage(Metodos.colorizar("&4&lGLADIATOR:&r\n"
-                + " \n"
-                + "Rompe los &oluckyblocks&r, que te darán objetos aleatorios. Pasado un tiempo, podrás cocinar, craftear, encantar y equiparte. Una vez listos, apareceréis en la arena donde solo uno de vosotros vencerá!"));
-        meta.addPage(Metodos.colorizar("&a&lGEM HUNTERS:&r\n"
-                + " \n"
-                + "Dos equipos deberán esconder sus gemas por el mapa. Tras ese tiempo, el muro divisorio se abrirá y tu objetivo será encontrar las gemas del enemigo y defender las propias, atacando al equipo contrario."));
-        meta.addPage(Metodos.colorizar("&6&lBATTLE ROYALE:&r\n"
-                + " \n"
-                + "Busca los cofres repartidos por el mapa. Equípate, compra o vende lo que necesites en las tiendas y se el último jugador con vida. Recuerda que los limites del mapa disminuyen y te pueden eliminar.\n"
-                + " \n"
-                + "&oTiendas:\n"
-                + "◾Aldeano blanco (-): Compra objetos\n"
-                + "◾Aldeano negro (+): Vende objetos&r"));
-        meta.addPage(Metodos.colorizar("Síguenos en Twitter:\n"
-                + "&8&l@UnderGames_info\n"
-                + " \n"
-                + " \n"
-                + "¡Bienvenido al servidor y disfruta! ;)"));
-        guia.setItemMeta(meta);
-        e.getPlayer().getInventory().setItem(4, guia);
+        e.getPlayer().getInventory().setItem(4, plugin.getLibro());
         e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
         
         u.tryHidePlayers();
@@ -170,6 +127,8 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE");
                             LeatherArmorMeta lam = (LeatherArmorMeta) letherBoots.getItemMeta();
                             lam.setColor(Color.BLUE);
+                            lam.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES, 
+                                ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
                             letherBoots.setItemMeta(lam);
                         inv.setItem(5, letherBoots);
                         inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lGLADIATOR"));
