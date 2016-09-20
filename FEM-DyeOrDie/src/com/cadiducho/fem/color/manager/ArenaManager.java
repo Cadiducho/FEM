@@ -3,6 +3,7 @@ package com.cadiducho.fem.color.manager;
 import com.cadiducho.fem.color.DyeMiniArea;
 import com.cadiducho.fem.color.DyeOrDie;
 import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Metodos;
 import java.util.ArrayList;
 import java.util.Random;
@@ -124,16 +125,23 @@ public class ArenaManager {
                 }
             }
         }
-        allowedcolors.add(DyeColor.BLACK);
+        allowedcolors.add(DyeColor.LIME);
+        allowedcolors.add(DyeColor.BROWN);
         allowedcolors.add(DyeColor.CYAN);
-        allowedcolors.add(DyeColor.GREEN);
-        allowedcolors.add(DyeColor.PINK);
         allowedcolors.add(DyeColor.YELLOW);
-        allowedcolors.add(DyeColor.MAGENTA);
+        allowedcolors.add(DyeColor.GRAY);
+        allowedcolors.add(DyeColor.BLUE);
+        allowedcolors.add(DyeColor.BLACK);
+        allowedcolors.add(DyeColor.PINK);
+        allowedcolors.add(DyeColor.ORANGE);
+        allowedcolors.add(DyeColor.PURPLE);
+        allowedcolors.add(DyeColor.RED);
+        allowedcolors.add(DyeColor.GREEN);
         
         plugin.getLogger().log(Level.INFO, "Encontrados {0} \u00e1reas y {1} bloques suelo", new Object[]{colormats.size(), whiteblocks.size()});
     }
     
+    //Mezclarlos aleatoriamente
     public ArrayList<DyeMiniArea> shuffleMats() {
         ArrayList<DyeColor> colors = new ArrayList();
         for (DyeColor color : allowedcolors) {
@@ -168,6 +176,7 @@ public class ArenaManager {
         }
     }
     
+    //Aleatoriedad en el suelo
     public DyeColor spinColors(boolean samecolor) {
         DyeColor tempcolor = (DyeColor) allowedcolors.get(rand.nextInt(allowedcolors.size()));
 
@@ -210,17 +219,18 @@ public class ArenaManager {
     public void startRound() {
         round += 1;
         currentcolor = spinColors(true);
-        plugin.getMsg().sendBroadcast("El color actual es " + getColorFromWool(currentcolor) + currentcolor.toString().replace("_", " ").toLowerCase() + "! " + ChatColor.DARK_GREEN + "¡Ya!");
+        plugin.getMsg().sendBroadcast("El color actual es " + getColorFromWool(currentcolor) + nombreCastellano(currentcolor) + "! " + ChatColor.DARK_GREEN + "¡Ya!");
         for (Player player : plugin.getGm().getPlayersInGame()) {
+            FEMUser user = FEMServer.getUser(player);
             player.setLevel(round);
             player.setExp(0.9999F);
-            Integer rondas = FEMServer.getUser(player).getUserData().getRondas_dod();        
-            FEMServer.getUser(player).getUserData().setRondas_dod(rondas + 1);
-            if (round > FEMServer.getUser(player).getUserData().getRecord_dod()) {
-                FEMServer.getUser(player).getUserData().setRecord_dod(round);
-                player.sendMessage("Has batido tu record de rondas seguidas, ahora es " + round + "!");
+            Integer rondas = user.getUserData().getRondas_dod();        
+            user.getUserData().setRondas_dod(rondas + 1);
+            if (round > user.getUserData().getRecord_dod()) {
+                user.getUserData().setRecord_dod(round);
+                user.sendMessage("Has batido tu record de rondas seguidas, ahora es " + round + "!");
             }
-            FEMServer.getUser(player).save();
+            user.save();
         }
     }
 
@@ -255,6 +265,7 @@ public class ArenaManager {
         plugin.getGm().getPlayersInGame().stream().forEach(player -> player.setExp(timeleft));
     }
     
+    //Dar formato visual y idioma castellano a los colores
     public ChatColor getColorFromWool(DyeColor dye) {
         switch (dye) {
             case BLACK: return ChatColor.DARK_GRAY;
@@ -275,5 +286,24 @@ public class ArenaManager {
             case YELLOW: return ChatColor.YELLOW;
         }
         return ChatColor.RESET;
+    }
+    
+    private String nombreCastellano(DyeColor dye) {
+        switch (dye) {
+            case BLACK: return "negro";
+            case BLUE: return "azul";
+            case BROWN: return "marrón";
+            case CYAN: return "cian";
+            case GRAY: return "gris";
+            case GREEN: return "verde";
+            case LIME: return "lima";
+            case MAGENTA: return "magenta";
+            case ORANGE: return "naranja";
+            case PINK: return "rosa";
+            case PURPLE: return "morado";
+            case RED: return "rojo";
+            case YELLOW: return "amarillo";
+        }
+        return "?";
     }
 }
