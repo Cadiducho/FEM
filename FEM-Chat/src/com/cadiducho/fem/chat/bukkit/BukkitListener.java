@@ -2,6 +2,7 @@ package com.cadiducho.fem.chat.bukkit;
 
 import com.cadiducho.fem.chat.FEMChat;
 import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.cmds.FEMCmd.Grupo;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -35,20 +36,17 @@ public class BukkitListener implements Listener {
     }
     
     private void processChatMessage(Player player, String text) throws IOException {
-        if (text.contains("%group%")){
-            text = text.replace("%"  + "group%", c(FEMServer.getUser(player).getUserData().getGrupo().name()));
-        }
         if (text.contains("%prefix%")){
-            text = text.replace("%" + "prefix%", c(FEMServer.getUser(player).getUserData().getGrupo().name()));
+            text = text.replace("%" + "prefix%", c(getPrefix(FEMServer.getUser(player).getUserData().getGrupo())));
         }
         if (text.contains("%suffix%")){
-            text = text.replace("%" + "suffix%", c(""));
+            text = text.replace("%" + "suffix%", c(getSuffix(FEMServer.getUser(player).getUserData().getGrupo())));
         }
         if (text.contains("%displayName%")){
             text = text.replace("%" + "displayName%", c(player.getDisplayName()));
         }
         
-        if (player.hasPermission("FEMChat.colores")) {
+        if (FEMServer.getUser(player).isOnRank(Grupo.VipPlusPlus)) {
             text = c(text);
         }
 
@@ -61,6 +59,43 @@ public class BukkitListener implements Listener {
         out.close();
         
         player.sendPluginMessage(bukkitPlugin, FEMChat.MAIN_CHANNEL, b.toByteArray());
+    }
+    
+    private String getPrefix(Grupo g) {
+        switch (g) {
+            case Vip:
+                return "&f&lVIP";
+            case VipPlus:
+                return "&e&lSUPER";
+            case VipPlusPlus:
+                return "&6&lMEGA";
+            case YouTuber:
+                return "&c&lYT";
+            case Helper:
+                return "&2&lHELP";
+            case Moderador:
+                return "&1&lMOD";
+            case Admin:
+                return "&4&lADM";
+            case Dev:
+                return "&b&lDEV";
+        }
+        return ""; //Default, Usuario
+    }
+    
+    private String getSuffix(Grupo g) {
+        switch (g) {
+            case Vip:
+            case VipPlus:
+            case VipPlusPlus:
+            case YouTuber:
+            case Helper:
+            case Moderador:
+            case Admin:
+            case Dev:
+                return "&r";
+        }
+        return "&7"; //Default, Usuario
     }
     
     String c(String s) {

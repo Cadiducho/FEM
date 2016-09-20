@@ -28,31 +28,6 @@ public class BukkitPlugin extends JavaPlugin {
         getCommand("ignorados").setExecutor(new IgnoradosCommand(this));
     }
 
-/*
-    public String getGroup(Player player) {
-        try {
-            if (permission != null && permission.getPrimaryGroup(player) != null) {
-                return permission.getPrimaryGroup(player);
-            }
-        } catch (UnsupportedOperationException ignored) {
-        }
-        return "Miembro";
-    }
-
-    public String getPrefix(Player player) {
-        if (chat != null) {
-            return chat.getPlayerPrefix(player);
-        }
-        return "";
-    }
-
-    public String getSuffix(Player player) {
-        if (chat != null) {
-            return chat.getPlayerSuffix(player);
-        }
-        return "";
-    }*/
-    
     public void sendPrivateMessage(String target, String from, String mensaje) throws IOException {
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(b);

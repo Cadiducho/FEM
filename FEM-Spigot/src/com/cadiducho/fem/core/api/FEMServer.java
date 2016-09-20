@@ -2,7 +2,6 @@ package com.cadiducho.fem.core.api;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.util.JsonConfig;
 import com.cadiducho.fem.core.util.FEMFileLoader;
 import com.cadiducho.fem.core.util.Metodos;
