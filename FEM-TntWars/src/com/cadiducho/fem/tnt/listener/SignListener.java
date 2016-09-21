@@ -42,9 +42,18 @@ public class SignListener implements Listener {
         if (!(e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
             return;
         }
+        Generador gen = Generador.getGenerador(e.getClickedBlock().getLocation());
         if (e.getClickedBlock().getState() instanceof Sign) {
             final Sign s = (Sign) e.getClickedBlock().getState();
-            switch (s.getLine(1).toLowerCase()) {
+            interactGenerador(s, p, e.getClickedBlock().getLocation());
+        } else if (gen != null) {
+            final Sign s = (Sign) gen.getSign().getBlock().getState();
+            interactGenerador(s, p, e.getClickedBlock().getLocation());
+        }
+    }
+    
+    private void interactGenerador(Sign s, Player p, Location loc) {
+        switch (s.getLine(1).toLowerCase()) {
                 case "§chierro":
                     switch (s.getLine(2).toLowerCase()) {
                         case "nivel 1":
@@ -65,7 +74,7 @@ public class SignListener implements Listener {
                             UpL.add("§3Costo: §e20 §2Hierro");
                             UpM.setLore(UpL);
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
 
@@ -89,7 +98,7 @@ public class SignListener implements Listener {
                             UpL.add("§3Costo: §e20 §2Oro");
                             UpM.setLore(UpL);
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
                             p.openInventory(ironMenu);
@@ -112,7 +121,7 @@ public class SignListener implements Listener {
                             UpL.add("§3Costo: §e50 §2Oro");
                             UpM.setLore(UpL);
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
                             p.openInventory(ironMenu);
@@ -130,7 +139,7 @@ public class SignListener implements Listener {
                             UpM = Up.getItemMeta();
                             UpM.setDisplayName("§2Nivel Máximo");
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
                             p.openInventory(ironMenu);
@@ -157,7 +166,7 @@ public class SignListener implements Listener {
                             UpL.add("§3Costo: §e10 §2Oro");
                             UpM.setLore(UpL);
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
 
@@ -181,7 +190,7 @@ public class SignListener implements Listener {
                             UpL.add("§3Costo: §e20 §2Oro");
                             UpM.setLore(UpL);
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
                             p.openInventory(ironMenu);
@@ -204,7 +213,7 @@ public class SignListener implements Listener {
                             UpL.add("§3Costo: §e20 §2Diamante");
                             UpM.setLore(UpL);
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
                             p.openInventory(ironMenu);
@@ -222,7 +231,7 @@ public class SignListener implements Listener {
                             UpM = Up.getItemMeta();
                             UpM.setDisplayName("§2Nivel Máximo");
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
                             p.openInventory(ironMenu);
@@ -249,7 +258,7 @@ public class SignListener implements Listener {
                             UpL.add("§3Costo: §e5 §2Diamante");
                             UpM.setLore(UpL);
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
 
@@ -273,7 +282,7 @@ public class SignListener implements Listener {
                             UpL.add("§3Costo: §e10 §2Diamante");
                             UpM.setLore(UpL);
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
 
@@ -297,7 +306,7 @@ public class SignListener implements Listener {
                             UpL.add("§3Costo: §e50 §2Diamante");
                             UpM.setLore(UpL);
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
                             p.openInventory(ironMenu);
@@ -320,7 +329,7 @@ public class SignListener implements Listener {
                             UpL.add("§3Costo: §e75 §2Diamante");
                             UpM.setLore(UpL);
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
                             p.openInventory(ironMenu);
@@ -338,7 +347,7 @@ public class SignListener implements Listener {
                             UpM = Up.getItemMeta();
                             UpM.setDisplayName("§2Nivel Máximo");
                             Up.setItemMeta(UpM);
-                            clickedSign.put(p, e.getClickedBlock().getLocation());
+                            clickedSign.put(p, loc);
                             ironMenu.setItem(11, Info);
                             ironMenu.setItem(15, Up);
                             p.openInventory(ironMenu);
@@ -346,7 +355,6 @@ public class SignListener implements Listener {
                     }
                     break;
             }
-        }
     }
 
     @EventHandler
