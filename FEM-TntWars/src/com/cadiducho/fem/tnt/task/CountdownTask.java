@@ -41,10 +41,7 @@ public class CountdownTask extends BukkitRunnable {
                 plays.replace(1, plays.get(1) + 1);
                 TntWars.getPlayer(players).getBase().getUserData().setPlays(plays);
                 FEMServer.getUser(players).save();
-                for (TntIsland i : plugin.getAm().getIslas()) {
-                    i.getSpawn().getBlock().setType(Material.AIR);
-                    i.getSpawn().getBlock().getRelative(BlockFace.DOWN).setType(Material.AIR);
-                }
+                plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
             }
             plugin.getGm().setDañoEnCaida(false);
             

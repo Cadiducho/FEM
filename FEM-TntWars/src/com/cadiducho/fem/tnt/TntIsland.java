@@ -45,6 +45,13 @@ public class TntIsland {
                 .filter(loc -> rand.nextInt(9) < 7) // 7/10 de probabilidad
                 .forEach(loc -> loc.getBlock().setType(Material.AIR)); //Simular destruccion
     }
+    
+    public void destroyCapsule() {
+        //Eliminar todos los barrier invisibles dentro de la isla, dejar caer al jugador
+        matblocks.stream()
+                .filter(loc -> loc.getBlock().getType() == Material.BARRIER)
+                .forEach(loc -> loc.getBlock().setType(Material.AIR));
+    }
 
     public static TntIsland getIsland(UUID id) {
         for (TntIsland i :TntWars.getInstance().getAm().getIslas())
