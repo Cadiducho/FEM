@@ -44,19 +44,7 @@ public class GameManager {
         playersInGame.remove(p);
     }
 
-    public boolean isEnding() {
-        return GameState.state == GameState.ENDING;
-    }
-
     public boolean isInLobby() {
         return GameState.state == GameState.LOBBY;
-    }
-    
-    public boolean isInCountdown() {
-        return GameState.state == GameState.COUNTDOWN;
-    }
-    
-    public boolean isInGame() {
-        return GameState.state == GameState.GAME;
     }
 }

@@ -25,7 +25,7 @@ public class WorldListener implements Listener {
     
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
-        if (plugin.getGm().isInGame()) {
+        if (GameState.state == GameState.GAME) {
             Block placed = e.getBlock();
             TntPlayer pl = TntWars.getPlayer(e.getPlayer());
             if (placed.getType() == Material.TNT) {
@@ -54,7 +54,7 @@ public class WorldListener implements Listener {
     
     @EventHandler
     public void onBlockDestroy(BlockBreakEvent e) {
-        if (plugin.getGm().isInGame()) {
+        if (GameState.state == GameState.GAME) {
             Block broken = e.getBlock();
             TntPlayer pl = TntWars.getPlayer(e.getPlayer());
             if (broken.getType() == Material.TNT) {

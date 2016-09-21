@@ -41,7 +41,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEntityEvent e) {
         if (e.getRightClicked() instanceof Villager) {
-            if (plugin.getGm().isInGame()) {
+            if (GameState.state == GameState.GAME) {
                 e.setCancelled(true);
                 Villager v = (Villager) e.getRightClicked();
                 if (v.getName().equalsIgnoreCase(Metodos.colorizar("&6Tienda TNTWars"))) {
@@ -89,12 +89,12 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         e.setQuitMessage(null);
-        if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown()) {
+        if (plugin.getGm().isInLobby() || GameState.state == GameState.COUNTDOWN) {
             plugin.getGm().removePlayerFromGame(player);
             plugin.getMsg().sendBroadcast("&7abandonó el juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
-        } else if (plugin.getGm().isInGame()) {
+        } else if (GameState.state == GameState.GAME) {
             plugin.getGm().removePlayerFromGame(player);
-        } else if (plugin.getGm().isEnding()) {
+        } else if (GameState.state == GameState.ENDING) {
             plugin.getGm().removePlayerFromGame(player);
         }
         
@@ -103,7 +103,7 @@ public class PlayerListener implements Listener {
     
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
-        if (plugin.getGm().isInLobby() || plugin.getGm().isEnding()) {
+        if (plugin.getGm().isInLobby() || GameState.state == GameState.ENDING) {
             e.setCancelled(true);
         }
         if (e.getEntity() instanceof Villager) {
@@ -141,9 +141,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-        if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown() || plugin.getGm().isEnding()) {
+        if (plugin.getGm().isInLobby() || GameState.state == GameState.COUNTDOWN || GameState.state == GameState.ENDING) {
             e.setCancelled(true);
-        } else if (plugin.getGm().isInGame()) {
+        } else if (GameState.state == GameState.GAME) {
             if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
                 Player damager = (Player) e.getDamager();
                 Player p = (Player) e.getEntity();
@@ -173,21 +173,21 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerDrop(PlayerDropItemEvent e) {
-        if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown() || plugin.getGm().isEnding()) {
+        if (plugin.getGm().isInLobby() || GameState.state == GameState.COUNTDOWN || GameState.state == GameState.ENDING) {
             e.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onPlayerFood(FoodLevelChangeEvent e) {
-        if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown()|| plugin.getGm().isEnding()) {
+        if (plugin.getGm().isInLobby() || GameState.state == GameState.COUNTDOWN || GameState.state == GameState.ENDING) {
             e.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onPlayerPickUp(PlayerPickupItemEvent e) {
-        if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown()|| plugin.getGm().isEnding()) {
+        if (plugin.getGm().isInLobby() || GameState.state == GameState.COUNTDOWN || GameState.state == GameState.ENDING) {
             e.setCancelled(true);
         }
     }

@@ -1,6 +1,7 @@
 package com.cadiducho.fem.tnt;
 
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.tnt.manager.GameState;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -35,7 +36,7 @@ public class Generador {
         TntWars.getInstance().getServer().getScheduler().runTaskLater(TntWars.getInstance(), new Runnable() {
             @Override
             public void run() {
-                if (TntWars.getInstance().getGm().isInGame()) {
+                if (GameState.state == GameState.GAME) {
                     if (genAnnon.getLevel() != 0) {
                         genAnnon.getSign().getWorld().dropItemNaturally(genAnnon.getItemSpawn(), genAnnon.getItem()).setVelocity(new Vector(0, 0, 0));
                     }

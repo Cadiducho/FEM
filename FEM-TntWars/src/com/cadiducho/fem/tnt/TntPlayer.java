@@ -31,7 +31,7 @@ public class TntPlayer {
                     board.text(3, "§a ");
                     board.text(2, "§eEsperando...");
                     board.text(1, "§e ");
-                    board.text(0, "§cmc..net");
+                    board.text(0, "§c c.undergames.es");
                     if (base.getPlayer() != null) board.build(base.getPlayer());
                 } else {
                     board.reset();
