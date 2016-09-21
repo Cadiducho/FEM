@@ -13,7 +13,7 @@ public class RespawnTask extends BukkitRunnable {
         player = instance;
     }
     
-    private int count = 5;
+    private int count = 9;
     
     @Override
     public void run() {
@@ -24,10 +24,11 @@ public class RespawnTask extends BukkitRunnable {
             deaths.replace(1, deaths.get(1) + 1);
             player.getBase().getUserData().setDeaths(deaths);
             player.getBase().save();
-            player.getBase().sendMessage("Respawnearás en 5 segundos");
+            player.getBase().sendMessage("Respawnearás en 9 segundos");
         } else if (count == 0) {
             player.spawn();
             player.setCleanPlayer(GameMode.SURVIVAL);
+            cancel();
         }
         
         count--;

@@ -16,15 +16,15 @@ public class TntExplodeTask extends BukkitRunnable {
         exploder = p;
     }
     
-    private int count = 5;
+    private int count = 10;
     
     @Override
     public void run() {    
-        if (count == 5) {
+        if (count == 10) {
             FEMServer.getUser(exploder).getUserData().setTntPuestas(FEMServer.getUser(exploder).getUserData().getTntPuestas() + 1);
             FEMServer.getUser(exploder).save();
-            FEMServer.getUser(exploder).sendMessage("Has puesto la TNT y explotará en 5 segundos");
-            isla.getOwner().sendMessage("Tu isla explotará en 5 segundos si no lo evitas");
+            FEMServer.getUser(exploder).sendMessage("Has puesto la TNT y explotará en 10 segundos");
+            isla.getOwner().sendMessage("Tu isla explotará en 10 segundos si no lo evitas");
         } else if (count == 0) {
             isla.explode();
             FEMServer.getUser(exploder).getUserData().setTntExplotadas(FEMServer.getUser(exploder).getUserData().getTntExplotadas() + 1);
