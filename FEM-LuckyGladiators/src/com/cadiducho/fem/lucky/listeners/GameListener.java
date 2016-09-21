@@ -119,7 +119,7 @@ public class GameListener implements Listener {
             Block block = e.getBlock();
             block.getDrops();
             Player p = e.getPlayer();
-            Location loc = p.getLocation();
+            Location loc = block.getLocation();
             World w = p.getWorld();
             if (block.getType() == Material.SPONGE) {
                 e.getBlock().setType(Material.AIR);
