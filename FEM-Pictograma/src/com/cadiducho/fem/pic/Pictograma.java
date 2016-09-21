@@ -32,7 +32,7 @@ public class Pictograma extends JavaPlugin {
     @Getter private GameManager gm;
     @Getter private Messages msg;
     
-    public static final List<String> palabras = Arrays.asList("noche", "rio", "mar", "coche", "avion", "ocelote", "cono", "fresa", "manzana", "pera");
+    public static List<String> palabras;
     public Inventory colorPicker;
 
     @Override
@@ -46,6 +46,8 @@ public class Pictograma extends JavaPlugin {
                 saveConfig();
             } catch (Exception e) {}
         }
+        
+        palabras = getConfig().getStringList("palabras");
 
         new WorldCreator("espera").createWorld();
         gm = new GameManager(instance);
@@ -68,7 +70,7 @@ public class Pictograma extends JavaPlugin {
         colorPicker.setItem(5, ItemUtil.createWool("Verde", DyeColor.GREEN));
         colorPicker.setItem(6, ItemUtil.createWool("Azul", DyeColor.BLUE));
         colorPicker.setItem(7, ItemUtil.createWool("Morado", DyeColor.PURPLE));
-        colorPicker.setItem(8, ItemUtil.createWool("Marron", DyeColor.BROWN));
+        colorPicker.setItem(8, ItemUtil.createWool("Marrón", DyeColor.BROWN));
         
         GameState.state = GameState.LOBBY;
         getLogger().log(Level.INFO, "Pictograma: Activado correctamente");
@@ -76,7 +78,7 @@ public class Pictograma extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getLogger().log(Level.INFO, "ByD: Desativado correctamente");
+        getLogger().log(Level.INFO, "Pictograma: Desativado correctamente");
     }
     
     public String getRandomWord() {
