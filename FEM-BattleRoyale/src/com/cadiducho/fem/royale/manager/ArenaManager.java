@@ -105,10 +105,9 @@ public class ArenaManager {
     private void loadWorld(World w) {
         w = plugin.getWorld();
         w.setPVP(true);
-        w.setGameRuleValue("naturalRegeneration", "false");
         w.setGameRuleValue("doDaylightCycle", "false");
         w.setStorm(false);
-        w.setDifficulty(Difficulty.NORMAL);
+        w.setDifficulty(Difficulty.EASY);
         w.setTime(6000);
         w.setAutoSave(false);
         
