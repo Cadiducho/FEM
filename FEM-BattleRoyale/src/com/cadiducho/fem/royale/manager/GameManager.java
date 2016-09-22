@@ -66,13 +66,13 @@ public class GameManager {
             playersInGame.add(player);
         }
     }
-
-    public boolean isInGame() {
-        return GameState.state == GameState.GAME;
+    
+    public boolean acceptPlayers() {
+        return (GameState.state == GameState.PREPARING || GameState.state == GameState.LOBBY);
     }
 
-    public boolean isWaiting() {
-        return GameState.state == GameState.PREPARING;
+    public boolean isInGame() {
+        return (GameState.state == GameState.GAME || GameState.state == GameState.PVE || GameState.state == GameState.DEATHMATCH);
     }
 
     public boolean isFinished() {

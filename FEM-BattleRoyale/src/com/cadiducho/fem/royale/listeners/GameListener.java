@@ -100,7 +100,7 @@ public class GameListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
-            if (plugin.getGm().isWaiting() || GameState.state == GameState.PVE) {
+            if (plugin.getGm().acceptPlayers() || GameState.state == GameState.PVE) {
                 e.setCancelled(true);
             }
         }
@@ -112,7 +112,7 @@ public class GameListener implements Listener {
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
         if (e.getEntity() instanceof Player) {
-            if (plugin.getGm().isWaiting() || GameState.state == GameState.PVE) {
+            if (plugin.getGm().acceptPlayers() || GameState.state == GameState.PVE) {
                 e.setCancelled(true);
             }
         }
@@ -121,7 +121,7 @@ public class GameListener implements Listener {
     @EventHandler
     public void onEntityDamageByBlock(EntityDamageByBlockEvent e) {
         if (e.getEntity() instanceof Player) {
-            if (plugin.getGm().isWaiting() || GameState.state == GameState.PVE) {
+            if (plugin.getGm().acceptPlayers() || GameState.state == GameState.PVE) {
                 e.setCancelled(true);
             }
         }

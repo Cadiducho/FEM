@@ -18,28 +18,28 @@ public class ServerListener implements Listener {
 
     @EventHandler
     public void onBlockIgnite(BlockIgniteEvent e){
-        if (plugin.getGm().isWaiting() || plugin.getGm().isFinished()) {
+        if (plugin.getGm().acceptPlayers() || plugin.getGm().isFinished()) {
             e.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onPlayerDrop(PlayerDropItemEvent e) {
-        if (plugin.getGm().isWaiting() || plugin.getGm().isFinished()) {
+        if (plugin.getGm().acceptPlayers() || plugin.getGm().isFinished()) {
             e.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onPlayerPickupItem(PlayerPickupItemEvent e) {
-        if (plugin.getGm().isWaiting() || plugin.getGm().isFinished()) {
+        if (plugin.getGm().acceptPlayers() || plugin.getGm().isFinished()) {
             e.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent e) {
-        if (plugin.getGm().isWaiting() || plugin.getGm().isFinished()) {
+        if (plugin.getGm().acceptPlayers() || plugin.getGm().isFinished()) {
             e.setCancelled(true);
         }
     }

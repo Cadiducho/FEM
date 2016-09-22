@@ -11,7 +11,6 @@ import lombok.Getter;
 import me.cybermaxke.merchants.api.Merchant;
 import me.cybermaxke.merchants.api.MerchantAPI;
 import me.cybermaxke.merchants.api.MerchantOffer;
-import me.cybermaxke.merchants.api.MerchantTradeListener;
 import me.cybermaxke.merchants.api.Merchants;
 import org.bukkit.Chunk;
 import org.bukkit.Difficulty;
@@ -36,6 +35,7 @@ public class ArenaManager {
     @Getter private int maxPlayers;
     @Getter private int minPlayers;
     @Getter private final ArrayList<Location> spawnList = new ArrayList<>();
+    @Getter private ArrayList<Location> deathmatchSpawnList = new ArrayList<>();
     @Getter private final ArrayList<Location> chestRandomList = new ArrayList<>();
     @Getter private int spawn;
     @Getter private Location lobby;
@@ -126,6 +126,12 @@ public class ArenaManager {
         spawnList.remove(rd);
     }
     
+    public void teleportDeathmatch(Player player) {
+        int rd = rand.nextInt(deathmatchSpawnList.size());
+        player.teleport(deathmatchSpawnList.get(rd));
+        deathmatchSpawnList.remove(rd);
+    }
+    
     public Location spawnRandomChest() {
         int rd = rand.nextInt(chestRandomList.size());
         chestRandomList.remove(rd);
@@ -140,6 +146,7 @@ public class ArenaManager {
             }
         } catch (Exception e) {
         }
+        deathmatchSpawnList = (ArrayList<Location>) spawnList.clone();
     }
     
     public void setupVillagersTrades() {

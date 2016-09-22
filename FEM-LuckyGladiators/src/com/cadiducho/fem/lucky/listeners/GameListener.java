@@ -138,7 +138,7 @@ public class GameListener implements Listener {
                 for (int i = (rand.nextInt(4) + 1); i > 0; i--) { //Máximo 4 veces
                     if (proporcion >= 50) { //50%
                         drops.add(new ItemStack(objetosNormales.get(rand.nextInt(objetosNormales.size() - 1)), (rand.nextInt(4) + 1))); //de 1 a 5
-                    } else if (proporcion > 30) { //20%
+                    } else if (proporcion >= 30) { //30%
                         drops.add(new ItemStack(objetosPro.get(rand.nextInt(objetosPro.size() - 1)), (rand.nextInt(2) + 1))); //de 1 a 3
                     } else if (proporcion > 15 && proporcion < 29) { //9%
                         drops.add(new ItemStack(objetosChetos.get(rand.nextInt(objetosChetos.size() - 1)), (rand.nextInt(1) + 1))); //de 1 a 2

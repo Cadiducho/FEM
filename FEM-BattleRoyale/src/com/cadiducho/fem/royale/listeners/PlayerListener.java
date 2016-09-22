@@ -2,7 +2,7 @@ package com.cadiducho.fem.royale.listeners;
 
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.task.LobbyCountdown;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,12 +22,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent e) {
-        Player player = e.getPlayer();
-        if (plugin.getGm().isWaiting() && plugin.getGm().getPlayersInGame().size() < plugin.getAm().getMaxPlayers()) {
+        if (plugin.getGm().acceptPlayers() && plugin.getGm().getPlayersInGame().size() < plugin.getAm().getMaxPlayers()) {
             e.allow();
-        } else if (plugin.getGm().isFinished() || plugin.getGm().isInGame()) {
-            e.setResult(PlayerLoginEvent.Result.KICK_FULL);
-            e.setKickMessage("Server is full");
+        } else {
+            e.setResult(PlayerLoginEvent.Result.KICK_OTHER);
+            e.setKickMessage("No tienes acceso a entrar aquí.");
         }
     }
 
@@ -35,7 +34,7 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         e.setJoinMessage(null);
-        if (!plugin.getGm().isWaiting() || plugin.getGm().getPlayersInGame().size() >= plugin.getAm().getMaxPlayers()) {
+        if (!plugin.getGm().acceptPlayers() || plugin.getGm().getPlayersInGame().size() >= plugin.getAm().getMaxPlayers()) {
             plugin.getPm().setSpectator(player);
         } else { 
             player.teleport(plugin.getAm().getLobby());
@@ -52,7 +51,7 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         e.setQuitMessage(null);
-        if (plugin.getGm().isWaiting()) {
+        if (plugin.getGm().acceptPlayers()) {
             plugin.getGm().removePlayerFromGame(player);
         } else if (plugin.getGm().isInGame() || plugin.getGm().isFinished()) {
             plugin.getGm().removePlayerFromGame(player);
