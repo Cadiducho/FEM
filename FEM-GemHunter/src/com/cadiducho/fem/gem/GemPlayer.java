@@ -37,7 +37,7 @@ public class GemPlayer {
                     board.text(3, "§a ");
                     board.text(2, "§eEsperando...");
                     board.text(1, "§e ");
-                    board.text(0, "§cmc..net");
+                    board.text(0, "§cmc.undergames.es");
                     if (base.getPlayer() != null) board.build(base.getPlayer());
                 } else {
                     board.reset();
@@ -63,7 +63,7 @@ public class GemPlayer {
                     board.text(6, "§7Tiempo restante:");
                     board.text(5, "§e" + HiddingTask.getTimeLeft() + " segundos");
                     board.text(4, "§f¡Esconde tu gema! ");
-                    board.text(0, "§emc..es");
+                    board.text(0, "§emc.undergames.es");
                 } else {
                     board.reset();
                     cancel();
@@ -89,7 +89,7 @@ public class GemPlayer {
                     board.text(6, "§7Tiempo restante:");
                     board.text(5, "§e" + GameTask.getTimeLeft() + " segundos");
                     board.text(4, "§f☺ ");
-                    board.text(0, "§emc..es");
+                    board.text(0, "§emc.undergames.es");
                 } else {
                     board.reset();
                     cancel();
