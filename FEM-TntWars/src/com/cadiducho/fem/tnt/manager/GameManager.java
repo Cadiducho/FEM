@@ -44,6 +44,10 @@ public class GameManager {
         playersInGame.remove(p);
     }
 
+    public boolean acceptPlayers() {
+        return (GameState.state == GameState.PREPARING || GameState.state == GameState.LOBBY);
+    }
+     
     public boolean isInLobby() {
         return GameState.state == GameState.LOBBY;
     }

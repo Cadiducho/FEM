@@ -22,12 +22,11 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent e) {
-        Player player = e.getPlayer();
         if (plugin.getGm().acceptPlayers() && plugin.getGm().getPlayersInGame().size() < plugin.getAm().getMaxPlayers()) {
             e.allow();
         } else {
-            e.setResult(PlayerLoginEvent.Result.KICK_FULL);
-            e.setKickMessage("Server is full");
+            e.setResult(PlayerLoginEvent.Result.KICK_OTHER);
+            e.setKickMessage("No tienes acceso a entrar aquí.");
         }
     }
 

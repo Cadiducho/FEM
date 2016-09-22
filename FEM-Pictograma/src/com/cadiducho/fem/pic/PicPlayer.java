@@ -4,18 +4,15 @@ import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
-import java.util.ArrayList;
 import lombok.Getter;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.entity.Sheep;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class PicPlayer {
 
     private final Pictograma plugin = Pictograma.getInstance();
     @Getter private final FEMUser base;
-    @Getter ArrayList<Sheep> sheeps = new ArrayList<>();
     
     public PicPlayer(FEMUser instance) {
         base = instance;
@@ -28,14 +25,14 @@ public class PicPlayer {
             public void run() {
                 if (base.getPlayer() == null) cancel();
                 
-                if (plugin.getGm().isInLobby()) {
+                if (plugin.getGm().acceptPlayers()) {
                     board.setName("§d§aPictograma");
                     board.text(5, "§d ");
                     board.text(4, "§6" + plugin.getGm().getPlayersInGame().size() + "§d/§6" + plugin.getAm().getMaxPlayers());
                     board.text(3, "§a ");
                     board.text(2, "§eEsperando...");
                     board.text(1, "§e ");
-                    board.text(0, "§cmc..net");
+                    board.text(0, "§cmc.undergames.es");
                     if (base.getPlayer() != null) board.build(base.getPlayer());
                 } else {
                     board.reset();

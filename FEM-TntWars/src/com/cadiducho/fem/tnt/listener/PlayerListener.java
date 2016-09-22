@@ -63,12 +63,10 @@ public class PlayerListener implements Listener {
     
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent e) {
-        Player player = e.getPlayer();
-        if (GameState.state == null) {
-            e.setKickMessage("No puedes entrar todavía");
-        } else if (plugin.getGm().isInLobby() && plugin.getGm().getPlayersInGame().size() <= plugin.getAm().getMaxPlayers()) {
+        if (plugin.getGm().acceptPlayers() && plugin.getGm().getPlayersInGame().size() < plugin.getAm().getMaxPlayers()) {
             e.allow();
         } else {
+            e.setResult(PlayerLoginEvent.Result.KICK_OTHER);
             e.setKickMessage("No tienes acceso a entrar aquí.");
         }
     }

@@ -41,10 +41,6 @@ public class GameManager {
 
     private boolean checkStart = false;
 
-    public void init() {
-        playersInGame.clear();
-    }
-
     public void checkStart() {
         if (checkStart == false && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
             checkStart = true;
@@ -180,17 +176,9 @@ public class GameManager {
             }
         }
     }
-
-    public boolean isEnding() {
-        return GameState.state == GameState.ENDING;
-    }
-
-    public boolean isInLobby() {
-        return GameState.state == GameState.LOBBY;
-    }
     
-    public boolean isInCountdown() {
-        return GameState.state == GameState.COUNTDOWN;
+    public boolean acceptPlayers() {
+        return (GameState.state == GameState.PREPARING || GameState.state == GameState.LOBBY);
     }
     
     public boolean isInGame() {
