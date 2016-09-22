@@ -30,7 +30,7 @@ public class DyePlayer {
                     board.text(3, "§a ");
                     board.text(2, "§eEsperando...");
                     board.text(1, "§e ");
-                    board.text(0, "§cmc..net");
+                    board.text(0, "§cmc.undergames.es");
                     if (base.getPlayer() != null) board.build(base.getPlayer());
                 } else {
                     board.reset();
@@ -44,7 +44,6 @@ public class DyePlayer {
         setWaitScoreboard();
         plugin.getGm().addPlayerToGame(base.getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);
-        //plugin.getAm().teleport(base.getPlayer());
     }
     
     public void setSpectator() {

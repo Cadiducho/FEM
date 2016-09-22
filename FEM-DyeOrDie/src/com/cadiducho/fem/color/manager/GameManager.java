@@ -54,6 +54,10 @@ public class GameManager {
     public void removePlayerFromGame(Player player) {
         playersInGame.remove(player);
     }
+    
+    public boolean acceptPlayers() {
+        return (GameState.state == GameState.PREPARING || GameState.state == GameState.LOBBY);
+    }
 
     public boolean isEnding() {
         return GameState.state == GameState.ENDING;
