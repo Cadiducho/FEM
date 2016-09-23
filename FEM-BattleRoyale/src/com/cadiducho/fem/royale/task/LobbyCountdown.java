@@ -30,7 +30,7 @@ public class LobbyCountdown extends BukkitRunnable {
         } else if (count > 0 && count <= 5) {
             //Sound level up
         } else if (count == 0) {
-            GameState.state = GameState.PVE;
+            GameState.state = GameState.COUNTDOWN;
             new TeleportCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
             cancel();
         }

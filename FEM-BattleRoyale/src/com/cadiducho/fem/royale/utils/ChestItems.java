@@ -1,6 +1,6 @@
 package com.cadiducho.fem.royale.utils;
 
-import com.cadiducho.fem.core.util.ItemUtil;
+import com.cadiducho.fem.core.util.ItemBuilder;
 import com.cadiducho.fem.royale.BattleRoyale;
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,90 +9,152 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
+//Qué horror de clase...
 public class ChestItems {
 
-    public static final ArrayList<ItemStack> ITEMS = new ArrayList();
+    public static final ArrayList<ItemStack> muyProbables = new ArrayList<>();
+    public static final ArrayList<ItemStack> probables = new ArrayList<>();
+    public static final ArrayList<ItemStack> pocoProbables = new ArrayList<>();
+    public static final ArrayList<ItemStack> especiales = new ArrayList<>();
     private static final Random random = new Random();
 
     public static void initItems() {
-        ITEMS.clear();
-        addArmas();
-        addArmor();
-        addComida();
-        addOtros();
+        muyProbables.clear();
+        probables.clear();
+        pocoProbables.clear();
+        especiales.clear();
+        addMuyProbables();
+        addProbables();
+        addPocoProbables();
+        addEspeciales();
     }
-
-    private static void addArmor() {
-        ItemStack ARMOR1 = new ItemStack(Material.DIAMOND_HELMET);
-        ItemStack ARMOR2 = new ItemStack(Material.DIAMOND_CHESTPLATE);
-        ItemStack ARMOR3 = new ItemStack(Material.DIAMOND_LEGGINGS);
-        ItemStack ARMOR4 = new ItemStack(Material.DIAMOND_BOOTS);
-        ITEMS.add(ARMOR1);
-        ITEMS.add(ARMOR2);
-        ITEMS.add(ARMOR3);
-        ITEMS.add(ARMOR4);
+    
+    private static void addMuyProbables() {
+        muyProbables.add(new ItemBuilder().setType(Material.STICK).build());
+        muyProbables.add(new ItemBuilder().setType(Material.COBBLESTONE).setAmount(2).build());
+        muyProbables.add(new ItemBuilder().setType(Material.STONE).setAmount(3).build());
+        muyProbables.add(new ItemBuilder().setType(Material.LOG).build());
+        muyProbables.add(new ItemBuilder().setType(Material.STRING).build());
+        muyProbables.add(new ItemBuilder().setType(Material.FLINT).build());
+        muyProbables.add(new ItemBuilder().setType(Material.IRON_INGOT).build());
+        muyProbables.add(new ItemBuilder().setType(Material.WOOD).setAmount(2).build());
+        muyProbables.add(new ItemBuilder().setType(Material.COAL).build());
+        muyProbables.add(new ItemBuilder().setType(Material.ARROW).setAmount(4).build());
+        muyProbables.add(new ItemBuilder().setType(Material.SULPHUR).build());
+        muyProbables.add(new ItemBuilder().setType(Material.WOOD_SWORD).build());
+        muyProbables.add(new ItemBuilder().setType(Material.WOOD_SPADE).build());
+        muyProbables.add(new ItemBuilder().setType(Material.STONE_AXE).build());
+        muyProbables.add(new ItemBuilder().setType(Material.APPLE).build());
+        muyProbables.add(new ItemBuilder().setType(Material.CARROT).setAmount(2).build());
+        muyProbables.add(new ItemBuilder().setType(Material.BAKED_POTATO).setAmount(2).build());
+        muyProbables.add(new ItemBuilder().setType(Material.SAND).build());
+        muyProbables.add(new ItemBuilder().setType(Material.LEATHER_BOOTS).build());
+        muyProbables.add(new ItemBuilder().setType(Material.LEATHER_CHESTPLATE).build());
+        muyProbables.add(new ItemBuilder().setType(Material.LEATHER_HELMET).build());
+        muyProbables.add(new ItemBuilder().setType(Material.LEATHER_LEGGINGS).build());
+        muyProbables.add(new ItemBuilder().setType(Material.LEATHER).setAmount(4).build());
+        muyProbables.add(new ItemBuilder().setType(Material.SNOW_BALL).setAmount(4).build());
+        muyProbables.add(new ItemBuilder().setType(Material.EGG).build());
+        muyProbables.add(new ItemBuilder().setType(Material.COOKIE).setAmount(2).build());
+        muyProbables.add(new ItemBuilder().setType(Material.TORCH).setAmount(4).build());
+        muyProbables.add(new ItemBuilder().setType(Material.MELON).setAmount(2).build());
+        muyProbables.add(new ItemBuilder().setType(Material.GOLD_NUGGET).setAmount(2).build());
+        muyProbables.add(new ItemBuilder().setType(Material.FEATHER).setAmount(3).build());
+        muyProbables.add(new ItemBuilder().setType(Material.DIRT).setAmount(2).build());
+        ItemStack moneda4 = BattleRoyale.getInstance().getMoneda().clone();
+        moneda4.setAmount(4);      
+        muyProbables.add(moneda4);
     }
-
-    private static void addArmas() {
-        ItemStack ARMA1 = new ItemStack(Material.IRON_SWORD);
-        ItemStack ARMA2 = new ItemStack(Material.DIAMOND_SWORD);
-        ItemStack ARMA3 = new ItemStack(Material.BOW);
-        ItemStack ARMA4 = new ItemStack(Material.FISHING_ROD);
-        ItemStack ARMA5 = new ItemStack(Material.ARROW, 3);
-        ITEMS.add(ARMA1);
-        ITEMS.add(ARMA2);
-        ITEMS.add(ARMA3);
-        ITEMS.add(ARMA4);
-        ITEMS.add(ARMA5);
+    
+    private static void addProbables() {
+        probables.add(new ItemBuilder().setType(Material.GOLD_INGOT).build());
+        probables.add(new ItemBuilder().setType(Material.IRON_INGOT).build());
+        probables.add(new ItemBuilder().setType(Material.SAPLING).build());
+        probables.add(new ItemBuilder().setType(Material.STONE_SWORD).build());
+        probables.add(new ItemBuilder().setType(Material.COOKED_BEEF).build());
+        probables.add(new ItemBuilder().setType(Material.RED_ROSE).build());
+        probables.add(new ItemBuilder().setType(Material.CHAINMAIL_HELMET).build());
+        probables.add(new ItemBuilder().setType(Material.CHAINMAIL_BOOTS).build());
+        probables.add(new ItemBuilder().setType(Material.BREAD).build());
+        probables.add(new ItemBuilder().setType(Material.SPIDER_EYE).build());
+        probables.add(new ItemBuilder().setType(Material.BONE).build());
+        probables.add(new ItemBuilder().setType(Material.EXP_BOTTLE).setAmount(2).build());
+        probables.add(new ItemBuilder().setType(Material.COOKED_FISH).build());
+        probables.add(new ItemBuilder().setType(Material.COOKED_RABBIT).build());
+        probables.add(new ItemBuilder().setType(Material.WHEAT).setAmount(2).build());
+        probables.add(new ItemBuilder().setType(Material.DEAD_BUSH).setAmount(2).build());
+        ItemStack moneda2 = BattleRoyale.getInstance().getMoneda().clone();
+        moneda2.setAmount(2);      
+        muyProbables.add(moneda2);
     }
-
-    private static void addComida() {
-        ItemStack COMIDA1 = new ItemStack(Material.COOKED_BEEF, 3);
-        ItemStack COMIDA2 = new ItemStack(Material.GOLDEN_APPLE, 1);
-        ITEMS.add(COMIDA1);
-        ITEMS.add(COMIDA2);
+    
+    private static void addPocoProbables() {
+        pocoProbables.add(new ItemBuilder().setType(Material.SLIME_BLOCK).setAmount(2).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.WORKBENCH).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.LAVA_BUCKET).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.BUCKET).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.MILK_BUCKET).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.FLOWER_POT).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.PAPER).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.IRON_SWORD).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.STONE_SWORD).addEnchant(Enchantment.KNOCKBACK, 1, true).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1, true).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.IRON_AXE).addEnchant(Enchantment.DAMAGE_ALL, 1, true).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.GOLD_SWORD).addEnchant(Enchantment.KNOCKBACK, 1, true).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.GOLD_PICKAXE).addEnchant(Enchantment.DAMAGE_ALL, 1, true).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.DIAMOND).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.IRON_INGOT).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.TNT).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.FLINT_AND_STEEL).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.CHAINMAIL_HELMET).addEnchant(Enchantment.THORNS, 1, true).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.CHAINMAIL_BOOTS).addEnchant(Enchantment.PROTECTION_FALL, 1, true).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.CHAINMAIL_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.CHAINMAIL_LEGGINGS).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.CHAINMAIL_LEGGINGS).addEnchant(Enchantment.PROTECTION_FIRE, 1, true).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.IRON_BOOTS).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.IRON_CHESTPLATE).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.IRON_LEGGINGS).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.IRON_HELMET).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.BOW).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.SADDLE).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.ELYTRA).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.FISHING_ROD).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.COOKED_CHICKEN).setAmount(2).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.SPECTRAL_ARROW).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.SNOW_BALL).setAmount(2).build());
+        pocoProbables.add(new ItemBuilder().setType(Material.TORCH).setAmount(2).build());
+        pocoProbables.add(BattleRoyale.getInstance().getMoneda());
     }
-
-    private static void addOtros() {
-        ItemStack BLOQUES = new ItemStack(Material.WOOD, 4);
-        ItemStack BLOQUES2 = new ItemStack(Material.COBBLESTONE, 4);
-        ItemStack OTROS2 = new ItemStack(Material.EXP_BOTTLE, 6);
-        ItemStack LAPIZ = new ItemStack(Material.INK_SACK, 3, (short) 4);
-        ItemStack LAVA = new ItemStack(Material.LAVA_BUCKET, 1);
-        ItemStack AGUA = new ItemStack(Material.WATER_BUCKET, 1);
-        ItemStack ORO = new ItemStack(Material.GOLD_INGOT, 4);
-        ItemStack DIAMOND = new ItemStack(Material.DIAMOND, 2);
-        ItemStack MANZANA = new ItemStack(Material.APPLE, 1);
-        ItemStack COINS1 = BattleRoyale.getInstance().getMoneda();
-        ItemStack COINS2 = COINS1.clone();
-        COINS2.setAmount(5);
-        ITEMS.add(BLOQUES);
-        ITEMS.add(BLOQUES2);
-        ITEMS.add(OTROS2);
-        ITEMS.add(LAPIZ);
-        ITEMS.add(LAVA);
-        ITEMS.add(AGUA);
-        ITEMS.add(ORO);
-        ITEMS.add(COINS2);
-        ITEMS.add(DIAMOND);
-        ITEMS.add(MANZANA);
-        ITEMS.add(getCustomEnchantedBook(Enchantment.DAMAGE_ALL, 1));
-        ITEMS.add(getCustomEnchantedBook(Enchantment.PROTECTION_ENVIRONMENTAL, 2));
-        ITEMS.add(getCustomEnchantedBook(Enchantment.PROTECTION_ENVIRONMENTAL, 1));
-        ITEMS.add(getCustomEnchantedBook(Enchantment.ARROW_DAMAGE, 1));
-        ITEMS.add(getCustomEnchantedBook(Enchantment.ARROW_FIRE, 1));
-        ITEMS.add(getCustomEnchantedBook(Enchantment.ARROW_KNOCKBACK, 1));
-        ITEMS.add(getCustomEnchantedBook(Enchantment.PROTECTION_PROJECTILE, 1));
-        ITEMS.add(COINS1);
-        ITEMS.add(COINS2);
+  
+    private static void addEspeciales() {
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 3, true).addEnchant(Enchantment.FIRE_ASPECT, 2, true).build());
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 5, true).build());
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND_SWORD).addEnchant(Enchantment.FIRE_ASPECT, 2, true).addEnchant(Enchantment.KNOCKBACK, 2, true).build());
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4, true).build());
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.PROTECTION_FIRE, 2, true).build());
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.PROTECTION_PROJECTILE, 1, true).build());
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4, true).build());
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).addEnchant(Enchantment.PROTECTION_FIRE, 2, true).build());
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).addEnchant(Enchantment.THORNS, 2, true).build());
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).addEnchant(Enchantment.PROTECTION_PROJECTILE, 2, true).build());
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).addEnchant(Enchantment.PROTECTION_FALL, 2, true).build());
+        especiales.add(new ItemBuilder().setType(Material.COOKED_BEEF).setAmount(5).build());
+        especiales.add(new ItemBuilder().setType(Material.PORK).setAmount(5).build());
+        especiales.add(new ItemBuilder().setType(Material.BREAD).setAmount(5).build());
+        especiales.add(new ItemBuilder().setType(Material.GOLDEN_APPLE).setAmount(1).build());
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND).setAmount(3).build());
+        especiales.add(new ItemBuilder().setType(Material.DIAMOND_BLOCK).setAmount(1).build());
+        especiales.add(new ItemBuilder().setType(Material.ARROW).setAmount(15).build());
+        especiales.add(new ItemBuilder().setType(Material.PORK).setAmount(5).build());
     }
 
     public static ItemStack[] getRandomItems() {
         int ran = 5;
         ItemStack[] items = new ItemStack[ran];
         for (int i = 0; i < ran; i++) {
-            int id = random.nextInt(ITEMS.size() - 1);
-            items[i] = ((ItemStack) ITEMS.get(id));
+            int id = random.nextInt(muyProbables.size() - 1);
+            items[i] = ((ItemStack) muyProbables.get(id));
         }
         return items;
     }

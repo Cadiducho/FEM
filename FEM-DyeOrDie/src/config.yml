@@ -1,10 +1,8 @@
-GemHunters:
-    Arena:
-        usersMin: 2
-        usersMax: 16
-        borderPos1: world%0.0%70.0%0.0%0.0%0.0
-        borderPos2: world%0.0%70.0%0.0%0.0%0.0
-        lobby: world%0.0%70.0%0.0%0.0%0.0
-        Spawn:
-            morado: world%200.0%70.0%0.0%0.0%0.0
-            amarillo: world%210.0%70.0%0.0%0.0%0.0
+Color:
+  Arena:
+    usersMin: 2
+    usersMax: 16
+    Lobby: espera%-445.0%19.0%90.0%0.0%0.0
+    mundo: inferno
+    borderPos1: inferno%-1034.0%52.0%380.0%0.0%0.0
+    borderPos2: inferno%-979.0%5.0%322.0%0.0%0.0

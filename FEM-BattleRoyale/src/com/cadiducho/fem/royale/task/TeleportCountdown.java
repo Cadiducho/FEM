@@ -2,6 +2,7 @@ package com.cadiducho.fem.royale.task;
 
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.royale.BattleRoyale;
+import com.cadiducho.fem.royale.manager.GameState;
 import java.util.HashMap;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -19,7 +20,6 @@ public class TeleportCountdown extends BukkitRunnable {
     public void run() {
         if (count == 5) {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> plugin.getAm().teleport(p));
-            plugin.getAm().fillChests();
         } else if (count == 0) {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> {
                 plugin.getAm().fixPlayer(p.getLocation());
@@ -29,6 +29,7 @@ public class TeleportCountdown extends BukkitRunnable {
                 FEMServer.getUser(p).getUserData().setPlays(plays);
                 FEMServer.getUser(p).save();
             });
+            GameState.state = GameState.PVE;
             new GameCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
             cancel();
         }

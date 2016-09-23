@@ -3,6 +3,9 @@ package com.cadiducho.fem.royale.listeners;
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
+import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -22,6 +25,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 public class GameListener implements Listener {
@@ -99,7 +103,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player) {
+        if (e.getEntity() instanceof Player) {  
             if (plugin.getGm().acceptPlayers() || GameState.state == GameState.PVE) {
                 e.setCancelled(true);
             }
@@ -126,28 +130,29 @@ public class GameListener implements Listener {
             }
         }
     }
+    
+    ArrayList<Material> permitidos = Lists.newArrayList(Material.WORKBENCH, Material.TNT);
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        if (plugin.getGm().isInGame() || plugin.getGm().isDm() || GameState.state == GameState.PVE) {
-            if (blocksPlaced.containsKey(e.getBlock().getLocation()) && blocksPlaced.containsValue(e.getBlock())) {
-                blocksPlaced.remove(e.getBlock().getLocation(), e.getBlock());
-            }
-        } else {
-            e.setCancelled(true);
-        }
-        
+        e.setCancelled(true);  
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
-        if (plugin.getGm().isInGame() || plugin.getGm().isDm() || GameState.state == GameState.PVE) {
-            if (blocksPlaced.containsKey(e.getBlock().getLocation()) && blocksPlaced.containsValue(e.getBlock())) {
-                blocksPlaced.put(e.getBlock().getLocation(), e.getBlock());
-            }
-        } else {
+        Block b = e.getBlock();
+        if (!permitidos.contains(b.getType())) {
             e.setCancelled(true);
-        }  
+        }
+    }
+    
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent e) {
+        if (GameState.state == GameState.COUNTDOWN) {
+            if (!(e.getFrom().getBlockZ() == e.getTo().getBlockZ()) || !(e.getFrom().getBlockX() == e.getTo().getBlockX())) {
+                e.setTo(e.getFrom());
+            }
+        }
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -158,8 +163,9 @@ public class GameListener implements Listener {
                 e.setCancelled(true);
                 e.getBlock().setType(Material.TRAPPED_CHEST);
                 Chest cofre = (Chest)e.getBlock().getState();
-                plugin.getAm().fillChest(cofre.getInventory());
+                plugin.getAm().fillChest(cofre.getInventory(), true);
                 plugin.getWorld().strikeLightningEffect(cofre.getLocation());
+                plugin.getMsg().sendBroadcast("&6¡Ha caido un cofre de abastecimiento en alguna parte del mapa!");
             }
         }
     }

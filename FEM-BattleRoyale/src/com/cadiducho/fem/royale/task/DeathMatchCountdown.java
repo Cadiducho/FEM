@@ -19,16 +19,16 @@ public class DeathMatchCountdown extends BukkitRunnable {
         if (GameState.state == GameState.ENDING) {
             cancel();
         }
-        plugin.getGm().getPlayersInGame().stream().forEach(players -> {
-            plugin.getMsg().sendActionBar(players, "&a&l" + plugin.getAm().deathMatchTime);
-        });
-        plugin.getGm().getPlayersInGame().stream().forEach((players) -> {
-            plugin.getMsg().sendActionBar(players, "&f&lDEATHMATCH: &a&l" + plugin.getAm().deathMatchTime);
+        plugin.getGm().getPlayersInGame().stream()
+                .filter(p -> plugin.getAm().deathMatchTime > 0)
+                .forEach(p -> plugin.getMsg().sendActionBar(p, "&a&l" + plugin.getAm().deathMatchTime));
+        plugin.getGm().getPlayersInGame().forEach(p -> {
+            plugin.getMsg().sendActionBar(p, "&f&lDEATHMATCH: &a&l" + plugin.getAm().deathMatchTime);
         });
         if (plugin.getAm().deathMatchTime == plugin.getConfig().getInt("deathMatchTime")) {
-            plugin.getGm().getPlayersInGame().stream().forEach(p -> plugin.getAm().teleportDeathmatch(p));
+            plugin.getGm().getPlayersInGame().forEach(p -> plugin.getAm().teleportDeathmatch(p));
         } else if (plugin.getAm().deathMatchTime == 0) {
-            plugin.getGm().getPlayersInGame().stream().forEach(p -> p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 1)));
+            plugin.getGm().getPlayersInGame().forEach(p -> p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 1)));
         }
         --plugin.getAm().deathMatchTime;
     }

@@ -7,6 +7,8 @@ worldBorderCenterY: 0
 Arena:
     Min: 2
     Max: 8
+    areaBorder1: world%0.0%70.0%0.0%0.0%0.0
+    areaBorder2: world%0.0%70.0%0.0%0.0%0.0
     Lobby: world%0.0%0.0%0.0%0.0%0.0
     Spawn:
         1: world%0.0%0.0%0.0%0.0%0.0
