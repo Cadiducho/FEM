@@ -1,6 +1,5 @@
 package com.cadiducho.fem.pic.listener;
 
-import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.pic.Pictograma;
 import java.util.Set;
 import lombok.Getter;
@@ -15,10 +14,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 
 public class GameListener implements Listener {
@@ -79,7 +76,18 @@ public class GameListener implements Listener {
                 Pictograma.getPlayer(e.getPlayer()).getBase().sendMessage("No puedes hablar mientras eres el artista");
                 e.setCancelled(true);
             } else {
-                String word = plugin.getGm().word;
+                String word = plugin.getGm().word.toLowerCase();
+                //Remplazar tildes
+                word.replace("á", "a");
+                word.replace("é", "e");
+                word.replace("í", "i");
+                word.replace("ó", "o");
+                word.replace("ú", "u");
+                word.replace("à", "a");
+                word.replace("é", "e");
+                word.replace("ì", "i");
+                word.replace("ù", "u");
+                
                 if (plugin.getGm().getHasFound().contains(e.getPlayer())) {
                     Pictograma.getPlayer(e.getPlayer()).getBase().sendMessage("Ya has encontrado la palabra");
                     e.setCancelled(true);
