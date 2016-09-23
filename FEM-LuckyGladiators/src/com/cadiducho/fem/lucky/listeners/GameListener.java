@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -112,6 +113,17 @@ public class GameListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent e) {
         e.setCancelled(true);
     }
+    
+    ArrayList<Material> objetosNormales = Lists.newArrayList(Material.STICK, Material.COAL, Material.STONE, Material.COBBLESTONE,
+            Material.WOOD_SWORD, Material.WOOD_AXE, Material.IRON_INGOT, Material.BAKED_POTATO, Material.CARROT, Material.POISONOUS_POTATO, Material.POTATO_ITEM,
+            Material.STRING, Material.FLINT_AND_STEEL, Material.WOOL, Material.FLOWER_POT_ITEM, Material.COCOA, Material.SUGAR, Material.EGG,
+            Material.SULPHUR, Material.COOKIE, Material.FIREWORK, Material.MELON, Material.QUARTZ, Material.RAW_CHICKEN, Material.RAW_FISH,
+            Material.RAW_BEEF, Material.RABBIT, Material.MUTTON, Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET, Material.LEATHER_LEGGINGS);
+    ArrayList<Material> objetosPro = Lists.newArrayList(Material.STONE_SWORD, Material.STONE_AXE, Material.GOLD_AXE, Material.GOLD_SPADE, 
+            Material.IRON_INGOT, Material.COAL_BLOCK, Material.BEETROOT_SOUP, Material.GOLD_INGOT, Material.COOKED_MUTTON,
+            Material.COOKED_RABBIT, Material.MUSHROOM_SOUP, Material.STONE, Material.STICK, Material.FISHING_ROD, Material.QUARTZ, Material.EMERALD, Material.IRON_HELMET,
+            Material.IRON_CHESTPLATE, Material.IRON_BOOTS, Material.IRON_LEGGINGS, Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_BOOTS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET);
+    ArrayList<Material> objetosChetos = Lists.newArrayList(Material.DIAMOND, Material.IRON_BLOCK, Material.GOLD_BLOCK, Material.ARROW, Material.ELYTRA, Material.DIAMOND_SWORD);
 
     @EventHandler
     public void onBreak(BlockBreakEvent e) {
@@ -125,15 +137,7 @@ public class GameListener implements Listener {
                 e.getBlock().setType(Material.AIR);
                 Random rand = new Random();
                 int proporcion = rand.nextInt(100);
-                ArrayList<Material> objetosNormales = Lists.newArrayList(Material.LOG, Material.WOOD, Material.STICK, Material.COAL, Material.STONE, Material.COBBLESTONE,
-                        Material.GOLD_ORE, Material.IRON_ORE, Material.IRON_INGOT, Material.APPLE, Material.BEETROOT, Material.PORK, Material.POISONOUS_POTATO, Material.POTATO_ITEM, 
-                        Material.CARROT_ITEM, Material.STRING, Material.FLINT, Material.SAND, Material.WOOL, Material.FLOWER_POT_ITEM, Material.COCOA, Material.SUGAR, Material.EGG,
-                        Material.SULPHUR, Material.COOKIE, Material.INK_SACK, Material.FIREWORK, Material.DIRT, Material.MELON, Material.QUARTZ, Material.RAW_CHICKEN, Material.RAW_FISH,
-                        Material.RAW_BEEF, Material.RABBIT, Material.PAPER, Material.MUTTON);
-                ArrayList<Material> objetosPro = Lists.newArrayList(Material.IRON_INGOT, Material.COAL_BLOCK, Material.BEETROOT_SOUP, Material.GOLD_INGOT, Material.COOKED_MUTTON, 
-                        Material.COOKED_RABBIT, Material.MUSHROOM_SOUP, Material.STONE, Material.STICK, Material.FISHING_ROD, Material.QUARTZ, Material.EMERALD);
-                ArrayList<Material> objetosChetos = Lists.newArrayList(Material.DIAMOND, Material.IRON_BLOCK, Material.GOLD_BLOCK, Material.ARROW, Material.ELYTRA);
-
+                
                 ArrayList<ItemStack> drops = Lists.newArrayList();
                 for (int i = (rand.nextInt(4) + 1); i > 0; i--) { //Máximo 4 veces
                     if (proporcion >= 50) { //50%
@@ -144,6 +148,9 @@ public class GameListener implements Listener {
                         drops.add(new ItemStack(objetosChetos.get(rand.nextInt(objetosChetos.size() - 1)), (rand.nextInt(1) + 1))); //de 1 a 2
                     } //15% de que no salga nada
                 }
+                
+                p.giveExpLevels(1);
+                p.playSound(loc, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 
                 drops.forEach(d -> w.dropItemNaturally(loc.add(0, 1.3, 0), d));
                 FEMServer.getUser(p).getUserData().setLuckyRotos(FEMServer.getUser(p).getUserData().getLuckyRotos() + 1);
