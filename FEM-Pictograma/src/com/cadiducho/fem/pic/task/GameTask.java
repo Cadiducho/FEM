@@ -23,7 +23,6 @@ public class GameTask extends BukkitRunnable {
         switch (count) {
             case 75:
                 gameInstance = this;
-                System.out.println("instance ajustado");
                 break;
             case 45:
                 plugin.getMsg().sendBroadcast("&630 segundos para terminar la ronda!");
@@ -44,7 +43,6 @@ public class GameTask extends BukkitRunnable {
     }
     
     public void prepareNextRound() {
-        System.out.println("Termiando ronda");
         gameInstance.cancel();
         Pictograma.getPlayer(plugin.getGm().builder).setCleanPlayer(GameMode.ADVENTURE);
         Pictograma.getPlayer(plugin.getGm().builder).spawn();

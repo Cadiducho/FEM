@@ -34,7 +34,9 @@ public class GameListener implements Listener {
             if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
                 return;
             }
-            b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
+            });
             return;
         }
         if (((event.getPlayer().getInventory().getItemInMainHand().getType() == Material.WOOL) && (event.getAction() == Action.RIGHT_CLICK_AIR)) || (event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
@@ -45,7 +47,9 @@ public class GameListener implements Listener {
             if (b.getType() != Material.WOOL) {
                 return;
             }
-            b.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getData(), true);
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                b.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getData(), true);
+            });
             event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1.0F, 1.0F);
             return;
         }
@@ -56,9 +60,11 @@ public class GameListener implements Listener {
             if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
                 return;
             }
-            b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-            b2.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-            b3.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
+            plugin.getServer().getScheduler().runTask(plugin, () -> {
+                b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
+                b2.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
+                b3.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
+            });
             return;
         }
         if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.COMPASS) {
@@ -77,17 +83,18 @@ public class GameListener implements Listener {
                 e.setCancelled(true);
             } else {
                 String word = plugin.getGm().word.toLowerCase();
-                //Remplazar tildes
-                word.replace("á", "a");
-                word.replace("é", "e");
-                word.replace("í", "i");
-                word.replace("ó", "o");
-                word.replace("ú", "u");
-                word.replace("à", "a");
-                word.replace("é", "e");
-                word.replace("ì", "i");
-                word.replace("ù", "u");
+                String intento = e.getMessage().toLowerCase();
                 
+                //Remplazar tildes
+                intento.replace("á", "a");
+                intento.replace("é", "e");
+                intento.replace("í", "i");
+                intento.replace("ó", "o");
+                intento.replace("ú", "u");
+                intento.replace("à", "a");
+                intento.replace("é", "e");
+                intento.replace("ì", "i");
+                intento.replace("ù", "u");
                 if (plugin.getGm().getHasFound().contains(e.getPlayer())) {
                     Pictograma.getPlayer(e.getPlayer()).getBase().sendMessage("Ya has encontrado la palabra");
                     e.setCancelled(true);
