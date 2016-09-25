@@ -12,27 +12,30 @@ public class LobbyCountdown extends BukkitRunnable {
         plugin = instance;
     }
 
-    private int count = 12;
+    private int count = 30;
 
     @Override
     public void run() {
         plugin.getGm().getPlayersInGame().stream().forEach((players) -> {
             players.setLevel(count);
         });
-        if (count == 12) {
-            plugin.getServer().getOnlinePlayers().stream().forEach((players) -> {
-                players.hidePlayer(players);
-            });
-        } else if (count == 11) {
-            plugin.getServer().getOnlinePlayers().stream().forEach((players) -> {
-                players.showPlayer(players);
-            });
-        } else if (count > 0 && count <= 5) {
-            //Sound level up
-        } else if (count == 0) {
-            GameState.state = GameState.COUNTDOWN;
-            new TeleportCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
-            cancel();
+        switch (count) {
+            case 12:
+                plugin.getServer().getOnlinePlayers().stream().forEach(p -> p.hidePlayer(p));
+                break;
+            case 11:
+                plugin.getServer().getOnlinePlayers().stream().forEach(p -> p.showPlayer(p)); 
+                break;
+            case 5:
+                plugin.getMsg().sendBroadcast("&7Serás llevado al mundo en 5 segundos");
+                break;
+            case 0:
+                GameState.state = GameState.COUNTDOWN;
+                new TeleportCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
+                cancel();
+                break;
+            default:
+                break;
         }
         --count;
     }

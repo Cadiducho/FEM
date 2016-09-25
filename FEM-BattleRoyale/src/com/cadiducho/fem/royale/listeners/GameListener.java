@@ -1,6 +1,7 @@
 package com.cadiducho.fem.royale.listeners;
 
 import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
 import com.google.common.collect.Lists;
@@ -31,7 +32,6 @@ import org.bukkit.event.server.ServerListPingEvent;
 public class GameListener implements Listener {
 
     private final BattleRoyale plugin;
-    private final HashMap<Location, Block> blocksPlaced = new HashMap<>();
 
     public GameListener(BattleRoyale instance) {
         plugin = instance;
@@ -84,6 +84,7 @@ public class GameListener implements Listener {
                 FEMServer.getUser(e.getEntity()).save();
             } else {
                 plugin.getMsg().sendMessage(e.getEntity(), "Has muerto");
+                new Title("&b&l¡Has muerto!", "Puedes volver al Lobby cuando quieras", 1, 3, 1).send(e.getEntity());
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                 plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
                 plugin.getGm().getPlayersInGame().remove(e.getEntity());

@@ -1,6 +1,7 @@
 package com.cadiducho.fem.royale.manager;
 
 import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.util.Title;
 import java.util.ArrayList;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.task.DeathMatchCountdown;
@@ -47,6 +48,7 @@ public class GameManager {
                     plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
                     HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
                     wins.replace(5, wins.get(5) + 1);
+                    new Title("&b&l¡Has ganado!", "", 1, 2, 1).send(winner);
                     FEMServer.getUser(winner).getUserData().setWins(wins);
                     FEMServer.getUser(winner).save();
                 });
