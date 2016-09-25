@@ -1,10 +1,10 @@
 package com.cadiducho.fem.gem.task;
 
 import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.manager.GameState;
 import java.util.HashMap;
-import lombok.Getter;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,8 +15,8 @@ public class GameTask extends BukkitRunnable {
     private final GemHunters plugin;
     public static GameTask instance;
     
-    public GameTask(GemHunters plugin) {
-        this.plugin = plugin;
+    public GameTask(GemHunters instance) {
+        plugin = instance;
     }
 
     private static int count = 100;
@@ -28,15 +28,20 @@ public class GameTask extends BukkitRunnable {
         switch (count) {
             case 100:
                 plugin.getAm().muro(plugin.getServer().getWorlds().get(0), false);
-                plugin.getGm().getPlayersInGame().forEach((players) -> {
-                    players.playSound(players.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
-                }); break;
+                plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f)); 
+                break;
             case 30:
-                plugin.getMsg().sendBroadcast("&7Solo quedan 30 segundos! ");
+                plugin.getMsg().sendBroadcast("&7Sólo quedan 30 segundos!");
+                plugin.getGm().getPlayersInGame().forEach(p -> {
+                    new Title("&b&lSólo quedan 30 segundos", "¡Dáte prisa!", 1, 2, 1).send(p);
+                });
                 break;
             case 0:
                 if (checkMinWinner() == null) {
-                    plugin.getMsg().sendBroadcast("no hay ganador...");
+                    plugin.getMsg().sendBroadcast("¡Empate! ¡No hay ningún ganador!");
+                    plugin.getGm().getPlayersInGame().forEach(p -> {
+                    new Title("&b&lEMPATE", "", 1, 2, 1).send(p);
+                });
                 }
                 end();
                 break;
@@ -61,6 +66,7 @@ public class GameTask extends BukkitRunnable {
         //Hay un ganador
         plugin.getMsg().sendBroadcast("Ha ganado el equipo " + winner.getDisplayName());
         for (Player p : plugin.getTm().getJugadores().get(winner)) {
+            new Title("&b&lEl equipo " + winner.getDisplayName() + " ha ganado l partida", "¡Enhorabuena!", 1, 2, 1).send(p);
             HashMap<Integer, Integer> wins = FEMServer.getUser(p).getUserData().getWins();
             wins.replace(3, wins.get(3) + 1);
             FEMServer.getUser(p).getUserData().setWins(wins);
@@ -75,7 +81,7 @@ public class GameTask extends BukkitRunnable {
         //Cuenta atrás para envio a los lobbies y cierre del server
         //Iniciar hilo del juego
         new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
-        this.cancel();
+        cancel();
     }
 
 

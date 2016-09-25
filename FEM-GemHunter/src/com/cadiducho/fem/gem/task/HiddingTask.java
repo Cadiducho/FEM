@@ -17,16 +17,12 @@ public class HiddingTask extends BukkitRunnable {
         plugin = instance;
     }
 
-    private static int count = 40;
+    private static int count = 50;
 
     @Override
     public void run() {
         //Por tiempos
         switch (count) {
-            case 180:
-                plugin.getGm().getPlayersInGame().forEach((players) -> {
-                    players.playSound(players.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
-                }); break;
             case 30:
                 plugin.getMsg().sendBroadcast("&7Solo quedan 30 segundos para esconder tu gema!");
                 break;

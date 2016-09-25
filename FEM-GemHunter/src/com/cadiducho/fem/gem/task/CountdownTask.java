@@ -7,10 +7,8 @@ import com.cadiducho.fem.gem.manager.GameState;
 import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 public class CountdownTask extends BukkitRunnable {
 
@@ -20,7 +18,7 @@ public class CountdownTask extends BukkitRunnable {
         plugin = instance;
     }
 
-    private int count = 7;
+    private int count = 30;
 
     @Override
     public void run() {       
@@ -32,7 +30,7 @@ public class CountdownTask extends BukkitRunnable {
             
         } else if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
-
+            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));
         } else if (count == 0) {
             GameState.state = GameState.HIDDING;
             for (Player players : plugin.getGm().getPlayersInGame()) {
@@ -50,7 +48,7 @@ public class CountdownTask extends BukkitRunnable {
             
             //Iniciar hilo de la fase de esconder
             new HiddingTask(plugin).runTaskTimer(plugin, 20l, 20l);
-            this.cancel();
+            cancel();
         }
 
         --count;
