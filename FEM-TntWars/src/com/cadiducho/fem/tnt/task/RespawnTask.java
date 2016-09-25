@@ -1,8 +1,10 @@
 package com.cadiducho.fem.tnt.task;
 
+import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.tnt.TntPlayer;
 import java.util.HashMap;
 import org.bukkit.GameMode;
+import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class RespawnTask extends BukkitRunnable {
@@ -19,12 +21,15 @@ public class RespawnTask extends BukkitRunnable {
     public void run() {
         if (player.getBase().getPlayer() == null) cancel();
         
-        if (count == 5) {
+        if (count == 9) {
+            new Title("&b&l¡Has muerto!", "Reaparecerás al estar tu isla intacta", 1, 2, 1).send(player.getBase().getPlayer()); 
             HashMap<Integer, Integer> deaths = player.getBase().getUserData().getDeaths();
             deaths.replace(1, deaths.get(1) + 1);
             player.getBase().getUserData().setDeaths(deaths);
             player.getBase().save();
-            player.getBase().sendMessage("Respawnearás en 9 segundos");
+            player.getBase().sendMessage("Reaparecerás en 9 segundos");
+        } else if (count > 0 && count <= 5) {
+            player.getBase().getPlayer().playSound(player.getBase().getPlayer().getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F);
         } else if (count == 0) {
             player.spawn();
             player.setCleanPlayer(GameMode.SURVIVAL);

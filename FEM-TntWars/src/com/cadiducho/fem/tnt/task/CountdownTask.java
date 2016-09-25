@@ -25,11 +25,10 @@ public class CountdownTask extends BukkitRunnable {
     @Override
     public void run() {       
         if (count == 7) {            
-            plugin.getGm().getPlayersInGame().forEach(p -> TntWars.getPlayer(p).spawn());
-            
+            plugin.getGm().getPlayersInGame().forEach(p -> plugin.getAm().teleport(p));
         } else if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
-
+            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F)); 
         } else if (count == 0) {
             GameState.state = GameState.GAME;
             for (Player players : plugin.getGm().getPlayersInGame()) {

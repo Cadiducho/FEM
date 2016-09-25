@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -45,10 +46,10 @@ public class SignListener implements Listener {
         Generador gen = Generador.getGenerador(e.getClickedBlock().getLocation());
         if (e.getClickedBlock().getState() instanceof Sign) {
             final Sign s = (Sign) e.getClickedBlock().getState();
-            interactGenerador(s, p, e.getClickedBlock().getLocation());
+            interactGenerador(s, p, s.getLocation());
         } else if (gen != null) {
             final Sign s = (Sign) gen.getSign().getBlock().getState();
-            interactGenerador(s, p, e.getClickedBlock().getLocation());
+            interactGenerador(s, p, s.getLocation());
         }
     }
     
@@ -360,10 +361,11 @@ public class SignListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
-
+        if (e.getClick().equals(ClickType.MIDDLE)) return;
+        
         if (e.getCurrentItem() != null) {       
             if (e.getInventory().getTitle().contains("§7Generador Hierro")) {
-                if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§2Mejorar a: §2Generador de §7Hierro §2- Nivel 2")) {
+                if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2Mejorar a: §2Generador de §7Hierro §2- Nivel 2")) {
                     if (p.getInventory().contains(Material.IRON_INGOT, 20)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.IRON_INGOT, 20)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
@@ -376,7 +378,7 @@ public class SignListener implements Listener {
                         p.sendMessage("§cNo tienes suficiente hierro!");
                     }
                     e.setCancelled(true);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§2Mejorar a: §2Generador de §7Hierro §2- Nivel 3")) {
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2Mejorar a: §2Generador de §7Hierro §2- Nivel 3")) {
                     if (p.getInventory().contains(Material.GOLD_INGOT, 20)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 20)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
@@ -389,7 +391,7 @@ public class SignListener implements Listener {
                         p.sendMessage("§cNo tienes suficiente oro!");
                     }
                     e.setCancelled(true);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§2Mejorar a: §2Generador de §7Hierro §2- Nivel 4")) {
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2Mejorar a: §2Generador de §7Hierro §2- Nivel 4")) {
                     if (p.getInventory().contains(Material.GOLD_INGOT, 50)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 50)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
@@ -406,7 +408,7 @@ public class SignListener implements Listener {
                     e.setCancelled(true);
                 }
             } else if (e.getInventory().getTitle().contains("§7Generador Oro")) {
-                if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§2Mejorar a: §2Generador de §7Oro §2- Nivel 2")) {
+                if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2Mejorar a: §2Generador de §7Oro §2- Nivel 2")) {
                     if (p.getInventory().contains(Material.GOLD_INGOT, 10)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 10)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
@@ -419,7 +421,7 @@ public class SignListener implements Listener {
                         p.sendMessage("§cNo tienes suficiente oro!");
                     }
                     e.setCancelled(true);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§2Mejorar a: §2Generador de §7Oro §2- Nivel 3")) {
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2Mejorar a: §2Generador de §7Oro §2- Nivel 3")) {
                     if (p.getInventory().contains(Material.GOLD_INGOT, 20)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 20)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
@@ -432,7 +434,7 @@ public class SignListener implements Listener {
                         p.sendMessage("§cNo tienes suficiente oro!");
                     }
                     e.setCancelled(true);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§2Mejorar a: §2Generador de §7Oro §2- Nivel 4")) {
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2Mejorar a: §2Generador de §7Oro §2- Nivel 4")) {
                     if (p.getInventory().contains(Material.DIAMOND, 50)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 20)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
@@ -449,7 +451,7 @@ public class SignListener implements Listener {
                     e.setCancelled(true);
                 }
             } else if (e.getInventory().getTitle().contains("§7Generador Diamante")) {
-                if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§2Mejorar a: §2Generador de §7Diamante §2- Nivel 1")) {
+                if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2Mejorar a: §2Generador de §7Diamante §2- Nivel 1")) {
                     if (p.getInventory().contains(Material.DIAMOND, 5)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 5)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
@@ -462,7 +464,7 @@ public class SignListener implements Listener {
                         p.sendMessage("§cNo tienes suficiente diamante!");
                     }
                     e.setCancelled(true);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§2Mejorar a: §2Generador de §7Diamante §2- Nivel 2")) {
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2Mejorar a: §2Generador de §7Diamante §2- Nivel 2")) {
                     if (p.getInventory().contains(Material.DIAMOND, 10)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 10)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
@@ -475,7 +477,7 @@ public class SignListener implements Listener {
                         p.sendMessage("§cNo tienes suficiente diamante!");
                     }
                     e.setCancelled(true);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§2Mejorar a: §2Generador de §7Diamante §2- Nivel 3")) {
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2Mejorar a: §2Generador de §7Diamante §2- Nivel 3")) {
                     if (p.getInventory().contains(Material.DIAMOND, 50)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 50)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
@@ -488,7 +490,7 @@ public class SignListener implements Listener {
                         p.sendMessage("§cNo tienes suficiente diamante!");
                     }
                     e.setCancelled(true);
-                } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains("§2Mejorar a: §2Generador de §7Diamante §2- Nivel 4")) {
+                } else if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2Mejorar a: §2Generador de §7Diamante §2- Nivel 4")) {
                     if (p.getInventory().contains(Material.DIAMOND, 75)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 75)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);

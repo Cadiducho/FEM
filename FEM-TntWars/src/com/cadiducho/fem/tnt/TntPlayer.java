@@ -3,9 +3,12 @@ package com.cadiducho.fem.tnt;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
+import com.cadiducho.fem.core.util.Title;
 import java.util.HashMap;
 import lombok.Getter;
 import org.bukkit.GameMode;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class TntPlayer {
@@ -72,7 +75,6 @@ public class TntPlayer {
         setWaitScoreboard();
         plugin.getGm().addPlayerToGame(base.getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);
-        plugin.getAm().teleport(base.getPlayer());
     }
     
     public void setSpectator() {
@@ -100,6 +102,7 @@ public class TntPlayer {
         getBase().getPlayer().getInventory().clear();
         setSpectator();
         plugin.getGm().removePlayerFromGame(base.getPlayer());
+        new Title("&b&l¡Has muerto!", "Puedes volver al lobby cuando desees, o ver la partida", 1, 2, 1).send(getBase().getPlayer()); 
         base.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
         base.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
         HashMap<Integer, Integer> deaths = base.getUserData().getDeaths();
@@ -110,5 +113,6 @@ public class TntPlayer {
 
     public void spawn() {
         getBase().getPlayer().teleport(Metodos.centre(TntIsland.getIsland(getBase().getUuid()).getSpawn()));
+        getBase().getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2, 10));
     }
 }
