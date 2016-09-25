@@ -28,7 +28,7 @@ public class FEMCore extends JavaPlugin {
 
     public static FEMServer server;
 
-    @Getter private final String tag = Metodos.colorizar("&7[&4Under&8Games&7]&r");
+    @Getter private final String tag = Metodos.colorizar("&7[&6Under&eGames&7]&r");
 
     @Override
     public void onEnable() {

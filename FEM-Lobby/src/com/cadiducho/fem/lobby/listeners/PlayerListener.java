@@ -27,6 +27,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -343,7 +344,16 @@ public class PlayerListener implements Listener, PluginMessageListener {
     //Eventos a cancelar en el lobby
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerBreak(BlockBreakEvent e) {
-        e.setCancelled(true);
+        if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)) {
+            e.setCancelled(true);
+        }
+    }
+    
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
+    public void onPlayerPlace(BlockPlaceEvent e) {
+        if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)) {
+            e.setCancelled(true);
+        }
     }
     
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)

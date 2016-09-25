@@ -21,7 +21,7 @@ public class Messages {
     private String prefix;
 
     public void init() {
-        prefix = ChatColor.translateAlternateColorCodes('&', "&eLucky&aGladiators");
+        prefix = ChatColor.translateAlternateColorCodes('&', "&eLucky&aWarriors");
     }
 
     public void sendMessage(Player player, String msg) {

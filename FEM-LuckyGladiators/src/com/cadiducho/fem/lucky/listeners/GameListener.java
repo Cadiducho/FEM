@@ -114,16 +114,14 @@ public class GameListener implements Listener {
         e.setCancelled(true);
     }
     
-    ArrayList<Material> objetosNormales = Lists.newArrayList(Material.STICK, Material.COAL, Material.STONE, Material.COBBLESTONE,
+    ArrayList<Material> objetosNormales = Lists.newArrayList(Material.STICK, Material.COBBLESTONE, Material.LAPIS_BLOCK,
             Material.WOOD_SWORD, Material.WOOD_AXE, Material.IRON_INGOT, Material.BAKED_POTATO, Material.CARROT, Material.POISONOUS_POTATO, Material.POTATO_ITEM,
-            Material.STRING, Material.FLINT_AND_STEEL, Material.WOOL, Material.FLOWER_POT_ITEM, Material.COCOA, Material.SUGAR, Material.EGG,
-            Material.SULPHUR, Material.COOKIE, Material.FIREWORK, Material.MELON, Material.QUARTZ, Material.RAW_CHICKEN, Material.RAW_FISH,
+            Material.STRING, Material.FLINT_AND_STEEL, Material.EGG, Material.COOKIE, Material.FIREWORK, Material.MELON, Material.RAW_CHICKEN, Material.RAW_FISH,
             Material.RAW_BEEF, Material.RABBIT, Material.MUTTON, Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET, Material.LEATHER_LEGGINGS);
     ArrayList<Material> objetosPro = Lists.newArrayList(Material.STONE_SWORD, Material.STONE_AXE, Material.GOLD_AXE, Material.GOLD_SPADE, 
-            Material.IRON_INGOT, Material.COAL_BLOCK, Material.BEETROOT_SOUP, Material.GOLD_INGOT, Material.COOKED_MUTTON,
-            Material.COOKED_RABBIT, Material.MUSHROOM_SOUP, Material.STONE, Material.STICK, Material.FISHING_ROD, Material.QUARTZ, Material.EMERALD, Material.IRON_HELMET,
+            Material.IRON_INGOT, Material.BEETROOT_SOUP, Material.GOLD_INGOT, Material.COOKED_MUTTON, Material.COOKED_RABBIT, Material.MUSHROOM_SOUP, Material.FISHING_ROD, Material.IRON_HELMET, 
             Material.IRON_CHESTPLATE, Material.IRON_BOOTS, Material.IRON_LEGGINGS, Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_BOOTS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET);
-    ArrayList<Material> objetosChetos = Lists.newArrayList(Material.DIAMOND, Material.IRON_BLOCK, Material.GOLD_BLOCK, Material.ARROW, Material.ELYTRA, Material.DIAMOND_SWORD);
+    ArrayList<Material> objetosChetos = Lists.newArrayList(Material.DIAMOND, Material.IRON_BLOCK, Material.GOLD_BLOCK, Material.ARROW, Material.DIAMOND_AXE, Material.DIAMOND_SWORD);
 
     @EventHandler
     public void onBreak(BlockBreakEvent e) {
@@ -142,9 +140,9 @@ public class GameListener implements Listener {
                 for (int i = (rand.nextInt(4) + 1); i > 0; i--) { //Máximo 4 veces
                     if (proporcion >= 50) { //50%
                         drops.add(new ItemStack(objetosNormales.get(rand.nextInt(objetosNormales.size() - 1)), (rand.nextInt(4) + 1))); //de 1 a 5
-                    } else if (proporcion >= 30) { //30%
+                    } else if (proporcion >= 20) { //30%
                         drops.add(new ItemStack(objetosPro.get(rand.nextInt(objetosPro.size() - 1)), (rand.nextInt(2) + 1))); //de 1 a 3
-                    } else if (proporcion > 15 && proporcion < 29) { //9%
+                    } else if (proporcion >= 5) { //15%
                         drops.add(new ItemStack(objetosChetos.get(rand.nextInt(objetosChetos.size() - 1)), (rand.nextInt(1) + 1))); //de 1 a 2
                     } //15% de que no salga nada
                 }

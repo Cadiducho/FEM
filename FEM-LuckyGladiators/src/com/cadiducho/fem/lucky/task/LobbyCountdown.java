@@ -2,6 +2,7 @@ package com.cadiducho.fem.lucky.task;
 
 import com.cadiducho.fem.lucky.LuckyGladiators;
 import com.cadiducho.fem.lucky.manager.GameState;
+import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class LobbyCountdown extends BukkitRunnable {
@@ -12,7 +13,7 @@ public class LobbyCountdown extends BukkitRunnable {
         plugin = instance;
     }
 
-    private int count = 12;
+    private int count = 30;
 
     @Override
     public void run() {
@@ -28,7 +29,8 @@ public class LobbyCountdown extends BukkitRunnable {
                 players.showPlayer(players);
             });
         } else if (count > 0 && count <= 5) {
-            //Sound level up
+            plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
+            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));
         } else if (count == 0) {
             GameState.state = GameState.LUCKY;
             new TeleportCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
