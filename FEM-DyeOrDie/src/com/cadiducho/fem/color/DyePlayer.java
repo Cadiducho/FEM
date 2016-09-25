@@ -2,6 +2,7 @@ package com.cadiducho.fem.color;
 
 import com.cadiducho.fem.color.util.ScoreboardUtil;
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.util.Title;
 import java.util.Random;
 import lombok.Getter;
 import org.bukkit.GameMode;
@@ -76,6 +77,7 @@ public class DyePlayer {
         setSpectator();
         base.getPlayer().teleport(plugin.getGm().getPlayersInGame().get(0));
         plugin.getGm().removePlayerFromGame(base.getPlayer());
+        new Title("&b&l¡Has sido eliminado!", "Has caído en la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(getBase().getPlayer());
         base.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
         base.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
         plugin.getMsg().sendBroadcast(getBase().getDisplayName() + " ha caido en la ronda " + plugin.getAm().getRound() + "!");

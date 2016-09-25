@@ -3,8 +3,10 @@ package com.cadiducho.fem.color.task;
 import com.cadiducho.fem.color.DyeOrDie;
 import com.cadiducho.fem.color.manager.GameState;
 import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.util.Title;
 import java.util.HashMap;
 import java.util.Random;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -18,8 +20,8 @@ public class GameTask extends BukkitRunnable {
     Random rand = new Random();
     boolean iscolorshuffle = false;
     
-    public GameTask(DyeOrDie plugin) {
-        this.plugin = plugin;
+    public GameTask(DyeOrDie instance) {
+        plugin = instance;
     }
 
     @Override
@@ -55,12 +57,15 @@ public class GameTask extends BukkitRunnable {
                 }   colorround += 1;
                 switch (colorround) {
                     case 2:
+                        plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F));
                         plugin.getMsg().sendBroadcast("&a3");
                         break;
                     case 4:
+                        plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F));
                         plugin.getMsg().sendBroadcast("&a2");
                         break;
                     case 6:
+                        plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F));
                         plugin.getMsg().sendBroadcast("&a1");
                         break;
                 }   plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, 7L);
@@ -93,6 +98,7 @@ public class GameTask extends BukkitRunnable {
     public void checkWinner() {
         if (plugin.getGm().getPlayersInGame().size() <= 1) {
             Player winner = plugin.getGm().getPlayersInGame().get(0);
+            new Title("&b&l¡Has ganado!", "Has llegado hasta la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(winner);
             plugin.getMsg().sendBroadcast(winner.getName() + " ha ganado llegando hasta la ronda " + plugin.getAm().getRound() + "!");
             HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
             wins.replace(2, wins.get(2) + 1);

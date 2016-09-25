@@ -1,7 +1,6 @@
 package com.cadiducho.fem.color.listener;
 
 import com.cadiducho.fem.color.DyeOrDie;
-import com.cadiducho.fem.color.manager.GameState;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;

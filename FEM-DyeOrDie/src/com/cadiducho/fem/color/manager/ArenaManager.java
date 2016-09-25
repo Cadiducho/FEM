@@ -5,6 +5,7 @@ import com.cadiducho.fem.color.DyeOrDie;
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.core.util.Title;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -220,10 +221,11 @@ public class ArenaManager {
         round += 1;
         currentcolor = spinColors(true);
         plugin.getMsg().sendBroadcast("El color actual es " + getColorFromWool(currentcolor) + nombreCastellano(currentcolor) + "! " + ChatColor.DARK_GREEN + "¡Ya!");
-        for (Player player : plugin.getGm().getPlayersInGame()) {
-            FEMUser user = FEMServer.getUser(player);
-            player.setLevel(round);
-            player.setExp(0.9999F);
+        for (Player p : plugin.getGm().getPlayersInGame()) {
+            new Title(getColorFromWool(currentcolor) + nombreCastellano(currentcolor), "", 1, 2, 1).send(p);
+            FEMUser user = FEMServer.getUser(p);
+            p.setLevel(round);
+            p.setExp(0.9999F);
             Integer rondas = user.getUserData().getRondas_dod();        
             user.getUserData().setRondas_dod(rondas + 1);
             if (round > user.getUserData().getRecord_dod()) {
