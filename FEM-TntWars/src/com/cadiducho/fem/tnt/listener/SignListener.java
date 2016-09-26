@@ -369,7 +369,7 @@ public class SignListener implements Listener {
                     if (p.getInventory().contains(Material.IRON_INGOT, 20)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.IRON_INGOT, 20)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        Generador.getGenerador(clickedSign.get(p).add(0, -1, 0)).setLevel(2);
+                        Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(2);
                         FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
                         FEMServer.getUser(p).save();
                         p.closeInventory();
@@ -382,7 +382,7 @@ public class SignListener implements Listener {
                     if (p.getInventory().contains(Material.GOLD_INGOT, 20)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 20)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        Generador.getGenerador(clickedSign.get(p).add(0, -1, 0)).setLevel(3);
+                        Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(3);
                         FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
                         FEMServer.getUser(p).save();
                         p.closeInventory();
@@ -395,7 +395,7 @@ public class SignListener implements Listener {
                     if (p.getInventory().contains(Material.GOLD_INGOT, 50)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 50)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        Generador.getGenerador(clickedSign.get(p).add(0, -1, 0)).setLevel(4);
+                        Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(4);
                         FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
                         FEMServer.getUser(p).save();
                         p.closeInventory();
@@ -412,7 +412,7 @@ public class SignListener implements Listener {
                     if (p.getInventory().contains(Material.GOLD_INGOT, 10)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 10)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        Generador.getGenerador(clickedSign.get(p).add(0, -1, 0)).setLevel(2);
+                        Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(2);
                         FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
                         FEMServer.getUser(p).save();
                         p.closeInventory();
@@ -425,7 +425,7 @@ public class SignListener implements Listener {
                     if (p.getInventory().contains(Material.GOLD_INGOT, 20)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 20)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        Generador.getGenerador(clickedSign.get(p).add(0, -1, 0)).setLevel(3);
+                        Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(3);
                         FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
                         FEMServer.getUser(p).save();
                         p.closeInventory();
@@ -435,10 +435,10 @@ public class SignListener implements Listener {
                     }
                     e.setCancelled(true);
                 } else if (e.getCurrentItem().getItemMeta().getDisplayName().equals("§2Mejorar a: §2Generador de §7Oro §2- Nivel 4")) {
-                    if (p.getInventory().contains(Material.DIAMOND, 50)) {
+                    if (p.getInventory().contains(Material.DIAMOND, 20)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 20)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        Generador.getGenerador(clickedSign.get(p).add(0, -1, 0)).setLevel(4);
+                        Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(4);
                         FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
                         FEMServer.getUser(p).save();
                         p.closeInventory();
@@ -455,7 +455,7 @@ public class SignListener implements Listener {
                     if (p.getInventory().contains(Material.DIAMOND, 5)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 5)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        Generador.getGenerador(clickedSign.get(p).add(0, -1, 0)).setLevel(1);
+                        Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(1);
                         FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
                         FEMServer.getUser(p).save();
                         p.closeInventory();
@@ -468,7 +468,7 @@ public class SignListener implements Listener {
                     if (p.getInventory().contains(Material.DIAMOND, 10)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 10)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        Generador.getGenerador(clickedSign.get(p).add(0, -1, 0)).setLevel(2);
+                        Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(2);
                         FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
                         FEMServer.getUser(p).save();
                         p.closeInventory();
@@ -481,7 +481,7 @@ public class SignListener implements Listener {
                     if (p.getInventory().contains(Material.DIAMOND, 50)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 50)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        Generador.getGenerador(clickedSign.get(p).add(0, -1, 0)).setLevel(3);
+                        Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(3);
                         FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
                         FEMServer.getUser(p).save();
                         p.closeInventory();
@@ -494,7 +494,7 @@ public class SignListener implements Listener {
                     if (p.getInventory().contains(Material.DIAMOND, 75)) {
                         p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 75)});
                         p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                        Generador.getGenerador(clickedSign.get(p).add(0, -1, 0)).setLevel(4);
+                        Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(4);
                         FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
                         FEMServer.getUser(p).save();
                         p.closeInventory();

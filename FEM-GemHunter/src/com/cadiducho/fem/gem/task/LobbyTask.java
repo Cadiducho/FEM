@@ -14,7 +14,7 @@ public class LobbyTask extends BukkitRunnable {
         plugin = instance;
     }
 
-    private int count = 15;
+    private int count = 45;
 
     @Override
     public void run() {

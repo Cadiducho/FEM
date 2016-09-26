@@ -30,6 +30,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener implements Listener {
 
@@ -123,6 +124,12 @@ public class PlayerListener implements Listener {
             TntPlayer pl = TntWars.getPlayer(p);
             //Simular muerte
             if (p.getHealth() - e.getDamage() < 1) {
+                for (ItemStack i : pl.getBase().getPlayer().getInventory().getContents()) {
+                    if (i != null) {
+                        pl.getBase().getPlayer().getWorld().dropItemNaturally(pl.getBase().getPlayer().getLocation(), i);
+                        pl.getBase().getPlayer().getInventory().remove(i);
+                    }
+                }
                 pl.setCleanPlayer(GameMode.SPECTATOR);
                 Location tploc = pl.getBase().getPlayer().getLocation();
                 tploc.setY(25D);
@@ -149,7 +156,13 @@ public class PlayerListener implements Listener {
                 TntPlayer pl = TntWars.getPlayer(p);
 
                 //Simular muerte
-                if (p.getHealth() - e.getDamage() < 1) { 
+                if (p.getHealth() - e.getDamage() < 1) {
+                    for (ItemStack i : pl.getBase().getPlayer().getInventory().getContents()) {
+                        if (i != null) {
+                            pl.getBase().getPlayer().getWorld().dropItemNaturally(pl.getBase().getPlayer().getLocation(), i);
+                            pl.getBase().getPlayer().getInventory().remove(i);
+                        }
+                    }
                     pl.setCleanPlayer(GameMode.SPECTATOR);
                     Location tploc = pl.getBase().getPlayer().getLocation();
                     tploc.setY(25D);

@@ -122,8 +122,6 @@ public class ArenaManager {
                             gen.setLoc(block.getLocation());
                             gen.setType(GenType.TNT);
                             generadores.add(gen);
-                        } else if (block.getType() == Material.CHEST) {
-                            
                         } else if (block.getType() == Material.BEDROCK) {
                             isla.setBedrockCore(block);
                         } else if (block.getType() != Material.AIR) {
@@ -137,13 +135,15 @@ public class ArenaManager {
                 System.out.println("Poniendo isla en " + Metodos.stringToLocation(cfg.getString("spawn")));
                 isla.setSpawn(Metodos.centre(Metodos.stringToLocation(cfg.getString("spawn"))));
                 Villager v = (Villager) loc1.getWorld().spawnEntity(Metodos.centre(Metodos.stringToLocation(cfg.getString("aldeano"))), EntityType.VILLAGER);
+                v.setCollidable(false);
                 v.setCustomName(Metodos.colorizar("&6Tienda TNTWars"));
-                v.setAI(false);
-                islas.add(isla);
+                v.setAI(false);     
             }
+            islas.add(isla);
         }
         plugin.getLogger().log(Level.INFO, "Encontradas {0} islas y {1} generadores", new Object[]{islas.size(), generadores.size()});
         setUnAssignedIslas((ArrayList<TntIsland>) islas.clone());
+        unAssignedIslas.remove(TntIsland.getIsland("centro"));
     }
     
     public void setupChest(World w) {
@@ -198,10 +198,11 @@ public class ArenaManager {
         miscShop = api.newMerchant(Metodos.colorizar("&aMisceláneo"));
 
         buildingShop.addOffer(api.newOffer(new ItemStack(Material.SANDSTONE, 3), new ItemStack(Material.IRON_INGOT, 1)));
+        buildingShop.addOffer(api.newOffer(new ItemStack(Material.WOOD, 3), new ItemStack(Material.IRON_INGOT, 2)));
         buildingShop.addOffer(api.newOffer(new ItemStack(Material.GLASS, 2), new ItemStack(Material.IRON_INGOT, 1)));
         buildingShop.addOffer(api.newOffer(new ItemStack(Material.GLOWSTONE, 2), new ItemStack(Material.IRON_INGOT, 3)));
         buildingShop.addOffer(api.newOffer(new ItemStack(Material.HAY_BLOCK, 1), new ItemStack(Material.IRON_INGOT, 5)));
-        buildingShop.addOffer(api.newOffer(new ItemStack(Material.OBSIDIAN, 1), new ItemStack(Material.GOLD_INGOT, 3)));
+        buildingShop.addOffer(api.newOffer(new ItemStack(Material.OBSIDIAN, 1), new ItemStack(Material.DIAMOND, 5)));
         
         weaponsShop.addOffer(api.newOffer(new ItemStack(Material.WOOD_SWORD, 1), new ItemStack(Material.IRON_INGOT, 5)));
         weaponsShop.addOffer(api.newOffer(new ItemStack(Material.WOOD_AXE, 1), new ItemStack(Material.IRON_INGOT, 8)));
@@ -226,24 +227,26 @@ public class ArenaManager {
         armourShop.addOffer(api.newOffer(new ItemStack(Material.IRON_BOOTS, 1), new ItemStack(Material.DIAMOND, 5)));
         armourShop.addOffer(api.newOffer(new ItemStack(Material.SHIELD, 1), new ItemStack(Material.DIAMOND, 30)));
         
-        foodShop.addOffer(api.newOffer(new ItemStack(Material.CARROT, 1), new ItemStack(Material.IRON_INGOT, 1)));
-        foodShop.addOffer(api.newOffer(new ItemStack(Material.PORK, 1), new ItemStack(Material.IRON_INGOT, 5)));
+        foodShop.addOffer(api.newOffer(new ItemStack(Material.CARROT_ITEM, 1), new ItemStack(Material.IRON_INGOT, 1)));
+        foodShop.addOffer(api.newOffer(new ItemStack(Material.COOKED_BEEF, 1), new ItemStack(Material.IRON_INGOT, 5)));
         foodShop.addOffer(api.newOffer(new ItemStack(Material.CAKE, 1), new ItemStack(Material.IRON_INGOT, 12)));
-        foodShop.addOffer(api.newOffer(new ItemStack(Material.GOLDEN_APPLE, 1), new ItemStack(Material.GOLD_INGOT, 2)));
+        foodShop.addOffer(api.newOffer(new ItemStack(Material.GOLDEN_APPLE, 1), new ItemStack(Material.GOLD_INGOT, 30)));
         
         toolsShop.addOffer(api.newOffer(new ItemStack(Material.STONE_PICKAXE, 1), new ItemStack(Material.IRON_INGOT, 10)));
         toolsShop.addOffer(api.newOffer(new ItemStack(Material.IRON_PICKAXE, 1), new ItemStack(Material.GOLD_INGOT, 3)));
         toolsShop.addOffer(api.newOffer(new ItemStack(Material.DIAMOND_PICKAXE, 1), new ItemStack(Material.GOLD_INGOT, 10)));
-        toolsShop.addOffer(api.newOffer(new ItemStack(Material.BOW, 1), new ItemStack(Material.DIAMOND, 8)));
-        toolsShop.addOffer(api.newOffer(new ItemStack(Material.ARROW, 5), new ItemStack(Material.GOLD_INGOT, 2)));
-        toolsShop.addOffer(api.newOffer(new ItemStack(Material.SPECTRAL_ARROW, 1), new ItemStack(Material.GOLD_INGOT, 2)));
-        toolsShop.addOffer(api.newOffer(new ItemStack(Material.TIPPED_ARROW, 1), new ItemStack(Material.GOLD_INGOT, 2)));
+        
+        archeryShop.addOffer(api.newOffer(new ItemStack(Material.BOW, 1), new ItemStack(Material.DIAMOND, 5)));
+        archeryShop.addOffer(api.newOffer(new ItemStack(Material.ARROW, 5), new ItemStack(Material.GOLD_INGOT, 2)));
+        archeryShop.addOffer(api.newOffer(new ItemStack(Material.SPECTRAL_ARROW, 1), new ItemStack(Material.GOLD_INGOT, 2)));
+        archeryShop.addOffer(api.newOffer(new ItemStack(Material.TIPPED_ARROW, 1), new ItemStack(Material.GOLD_INGOT, 2)));
         
         miscShop.addOffer(api.newOffer(new ItemStack(Material.CHEST, 1), new ItemStack(Material.GOLD_INGOT, 5)));
     }
     
     public void teleport(Player p) {
         for (TntIsland i : unAssignedIslas) {
+            System.out.println("Asignando isla " + i.getId() + " a " + p.getName());
             p.teleport(i.getSpawn());
             i.setOwner(p);
             unAssignedIslas.remove(i);

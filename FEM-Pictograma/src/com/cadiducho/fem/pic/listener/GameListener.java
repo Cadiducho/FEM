@@ -11,6 +11,7 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -27,44 +28,18 @@ public class GameListener implements Listener {
         plugin = instance;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (((event.getPlayer().getInventory().getItemInMainHand().getType() == Material.STICK) && (event.getAction() == Action.RIGHT_CLICK_AIR)) || ((event.getAction() == Action.RIGHT_CLICK_BLOCK) && (event.getPlayer().isBlocking()))) {
-            Block b = event.getPlayer().getTargetBlock((Set<Material>) null, 100);
-            if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
-                return;
-            }
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-            });
+            setOneBlock(event.getPlayer().getTargetBlock((Set<Material>) null, 100));
             return;
         }
         if (((event.getPlayer().getInventory().getItemInMainHand().getType() == Material.WOOL) && (event.getAction() == Action.RIGHT_CLICK_AIR)) || (event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
-            if ((event.getAction() != Action.RIGHT_CLICK_AIR) && (event.getAction() != Action.RIGHT_CLICK_BLOCK)) {
-                return;
-            }
-            Block b = event.getPlayer().getTargetBlock((Set<Material>) null, 100);
-            if (b.getType() != Material.WOOL) {
-                return;
-            }
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                b.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getData(), true);
-            });
-            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1.0F, 1.0F);
+            eraseBlock(event.getPlayer().getTargetBlock((Set<Material>) null, 100), event.getPlayer());
             return;
         }
         if (((event.getPlayer().getInventory().getItemInMainHand().getType() == Material.BLAZE_ROD) && (event.getAction() == Action.RIGHT_CLICK_AIR)) || (event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
-            Block b = event.getPlayer().getTargetBlock((Set<Material>) null, 100);
-            Block b2 = b.getLocation().add(0.0D, 1.0D, 0.0D).getBlock();
-            Block b3 = b.getLocation().subtract(0.0D, -1.0D, 0.0D).getBlock();
-            if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
-                return;
-            }
-            plugin.getServer().getScheduler().runTask(plugin, () -> {
-                b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-                b2.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-                b3.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-            });
+            setThreeBlock(event.getPlayer().getTargetBlock((Set<Material>) null, 100));
             return;
         }
         if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.COMPASS) {
@@ -73,6 +48,37 @@ public class GameListener implements Listener {
             }
             event.getPlayer().openInventory(plugin.colorPicker);
         }
+    }
+    
+    private void setOneBlock(Block b) {
+        if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
+            return;
+        }
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
+        });
+    }
+    
+    private void setThreeBlock(Block b) {
+        Block b2 = b.getLocation().clone().add(0.0D, 1.0D, 0.0D).getBlock();
+        Block b3 = b.getLocation().clone().subtract(0.0D, -1.0D, 0.0D).getBlock();
+        if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
+            return;
+        }
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
+            b2.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
+            b3.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
+        });
+    }
+    private void eraseBlock(Block b, Player p) {
+        if (b.getType() != Material.WOOL) {
+            return;
+        }
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            b.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getData(), true);
+        });
+        p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1.0F, 1.0F);
     }
 
     @EventHandler

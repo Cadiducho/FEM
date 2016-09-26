@@ -34,7 +34,7 @@ public class TntPlayer {
                     board.text(3, "§a ");
                     board.text(2, "§eEsperando...");
                     board.text(1, "§e ");
-                    board.text(0, "§c c.undergames.es");
+                    board.text(0, "§cmc.undergames.es");
                     if (base.getPlayer() != null) board.build(base.getPlayer());
                 } else {
                     board.reset();
@@ -95,7 +95,7 @@ public class TntPlayer {
         base.getPlayer().getInventory().clear();
         base.getPlayer().getInventory().setArmorContents(null);
         base.getPlayer().setGameMode(gameMode);
-        base.getPlayer().getActivePotionEffects().forEach(ef -> base.getPlayer().removePotionEffect(ef.getType()));
+        base.getPlayer().getActivePotionEffects().forEach(ef -> base.getPlayer().removePotionEffect(ef.getType())); 
     }
     
     public void death() {
@@ -113,6 +113,5 @@ public class TntPlayer {
 
     public void spawn() {
         getBase().getPlayer().teleport(Metodos.centre(TntIsland.getIsland(getBase().getUuid()).getSpawn()));
-        getBase().getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2, 10));
     }
 }

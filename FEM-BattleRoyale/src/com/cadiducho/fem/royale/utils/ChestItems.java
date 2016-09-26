@@ -83,6 +83,7 @@ public class ChestItems {
         probables.add(new ItemBuilder().setType(Material.COOKED_RABBIT).build());
         probables.add(new ItemBuilder().setType(Material.WHEAT).setAmount(2).build());
         probables.add(new ItemBuilder().setType(Material.DEAD_BUSH).setAmount(2).build());
+        probables.add(new ItemBuilder().setType(Material.ARROW).setAmount(2).build());
         ItemStack moneda2 = BattleRoyale.getInstance().getMoneda().clone();
         moneda2.setAmount(2);      
         muyProbables.add(moneda2);

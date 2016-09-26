@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class SpawnCMD extends FEMCmd {
     
     public SpawnCMD() {
-        super("spawn", Grupo.Usuario, Arrays.asList());
+        super("spawn", FEMCmd.Grupo.Usuario, Arrays.asList());
     }
     
     @Override

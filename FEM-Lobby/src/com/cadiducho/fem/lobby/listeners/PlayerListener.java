@@ -97,7 +97,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         //No abrir trampillas
         if (e.getClickedBlock() != null) {
-            if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR)) {
+            if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR) || e.getClickedBlock().getType().equals(Material.FENCE_GATE)) {
                 e.setCancelled(true);
             }
         }
@@ -132,7 +132,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                                 ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
                             letherBoots.setItemMeta(lam);
                         inv.setItem(5, letherBoots);
-                        inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lGLADIATOR"));
+                        inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR"));
                         inv.setItem(13, ItemUtil.createItem(Material.EMERALD, "&a&lGEM HUNTERS"));
                         inv.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6&lBATTLE ROYALE"));
                         e.setCancelled(true);

@@ -68,7 +68,6 @@ public class FEMCommands implements TabCompleter {
         cmds.add(new WarpCMD());
         cmds.add(new WeatherCMD());
         cmds.add(new SetWarpCMD());
-        cmds.add(new SpawnCMD());
         cmds.add(new SpawnerCMD());
         cmds.add(new SpeedCMD());
         cmds.add(new SetSpawnCMD());

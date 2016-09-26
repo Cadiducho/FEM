@@ -17,7 +17,7 @@ public class HiddingTask extends BukkitRunnable {
         plugin = instance;
     }
 
-    private static int count = 50;
+    private static int count = 60;
 
     @Override
     public void run() {

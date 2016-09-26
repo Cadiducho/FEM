@@ -1,6 +1,7 @@
 package com.cadiducho.fem.lobby;
 
 import com.cadiducho.fem.core.FEMCommands;
+import com.cadiducho.fem.core.cmds.SpawnCMD;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.lobby.cmds.DropPuntosCMD;
 import com.cadiducho.fem.lobby.cmds.SetBrujulaCMD;
@@ -53,6 +54,7 @@ public class Lobby extends JavaPlugin {
             //Comandos solo para el lobby
             FEMCommands.registrar(new DropPuntosCMD());
             FEMCommands.registrar(new SetBrujulaCMD());
+            FEMCommands.registrar(new SpawnCMD());
             getLogger().log(Level.INFO, "Lobby: Registrado sus comandos");
         } catch (Exception ex) {
             getLogger().log(Level.INFO, "Lobby: No se han podido cargar sus comandos");

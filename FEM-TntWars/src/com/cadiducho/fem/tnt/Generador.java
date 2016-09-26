@@ -21,7 +21,6 @@ public class Generador {
     @Getter Integer level = 1;
     
     private Generador genAnnon;
-
     public void init() {
         if (type != GenType.TNT) { //Tnt va sin letrero
             Sign s = (Sign) getSign().getBlock().getState();
@@ -88,17 +87,17 @@ public class Generador {
                 return 15.0;
             case IRON:
                 switch (level) {
-                    case 1: return 1.0;
-                    case 2: return 0.75;
-                    case 3: return 0.5;
-                    case 4: return 0.25;
+                    case 1: return 2.0;
+                    case 2: return 1.5;
+                    case 3: return 1.0;
+                    case 4: return 0.75;
                 }
            case GOLD:
                switch (level) {
-                   case 1: return 4.0;
-                   case 2: return 3.5;
-                   case 3: return 2.0;
-                   case 4: return 1.5;
+                   case 1: return 5.0;
+                   case 2: return 4.0;
+                   case 3: return 3.0;
+                   case 4: return 2.0;
                }
             case DIAMOND:
                 switch (level) {

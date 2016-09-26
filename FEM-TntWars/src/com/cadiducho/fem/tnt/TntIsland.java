@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 
 public class TntIsland {
 
-    @Getter ArrayList<Location> matblocks = new ArrayList<>();
+    @Getter ArrayList<Location> blocks = new ArrayList<>();
     @Getter @Setter Block bedrockCore;
     @Getter @Setter Player owner;
     @Getter @Setter Location spawn;
@@ -24,11 +24,11 @@ public class TntIsland {
     @Getter HashMap<Location, Material> generadores = new HashMap<>();
     
     public void addBlock(Block block) {
-        matblocks.add(block.getLocation());
+        blocks.add(block.getLocation());
     }
 
     public void addBlock(Location block) {
-        matblocks.add(block);
+        blocks.add(block);
     }
     
     public void addGenerator(Location block, Material mat) {
@@ -41,22 +41,39 @@ public class TntIsland {
         setDestroyed(true);
         
         Random rand = new Random();
-        matblocks.stream()
+        blocks.stream()
                 .filter(loc -> rand.nextInt(9) < 7) // 7/10 de probabilidad
                 .forEach(loc -> loc.getBlock().setType(Material.AIR)); //Simular destruccion
     }
     
     public void destroyCapsule() {
         //Eliminar todos los barrier invisibles dentro de la isla, dejar caer al jugador
-        matblocks.stream()
+        blocks.stream()
                 .filter(loc -> loc.getBlock().getType() == Material.BARRIER)
                 .forEach(loc -> loc.getBlock().setType(Material.AIR));
     }
 
-    public static TntIsland getIsland(UUID id) {
-        for (TntIsland i :TntWars.getInstance().getAm().getIslas())
-            if (i.getOwner().getUniqueId() == id) return i;
-        
+    public static TntIsland getIsland(UUID uuid) {
+        if (TntWars.getInstance().getAm().getIslas() != null || !TntWars.getInstance().getAm().getIslas().isEmpty()) {
+            for (TntIsland i : TntWars.getInstance().getAm().getIslas()) {
+                if (i.getOwner() != null) {
+                    if (i.getOwner().getUniqueId() == uuid) {
+                        return i;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+    
+    public static TntIsland getIsland(String id) {
+        if (TntWars.getInstance().getAm().getIslas() != null || !TntWars.getInstance().getAm().getIslas().isEmpty()) {
+            for (TntIsland i : TntWars.getInstance().getAm().getIslas()) {
+                if (i.getId() == null ? id == null : i.getId().equals(id)) {
+                    return i;
+                }
+            }
+        }
         return null;
     }
 }

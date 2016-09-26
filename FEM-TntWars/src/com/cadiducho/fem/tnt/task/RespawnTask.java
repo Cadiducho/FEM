@@ -5,6 +5,8 @@ import com.cadiducho.fem.tnt.TntPlayer;
 import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class RespawnTask extends BukkitRunnable {
@@ -33,6 +35,7 @@ public class RespawnTask extends BukkitRunnable {
         } else if (count == 0) {
             player.spawn();
             player.setCleanPlayer(GameMode.SURVIVAL);
+            player.getBase().getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2*20, 10));
             cancel();
         }
         

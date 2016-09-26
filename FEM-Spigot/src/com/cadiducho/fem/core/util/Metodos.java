@@ -138,7 +138,8 @@ public class Metodos {
     }
     
     public static Location centre(Location loc) {
-        return loc.add(0.5, 0, 0.5);
+        Location clon = loc.clone();
+        return clon.add(0.5, 0, 0.5);
     }
     
     public static Class<?> getNMSClass(String name) {

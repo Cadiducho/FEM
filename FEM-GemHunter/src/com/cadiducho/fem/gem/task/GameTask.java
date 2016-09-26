@@ -19,7 +19,7 @@ public class GameTask extends BukkitRunnable {
         plugin = instance;
     }
 
-    private static int count = 100;
+    private static int count = 300;
 
     @Override
     public void run() {
