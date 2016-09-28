@@ -71,6 +71,8 @@ public class PicPlayer {
         base.getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.BLAZE_ROD, "&eBrocha"));
         base.getPlayer().getInventory().setItem(2, ItemUtil.createItem(Material.WOOL, "&eBorrador"));
         base.getPlayer().getInventory().setItem(3, ItemUtil.createItem(Material.COMPASS, "&aEscoger color"));
+        base.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.PAPER, "&eNueva hoja"));
+        base.sendMessage("&eSelecciona la herramienta que quieras usar y agáchate (shift) para usarla.");
         plugin.getMsg().sendBroadcast(Metodos.colorizar("&e " + base.getName() + " &b es el artista esta ronda!"));
     }
 

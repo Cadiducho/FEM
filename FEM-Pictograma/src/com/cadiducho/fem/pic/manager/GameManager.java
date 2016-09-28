@@ -49,6 +49,8 @@ public class GameManager {
             objective = board.registerNewObjective("puntos", "dummy");
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
             objective.setDisplayName(Metodos.colorizar("&aPictograma: &6Puntuaciones"));
+            plugin.getAm().getBuildZone().clear();
+            plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
         }
     }
     

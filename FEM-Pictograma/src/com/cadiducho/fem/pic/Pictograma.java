@@ -7,6 +7,7 @@ import com.cadiducho.fem.pic.listener.*;
 import com.cadiducho.fem.pic.manager.ArenaManager;
 import com.cadiducho.fem.pic.manager.GameManager;
 import com.cadiducho.fem.pic.manager.GameState;
+import com.cadiducho.fem.pic.tick.Ticker;
 import com.cadiducho.fem.pic.util.Messages;
 import java.io.File;
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class Pictograma extends JavaPlugin {
         pm.registerEvents(new PlayerListener(instance), instance);
         pm.registerEvents(new WorldListener(instance), instance);
         pm.registerEvents(new GameListener(instance), instance);
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new Ticker(this), 1L, 1L);
         
         colorPicker = getServer().createInventory(null, 9, "Escoge el color del pincel");
         colorPicker.setItem(0, ItemUtil.createWool("Blanco", DyeColor.WHITE));

@@ -1,11 +1,15 @@
 package com.cadiducho.fem.pic.listener;
 
+import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.pic.Pictograma;
+import com.cadiducho.fem.pic.tick.EventTick;
+import com.cadiducho.fem.pic.tick.TickType;
 import java.util.Set;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -27,30 +31,49 @@ public class GameListener implements Listener {
     public GameListener(Pictograma instance) {
         plugin = instance;
     }
-
+    
+    //EventTick para las brochas (todos sus tipos) y la goma. PlayerInteractEvent para abrir el menu, limpiar hoja o el cubo
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        if (((event.getPlayer().getInventory().getItemInMainHand().getType() == Material.STICK) && (event.getAction() == Action.RIGHT_CLICK_AIR)) || ((event.getAction() == Action.RIGHT_CLICK_BLOCK) && (event.getPlayer().isBlocking()))) {
-            setOneBlock(event.getPlayer().getTargetBlock((Set<Material>) null, 100));
-            return;
-        }
-        if (((event.getPlayer().getInventory().getItemInMainHand().getType() == Material.WOOL) && (event.getAction() == Action.RIGHT_CLICK_AIR)) || (event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
-            eraseBlock(event.getPlayer().getTargetBlock((Set<Material>) null, 100), event.getPlayer());
-            return;
-        }
-        if (((event.getPlayer().getInventory().getItemInMainHand().getType() == Material.BLAZE_ROD) && (event.getAction() == Action.RIGHT_CLICK_AIR)) || (event.getAction() == Action.RIGHT_CLICK_BLOCK)) {
-            setThreeBlock(event.getPlayer().getTargetBlock((Set<Material>) null, 100));
-            return;
-        }
-        if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.COMPASS) {
-            if ((event.getAction() != Action.RIGHT_CLICK_AIR) && (event.getAction() != Action.RIGHT_CLICK_BLOCK)) {
-                return;
+    public void onPlayerPaint(EventTick event) {
+        if (!plugin.getGm().isInGame()) return;       
+        if (plugin.getGm().builder == null) return;
+        if (event.getType() != TickType.TICK) return;
+        
+        Player p = plugin.getGm().builder;
+        if (p.isSneaking()) { //Está intentando pintar
+            if (null != p.getInventory().getItemInMainHand().getType()) {
+                switch (p.getInventory().getItemInMainHand().getType()) {
+                    case STICK:
+                        setPincelBlock(p.getTargetBlock((Set<Material>) null, 100));
+                        break;
+                    case WOOL:
+                        eraseBlock(p.getTargetBlock((Set<Material>) null, 100), p);
+                        break;
+                    case BLAZE_ROD:
+                        setBrochaBlock(p.getTargetBlock((Set<Material>) null, 100));
+                        break;
+                    default:
+                        break;
+                }
             }
-            event.getPlayer().openInventory(plugin.colorPicker);
         }
     }
     
-    private void setOneBlock(Block b) {
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        if ((event.getAction() != Action.RIGHT_CLICK_AIR) && (event.getAction() != Action.RIGHT_CLICK_BLOCK)) {
+            return;
+        }
+        if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.COMPASS) {
+            event.getPlayer().openInventory(plugin.colorPicker);
+        } else if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.PAPER) {
+            plugin.getAm().getBuildZone().clear();
+            plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
+            FEMServer.getUser(event.getPlayer()).sendMessage("&eHas limpiado la hoja completamente");
+        }
+    }
+    
+    private void setPincelBlock(Block b) {
         if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
             return;
         }
@@ -59,9 +82,11 @@ public class GameListener implements Listener {
         });
     }
     
-    private void setThreeBlock(Block b) {
-        Block b2 = b.getLocation().clone().add(0.0D, 1.0D, 0.0D).getBlock();
-        Block b3 = b.getLocation().clone().subtract(0.0D, -1.0D, 0.0D).getBlock();
+    private void setBrochaBlock(Block b) {
+        Block b2 = b.getLocation().clone().add(0D, 1D, 0D).getBlock();
+        Block b3 = b.getLocation().clone().subtract(0D, -1D, 0D).getBlock();
+        Block b4 = b.getLocation().clone().subtract(0D, 0D, 1D).getBlock();
+        Block b5 = b.getLocation().clone().subtract(0D, 0D, -1D).getBlock();
         if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
             return;
         }
@@ -69,6 +94,8 @@ public class GameListener implements Listener {
             b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
             b2.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
             b3.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
+            b4.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
+            b5.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
         });
     }
     private void eraseBlock(Block b, Player p) {
