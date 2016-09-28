@@ -19,7 +19,7 @@ public class FEMChat extends Plugin implements Listener {
     public static final String PRIVATE_SUBCHANNEL = "priv";
     public static final String IGNORE_SUBCHANNEL = "ign";
     public static final String IGNLIST_SUBCHANNEL = "ignlist";
-    public static final String SINTAXIS = "%prefix% %displayName%%suffix%: ";
+    public static final String SINTAXIS = "%prefix%%displayName%%suffix%: ";
     public static final String CHAR = "\u00A8";
     
     public final HashMap<UUID, UUID> chatsActivados = new HashMap<>();

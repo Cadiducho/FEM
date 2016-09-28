@@ -14,7 +14,7 @@ public class CoreCMD extends FEMCmd {
     public void run(FEMUser user, String label, String[] args) {
         if (args.length == 1) {
 
-            if (!user.isOnRank(Grupo.Moderador)) { //Si no tiene permisos de admin, cerrar con el default
+            if (!user.isOnRank(Grupo.Admin)) { //Si no tiene permisos de admin, cerrar con el default
                 def(user);
                 return;
             }

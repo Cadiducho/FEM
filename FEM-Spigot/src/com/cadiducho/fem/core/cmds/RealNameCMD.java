@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class RealNameCMD extends FEMCmd {
 
     public RealNameCMD(){
-        super("realname", Grupo.Moderador, Arrays.asList("nombrereal"));
+        super("realname", Grupo.Admin, Arrays.asList("nombrereal"));
     }
     
     @Override

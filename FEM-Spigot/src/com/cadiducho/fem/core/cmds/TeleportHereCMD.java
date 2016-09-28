@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 public class TeleportHereCMD extends FEMCmd {
 
     public TeleportHereCMD() {
-        super("tphere", Grupo.Admin, Arrays.asList("teleporthere", "s"));
+        super("tphere", Grupo.Owner, Arrays.asList("teleporthere", "s"));
     }
 
     @Override

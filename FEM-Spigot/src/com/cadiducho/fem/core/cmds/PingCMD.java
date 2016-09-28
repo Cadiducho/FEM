@@ -16,7 +16,7 @@ public class PingCMD extends FEMCmd {
       
     @Override
     public void run(FEMUser user, String label, String[] args) {
-        if (args.length == 1 && user.isOnRank(Grupo.Moderador)) {
+        if (args.length == 1 && user.isOnRank(Grupo.Admin)) {
             Player target = plugin.getServer().getPlayer(args[0]);
             if (target == null) { 
                 user.sendMessage("*userDesconectado");

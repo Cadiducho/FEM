@@ -73,14 +73,14 @@ public class DyePlayer {
     }
     
     public void endGame() {
-        getBase().getPlayer().getInventory().clear();
+        base.getPlayer().getInventory().clear();
         setSpectator();
         base.getPlayer().teleport(plugin.getGm().getPlayersInGame().get(0));
         plugin.getGm().removePlayerFromGame(base.getPlayer());
-        new Title("&b&l¡Has sido eliminado!", "Has caído en la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(getBase().getPlayer());
+        new Title("&b&l¡Has sido eliminado!", "Has caído en la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(base.getPlayer());
         base.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
         base.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-        plugin.getMsg().sendBroadcast(getBase().getDisplayName() + " ha caido en la ronda " + plugin.getAm().getRound() + "!");
-        getBase().sendMessage("¡Enhorabuena! Has llegado hasta la ronda " + plugin.getAm().getRound());
+        plugin.getMsg().sendBroadcast(base.getName() + " ha caido en la ronda " + plugin.getAm().getRound() + "!");
+        base.sendMessage("¡Enhorabuena! Has llegado hasta la ronda " + plugin.getAm().getRound());
     }
 }

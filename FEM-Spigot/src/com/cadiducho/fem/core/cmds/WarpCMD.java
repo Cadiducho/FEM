@@ -16,7 +16,7 @@ import org.bukkit.inventory.Inventory;
 public class WarpCMD extends FEMCmd {
     
     public WarpCMD() {
-        super("warp", Grupo.Moderador, Arrays.asList("warps", "warplist"));
+        super("warp", Grupo.Admin, Arrays.asList("warps", "warplist"));
     }
     
     @Override

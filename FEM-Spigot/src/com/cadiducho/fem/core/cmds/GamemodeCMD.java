@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class GamemodeCMD extends FEMCmd {
 
     public GamemodeCMD(){
-        super("gamemode", Grupo.Admin, Arrays.asList("gm", "gmc", "gms", "gma", "survival", "creative", "adventure"));
+        super("gamemode", Grupo.Owner, Arrays.asList("gm", "gmc", "gms", "gma", "survival", "creative", "adventure"));
     }
     
     @Override

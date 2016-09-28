@@ -16,7 +16,7 @@ public class ListCMD extends FEMCmd {
 
     @Override
     public void run(FEMUser user, String lbl, String[] args) {
-        user.sendMessage("*list.mensaje", plugin.getServer().getOnlinePlayers().size(), online(user.isOnRank(Grupo.Admin)));
+        user.sendMessage("*list.mensaje", plugin.getServer().getOnlinePlayers().size(), online(user.isOnRank(Grupo.Owner)));
     }
 
     @Override
@@ -40,19 +40,19 @@ public class ListCMD extends FEMCmd {
                             case Vip:
                                 sb.append("&e").append(target.getName()).append(" ");
                                 break;
-                            case VipPlus:
+                            case VipSuper:
                                 sb.append("&l&e").append(target.getName()).append(" ");
                                 break;
-                            case VipPlusPlus:
+                            case VipMega:
                                 sb.append("&6").append(target.getName()).append(" ");
                                 break;
                             case Helper:
                                 sb.append("&a").append(target.getName()).append(" ");
                                 break;
-                            case Moderador:
+                            case Admin:
                                 sb.append("&1").append(target.getName()).append(" ");
                                 break;
-                            case Admin:
+                            case Owner:
                                 sb.append("&b").append(target.getName()).append(" ");
                                 break;
                             case Dev:

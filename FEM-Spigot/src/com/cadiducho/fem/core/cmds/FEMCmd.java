@@ -60,12 +60,12 @@ public abstract class FEMCmd {
     public enum Grupo {
         Usuario(0), //Gris
         Vip(1), //Amarillo
-        VipPlus(2), //AmarilloOscuro
-        VipPlusPlus(3), //Naranja
-        YouTuber(4),
+        VipSuper(2), //AmarilloOscuro
+        VipMega(3), //Naranja
+        YT(4),
         Helper(5), //Verde
-        Moderador(6), //Azul
-        Admin(7), //Rojo
+        Admin(6), //Azul
+        Owner(7), //Rojo
         Dev(8); //Turquesa
 
         private final int rank;

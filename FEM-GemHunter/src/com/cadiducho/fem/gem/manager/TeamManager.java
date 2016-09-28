@@ -135,6 +135,7 @@ public class TeamManager {
                 ArrayList<Player> lista = jugadores.get(t);
                 lista.add(pl);
                 jugadores.replace(t, lista);
+                pl.setScoreboard(board);
             }
         }
     }

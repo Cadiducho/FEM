@@ -10,7 +10,7 @@ import org.bukkit.Material;
 public class SetWarpCMD extends FEMCmd {
     
     public SetWarpCMD() {
-        super("setwarp", Grupo.Moderador, Arrays.asList("addwarp"));
+        super("setwarp", Grupo.Admin, Arrays.asList("addwarp"));
     }
     
     @Override

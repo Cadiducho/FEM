@@ -7,7 +7,7 @@ import org.bukkit.Location;
 public class SetSpawnCMD extends FEMCmd {
     
     public SetSpawnCMD() {
-        super("setspawn", Grupo.Admin, Arrays.asList());
+        super("setspawn", Grupo.Owner, Arrays.asList());
     }
     
     @Override

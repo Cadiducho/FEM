@@ -46,7 +46,7 @@ public class BukkitListener implements Listener {
             text = text.replace("%" + "displayName%", c(player.getDisplayName()));
         }
         
-        if (FEMServer.getUser(player).isOnRank(Grupo.VipPlusPlus)) {
+        if (FEMServer.getUser(player).isOnRank(Grupo.VipMega)) {
             text = c(text);
         }
 
@@ -64,36 +64,33 @@ public class BukkitListener implements Listener {
     private String getPrefix(Grupo g) {
         switch (g) {
             case Vip:
-                return "&f&lVIP";
-            case VipPlus:
-                return "&e&lSUPER";
-            case VipPlusPlus:
-                return "&6&lMEGA";
-            case YouTuber:
-                return "&c&lYT";
+                return "&e[VIP] ";
+            case VipSuper:
+                return "&a[SUPER] ";
+            case VipMega:
+                return "&6[MEGA] ";
+            case YT:
+                return "&3[YT] ";
             case Helper:
-                return "&2&lHELP";
-            case Moderador:
-                return "&1&lMOD";
+                return "&2[HELP] ";
             case Admin:
-                return "&4&lADM";
+                return "&c[ADM] ";
+            case Owner:
+                return "&4[OWN] ";
             case Dev:
-                return "&b&lDEV";
+                return "&b[DEV] ";
         }
         return ""; //Default, Usuario
     }
     
     private String getSuffix(Grupo g) {
         switch (g) {
-            case Vip:
-            case VipPlus:
-            case VipPlusPlus:
-            case YouTuber:
+            case YT:
             case Helper:
-            case Moderador:
             case Admin:
+            case Owner:
             case Dev:
-                return "&r";
+                return "&r&f";
         }
         return "&7"; //Default, Usuario
     }

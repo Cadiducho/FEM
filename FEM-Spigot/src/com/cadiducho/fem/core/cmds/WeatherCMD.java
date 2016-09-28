@@ -8,7 +8,7 @@ import org.bukkit.World;
 public class WeatherCMD extends FEMCmd {
     
     public WeatherCMD(){
-        super("weather", Grupo.Admin, Arrays.asList("tiempo", "metereologia"));
+        super("weather", Grupo.Owner, Arrays.asList("tiempo", "metereologia"));
     }
 
     @Override

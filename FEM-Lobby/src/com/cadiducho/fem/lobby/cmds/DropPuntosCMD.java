@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitTask;
 public class DropPuntosCMD extends FEMCmd {
 
     public DropPuntosCMD() {
-        super("droppuntos", Grupo.YouTuber, Arrays.asList());
+        super("droppuntos", Grupo.YT, Arrays.asList());
     }
 
     @Override

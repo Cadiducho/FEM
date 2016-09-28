@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class TeleportAskAllCMD extends FEMCmd {
 
     public TeleportAskAllCMD() {
-        super("tpaall", Grupo.Moderador, Arrays.asList("teleportaskall"));
+        super("tpaall", Grupo.Admin, Arrays.asList("teleportaskall"));
     }
 
     @Override

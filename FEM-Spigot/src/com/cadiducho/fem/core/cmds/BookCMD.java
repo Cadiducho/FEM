@@ -9,7 +9,7 @@ import org.bukkit.inventory.meta.BookMeta;
 public class BookCMD extends FEMCmd {
 
     public BookCMD() {
-        super("book", Grupo.Admin, Arrays.asList("libro"));
+        super("book", Grupo.Owner, Arrays.asList("libro"));
     }
 
     @Override

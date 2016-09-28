@@ -11,7 +11,7 @@ import com.cadiducho.fem.core.api.FEMUser;
 public class ClearArmorCMD extends FEMCmd {
 
     public ClearArmorCMD() {
-        super("cleararmor", Grupo.Admin, Arrays.asList("limpiararmadura"));
+        super("cleararmor", Grupo.Owner, Arrays.asList("limpiararmadura"));
     }
 
     @Override

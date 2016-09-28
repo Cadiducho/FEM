@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender;
 public class SignEditorCMD extends FEMCmd {
 
     public SignEditorCMD() {
-        super("signeditor", Grupo.Moderador, Arrays.asList("se"));
+        super("signeditor", Grupo.Admin, Arrays.asList("se"));
     }
     
     private final List<String> numeros = Arrays.asList("1", "2", "3", "4");

@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class RepairCMD extends FEMCmd {
 
     public RepairCMD() {
-        super("repair", Grupo.Admin, Arrays.asList("reparar", "arreglar"));
+        super("repair", Grupo.Owner, Arrays.asList("reparar", "arreglar"));
     }
 
     @Override

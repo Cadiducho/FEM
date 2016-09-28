@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 public class FlyCMD extends FEMCmd {
     
     public FlyCMD() {
-        super("fly", Grupo.Admin, Arrays.asList("volar"));
+        super("fly", Grupo.Owner, Arrays.asList("volar"));
     }
 
     @Override

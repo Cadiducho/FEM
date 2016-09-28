@@ -93,16 +93,16 @@ public class PlayerListener implements Listener {
     
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
-        if (plugin.getGm().isInLobby() || plugin.getGm().isEnding()) {
+        if (!plugin.getGm().isInGame()) {
             e.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-        if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown() || plugin.getGm().isEnding()) {
+        if (!plugin.getGm().isInGame()) {
             e.setCancelled(true);
-        } else if (plugin.getGm().isInGame()) {
+        } else {
             if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
                 Player damager = (Player) e.getDamager();
                 Player p = (Player) e.getEntity();
