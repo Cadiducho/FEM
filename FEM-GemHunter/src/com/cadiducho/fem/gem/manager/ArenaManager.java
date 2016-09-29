@@ -68,14 +68,15 @@ public class ArenaManager {
         for (int x2 = minx; x2 <= maxx; x2++){
             for (int y = miny; y <= maxy; y++){
                 for (z = minz; z <= maxz; z++){
-                    currentBlock = w.getBlockAt(x2, y, z);/*
-                    if (currentBlock.getType() == Material.BEDROCK){ //Te puesto cambie de aire a un bloque de oro, pero cambialo tu como quieras 
+                    currentBlock = w.getBlockAt(x2, y, z);
+                    if (currentBlock.getType() == Material.BEDROCK){
                         currentBlock.setType(Material.AIR);
                     } else {
                         currentBlock.setType(Material.BEDROCK);
-                    }*/
+                    }
+                    /*
                     if (!poner) currentBlock.setType(Material.AIR);
-                    if (poner) currentBlock.setType(Material.BEDROCK);
+                    if (poner) currentBlock.setType(Material.BEDROCK);*/
                 }
             }
         }
