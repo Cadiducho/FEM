@@ -3,6 +3,7 @@ package com.cadiducho.fem.pic.task;
 import com.cadiducho.fem.pic.Pictograma;
 import lombok.Getter;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameTask extends BukkitRunnable {
@@ -20,11 +21,18 @@ public class GameTask extends BukkitRunnable {
     public void run() {
         plugin.getGm().getPlayersInGame().forEach(pl ->  pl.setLevel(count));
         
+        plugin.getGm().getPlayersInGame().stream().forEach(p -> {
+            if (p.getUniqueId() == plugin.getGm().builder.getUniqueId()) {
+                plugin.getMsg().sendActionBar(p, "&aPalabra: &b" + plugin.getGm().word.toUpperCase());
+            } else {
+                plugin.getMsg().sendActionBar(p, "&a" + plugin.getGm().wordf.toString().toUpperCase());
+            }
+        });
         switch (count) {
             case 75:
                 gameInstance = this;
                 break;
-            case 45:
+            case 30:
                 plugin.getMsg().sendBroadcast("&630 segundos para terminar la ronda!");
                 break;
             case 35:
@@ -46,9 +54,7 @@ public class GameTask extends BukkitRunnable {
         gameInstance.cancel();
         Pictograma.getPlayer(plugin.getGm().builder).setCleanPlayer(GameMode.ADVENTURE);
         Pictograma.getPlayer(plugin.getGm().builder).spawn();
-        plugin.getGm().getBarraCheta().removePlayer(plugin.getGm().builder);
         plugin.getGm().builder = null;
-        plugin.getGm().getBarra().setTitle(plugin.getGm().word.toUpperCase());
         if (plugin.getAm().getColaPintar().isEmpty()) {
             plugin.getGm().endGame();
             return;

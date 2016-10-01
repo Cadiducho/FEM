@@ -67,12 +67,12 @@ public class PicPlayer {
         base.getPlayer().setFlying(true);
         base.getPlayer().getInventory().clear();
         base.getPlayer().getInventory().setArmorContents(null);
-        base.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.STICK, "&ePincel"));
-        base.getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.BLAZE_ROD, "&eBrocha"));
-        base.getPlayer().getInventory().setItem(2, ItemUtil.createItem(Material.WOOL, "&eBorrador"));
-        base.getPlayer().getInventory().setItem(3, ItemUtil.createItem(Material.COMPASS, "&aEscoger color"));
-        base.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.PAPER, "&eNueva hoja"));
-        base.sendMessage("&eSelecciona la herramienta que quieras usar y agáchate (shift) para usarla.");
+        base.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.WOOD_SWORD, "&ePincel"));
+        base.getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.GOLD_SWORD, "&eBrocha"));
+        base.getPlayer().getInventory().setItem(2, ItemUtil.createItem(Material.COMPASS, "&aEscoger color"));
+        base.getPlayer().getInventory().setItem(7, ItemUtil.createItem(Material.IRON_SWORD, "&eBorrador"));
+        base.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.EMPTY_MAP, "&eNueva hoja"));
+        base.sendMessage("&eSelecciona la herramienta que quieras usar y pulsa click derecho para usarla.");
         plugin.getMsg().sendBroadcast(Metodos.colorizar("&e " + base.getName() + " &b es el artista esta ronda!"));
     }
 

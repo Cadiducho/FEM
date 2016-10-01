@@ -129,14 +129,6 @@ public class PlayerListener implements Listener {
         FEMUser u = FEMServer.getUser(e.getEntity());
 
     }
-    
-    @EventHandler
-    public void onMobSpawn(CreatureSpawnEvent e) {
-        //Parchear error de Spigot 1.9 = Caballos esqueletos en cantidades industriales
-        if (e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.LIGHTNING || e.getSpawnReason() == CreatureSpawnEvent.SpawnReason.TRAP) {
-            if ((e.getEntity() instanceof Horse)) e.setCancelled(true);
-        }
-    }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {

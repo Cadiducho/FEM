@@ -9,7 +9,6 @@ import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -40,16 +39,16 @@ public class GameListener implements Listener {
         if (event.getType() != TickType.TICK) return;
         
         Player p = plugin.getGm().builder;
-        if (p.isSneaking()) { //Está intentando pintar
-            if (null != p.getInventory().getItemInMainHand().getType()) {
-                switch (p.getInventory().getItemInMainHand().getType()) {
-                    case STICK:
+        if (p.isBlocking()) { //Está intentando pintar
+            if (null != p.getInventory().getItemInHand().getType()) {
+                switch (p.getInventory().getItemInHand().getType()) {
+                    case WOOD_SWORD:
                         setPincelBlock(p.getTargetBlock((Set<Material>) null, 100));
                         break;
-                    case WOOL:
-                        eraseBlock(p.getTargetBlock((Set<Material>) null, 100), p);
+                    case IRON_SWORD:
+                        eraseBlock(p.getTargetBlock((Set<Material>) null, 100));
                         break;
-                    case BLAZE_ROD:
+                    case GOLD_SWORD:
                         setBrochaBlock(p.getTargetBlock((Set<Material>) null, 100));
                         break;
                     default:
@@ -60,16 +59,18 @@ public class GameListener implements Listener {
     }
     
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerInteract(PlayerInteractEvent event) {
-        if ((event.getAction() != Action.RIGHT_CLICK_AIR) && (event.getAction() != Action.RIGHT_CLICK_BLOCK)) {
+    public void onPlayerInteract(PlayerInteractEvent e) {
+        if ((e.getAction() != Action.RIGHT_CLICK_AIR) && (e.getAction() != Action.RIGHT_CLICK_BLOCK)) {
             return;
         }
-        if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.COMPASS) {
-            event.getPlayer().openInventory(plugin.colorPicker);
-        } else if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.PAPER) {
+        if (e.getPlayer().getInventory().getItemInHand().getType() == Material.COMPASS) {
+            e.getPlayer().openInventory(plugin.colorPicker);
+            e.setCancelled(true);
+        } else if (e.getPlayer().getInventory().getItemInHand().getType() == Material.EMPTY_MAP) {
             plugin.getAm().getBuildZone().clear();
             plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
-            FEMServer.getUser(event.getPlayer()).sendMessage("&eHas limpiado la hoja completamente");
+            FEMServer.getUser(e.getPlayer()).sendMessage("&eHas limpiado la hoja completamente");
+            e.setCancelled(true);
         }
     }
     
@@ -98,14 +99,13 @@ public class GameListener implements Listener {
             b5.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
         });
     }
-    private void eraseBlock(Block b, Player p) {
+    private void eraseBlock(Block b) {
         if (b.getType() != Material.WOOL) {
             return;
         }
         plugin.getServer().getScheduler().runTask(plugin, () -> {
             b.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getData(), true);
         });
-        p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 1.0F, 1.0F);
     }
 
     @EventHandler
@@ -152,55 +152,55 @@ public class GameListener implements Listener {
             }
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Blanco")) {
                 setPencilColor(DyeColor.WHITE);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Negro")) {
                 setPencilColor(DyeColor.BLACK);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Rojo")) {
                 setPencilColor(DyeColor.RED);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Naranja")) {
                 setPencilColor(DyeColor.ORANGE);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Amarillo")) {
                 setPencilColor(DyeColor.YELLOW);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Verde")) {
                 setPencilColor(DyeColor.LIME);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Azul")) {
                 setPencilColor(DyeColor.LIGHT_BLUE);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Morado")) {
                 setPencilColor(DyeColor.PURPLE);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
             if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Marron")) {
                 setPencilColor(DyeColor.BROWN);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
             }
         } else {

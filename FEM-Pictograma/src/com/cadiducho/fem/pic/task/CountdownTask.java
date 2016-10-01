@@ -34,7 +34,7 @@ public class CountdownTask extends BukkitRunnable {
         } else if (count == 0) {
             GameState.state = GameState.GAME;
             for (Player p : plugin.getGm().getPlayersInGame()) {
-                p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+                p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
                 Pictograma.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
                 
                 //Ajustar puntuaciones y scoreboard
