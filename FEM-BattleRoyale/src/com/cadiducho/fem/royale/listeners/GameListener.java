@@ -1,6 +1,7 @@
 package com.cadiducho.fem.royale.listeners;
 
 import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.FallingBlock;
@@ -64,24 +66,28 @@ public class GameListener implements Listener {
         e.setDeathMessage(null);
         if (plugin.getGm().isInGame()) {
             if (e.getEntity().getKiller() instanceof Player) {
+                FEMUser user = FEMServer.getUser(e.getEntity());
+                FEMUser killer = FEMServer.getUser(e.getEntity().getKiller());
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                 plugin.getMsg().sendMessage(e.getEntity(), "Te ha matado " + e.getEntity().getKiller().getDisplayName());
                 plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
                 plugin.getGm().getPlayersInGame().remove(e.getEntity());
                 plugin.getPm().setSpectator(e.getEntity());
-                FEMServer.getUser(e.getEntity()).sendMessage("Escribe &e/lobby &fpara volver al Lobby");
-                FEMServer.getUser(e.getEntity()).repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
+                user.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
+                user.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
                 plugin.getPm().addKillToPlayer(e.getEntity().getKiller());
+                killer.sendMessage("Has recibido una moneda por matar a &e" + e.getEntity().getName());
+                killer.getPlayer().getInventory().addItem(plugin.getMoneda());
                 
                 //Stats
-                HashMap<Integer, Integer> kills = FEMServer.getUser(e.getEntity().getKiller()).getUserData().getKills();
+                HashMap<Integer, Integer> kills = killer.getUserData().getKills();
                 kills.replace(5, kills.get(5) + 1);
-                FEMServer.getUser(e.getEntity().getKiller()).getUserData().setKills(kills);
-                FEMServer.getUser(e.getEntity().getKiller()).save();
-                HashMap<Integer, Integer> deaths = FEMServer.getUser(e.getEntity()).getUserData().getDeaths();
+                killer.getUserData().setKills(kills);
+                killer.save();
+                HashMap<Integer, Integer> deaths = user.getUserData().getDeaths();
                 deaths.replace(5, deaths.get(5) + 1);
-                FEMServer.getUser(e.getEntity()).getUserData().setDeaths(deaths);
-                FEMServer.getUser(e.getEntity()).save();
+                user.getUserData().setDeaths(deaths);
+                user.save();
             } else {
                 plugin.getMsg().sendMessage(e.getEntity(), "Has muerto");
                 new Title("&b&l¡Has muerto!", "Puedes volver al Lobby cuando quieras", 1, 3, 1).send(e.getEntity());
@@ -165,8 +171,8 @@ public class GameListener implements Listener {
                 e.getBlock().setType(Material.TRAPPED_CHEST);
                 Chest cofre = (Chest)e.getBlock().getState();
                 plugin.getAm().fillChest(cofre.getInventory(), true);
-                plugin.getWorld().strikeLightningEffect(cofre.getLocation());
-                plugin.getMsg().sendBroadcast("&6¡Ha caido un cofre de abastecimiento en alguna parte del mapa!");
+                plugin.getWorld().playSound(cofre.getLocation(), Sound.ENTITY_BLAZE_DEATH, 100F, 100F);
+                plugin.getMsg().sendBroadcast("&d¡Ha caido un cofre de abastecimiento en alguna parte del mapa!");
             }
         }
     }

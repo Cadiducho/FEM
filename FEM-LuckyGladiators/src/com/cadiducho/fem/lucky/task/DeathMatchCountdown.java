@@ -21,15 +21,18 @@ public class DeathMatchCountdown extends BukkitRunnable {
         if (GameState.state == GameState.ENDING) {
             cancel();
         }
-        plugin.getGm().getPlayersInGame().stream().forEach((players) -> {
-            plugin.getMsg().sendActionBar(players, "&f&lDEATHMATCH: &a&l" + plugin.getAm().deathMatchTime);
-        });
+        if (plugin.getAm().deathMatchTime > 0) {
+            plugin.getGm().getPlayersInGame().stream().forEach(p -> {
+                plugin.getMsg().sendActionBar(p, "&f&lDEATHMATCH: &a&l" + plugin.getAm().deathMatchTime);
+            });
+        }
+        
         if (plugin.getAm().deathMatchTime == 6) {
             plugin.getMsg().sendBroadcast("&7En 5 segundos sereís envenenados");
         } else if (plugin.getAm().deathMatchTime > 1 && plugin.getAm().deathMatchTime <= 5) {
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));  
         } else if (plugin.getAm().deathMatchTime == 0) {
-            plugin.getGm().getPlayersInGame().stream().forEach((p) -> {
+            plugin.getGm().getPlayersInGame().stream().forEach(p -> {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 1));
                 new Title("&b&lHas sido envenenado", "", 1, 2, 1).send(p);
             });

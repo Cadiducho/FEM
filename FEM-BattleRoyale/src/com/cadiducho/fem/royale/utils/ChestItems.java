@@ -31,36 +31,23 @@ public class ChestItems {
     
     private static void addMuyProbables() {
         muyProbables.add(new ItemBuilder().setType(Material.STICK).build());
-        muyProbables.add(new ItemBuilder().setType(Material.COBBLESTONE).setAmount(2).build());
-        muyProbables.add(new ItemBuilder().setType(Material.STONE).setAmount(3).build());
         muyProbables.add(new ItemBuilder().setType(Material.LOG).build());
-        muyProbables.add(new ItemBuilder().setType(Material.STRING).build());
-        muyProbables.add(new ItemBuilder().setType(Material.FLINT).build());
         muyProbables.add(new ItemBuilder().setType(Material.IRON_INGOT).build());
         muyProbables.add(new ItemBuilder().setType(Material.WOOD).setAmount(2).build());
-        muyProbables.add(new ItemBuilder().setType(Material.COAL).build());
         muyProbables.add(new ItemBuilder().setType(Material.ARROW).setAmount(4).build());
-        muyProbables.add(new ItemBuilder().setType(Material.SULPHUR).build());
         muyProbables.add(new ItemBuilder().setType(Material.WOOD_SWORD).build());
         muyProbables.add(new ItemBuilder().setType(Material.WOOD_SPADE).build());
         muyProbables.add(new ItemBuilder().setType(Material.STONE_AXE).build());
-        muyProbables.add(new ItemBuilder().setType(Material.APPLE).build());
         muyProbables.add(new ItemBuilder().setType(Material.CARROT).setAmount(2).build());
         muyProbables.add(new ItemBuilder().setType(Material.BAKED_POTATO).setAmount(2).build());
-        muyProbables.add(new ItemBuilder().setType(Material.SAND).build());
         muyProbables.add(new ItemBuilder().setType(Material.LEATHER_BOOTS).build());
         muyProbables.add(new ItemBuilder().setType(Material.LEATHER_CHESTPLATE).build());
         muyProbables.add(new ItemBuilder().setType(Material.LEATHER_HELMET).build());
         muyProbables.add(new ItemBuilder().setType(Material.LEATHER_LEGGINGS).build());
-        muyProbables.add(new ItemBuilder().setType(Material.LEATHER).setAmount(4).build());
-        muyProbables.add(new ItemBuilder().setType(Material.SNOW_BALL).setAmount(4).build());
-        muyProbables.add(new ItemBuilder().setType(Material.EGG).build());
         muyProbables.add(new ItemBuilder().setType(Material.COOKIE).setAmount(2).build());
         muyProbables.add(new ItemBuilder().setType(Material.TORCH).setAmount(4).build());
         muyProbables.add(new ItemBuilder().setType(Material.MELON).setAmount(2).build());
         muyProbables.add(new ItemBuilder().setType(Material.GOLD_NUGGET).setAmount(2).build());
-        muyProbables.add(new ItemBuilder().setType(Material.FEATHER).setAmount(3).build());
-        muyProbables.add(new ItemBuilder().setType(Material.DIRT).setAmount(2).build());
         ItemStack moneda4 = BattleRoyale.getInstance().getMoneda().clone();
         moneda4.setAmount(4);      
         muyProbables.add(moneda4);
@@ -69,20 +56,15 @@ public class ChestItems {
     private static void addProbables() {
         probables.add(new ItemBuilder().setType(Material.GOLD_INGOT).build());
         probables.add(new ItemBuilder().setType(Material.IRON_INGOT).build());
-        probables.add(new ItemBuilder().setType(Material.SAPLING).build());
         probables.add(new ItemBuilder().setType(Material.STONE_SWORD).build());
         probables.add(new ItemBuilder().setType(Material.COOKED_BEEF).build());
-        probables.add(new ItemBuilder().setType(Material.RED_ROSE).build());
         probables.add(new ItemBuilder().setType(Material.CHAINMAIL_HELMET).build());
         probables.add(new ItemBuilder().setType(Material.CHAINMAIL_BOOTS).build());
         probables.add(new ItemBuilder().setType(Material.BREAD).build());
-        probables.add(new ItemBuilder().setType(Material.SPIDER_EYE).build());
-        probables.add(new ItemBuilder().setType(Material.BONE).build());
         probables.add(new ItemBuilder().setType(Material.EXP_BOTTLE).setAmount(2).build());
         probables.add(new ItemBuilder().setType(Material.COOKED_FISH).build());
         probables.add(new ItemBuilder().setType(Material.COOKED_RABBIT).build());
         probables.add(new ItemBuilder().setType(Material.WHEAT).setAmount(2).build());
-        probables.add(new ItemBuilder().setType(Material.DEAD_BUSH).setAmount(2).build());
         probables.add(new ItemBuilder().setType(Material.ARROW).setAmount(2).build());
         ItemStack moneda2 = BattleRoyale.getInstance().getMoneda().clone();
         moneda2.setAmount(2);      
@@ -90,13 +72,7 @@ public class ChestItems {
     }
     
     private static void addPocoProbables() {
-        pocoProbables.add(new ItemBuilder().setType(Material.SLIME_BLOCK).setAmount(2).build());
         pocoProbables.add(new ItemBuilder().setType(Material.WORKBENCH).build());
-        pocoProbables.add(new ItemBuilder().setType(Material.LAVA_BUCKET).build());
-        pocoProbables.add(new ItemBuilder().setType(Material.BUCKET).build());
-        pocoProbables.add(new ItemBuilder().setType(Material.MILK_BUCKET).build());
-        pocoProbables.add(new ItemBuilder().setType(Material.FLOWER_POT).build());
-        pocoProbables.add(new ItemBuilder().setType(Material.PAPER).build());
         pocoProbables.add(new ItemBuilder().setType(Material.IRON_SWORD).build());
         pocoProbables.add(new ItemBuilder().setType(Material.STONE_SWORD).addEnchant(Enchantment.KNOCKBACK, 1, true).build());
         pocoProbables.add(new ItemBuilder().setType(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1, true).build());
@@ -118,12 +94,8 @@ public class ChestItems {
         pocoProbables.add(new ItemBuilder().setType(Material.IRON_HELMET).build());
         pocoProbables.add(new ItemBuilder().setType(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true).build());
         pocoProbables.add(new ItemBuilder().setType(Material.BOW).build());
-        pocoProbables.add(new ItemBuilder().setType(Material.SADDLE).build());
-        pocoProbables.add(new ItemBuilder().setType(Material.ELYTRA).build());
-        pocoProbables.add(new ItemBuilder().setType(Material.FISHING_ROD).build());
         pocoProbables.add(new ItemBuilder().setType(Material.COOKED_CHICKEN).setAmount(2).build());
         pocoProbables.add(new ItemBuilder().setType(Material.SPECTRAL_ARROW).build());
-        pocoProbables.add(new ItemBuilder().setType(Material.SNOW_BALL).setAmount(2).build());
         pocoProbables.add(new ItemBuilder().setType(Material.TORCH).setAmount(2).build());
         pocoProbables.add(BattleRoyale.getInstance().getMoneda());
     }

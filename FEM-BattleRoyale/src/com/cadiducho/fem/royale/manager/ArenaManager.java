@@ -38,6 +38,7 @@ public class ArenaManager {
     @Getter private final ArrayList<Location> spawnList = new ArrayList<>();
     @Getter private ArrayList<Location> deathmatchSpawnList = new ArrayList<>();
     @Getter private final ArrayList<Location> chestRandomList = new ArrayList<>();
+    @Getter private final ArrayList<Location> chestRefillList = new ArrayList<>();
     @Getter private int spawn;
     @Getter private Location lobby;
     @Getter private WorldBorder wb;
@@ -63,9 +64,27 @@ public class ArenaManager {
         setupVillagersTrades();
         loadSpawn();
     }
+    
+    private void loadWorld(World w) {
+        w = plugin.getWorld();
+        w.setPVP(true);
+        w.setGameRuleValue("doDaylightCycle", "false");
+        w.setStorm(false);
+        w.setDifficulty(Difficulty.EASY);
+        w.setTime(6000);
+        w.setAutoSave(false);
+        
+        wb = w.getWorldBorder();
+        wb.setCenter(plugin.getConfig().getInt("worldBorderCenterX"), plugin.getConfig().getInt("worldBorderCenterY"));
+        wb.setSize(plugin.getConfig().getInt("worldBorderSize"));
+        wb.setDamageAmount(1.0);
+        wb.setWarningDistance(5);
+        wb.setDamageBuffer(1.0);
+        wb.setDamageAmount(4.0);
+        indexBlocks();
+    }
 
     public void indexBlocks() {
-        
         int topBlockX = (areaBorder1.getBlockX() < areaBorder2.getBlockX() ? areaBorder2.getBlockX() : areaBorder1.getBlockX());
         int bottomBlockX = (areaBorder1.getBlockX() > areaBorder2.getBlockX() ? areaBorder2.getBlockX() : areaBorder1.getBlockX());
 
@@ -87,11 +106,10 @@ public class ArenaManager {
                             inv.clear();
                             fillChest(inv, false);
                             chest.update();
-                            System.out.println("Cofre rellenado");
+                            chestRefillList.add(block.getLocation());
                             break;
                         case ENDER_PORTAL_FRAME:
                             chestRandomList.add(block.getLocation().add(0D, 2D, 0D));
-                            System.out.println("Localizacion de cofre añadida");
                             break;
                     }
                 }
@@ -117,37 +135,28 @@ public class ArenaManager {
                 }
             }
             int rand2 = rand.nextInt(items.size());
-            if (items.get(rand2).getType() == Material.DIAMOND) {
-                if (rand.nextInt(5) == 5) {
-                    inv.setItem(rand.nextInt(27), items.get(rand2));
-                }
-            } else {
-                inv.setItem(rand.nextInt(27), items.get(rand2));
+            if (especial) {
+                if (inv.contains(items.get(rand2).getType())) {
+                    rand2 = rand.nextInt(items.size()); //No repetir materiales en los cofres especiales
+                }    
             }
+            inv.setItem(rand.nextInt(27), items.get(rand2)); 
         }
+    }
+    
+    public void refillChests() {
+        chestRefillList.forEach(loc -> {
+            Chest chest = (Chest) loc.getBlock().getState();
+            chest.getInventory().clear();
+            Inventory inv = chest.getBlockInventory();
+            inv.clear();
+            fillChest(inv, false);
+            chest.update();
+        });
     }
 
     public void fixPlayer(Location loc) {
         loc.add(0, 0.5, 0);
-    }
-
-    private void loadWorld(World w) {
-        w = plugin.getWorld();
-        w.setPVP(true);
-        w.setGameRuleValue("doDaylightCycle", "false");
-        w.setStorm(false);
-        w.setDifficulty(Difficulty.EASY);
-        w.setTime(6000);
-        w.setAutoSave(false);
-        
-        wb = w.getWorldBorder();
-        wb.setCenter(plugin.getConfig().getInt("worldBorderCenterX"), plugin.getConfig().getInt("worldBorderCenterY"));
-        wb.setSize(plugin.getConfig().getInt("worldBorderSize"));
-        wb.setDamageAmount(1.0);
-        wb.setWarningDistance(5);
-        wb.setDamageBuffer(1.0);
-        wb.setDamageAmount(4.0);
-        indexBlocks();
     }
 
     public void teleport(Player player) {
@@ -163,7 +172,7 @@ public class ArenaManager {
     }
     
     public Location spawnRandomChest() {
-        int rd = rand.nextInt(chestRandomList.size());
+        int rd = rand.nextInt(chestRandomList.size() - 1);
         chestRandomList.remove(rd);
         return chestRandomList.get(rd);
     }
