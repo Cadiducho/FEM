@@ -66,24 +66,24 @@ public class MySQL {
     public void setupTable(Player p) {
         FEMCore.getInstance().getServer().getScheduler().runTaskAsynchronously(FEMCore.getInstance(), () -> {
             try {
-                PreparedStatement statement = connection.prepareStatement("SELECT `id` FROM `fem_datos` WHERE `uuid` = ?");
+                PreparedStatement statement = openConnection().prepareStatement("SELECT `id` FROM `fem_datos` WHERE `uuid` = ?");
                 statement.setString(1, p.getUniqueId().toString());
                 ResultSet rs = statement.executeQuery();
                 if (!rs.next()) { //No hay filas encontradas, insertar nuevos datos
                     try {
-                        PreparedStatement inserDatos = connection.prepareStatement(
+                        PreparedStatement inserDatos = openConnection().prepareStatement(
                                 "INSERT INTO `fem_datos` (`uuid`, `name`, `grupo`) VALUES (?, ?, ?)");
                         inserDatos.setString(1, p.getUniqueId().toString());
                         inserDatos.setString(2, p.getName());
                         inserDatos.setInt(3, 0);
                         inserDatos.executeUpdate();
 
-                        PreparedStatement inserStats = connection.prepareStatement(
+                        PreparedStatement inserStats = openConnection().prepareStatement(
                                 "INSERT INTO `fem_stats` (`uuid`) VALUES (?)");
                         inserStats.setString(1, p.getUniqueId().toString());
                         inserStats.executeUpdate();
 
-                        PreparedStatement inserSettings = connection.prepareStatement(
+                        PreparedStatement inserSettings = openConnection().prepareStatement(
                                 "INSERT INTO `fem_settings` (`uuid`) VALUES (?)");
                         inserSettings.setString(1, p.getUniqueId().toString());
                         inserSettings.executeUpdate();
@@ -92,7 +92,7 @@ public class MySQL {
                         ex.printStackTrace();
                     }
                 }
-            } catch (SQLException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
@@ -103,7 +103,7 @@ public class MySQL {
             UserData data = u.getUserData();
             try {
 
-                PreparedStatement statementDatos = connection.prepareStatement("UPDATE `fem_datos` SET `grupo`=?,`god`=?,`coins`=?,`lastConnect`=?,`ip`=?,`nick`=? WHERE `uuid`=?");
+                PreparedStatement statementDatos = openConnection().prepareStatement("UPDATE `fem_datos` SET `grupo`=?,`god`=?,`coins`=?,`lastConnect`=?,`ip`=?,`nick`=? WHERE `uuid`=?");
                 statementDatos.setInt(1, data.getGrupo() != null ? data.getGrupo().getRank() : 0);
                 statementDatos.setBoolean(2, data.getGod() == null ? false : data.getGod());
                 statementDatos.setInt(3, data.getCoins() == null ? 0 : data.getCoins());
@@ -114,7 +114,7 @@ public class MySQL {
                 statementDatos.executeUpdate();
 
                 //Stats
-                PreparedStatement statementStats = connection.prepareStatement("UPDATE `fem_stats` SET `kills_tnt`=?,`kills_gh`=?,`deaths_tnt`=?,`deaths_gh`=?,`jugadas_tnt`=?,"
+                PreparedStatement statementStats = openConnection().prepareStatement("UPDATE `fem_stats` SET `kills_tnt`=?,`kills_gh`=?,`deaths_tnt`=?,`deaths_gh`=?,`jugadas_tnt`=?,"
                         + "`jugadas_dod`=?,`jugadas_gh`=?,`ganadas_tnt`=?,`ganadas_dod`=?,`ganadas_gh`=?,`tntPuestas`=?,`tntQuitadas`=?,`tntExplotadas`=?,`genUpgraded`=?,"
                         + "`gemDestroyed`=?,`gemPlanted`=?,`record_dod`=?,`rondas_dod`=?,`picAcertadas`=?,`picDibujadas`=?,`ganadas_pic`=?,`jugadas_pic`=?,"
                         + "`jugadas_br`=?,`ganadas_br`=?,`kills_br`=?,`deaths_br`=?,`brIntercambios`=?,`jugadas_lg`=?,`ganadas_lg`=?,`kills_lg`=?,`deaths_lg`=?,`luckyRotos`=? "
@@ -156,7 +156,7 @@ public class MySQL {
                 statementStats.executeUpdate();
 
                 //Settings
-                PreparedStatement statementSett = connection.prepareStatement("UPDATE `fem_settings` SET `friendRequest`=?,`hideMode`=? WHERE `uuid`=?");
+                PreparedStatement statementSett = openConnection().prepareStatement("UPDATE `fem_settings` SET `friendRequest`=?,`hideMode`=? WHERE `uuid`=?");
                 statementSett.setBoolean(1, data.getFriendRequest() == null ? true : data.getFriendRequest());
                 statementSett.setInt(2, data.getHideMode() == null ? 1 : data.getHideMode());
                 statementSett.setString(3, u.getUuid().toString());
@@ -174,7 +174,7 @@ public class MySQL {
         try {
 
             //Datos
-            PreparedStatement statementDatos = connection.prepareStatement("SELECT `timeJoin`,`grupo`,`god`,`coins`,`lastConnect` FROM `fem_datos` WHERE `uuid` = ?");
+            PreparedStatement statementDatos = openConnection().prepareStatement("SELECT `timeJoin`,`grupo`,`god`,`coins`,`lastConnect` FROM `fem_datos` WHERE `uuid` = ?");
             statementDatos.setString(1, id.toString());
             ResultSet rsDatos = statementDatos.executeQuery();
 
@@ -188,7 +188,7 @@ public class MySQL {
             }
             
             //Stats
-            PreparedStatement statementStats = connection.prepareStatement("SELECT * FROM `fem_stats` WHERE `uuid` = ?");
+            PreparedStatement statementStats = openConnection().prepareStatement("SELECT * FROM `fem_stats` WHERE `uuid` = ?");
             statementStats.setString(1, id.toString());
             ResultSet rsStats = statementStats.executeQuery();    
             if (rsStats.next()) {  
@@ -243,7 +243,7 @@ public class MySQL {
             }
             
             //Settings
-            PreparedStatement statementSett = connection.prepareStatement("SELECT * FROM `fem_settings` WHERE `uuid` = ?");
+            PreparedStatement statementSett = openConnection().prepareStatement("SELECT * FROM `fem_settings` WHERE `uuid` = ?");
             statementSett.setString(1, id.toString());
             ResultSet rsSett = statementSett.executeQuery();
             
@@ -253,7 +253,7 @@ public class MySQL {
             }
             
             //Amigos
-            PreparedStatement statementAmigos = connection.prepareStatement("SELECT `to` FROM `fem_amigos` WHERE `uuid` = ?");
+            PreparedStatement statementAmigos = openConnection().prepareStatement("SELECT `to` FROM `fem_amigos` WHERE `uuid` = ?");
             statementAmigos.setString(1, id.toString());
             ResultSet rsAmigos = statementAmigos.executeQuery();
             
@@ -273,11 +273,11 @@ public class MySQL {
     public void addFriend(FEMUser uuid, FEMUser to) {
         FEMCore.getInstance().getServer().getScheduler().runTaskAsynchronously(FEMCore.getInstance(), () -> {
             try {
-                PreparedStatement statementAmigos = connection.prepareStatement("INSERT INTO `fem_amigos` (`uuid`, `to`) VALUES (?, ?)");
+                PreparedStatement statementAmigos = openConnection().prepareStatement("INSERT INTO `fem_amigos` (`uuid`, `to`) VALUES (?, ?)");
                 statementAmigos.setString(1, uuid.getUuid().toString());
                 statementAmigos.setString(2, to.getUuid().toString());
                 statementAmigos.executeUpdate();
-            } catch (SQLException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
@@ -286,11 +286,11 @@ public class MySQL {
     public void removeFriend(FEMUser uuid, FEMUser to) {
         FEMCore.getInstance().getServer().getScheduler().runTaskAsynchronously(FEMCore.getInstance(), () -> {
             try {
-                PreparedStatement statementAmigos = connection.prepareStatement("DELETE FROM `fem_amigos` WHERE `uuid`=? AND `to`=?");
+                PreparedStatement statementAmigos = openConnection().prepareStatement("DELETE FROM `fem_amigos` WHERE `uuid`=? AND `to`=?");
                 statementAmigos.setString(1, uuid.getUuid().toString());
                 statementAmigos.setString(2, to.getUuid().toString());
                 statementAmigos.executeUpdate();
-            } catch (SQLException ex) {
+            } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
