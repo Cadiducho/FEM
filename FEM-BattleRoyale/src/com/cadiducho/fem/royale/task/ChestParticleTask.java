@@ -1,5 +1,6 @@
 package com.cadiducho.fem.royale.task;
 
+import com.cadiducho.fem.core.util.ReflectionUtils;
 import com.cadiducho.fem.royale.BattleRoyale;
 import net.minecraft.server.v1_10_R1.EnumParticle;
 import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
@@ -18,21 +19,25 @@ public class ChestParticleTask extends BukkitRunnable {
     }
     
     //Task para mostar partículas durante 10 segundos
-    int count = 15;
+    int count = 10 * 2;
     @Override
     public void run() {
         int radio = 1;
-        for (double y = 0; y <= 50; y += 0.05) {
+        for (double y = 0; y <= 100; y += 0.05) {
             double x = radio * Math.cos(y);
             double z = radio * Math.sin(y);
-            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.FIREWORKS_SPARK, false, (float) (loc.getX() + x), (float) (loc.getY() + y), (float) (loc.getZ() + z), 0, 0, 0, 0, 1);
+       
+            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, false, (float) (loc.getX() + x), (float) (loc.getY() + y), (float) (loc.getZ() + z), (float) 0, (float) 0, (float) 255, (float) 0, 0, 1);
+            try {
+                ReflectionUtils.setValue(packet, true, "j", true);
+            } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex) {}
             plugin.getServer().getOnlinePlayers().forEach(p -> ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet));
         }
         if (count == 0) {
             cancel();
         }
         --count;
-    } 
+    }
 }
             
             

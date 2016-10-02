@@ -20,6 +20,6 @@ public class ChestTask extends BukkitRunnable {
         Location loc = plugin.getAm().spawnRandomChest();
         FallingBlock chest = plugin.getWorld().spawnFallingBlock(loc, Material.TRAPPED_CHEST, (byte)0); //Ver en GameListener
         System.out.println("Cofre caido en " + loc.getBlockX() + "/"+ loc.getBlockY() + "/"+ loc.getBlockZ() + "/");
-        new ChestParticleTask(plugin, loc).runTaskTimer(plugin, 1l, 20l);
+        new ChestParticleTask(plugin, loc).runTaskTimer(plugin, 1l, 10l);
     } 
 }

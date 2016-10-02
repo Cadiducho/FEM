@@ -34,7 +34,7 @@
         <repository>
             <id>cadi-repo</id>
             <url>http://cadiducho.com/repo/</url>
-        </repository>
+        </repository>  
     </repositories>
     <dependencies>
         <dependency>
