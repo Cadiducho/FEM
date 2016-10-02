@@ -1,7 +1,6 @@
 package com.cadiducho.fem.pic.task;
 
 import com.cadiducho.fem.core.api.FEMServer;
-import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.manager.GameState;
 import java.util.ArrayList;

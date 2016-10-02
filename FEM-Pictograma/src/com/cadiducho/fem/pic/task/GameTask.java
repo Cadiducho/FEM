@@ -59,7 +59,8 @@ public class GameTask extends BukkitRunnable {
             plugin.getGm().endGame();
             return;
         }
-        plugin.getMsg().sendBroadcast("&aSe acabó el tiempo! La siguiente ronda comenzará en 5 segundos"); 
+        plugin.getMsg().sendBroadcast("&aLa palabra era: &e&l" + plugin.getGm().word);
+        plugin.getMsg().sendBroadcast("&aSe acabó el tiempo! La siguiente ronda comenzará en 5 segundos");
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getGm().startRound(), 100L);
     }
 }

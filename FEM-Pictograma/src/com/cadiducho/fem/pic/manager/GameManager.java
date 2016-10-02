@@ -12,15 +12,11 @@ import java.util.Random;
 import lombok.Getter;
 import org.bukkit.DyeColor;
 import org.bukkit.Sound;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
-import org.inventivetalent.bossbar.BossBarAPI;
 
 public class GameManager {
 
@@ -29,15 +25,12 @@ public class GameManager {
     @Getter private final ArrayList<Player> hasFound = new ArrayList<>();
     private int playerFound = 0;
     @Getter private final HashMap<Player, Integer> score = new HashMap<>();
-    /*@Getter private final BossBar barra;
-    @Getter private final BossBar barraCheta; //Para los pros que saben la palabra*/
     @Getter private Scoreboard board;
     @Getter private Objective objective;
+    public DyeColor color = DyeColor.BLACK;
     
     public GameManager(Pictograma instance) {
-        plugin = instance;/*
-        barra = plugin.getServer().createBossBar("Pictograma", BarColor.BLUE, BarStyle.SOLID); 
-        barraCheta = plugin.getServer().createBossBar("Pictograma", BarColor.BLUE, BarStyle.SOLID); */
+        plugin = instance;
     }
 
     private boolean checkStart = false;
@@ -57,7 +50,6 @@ public class GameManager {
     
     public String word;
     public StringBuilder wordf;
-    public Boolean wordHasBeenFound = false;
     public Boolean acceptWords = true;
     public Player builder = null;
     
@@ -65,22 +57,14 @@ public class GameManager {
     public void startRound() {
         searchBuilder();
         hasFound.clear();
-        wordHasBeenFound = false;
         acceptWords = true;
         playerFound = 0;
         word = plugin.getRandomWord();
         wordf = new StringBuilder(word.replaceAll("[a-zA-Z]", "_"));
         plugin.getAm().getBuildZone().clear();
         plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
-        /*
-        barraCheta.setTitle(Metodos.colorizar("&e" + word.toUpperCase()));
-        getPlayersInGame().forEach(p -> {
-            barra.removePlayer(p);
-            barra.addPlayer(p);
-        });
-        barra.removePlayer(builder);
-        barraCheta.addPlayer(builder);
-        barra.setTitle(wordf.toString());*/
+        color = DyeColor.BLACK;
+        
         Pictograma.getPlayer(builder).setArtist();
         Pictograma.getPlayer(builder).getBase().sendMessage("La palabara es &e" + word);
     
@@ -126,7 +110,6 @@ public class GameManager {
         int randomLetter = r.nextInt(word.length());
         wordf.setCharAt(randomLetter, word.charAt(randomLetter));
         plugin.getMsg().sendBroadcast("&aLa palabra es &e" + wordf);
-        //barra.setTitle(Metodos.colorizar("&e"+wordf.toString().toUpperCase()));
     }
    
     public void increaseScore(Player p, int value) {
@@ -141,27 +124,46 @@ public class GameManager {
         if (acceptWords && !hasFound.contains(player)) {
             hasFound.add(player);
             score.keySet().forEach(p -> p.getWorld().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F));
-            FEMServer.getUser(player).getUserData().setPicAcertadas(FEMServer.getUser(player).getUserData().getPicAcertadas()+ 1);
+            FEMServer.getUser(player).getUserData().setPicAcertadas(FEMServer.getUser(player).getUserData().getPicAcertadas() + 1);
             FEMServer.getUser(player).save();
-            if (!wordHasBeenFound) {
-                plugin.getMsg().sendBroadcast("&6+3 &a" + player.getName() + " ha encontrado la palabra, y ha sido el más rápido!");
-                plugin.getMsg().sendMessage(builder, "&6+2 &aalguien ha adivinado tu palabra!");
-                FEMServer.getUser(builder).getUserData().setPicDibujadas(FEMServer.getUser(builder).getUserData().getPicDibujadas() + 1);
-                FEMServer.getUser(builder).save();
-                increaseScore(player, 3);
-                increaseScore(builder, 2);
-                wordHasBeenFound = true;
-            } else {
-                plugin.getMsg().sendBroadcast("&6+1 &a" + player.getName() + " ha encontrado la palabra!");
-                increaseScore(player, 1);
+            
+            int puntos;
+            switch (playerFound) {
+                case 0: //10 puntos
+                    puntos = 10;
+                    plugin.getMsg().sendMessage(builder, "&6+2 &aalguien ha adivinado tu palabra!");
+                    increaseScore(builder, 2);
+                    FEMServer.getUser(builder).getUserData().setPicDibujadas(FEMServer.getUser(builder).getUserData().getPicDibujadas() + 1);
+                    FEMServer.getUser(builder).save();
+                    break;
+                case 1: //8 puntos
+                    puntos = 8;
+                    break;
+                case 2: //6 puntos
+                    puntos = 6;
+                    break;
+                case 3: //4 puntos
+                    puntos = 4;
+                    break;
+                case 4: //2 puntos
+                    puntos = 2;
+                    break;
+                default: //1 puntito
+                    puntos = 1;
+                    break;
             }
+            increaseScore(player, puntos);
+            plugin.getMsg().sendBroadcast("&6+" + puntos + " &a" + player.getName() + " ha encontrado la palabra, y ha sido el más rápido!");
+            FEMServer.getUser(builder).getUserData().setPicDibujadas(FEMServer.getUser(builder).getUserData().getPicDibujadas() + 1);
+            FEMServer.getUser(builder).save();
+            
             playerFound += 1;
         }
         if (playerFound == (getPlayersInGame().size() - 1)) {
             GameTask.getGameInstance().prepareNextRound(); 
         }
     }
-
+    
     public void addPlayerToGame(Player player) {
         if (playersInGame.contains(player)) {
             playersInGame.remove(player);

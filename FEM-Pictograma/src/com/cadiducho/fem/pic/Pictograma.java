@@ -34,6 +34,7 @@ public class Pictograma extends JavaPlugin {
     @Getter private Messages msg;
     
     public static List<String> palabras;
+    public ArrayList<String> palabrasUsadas = new ArrayList<>();
     public Inventory colorPicker;
 
     @Override
@@ -86,7 +87,12 @@ public class Pictograma extends JavaPlugin {
     public String getRandomWord() {
         int i = palabras.size();
         Random r = new Random();
-        return palabras.get(r.nextInt(i));
+        String palabra = palabras.get(r.nextInt(i - 1));
+        if (palabrasUsadas.contains(palabra)) {
+            return getRandomWord();
+        }
+        palabrasUsadas.add(palabra);
+        return palabra;
     }
     
     public static PicPlayer getPlayer(OfflinePlayer p) {

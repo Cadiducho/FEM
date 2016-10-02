@@ -4,11 +4,12 @@ import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.tick.EventTick;
 import com.cadiducho.fem.pic.tick.TickType;
+import com.cadiducho.fem.pic.util.MathUtil;
 import java.util.Set;
-import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -20,12 +21,13 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.material.Wool;
 
 
 public class GameListener implements Listener {
 
     private final Pictograma plugin;
-    @Getter private DyeColor color = DyeColor.BLACK;
+    public Location oldBrushLoc = null;
 
     public GameListener(Pictograma instance) {
         plugin = instance;
@@ -55,22 +57,35 @@ public class GameListener implements Listener {
                         break;
                 }
             }
+        } else {
+            oldBrushLoc = null; //Eliminar posición anterior para fluided, si ya ha pasado el tick
         }
     }
     
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent e) {
-        if ((e.getAction() != Action.RIGHT_CLICK_AIR) && (e.getAction() != Action.RIGHT_CLICK_BLOCK)) {
-            return;
+        if ((e.getAction() == Action.RIGHT_CLICK_AIR) || (e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
+            if (e.getPlayer().getInventory().getItemInHand().getType() == Material.COMPASS) {
+                e.getPlayer().openInventory(plugin.colorPicker);
+                e.setCancelled(true);
+            } else if (e.getPlayer().getInventory().getItemInHand().getType() == Material.EMPTY_MAP) {
+                plugin.getAm().getBuildZone().clear();
+                plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
+                FEMServer.getUser(e.getPlayer()).sendMessage("&eHas limpiado la hoja completamente");
+                e.setCancelled(true);
+            }
         }
-        if (e.getPlayer().getInventory().getItemInHand().getType() == Material.COMPASS) {
-            e.getPlayer().openInventory(plugin.colorPicker);
-            e.setCancelled(true);
-        } else if (e.getPlayer().getInventory().getItemInHand().getType() == Material.EMPTY_MAP) {
-            plugin.getAm().getBuildZone().clear();
-            plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
-            FEMServer.getUser(e.getPlayer()).sendMessage("&eHas limpiado la hoja completamente");
-            e.setCancelled(true);
+        if ((e.getAction() == Action.LEFT_CLICK_AIR) || (e.getAction() == Action.LEFT_CLICK_BLOCK)) {
+            if (e.getPlayer().getUniqueId() == plugin.getGm().builder.getUniqueId()) {
+                Block b = e.getPlayer().getTargetBlock((Set<Material>) null, 100);
+                if (b.getType() == Material.WOOL) {
+                    Wool wool = (Wool) b.getState().getData();
+                    if (wool.getColor() != DyeColor.WHITE) {
+                        setPencilColor(wool.getColor());
+                        e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
+                    }
+                }
+            }
         }
     }
     
@@ -78,60 +93,119 @@ public class GameListener implements Listener {
         if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
             return;
         }
-        plugin.getServer().getScheduler().runTask(plugin, () -> {
-            b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-        });
+        b.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+        if (oldBrushLoc != null) {
+            while (MathUtil.offset(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)) > 0.5D) {
+                oldBrushLoc.add(MathUtil.getTraj(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)).multiply(0.5D));
+
+                Block fixBlock = oldBrushLoc.getBlock();
+                if (plugin.getAm().getBuildZone().contains(fixBlock)) {
+                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                }
+            }
+        }
+        oldBrushLoc = b.getLocation().add(0.5D, 0.5D, 0.5D);
     }
     
     private void setBrochaBlock(Block b) {
-        Block b2 = b.getLocation().clone().add(0D, 1D, 0D).getBlock();
-        Block b3 = b.getLocation().clone().subtract(0D, -1D, 0D).getBlock();
-        Block b4 = b.getLocation().clone().subtract(0D, 0D, 1D).getBlock();
-        Block b5 = b.getLocation().clone().subtract(0D, 0D, -1D).getBlock();
+        Block b2 = b.getLocation().clone().add(0.0, 1.0, 0.0).getBlock();
+        Block b3 = b.getLocation().clone().add(0.0, -1.0, 0.0).getBlock();
+        Block b4 = b.getLocation().clone().add(0.0, 0.0, 1.0).getBlock();
+        Block b5 = b.getLocation().clone().add(0.0, 0.0, -1.0).getBlock();
         if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
             return;
         }
-        plugin.getServer().getScheduler().runTask(plugin, () -> {
-            b.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-            b2.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-            b3.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-            b4.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-            b5.setTypeIdAndData(Material.WOOL.getId(), color.getData(), true);
-        });
+
+        b.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+        b2.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+        b3.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+        b4.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+        b5.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+
+        if (oldBrushLoc != null) {
+            while (MathUtil.offset(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)) > 0.5D) {
+                oldBrushLoc.add(MathUtil.getTraj(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)).multiply(0.5D));
+
+                Block fixBlock = oldBrushLoc.getBlock();
+                if (plugin.getAm().getBuildZone().contains(fixBlock)) {
+                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+
+                    Block bo2 = fixBlock.getLocation().clone().add(0.0, 1.0, 0.0).getBlock();
+                    Block bo3 = fixBlock.getLocation().clone().add(0.0, -1.0, 0.0).getBlock();
+                    Block bo4 = fixBlock.getLocation().clone().add(0.0, 0.0, 1.0).getBlock();
+                    Block bo5 = fixBlock.getLocation().clone().add(0.0, 0.0, -1.0).getBlock();
+                    if (plugin.getAm().getBuildZone().contains(fixBlock)) {
+                        bo2.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                        bo3.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                        bo4.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                        bo5.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                    }
+                }
+            }
+        }
     }
+
+
     private void eraseBlock(Block b) {
         if (b.getType() != Material.WOOL) {
             return;
         }
-        plugin.getServer().getScheduler().runTask(plugin, () -> {
-            b.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getData(), true);
-        });
+        
+        b.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getData(), true);
+        if (oldBrushLoc != null) {
+            while (MathUtil.offset(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)) > 0.5D) {
+                oldBrushLoc.add(MathUtil.getTraj(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)).multiply(0.5D));
+
+                Block fixBlock = oldBrushLoc.getBlock();
+                if (plugin.getAm().getBuildZone().contains(fixBlock)) {
+                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                }
+            }
+        }
+        oldBrushLoc = b.getLocation().add(0.5D, 0.5D, 0.5D);
     }
 
     @EventHandler
     public void onPlayerChat(PlayerChatEvent e) {
         if (plugin.getGm().isInGame()) {
+            String word = plugin.getGm().word.toLowerCase();
+            String intento = e.getMessage().toLowerCase();
+
+            //Remplazar tildes
+            intento.replaceAll("á", "a");
+            intento.replaceAll("é", "e");
+            intento.replaceAll("í", "i");
+            intento.replaceAll("ó", "o");
+            intento.replaceAll("ú", "u");
+            intento.replaceAll("à", "a");
+            intento.replaceAll("é", "e");
+            intento.replaceAll("ì", "i");
+            intento.replaceAll("ò", "o");
+            intento.replaceAll("ù", "u");
+            
+            word.replaceAll("á", "a");
+            word.replaceAll("é", "e");
+            word.replaceAll("í", "i");
+            word.replaceAll("ó", "o");
+            word.replaceAll("ú", "u");
+            word.replaceAll("à", "a");
+            word.replaceAll("é", "e");
+            word.replaceAll("ì", "i");
+            word.replaceAll("ò", "o");
+            word.replaceAll("ù", "u");
+
             if (plugin.getGm().builder != null  && (plugin.getGm().builder.getUniqueId() == e.getPlayer().getUniqueId())) {
-                Pictograma.getPlayer(e.getPlayer()).getBase().sendMessage("No puedes hablar mientras eres el artista");
-                e.setCancelled(true);
-            } else {
-                String word = plugin.getGm().word.toLowerCase();
-                String intento = e.getMessage().toLowerCase();
-                
-                //Remplazar tildes
-                intento.replace("á", "a");
-                intento.replace("é", "e");
-                intento.replace("í", "i");
-                intento.replace("ó", "o");
-                intento.replace("ú", "u");
-                intento.replace("à", "a");
-                intento.replace("é", "e");
-                intento.replace("ì", "i");
-                intento.replace("ù", "u");
-                if (plugin.getGm().getHasFound().contains(e.getPlayer())) {
-                    Pictograma.getPlayer(e.getPlayer()).getBase().sendMessage("Ya has encontrado la palabra");
+                if (intento.equals(word)) {
+                    Pictograma.getPlayer(e.getPlayer()).getBase().sendMessage("&c¡No puedes chivar la palabra!");
                     e.setCancelled(true);
-                } else if (e.getMessage().toLowerCase().contains(word)) {
+                }
+            } else {
+                if (plugin.getGm().getHasFound().contains(e.getPlayer())) {
+                    if (intento.equals(word)) {
+                        Pictograma.getPlayer(e.getPlayer()).getBase().sendMessage("&aYa has encontrado la palabra");
+                        e.setCancelled(true);
+                    }
+                } else if (intento.equals(word)) {
                     plugin.getGm().wordFoundBy(e.getPlayer());
                     e.setCancelled(true);
                 }
@@ -210,6 +284,6 @@ public class GameListener implements Listener {
     }
 
     public void setPencilColor(DyeColor color) {
-        this.color = color;
+        plugin.getGm().color = color;
     }
 }
