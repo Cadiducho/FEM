@@ -18,7 +18,6 @@ public class GameTask extends BukkitRunnable {
     int status = 1;
     int colorround = 0;
     Random rand = new Random();
-    boolean iscolorshuffle = false;
     
     public GameTask(DyeOrDie instance) {
         plugin = instance;
@@ -29,32 +28,33 @@ public class GameTask extends BukkitRunnable {
         checkWinner();
         switch (status) {
             case 0:
+                //Terminar ronda y recomenzar el bucle si quedan jugadores
                 plugin.getAm().roundEnded();
                 status += 1;
                 colorround = 0;
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, 15L);
                 break;
             case 1:
+                //Comenzar la ronda
                 status += 1;
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, 45L);
                 break;
             case 2:
+                //Remplazar colores del suelo y del inventario, crear confusión
                 plugin.getAm().replaceFloor();
                 plugin.getAm().spinColors(false);
                 colorround += 1;
                 status += 1;
-                if (rand.nextInt(5) == 1) {
-                    iscolorshuffle = true;
-                    plugin.getMsg().sendBroadcast(DyeOrDie.colorize("D Y E  O R  D I E"));
-                } else {
-                    iscolorshuffle = false;
-                }   plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, 7L);
+
+                plugin.getMsg().sendBroadcast(DyeOrDie.colorize("D Y E  O R  D I E"));
+                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, 7L);
                 break;
             case 3:
+                //Cambiar 6 veces de color en el inventario (el mismo). Cambiar colores del suelo
                 plugin.getAm().spinColors(true);
-                if (iscolorshuffle) {
-                    plugin.getAm().shuffleMats();
-                }   colorround += 1;
+                plugin.getAm().shuffleMats();
+                colorround += 1;
+                
                 switch (colorround) {
                     case 2:
                         plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F));
@@ -68,28 +68,35 @@ public class GameTask extends BukkitRunnable {
                         plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F));
                         plugin.getMsg().sendBroadcast("&a1");
                         break;
-                }   plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, 7L);
+                }
+                plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, 7L);
                 if (colorround > 6) {
                     status += 1;
-                }   break;
+                }
+                break;
             case 4:
+                //Comenzar ronda. Calcular tiempos hasta el final de la ronda
                 plugin.getAm().startRound();
                 if (plugin.getAm().getRound() > 1) {
                     ticksforround = ((int) (ticksforround * (1.0D - plugin.getAm().getDecayvalue())));
-                }   tickstilendofround = ticksforround;
+                }
+                tickstilendofround = ticksforround;
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, 5L);
                 status += 1;
                 break;
             case 5:
                 tickstilendofround -= 5;
                 float timeleft = tickstilendofround / ticksforround;
-                plugin.getAm().setTimeLeft(timeleft);
+                plugin.getAm().setTimeLeft(tickstilendofround);
+                System.out.println("Status 5. Timeleft: " + tickstilendofround);
                 if (tickstilendofround < 5) {
                     status = 0;
+                    System.out.println("Ajustado status a 0");
                     plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, tickstilendofround);
                 } else {
                     plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, 5L);
-                }   break;
+                }
+                break;
             default:
                 break;
         }
@@ -106,7 +113,7 @@ public class GameTask extends BukkitRunnable {
             FEMServer.getUser(winner).save();
             
             end();
-            cancel();
+            plugin.getServer().getScheduler().cancelTask(getTaskId());
         }
     }
     

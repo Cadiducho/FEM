@@ -71,6 +71,7 @@ public class ArenaManager {
         plugin.getLogger().log(Level.INFO, "Mundo para {0}/{1} preparado", new Object[]{minPlayers, maxPlayers});
     }
     
+    //Calculos para iniciar la arena. Organizar bloques y zonas
     public void initArena() {
         int lowx = pos1.getBlockX();
         int lowy = pos1.getBlockY();
@@ -157,6 +158,7 @@ public class ArenaManager {
         return colormats;
     }
     
+    //Remplazar el suelo con los colores aleatorios
     public void replaceFloor() {
         Block iceblock;
         for (Location loc : whiteblocks) {
@@ -217,6 +219,7 @@ public class ArenaManager {
         return tempcolor;
     }
     
+    //Código a repetir cada ronda. Aumentar número de ronda, guardar estadísticas de rondas jugadas. Mezclar colores y mandar el color al jugador
     public void startRound() {
         round += 1;
         currentcolor = spinColors(true);
@@ -263,8 +266,10 @@ public class ArenaManager {
         }
     }
     
+    //Mostrar a los usuarios el tiempo que queda
     public void setTimeLeft(float timeleft) {
-        plugin.getGm().getPlayersInGame().stream().forEach(player -> player.setExp(timeleft));
+        Double d = Double.parseDouble(""+timeleft) / 20;
+        plugin.getGm().getPlayersInGame().stream().forEach(p -> plugin.getMsg().sendActionBar(p, "&aTiempo restante: &e" + d.intValue()));
     }
     
     //Dar formato visual y idioma castellano a los colores

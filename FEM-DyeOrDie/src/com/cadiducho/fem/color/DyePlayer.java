@@ -7,10 +7,13 @@ import java.util.Random;
 import lombok.Getter;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 public class DyePlayer {
 
     private final DyeOrDie plugin = DyeOrDie.getInstance();
+    @Getter private Scoreboard scoreboard;
     @Getter private final FEMUser base;
     
     public DyePlayer(FEMUser instance) {
@@ -32,7 +35,10 @@ public class DyePlayer {
                     board.text(2, "§eEsperando...");
                     board.text(1, "§e ");
                     board.text(0, "§cmc.undergames.es");
-                    if (base.getPlayer() != null) board.build(base.getPlayer());
+                    if (base.getPlayer() != null) {
+                        board.build(base.getPlayer());
+                        scoreboard = board.getScoreboard();
+                    }
                 } else {
                     board.reset();
                     cancel();
@@ -70,6 +76,8 @@ public class DyePlayer {
 
     public void spawn() {
         base.getPlayer().teleport(plugin.getAm().getWhiteblocks().get(new Random().nextInt(plugin.getAm().getWhiteblocks().size())));
+        Team tJugadores = scoreboard.getTeam("1DoD") == null ? scoreboard.registerNewTeam("1DoD") : scoreboard.getTeam("1DoD");
+        tJugadores.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
     }
     
     public void endGame() {

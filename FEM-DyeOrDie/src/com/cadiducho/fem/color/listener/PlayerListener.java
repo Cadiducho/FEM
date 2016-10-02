@@ -57,9 +57,7 @@ public class PlayerListener implements Listener {
         if (plugin.getGm().acceptPlayers()) {
             plugin.getGm().removePlayerFromGame(player);
             plugin.getMsg().sendBroadcast("&7abandonó el juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
-        } else if (plugin.getGm().isInGame()) {
-            plugin.getGm().removePlayerFromGame(player);
-        } else if (plugin.getGm().isEnding()) {
+        } else {
             plugin.getGm().removePlayerFromGame(player);
         }
         
