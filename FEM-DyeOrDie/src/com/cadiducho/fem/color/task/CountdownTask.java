@@ -2,7 +2,6 @@ package com.cadiducho.fem.color.task;
 
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.color.DyeOrDie;
-import com.cadiducho.fem.color.DyePlayer;
 import com.cadiducho.fem.color.manager.GameState;
 import com.cadiducho.fem.core.api.FEMServer;
 import java.util.HashMap;
@@ -10,7 +9,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Team;
 
 public class CountdownTask extends BukkitRunnable {
 
@@ -45,7 +43,6 @@ public class CountdownTask extends BukkitRunnable {
             }
             
             //Iniciar hilo de la fase de esconder
-            System.out.println("Iniciando juego");
             plugin.getGm().startGame();
             cancel();
         }

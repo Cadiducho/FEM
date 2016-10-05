@@ -24,7 +24,7 @@ public class FEMCore extends JavaPlugin {
     private static FEMCore instance;
 
     @Getter private MySQL mysql = null;
-    @Getter private Connection connection = null;
+    private Connection connection = null;
 
     public static FEMServer server;
 
@@ -89,9 +89,9 @@ public class FEMCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (getConnection() != null) { //Evitar NullPointerExceptions 
+        if (connection != null) { //Evitar NullPointerExceptions 
             try {
-                getConnection().close();
+                connection.close();
             } catch (SQLException ex) {
             } //Ignora
         }

@@ -86,12 +86,9 @@ public class GameTask extends BukkitRunnable {
                 break;
             case 5:
                 tickstilendofround -= 5;
-                float timeleft = tickstilendofround / ticksforround;
                 plugin.getAm().setTimeLeft(tickstilendofround);
-                System.out.println("Status 5. Timeleft: " + tickstilendofround);
                 if (tickstilendofround < 5) {
                     status = 0;
-                    System.out.println("Ajustado status a 0");
                     plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, tickstilendofround);
                 } else {
                     plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, 5L);

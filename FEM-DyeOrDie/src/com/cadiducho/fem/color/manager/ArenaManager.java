@@ -46,6 +46,8 @@ public class ArenaManager {
     @Getter private final Location lobby;
     @Getter private final ArrayList<DyeMiniArea> colormats = new ArrayList<>();
     
+    @Getter private Double timeleft = 0.0;
+    
     public ArenaManager(DyeOrDie instance) {
         plugin = instance;
         minPlayers = plugin.getConfig().getInt("Color.Arena.usersMin");
@@ -267,9 +269,9 @@ public class ArenaManager {
     }
     
     //Mostrar a los usuarios el tiempo que queda
-    public void setTimeLeft(float timeleft) {
-        Double d = Double.parseDouble(""+timeleft) / 20;
-        plugin.getGm().getPlayersInGame().stream().forEach(p -> plugin.getMsg().sendActionBar(p, "&aTiempo restante: &e" + d.intValue()));
+    public void setTimeLeft(float tl) {
+        timeleft = Double.parseDouble(""+tl) / 20;
+        plugin.getGm().getPlayersInGame().stream().forEach(p -> plugin.getMsg().sendActionBar(p, "&aTiempo restante: &e" + timeleft.intValue()));
     }
     
     //Dar formato visual y idioma castellano a los colores

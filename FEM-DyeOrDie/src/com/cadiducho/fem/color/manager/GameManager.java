@@ -34,6 +34,7 @@ public class GameManager {
         plugin.getAm().replaceFloor();
         
         for (Player player : getPlayersInGame()) {
+            DyeOrDie.getPlayer(player).setGameScoreboard();
             player.getInventory().clear();
             player.setHealth(player.getMaxHealth());
             player.setFoodLevel(20);

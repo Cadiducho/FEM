@@ -7,13 +7,11 @@ import java.util.Random;
 import lombok.Getter;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 public class DyePlayer {
 
     private final DyeOrDie plugin = DyeOrDie.getInstance();
-    @Getter private Scoreboard scoreboard;
     @Getter private final FEMUser base;
     
     public DyePlayer(FEMUser instance) {
@@ -21,7 +19,7 @@ public class DyePlayer {
     }
 
     public void setWaitScoreboard() {
-        ScoreboardUtil board = new ScoreboardUtil("Dye or Die", "lobby");
+        ScoreboardUtil board = plugin.getLobbyBoard();
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -37,12 +35,37 @@ public class DyePlayer {
                     board.text(0, "§cmc.undergames.es");
                     if (base.getPlayer() != null) {
                         board.build(base.getPlayer());
-                        scoreboard = board.getScoreboard();
                     }
                 } else {
                     board.reset();
                     cancel();
                 }
+            }
+        }.runTaskTimer(plugin, 20l, 20l);
+    }
+    
+    public void setGameScoreboard() {
+        ScoreboardUtil board = plugin.getGameBoard();
+        Team tJugadores = board.getScoreboard().getTeam("1DoD") == null ? 
+                board.getScoreboard().registerNewTeam("1DoD") : board.getScoreboard().getTeam("1DoD");
+        tJugadores.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+        tJugadores.addEntry(base.getPlayer().getName());
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (base.getPlayer() == null) cancel();
+
+                board.setName(DyeOrDie.colorize("Dye or Die"));
+                board.text(5, "§d ");
+                board.text(4, "§6" + plugin.getGm().getPlayersInGame().size() + "§d/§6" + plugin.getAm().getMaxPlayers());
+                board.text(3, "§aRonda: §e" + plugin.getAm().getRound());
+                board.text(2, "§aTiempo restante: §e" + plugin.getAm().getTimeleft().intValue());
+                board.text(1, "§e ");
+                board.text(0, "§cmc.undergames.es");
+                if (base.getPlayer() != null) {
+                    board.build(base.getPlayer());
+                }
+
             }
         }.runTaskTimer(plugin, 20l, 20l);
     }
@@ -74,16 +97,14 @@ public class DyePlayer {
         base.getPlayer().getActivePotionEffects().forEach(ef -> base.getPlayer().removePotionEffect(ef.getType()));
     }
 
-    public void spawn() {
+    public void spawn() { 
         base.getPlayer().teleport(plugin.getAm().getWhiteblocks().get(new Random().nextInt(plugin.getAm().getWhiteblocks().size())));
-        Team tJugadores = scoreboard.getTeam("1DoD") == null ? scoreboard.registerNewTeam("1DoD") : scoreboard.getTeam("1DoD");
-        tJugadores.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
     }
     
     public void endGame() {
         base.getPlayer().getInventory().clear();
         setSpectator();
-        base.getPlayer().teleport(plugin.getGm().getPlayersInGame().get(0));
+        base.getPlayer().teleport(base.getPlayer().getLocation().add(0, 50, 0));
         plugin.getGm().removePlayerFromGame(base.getPlayer());
         new Title("&b&l¡Has sido eliminado!", "Has caído en la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(base.getPlayer());
         base.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
