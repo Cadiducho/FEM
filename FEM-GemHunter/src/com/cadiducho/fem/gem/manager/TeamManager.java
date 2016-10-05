@@ -28,7 +28,7 @@ public class TeamManager {
     @Getter private final HashMap<Team, Location> teams = new HashMap<>();
 
     public void initTeams() {
-        board = plugin.getServer().getScoreboardManager().getMainScoreboard();
+        board = plugin.getGameBoard().getScoreboard();
         cleanTeams();
         
         rojo = board.getTeam("1byd_rojo") == null ? board.registerNewTeam("1byd_rojo") : board.getTeam("1byd_rojo");

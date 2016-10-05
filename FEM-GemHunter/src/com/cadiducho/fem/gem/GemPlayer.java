@@ -24,7 +24,7 @@ public class GemPlayer {
     }
 
     public void setWaitScoreboard() {
-        ScoreboardUtil board = new ScoreboardUtil("§d§lGem§e§lHunter", "lobby");
+        ScoreboardUtil board = plugin.getLobbyBoard();
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -48,7 +48,7 @@ public class GemPlayer {
     }
     
     public void setHiddingScoreboard() {
-        ScoreboardUtil board = new ScoreboardUtil("§d§lGem§e§lHunter", "hidding");
+        ScoreboardUtil board = plugin.getHiddingBoard();
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -74,7 +74,7 @@ public class GemPlayer {
     }
 
     public void setGameScoreboard() {
-        ScoreboardUtil board = new ScoreboardUtil("§d§lGem§e§lHunter", "game");
+        ScoreboardUtil board = plugin.getGameBoard();
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -104,7 +104,6 @@ public class GemPlayer {
         setWaitScoreboard();
         plugin.getGm().addPlayerToGame(base.getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);
-        //plugin.getAm().teleport(base.getPlayer());
     }
    
     public void setCleanPlayer(GameMode gameMode) {

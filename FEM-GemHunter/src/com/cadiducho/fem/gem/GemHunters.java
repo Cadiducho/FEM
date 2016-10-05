@@ -2,6 +2,7 @@ package com.cadiducho.fem.gem;
 
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.gem.listener.PlayerListener;
 import com.cadiducho.fem.gem.listener.WorldListener;
 import com.cadiducho.fem.gem.manager.ArenaManager;
@@ -30,6 +31,10 @@ public class GemHunters extends JavaPlugin {
     @Getter private GameManager gm;
     @Getter private Messages msg;
 
+    @Getter private ScoreboardUtil lobbyBoard;
+    @Getter private ScoreboardUtil hiddingBoard;
+    @Getter private ScoreboardUtil gameBoard;
+    
     @Override
     public void onEnable() {
         instance = this;
@@ -53,6 +58,10 @@ public class GemHunters extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerListener(instance), instance);
         pm.registerEvents(new WorldListener(instance), instance);
+        
+        lobbyBoard = new ScoreboardUtil("§d§lGem§e§lHunter", "lobby");
+        hiddingBoard = new ScoreboardUtil("§d§lGem§e§lHunter", "hidding");
+        gameBoard = new ScoreboardUtil("§d§lGem§e§lHunter", "game");
         
         GameState.state = GameState.LOBBY;
         getLogger().log(Level.INFO, "ByD: Activado correctamente");
