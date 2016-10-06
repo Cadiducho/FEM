@@ -44,13 +44,13 @@ public class GameListener implements Listener {
         if (p.isBlocking()) { //Está intentando pintar
             if (null != p.getInventory().getItemInHand().getType()) {
                 switch (p.getInventory().getItemInHand().getType()) {
-                    case WOOD_SWORD:
+                    case WOOD_SWORD: //Pincel
                         setPincelBlock(p.getTargetBlock((Set<Material>) null, 100));
                         break;
-                    case IRON_SWORD:
+                    case IRON_SWORD: //Borrador
                         eraseBlock(p.getTargetBlock((Set<Material>) null, 100));
                         break;
-                    case GOLD_SWORD:
+                    case GOLD_SWORD: //Brocha
                         setBrochaBlock(p.getTargetBlock((Set<Material>) null, 100));
                         break;
                     default:
@@ -128,29 +128,27 @@ public class GameListener implements Listener {
 
                 Block fixBlock = oldBrushLoc.getBlock();
                 if (plugin.getAm().getBuildZone().contains(fixBlock)) {
-                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
-
                     Block bo2 = fixBlock.getLocation().clone().add(0.0, 1.0, 0.0).getBlock();
                     Block bo3 = fixBlock.getLocation().clone().add(0.0, -1.0, 0.0).getBlock();
                     Block bo4 = fixBlock.getLocation().clone().add(0.0, 0.0, 1.0).getBlock();
                     Block bo5 = fixBlock.getLocation().clone().add(0.0, 0.0, -1.0).getBlock();
-                    if (plugin.getAm().getBuildZone().contains(fixBlock)) {
-                        bo2.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
-                        bo3.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
-                        bo4.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
-                        bo5.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
-                    }
+                    
+                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                    bo2.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                    bo3.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                    bo4.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                    bo5.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
                 }
             }
         }
+        oldBrushLoc = b.getLocation().add(0.5D, 0.5D, 0.5D);
     }
 
 
     private void eraseBlock(Block b) {
-        if (b.getType() != Material.WOOL) {
+        if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
             return;
         }
-        
         b.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getData(), true);
         if (oldBrushLoc != null) {
             while (MathUtil.offset(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)) > 0.5D) {
@@ -158,7 +156,7 @@ public class GameListener implements Listener {
 
                 Block fixBlock = oldBrushLoc.getBlock();
                 if (plugin.getAm().getBuildZone().contains(fixBlock)) {
-                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getData(), true);
                 }
             }
         }
