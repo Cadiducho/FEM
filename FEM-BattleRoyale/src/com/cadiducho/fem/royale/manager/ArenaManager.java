@@ -233,14 +233,15 @@ public class ArenaManager {
         vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1, true).build(), moneda15));
         vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.DIAMOND_SWORD).build(), moneda20));
         vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1, true).addEnchant(Enchantment.ARROW_INFINITE, 1, true).addEnchant(Enchantment.ARROW_FIRE, 1, true).build(), moneda25));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.GOLDEN_APPLE).build(), moneda25));
         vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.IRON_SWORD).addEnchant(Enchantment.FIRE_ASPECT, 2, true).build(), moneda25));
         vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build(), moneda25));
         vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.IRON_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build(), moneda25));
         vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.IRON_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build(), moneda25));
         vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.IRON_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build(), moneda25));
         vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.DIAMOND_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 2, true).addEnchant(Enchantment.KNOCKBACK, 1, true).build(), moneda30));
-        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.GOLD_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build(), moneda30));
-        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.GOLD_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build(), moneda30));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.DIAMOND_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build(), moneda30));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.DIAMOND_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build(), moneda30));
         
         vendo.addListener((Merchant merchant, MerchantOffer offer, Player customer) -> {
             FEMServer.getUser(customer).getUserData().setBrIntercambios(FEMServer.getUser(customer).getUserData().getBrIntercambios() + 1);

@@ -7,7 +7,6 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
 //Qué horror de clase...
 public class ChestItems {
@@ -130,13 +129,5 @@ public class ChestItems {
             items[i] = ((ItemStack) muyProbables.get(id));
         }
         return items;
-    }
-
-    private static ItemStack getCustomEnchantedBook(Enchantment enchant, int level) {
-        ItemStack item = new ItemStack(Material.ENCHANTED_BOOK, 1);
-        EnchantmentStorageMeta meta = (EnchantmentStorageMeta) item.getItemMeta();
-        meta.addStoredEnchant(enchant, level, true);
-        item.setItemMeta(meta);
-        return item;
     }
 }

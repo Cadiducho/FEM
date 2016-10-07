@@ -7,9 +7,7 @@ import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -142,7 +140,10 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
-        e.setCancelled(true);  
+        Block b = e.getBlock();
+        if (!permitidos.contains(b.getType())) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler

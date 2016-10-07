@@ -14,8 +14,8 @@ public class GameManager {
 
     private final BattleRoyale plugin;
 
-    public GameManager(BattleRoyale plugin) {
-        this.plugin = plugin;
+    public GameManager(BattleRoyale instance) {
+        plugin = instance;
     }
 
     @Getter private final ArrayList<Player> playersInGame = new ArrayList<>();
@@ -31,7 +31,7 @@ public class GameManager {
     }
 
     public void checkDm() {
-        if (playersInGame.size() <= 2 && dm == false) {
+        if (playersInGame.size() <= 4 && dm == false) {
             dm = true;
             plugin.getAm().loadSpawn();
             GameState.state = GameState.DEATHMATCH;
