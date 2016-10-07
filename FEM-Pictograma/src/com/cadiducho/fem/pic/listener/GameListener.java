@@ -5,6 +5,7 @@ import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.tick.EventTick;
 import com.cadiducho.fem.pic.tick.TickType;
 import com.cadiducho.fem.pic.util.MathUtil;
+import java.util.ArrayList;
 import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
@@ -13,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,7 +29,7 @@ import org.bukkit.material.Wool;
 public class GameListener implements Listener {
 
     private final Pictograma plugin;
-    public Location oldBrushLoc = null;
+    private Location oldBrushLoc = null;
 
     public GameListener(Pictograma instance) {
         plugin = instance;
@@ -65,16 +67,30 @@ public class GameListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerInteract(PlayerInteractEvent e) {
         if ((e.getAction() == Action.RIGHT_CLICK_AIR) || (e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
-            if (e.getPlayer().getInventory().getItemInHand().getType() == Material.COMPASS) {
-                e.getPlayer().openInventory(plugin.colorPicker);
-                e.setCancelled(true);
-            } else if (e.getPlayer().getInventory().getItemInHand().getType() == Material.EMPTY_MAP) {
-                plugin.getAm().getBuildZone().clear();
-                plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
-                FEMServer.getUser(e.getPlayer()).sendMessage("&eHas limpiado la hoja completamente");
-                e.setCancelled(true);
+            switch (e.getPlayer().getInventory().getItemInHand().getType()) {
+                case COMPASS: //Escoger color
+                    e.getPlayer().openInventory(plugin.colorPicker);
+                    e.setCancelled(true);
+                    break;
+                case EMPTY_MAP: //Limpiar folio
+                    plugin.getAm().getBuildZone().clear();
+                    plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
+                    FEMServer.getUser(e.getPlayer()).sendMessage("&eHas limpiado la hoja completamente");
+                    e.setCancelled(true);
+                    break;
+                case LAVA_BUCKET: //Rellenar area
+                    Block b = e.getPlayer().getTargetBlock((Set<Material>) null, 100);
+                    if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
+                        e.setCancelled(true);
+                        return;
+                    }
+                    fillArea(b, b.getData()); //Rellenar bloques desde b que mantengan su color
+                    e.setCancelled(true);
+                    break;
             }
         }
+        
+        //Clickar sobre el color y escogerlo
         if ((e.getAction() == Action.LEFT_CLICK_AIR) || (e.getAction() == Action.LEFT_CLICK_BLOCK)) {
             if (e.getPlayer().getUniqueId() == plugin.getGm().builder.getUniqueId()) {
                 Block b = e.getPlayer().getTargetBlock((Set<Material>) null, 100);
@@ -161,6 +177,33 @@ public class GameListener implements Listener {
             }
         }
         oldBrushLoc = b.getLocation().add(0.5D, 0.5D, 0.5D);
+    }
+    
+    public void fillArea(Block block, byte color) {
+        if (block.getData() != color) {
+            return;
+        }
+        if (!plugin.getAm().getBuildZone().contains(block)) {
+            return;
+        }
+        block.setData(plugin.getGm().color.getData());
+        getSurroundingBlocks(block).stream().forEach(other -> fillArea(other, color));
+        
+        plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.SPLASH, 0.4F, 1.5F));
+    }
+    
+    //ToDo: Usar este metodo con todos los tipos de pincel
+    public static ArrayList<Block> getSurroundingBlocks(Block block) {
+        ArrayList<Block> blocks = new ArrayList();
+
+        blocks.add(block.getRelative(BlockFace.UP));
+        blocks.add(block.getRelative(BlockFace.DOWN));
+        blocks.add(block.getRelative(BlockFace.NORTH));
+        blocks.add(block.getRelative(BlockFace.SOUTH));
+        blocks.add(block.getRelative(BlockFace.EAST));
+        blocks.add(block.getRelative(BlockFace.WEST));
+
+        return blocks;
     }
 
     @EventHandler

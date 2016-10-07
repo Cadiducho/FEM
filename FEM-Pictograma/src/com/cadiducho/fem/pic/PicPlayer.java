@@ -70,6 +70,7 @@ public class PicPlayer {
         base.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.WOOD_SWORD, "&ePincel"));
         base.getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.GOLD_SWORD, "&eBrocha"));
         base.getPlayer().getInventory().setItem(2, ItemUtil.createItem(Material.COMPASS, "&aEscoger color"));
+        base.getPlayer().getInventory().setItem(6, ItemUtil.createItem(Material.LAVA_BUCKET, "&eRellenar"));
         base.getPlayer().getInventory().setItem(7, ItemUtil.createItem(Material.IRON_SWORD, "&eBorrador"));
         base.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.EMPTY_MAP, "&eNueva hoja"));
         base.sendMessage("&eSelecciona la herramienta que quieras usar y pulsa click derecho para usarla.");
