@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class LobbyCMD extends FEMCmd {
 
     public LobbyCMD() {
-        super("lobby", Grupo.Usuario, Arrays.asList("salir", "quit", "exit", "volver"));
+        super("lobby", Grupo.Usuario, Arrays.asList("hub", "salir", "quit", "exit", "volver"));
     }
 
     @Override

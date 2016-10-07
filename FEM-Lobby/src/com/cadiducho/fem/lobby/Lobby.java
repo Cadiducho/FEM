@@ -114,6 +114,9 @@ public class Lobby extends JavaPlugin {
             });
         }, 20, 20);
         
+        getServer().getScheduler().runTaskLater(instance, () -> {
+            LobbyTeams.initTeams();
+        }, 1);
         getLogger().log(Level.INFO, "Lobby: Activado correctamente");
     }
 

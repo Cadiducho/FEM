@@ -69,8 +69,6 @@ public class BukkitListener implements Listener {
                 return "&a[SUPER] ";
             case VipMega:
                 return "&6[MEGA] ";
-            case YT:
-                return "&3[YT] ";
             case Helper:
                 return "&2[HELP] ";
             case Admin:
@@ -80,19 +78,18 @@ public class BukkitListener implements Listener {
             case Dev:
                 return "&b[DEV] ";
         }
-        return ""; //Default, Usuario
+        return ""; //Default: Usuario, YT
     }
     
     private String getSuffix(Grupo g) {
         switch (g) {
-            case YT:
             case Helper:
             case Admin:
             case Owner:
             case Dev:
                 return "&r&f";
         }
-        return "&7"; //Default, Usuario
+        return "&7"; //Default: Usuario, YT
     }
     
     String c(String s) {

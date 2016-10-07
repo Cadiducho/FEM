@@ -8,6 +8,7 @@ import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.lobby.Lobby;
 import com.cadiducho.fem.lobby.Lobby.FEMServerInfo;
+import com.cadiducho.fem.lobby.LobbyTeams;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -71,6 +72,8 @@ public class PlayerListener implements Listener, PluginMessageListener {
         
         u.tryHidePlayers();
         plugin.getServer().getOnlinePlayers().forEach(p -> FEMServer.getUser(p).tryHidePlayers());
+        
+        LobbyTeams.setScoreboardTeam(u);
     }
     
     @EventHandler
