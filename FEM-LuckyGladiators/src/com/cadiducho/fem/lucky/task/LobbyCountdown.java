@@ -20,15 +20,7 @@ public class LobbyCountdown extends BukkitRunnable {
         plugin.getGm().getPlayersInGame().stream().forEach((players) -> {
             players.setLevel(count);
         });
-        if (count == 12) {
-            plugin.getServer().getOnlinePlayers().stream().forEach((players) -> {
-                players.hidePlayer(players);
-            });
-        } else if (count == 11) {
-            plugin.getServer().getOnlinePlayers().stream().forEach((players) -> {
-                players.showPlayer(players);
-            });
-        } else if (count > 0 && count <= 5) {
+        if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));
         } else if (count == 0) {

@@ -44,9 +44,7 @@ public class PlayerManager {
     public void setSpectator(Player player) {
         setCleanPlayer(player, GameMode.SPECTATOR);
         plugin.getGm().getSpectators().add(player);
-        plugin.getGm().getPlayersInGame().stream().forEach((inGamePlayers) -> {
-            inGamePlayers.hidePlayer(player);
-        });
+        plugin.getGm().getPlayersInGame().stream().forEach(ig -> ig.hidePlayer(player));
     }
     
     public void setCleanPlayer(Player player, GameMode gameMode) {

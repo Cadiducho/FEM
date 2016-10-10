@@ -80,9 +80,7 @@ public class TntPlayer {
     public void setSpectator() {
         setCleanPlayer(GameMode.SPECTATOR);
         plugin.getGm().getSpectators().add(base.getPlayer());
-        plugin.getGm().getPlayersInGame().stream().forEach((inGamePlayers) -> {
-            inGamePlayers.hidePlayer(base.getPlayer());
-        });
+        plugin.getGm().getPlayersInGame().stream().forEach(ig -> ig.hidePlayer(base.getPlayer()));
     }
 
     public void setCleanPlayer(GameMode gameMode) {

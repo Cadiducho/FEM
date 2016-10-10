@@ -43,6 +43,8 @@ public class PlayerListener implements Listener {
         Player player = e.getPlayer();
         e.setJoinMessage(null);
         if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown()) {
+            plugin.getServer().getOnlinePlayers().stream().forEach(p -> player.showPlayer(p)); // Mostrar todos los jugadores a todos
+            plugin.getServer().getOnlinePlayers().stream().forEach(p -> p.showPlayer(player));
             player.teleport(plugin.getAm().getLobby());
             DyeOrDie.getPlayer(player).setLobbyPlayer();
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
