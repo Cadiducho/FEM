@@ -114,11 +114,11 @@ public class GameListener implements Listener {
         e.setCancelled(true);
     }
     
-    ArrayList<Material> objetosNormales = Lists.newArrayList(Material.STICK, Material.COBBLESTONE, Material.LAPIS_BLOCK,
+    ArrayList<Material> objetosNormales = Lists.newArrayList(Material.STICK, Material.STICK, Material.COBBLESTONE, Material.LAPIS_BLOCK,
             Material.WOOD_SWORD, Material.WOOD_AXE, Material.IRON_INGOT, Material.BAKED_POTATO, Material.CARROT, Material.POISONOUS_POTATO, Material.POTATO_ITEM,
             Material.STRING, Material.FLINT_AND_STEEL, Material.EGG, Material.COOKIE, Material.FIREWORK, Material.MELON, Material.RAW_CHICKEN, Material.RAW_FISH,
             Material.RAW_BEEF, Material.RABBIT, Material.MUTTON, Material.LEATHER_BOOTS, Material.LEATHER_CHESTPLATE, Material.LEATHER_HELMET, Material.LEATHER_LEGGINGS);
-    ArrayList<Material> objetosPro = Lists.newArrayList(Material.STONE_SWORD, Material.STONE_AXE, Material.GOLD_AXE, Material.GOLD_SPADE, 
+    ArrayList<Material> objetosPro = Lists.newArrayList(Material.STICK, Material.STONE_SWORD, Material.STONE_AXE, Material.GOLD_AXE, Material.GOLD_SPADE, 
             Material.IRON_INGOT, Material.BEETROOT_SOUP, Material.GOLD_INGOT, Material.COOKED_MUTTON, Material.COOKED_RABBIT, Material.MUSHROOM_SOUP, Material.FISHING_ROD, Material.IRON_HELMET, 
             Material.IRON_CHESTPLATE, Material.IRON_BOOTS, Material.IRON_LEGGINGS, Material.CHAINMAIL_LEGGINGS, Material.CHAINMAIL_BOOTS, Material.CHAINMAIL_CHESTPLATE, Material.CHAINMAIL_HELMET);
     ArrayList<Material> objetosChetos = Lists.newArrayList(Material.DIAMOND, Material.IRON_BLOCK, Material.GOLD_BLOCK, Material.ARROW, Material.DIAMOND_AXE, Material.DIAMOND_SWORD);

@@ -1,6 +1,7 @@
 package com.cadiducho.fem.lucky.listeners;
 
 import com.cadiducho.fem.lucky.LuckyGladiators;
+import com.cadiducho.fem.lucky.manager.GameState;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -31,8 +32,9 @@ public class ServerListener implements Listener {
 
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent e) {
-        if (!plugin.getGm().isInGame()) {
+        if (GameState.state == GameState.LUCKY || GameState.state == GameState.CRAFT || GameState.state == GameState.PREPARING || GameState.state == GameState.LOBBY) {
             e.setCancelled(true);
         }
     }
+    
 }

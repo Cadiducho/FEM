@@ -26,7 +26,7 @@ public class LobbyTeams {
 
         tOwner = board.getTeam("1Core_Own") == null ? board.registerNewTeam("1Core_Own") : board.getTeam("1Core_Own");
         tAdmin = board.getTeam("2Core_Admin") == null ? board.registerNewTeam("2Core_Admin") : board.getTeam("2Core_Admin");
-        tDev = board.getTeam("3Core_Dev") == null ? board.registerNewTeam("3Core_Tecnicos") : board.getTeam("3Core_Dev");
+        tDev = board.getTeam("3Core_Dev") == null ? board.registerNewTeam("3Core_Dev") : board.getTeam("3Core_Dev");
         tHelper = board.getTeam("4Core_Help") == null ? board.registerNewTeam("4Core_Help") : board.getTeam("4Core_Help");
         tVipMega = board.getTeam("5Core_VMega") == null ? board.registerNewTeam("5Core_VMega") : board.getTeam("5Core_VMega");
         tVipSuper = board.getTeam("6Core_VSuper") == null ? board.registerNewTeam("6Core_VSuper") : board.getTeam("6Core_VSuper");

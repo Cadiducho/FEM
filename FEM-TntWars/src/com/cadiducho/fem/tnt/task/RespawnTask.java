@@ -35,7 +35,7 @@ public class RespawnTask extends BukkitRunnable {
         } else if (count == 0) {
             player.spawn();
             player.setCleanPlayer(GameMode.SURVIVAL);
-            player.getBase().getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 2*20, 10));
+            player.getBase().getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 3*20, 5));
             cancel();
         }
         
