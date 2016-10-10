@@ -55,11 +55,11 @@ public class GameTask extends BukkitRunnable {
         Pictograma.getPlayer(plugin.getGm().builder).setCleanPlayer(GameMode.ADVENTURE);
         Pictograma.getPlayer(plugin.getGm().builder).spawn();
         plugin.getGm().builder = null;
+        plugin.getMsg().sendBroadcast("&aLa palabra era: &e&l" + plugin.getGm().word);
         if (plugin.getAm().getColaPintar().isEmpty()) {
             plugin.getGm().endGame();
             return;
         }
-        plugin.getMsg().sendBroadcast("&aLa palabra era: &e&l" + plugin.getGm().word);
         plugin.getMsg().sendBroadcast("&aSe acabó el tiempo! La siguiente ronda comenzará en 5 segundos");
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getGm().startRound(), 100L);
     }

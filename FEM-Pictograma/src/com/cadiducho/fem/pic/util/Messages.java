@@ -1,5 +1,6 @@
 package com.cadiducho.fem.pic.util;
 
+import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.pic.Pictograma;
 import java.lang.reflect.Field;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
@@ -7,38 +8,29 @@ import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_8_R3.PlayerConnection;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class Messages {
 
     private final Pictograma plugin;
-
-    public Messages(Pictograma instance) {
-        plugin = instance;
-    }
-
     private String prefix;
 
-    public void init() {
-        prefix = ChatColor.translateAlternateColorCodes('&', "&aPictograma");
+    public Messages(Pictograma instance, String prefix) {
+        plugin = instance;
+        prefix = Metodos.colorizar(prefix);
     }
 
     public void sendMessage(Player player, String msg) {
-        player.sendMessage(prefix + " " + ChatColor.translateAlternateColorCodes('&', msg));
-    }
-
-    public void sendColorMessage(Player player, String msg) {
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+        player.sendMessage(Metodos.colorizar(prefix + " " + msg));
     }
     
     public void sendBroadcast(String msg){
-        plugin.getServer().broadcastMessage(prefix + " " + ChatColor.translateAlternateColorCodes('&', msg));
+        plugin.getServer().broadcastMessage(Metodos.colorizar(prefix + " " + msg));
     }
 
     public void sendActionBar(Player p, String msg) {
         IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer
-                .a("{\"text\": \"" + ChatColor.translateAlternateColorCodes('&', msg) + "\"}");
+                .a("{\"text\": \"" + Metodos.colorizar(msg) + "\"}");
         PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, (byte) 2);
         ((CraftPlayer) p).getHandle().playerConnection.sendPacket(ppoc);
     }
@@ -47,9 +39,9 @@ public class Messages {
         CraftPlayer craftplayer = (CraftPlayer) p;
         PlayerConnection connection = craftplayer.getHandle().playerConnection;
         IChatBaseComponent header = IChatBaseComponent.ChatSerializer
-                .a("{'color': '', 'text': '" + ChatColor.translateAlternateColorCodes('&', head) + "'}");
+                .a("{'color': '', 'text': '" + Metodos.colorizar(head) + "'}");
         IChatBaseComponent footer = IChatBaseComponent.ChatSerializer
-                .a("{'color': '', 'text': '" + ChatColor.translateAlternateColorCodes('&', foot) + "'}");
+                .a("{'color': '', 'text': '" + Metodos.colorizar(foot) + "'}");
         PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
         try {
             Field headerField = packet.getClass().getDeclaredField("a");
@@ -65,13 +57,4 @@ public class Messages {
         }
         connection.sendPacket(packet);
     }
-
-    public String getPrefix() {
-        return prefix;
-    }
-    
-    public static String colorizar(String s) {
-        return ChatColor.translateAlternateColorCodes('&', s);
-    }
-
 }

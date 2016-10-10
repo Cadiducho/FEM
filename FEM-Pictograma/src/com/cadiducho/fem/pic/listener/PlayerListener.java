@@ -1,6 +1,7 @@
 package com.cadiducho.fem.pic.listener;
 
 import com.cadiducho.fem.pic.Pictograma;
+import com.cadiducho.fem.pic.task.GameTask;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -46,6 +47,7 @@ public class PlayerListener implements Listener {
             player.teleport(plugin.getAm().getLobby());
             Pictograma.getPlayer(player).setLobbyPlayer();
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
+            plugin.getMsg().sendHeaderAndFooter(player, "&6Under&eGames&7", "&aPictograma");
             plugin.getGm().checkStart();
         }
     }
@@ -54,8 +56,18 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         e.setQuitMessage(null);
+        //Eliminar de las listas y cancelar sus puntos
         plugin.getGm().removePlayerFromGame(player);
         plugin.getMsg().sendBroadcast("&e " + player.getDisplayName() + "&7abandonó la partida");
+        if (plugin.getGm().builder.getUniqueId() == player.getUniqueId()) {
+            //Si el constructor se va, terminar la ronda
+            GameTask.getGameInstance().prepareNextRound();
+        }
+        
+        //Comprobar si terminar la partida (solo queda uno)
+        if (plugin.getGm().getPlayersInGame().size() < 2) {
+            plugin.getGm().endGame();
+        }
         
         Pictograma.players.remove(Pictograma.getPlayer(player));
     }

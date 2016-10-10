@@ -48,7 +48,7 @@ public class GameManager {
         }
     }
     
-    public String word;
+    public String word = "";
     public StringBuilder wordf;
     public Boolean acceptWords = true;
     public Player builder = null;
@@ -160,7 +160,7 @@ public class GameManager {
             playerFound += 1;
         }
         if (playerFound == (getPlayersInGame().size() - 1)) {
-            GameTask.getGameInstance().prepareNextRound(); 
+            GameTask.getGameInstance().prepareNextRound();
         }
     }
     
@@ -175,11 +175,11 @@ public class GameManager {
 
     public void removePlayerFromGame(Player player) {
         playersInGame.remove(player);
-        for (Player p : plugin.getAm().getColaPintar()) {
-            if (p.getUniqueId() == player.getUniqueId()) {
-                plugin.getAm().getColaPintar().remove(p);
-            }
-        }
+        plugin.getAm().getColaPintar().stream()
+                .filter(p -> p.getUniqueId() == player.getUniqueId())
+                .forEach(p -> plugin.getAm().getColaPintar().remove(p));
+        score.remove(player);
+        board.resetScores(player.getName());
     }
     
     public boolean acceptPlayers() {

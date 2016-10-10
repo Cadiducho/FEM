@@ -55,8 +55,7 @@ public class Pictograma extends JavaPlugin {
         gm = new GameManager(instance);
         am = new ArenaManager(instance);
         am.prepareWorld(getServer().getWorld(getConfig().getString("Pictograma.Arena.mundo")));
-        msg = new Messages(instance);
-        msg.init();
+        msg = new Messages(instance, "&aPictograma");
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerListener(instance), instance);
