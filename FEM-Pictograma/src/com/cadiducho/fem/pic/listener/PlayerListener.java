@@ -26,7 +26,6 @@ public class PlayerListener implements Listener {
         plugin = instance;
     }
 
-
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent e) {
         if (plugin.getGm().acceptPlayers() && plugin.getGm().getPlayersInGame().size() < plugin.getAm().getMaxPlayers()) {
@@ -47,7 +46,7 @@ public class PlayerListener implements Listener {
             player.teleport(plugin.getAm().getLobby());
             Pictograma.getPlayer(player).setLobbyPlayer();
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
-            plugin.getMsg().sendHeaderAndFooter(player, "&6Under&eGames&7", "&aPictograma");
+            plugin.getMsg().sendHeaderAndFooter(player, "&6Under&eGames&7", "&cmc.undergames.es");
             plugin.getGm().checkStart();
         }
     }
@@ -59,16 +58,15 @@ public class PlayerListener implements Listener {
         //Eliminar de las listas y cancelar sus puntos
         plugin.getGm().removePlayerFromGame(player);
         plugin.getMsg().sendBroadcast("&e " + player.getDisplayName() + "&7abandonó la partida");
-        if (plugin.getGm().builder.getUniqueId() == player.getUniqueId()) {
-            //Si el constructor se va, terminar la ronda
-            GameTask.getGameInstance().prepareNextRound();
-        }
         
         //Comprobar si terminar la partida (solo queda uno)
         if (plugin.getGm().getPlayersInGame().size() < 2) {
+            GameTask.getGameInstance().cancel();
             plugin.getGm().endGame();
-        }
-        
+        } else if (plugin.getGm().builder.getUniqueId() == player.getUniqueId()) {
+            //Si el constructor se va, terminar la ronda
+            GameTask.getGameInstance().prepareNextRound();
+        } 
         Pictograma.players.remove(Pictograma.getPlayer(player));
     }
 

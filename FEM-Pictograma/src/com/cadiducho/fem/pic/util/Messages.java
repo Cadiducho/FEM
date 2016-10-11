@@ -13,11 +13,11 @@ import org.bukkit.entity.Player;
 public class Messages {
 
     private final Pictograma plugin;
-    private String prefix;
+    private final String prefix;
 
-    public Messages(Pictograma instance, String prefix) {
+    public Messages(Pictograma instance, String pr) {
         plugin = instance;
-        prefix = Metodos.colorizar(prefix);
+        prefix = Metodos.colorizar(pr);
     }
 
     public void sendMessage(Player player, String msg) {

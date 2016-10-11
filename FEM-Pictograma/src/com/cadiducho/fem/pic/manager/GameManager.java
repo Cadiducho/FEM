@@ -175,9 +175,13 @@ public class GameManager {
 
     public void removePlayerFromGame(Player player) {
         playersInGame.remove(player);
-        plugin.getAm().getColaPintar().stream()
-                .filter(p -> p.getUniqueId() == player.getUniqueId())
-                .forEach(p -> plugin.getAm().getColaPintar().remove(p));
+        for (Player p : plugin.getAm().getColaPintar()) { 
+            if (p.getUniqueId() == player.getUniqueId()) { 
+                if (plugin.getAm().getColaPintar().contains(p)) {
+                    plugin.getAm().getColaPintar().remove(p); 
+                }
+            } 
+        } 
         score.remove(player);
         board.resetScores(player.getName());
     }

@@ -29,7 +29,6 @@ public class CountdownTask extends BukkitRunnable {
             plugin.getAm().getColaPintar().addAll(plugin.getGm().getPlayersInGame()); //Dos veces, dos rondas por cabeza
         } else if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
-
         } else if (count == 0) {
             GameState.state = GameState.GAME;
             for (Player p : plugin.getGm().getPlayersInGame()) {
