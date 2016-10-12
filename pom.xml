@@ -16,7 +16,7 @@
         <module>FEM-Pictograma</module>
         <module>FEM-BattleRoyale</module>
         <module>FEM-LobbySigns</module>
-        <module>FEM-LuckyGladiators</module>
+        <module>FEM-LuckyWarriors</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
