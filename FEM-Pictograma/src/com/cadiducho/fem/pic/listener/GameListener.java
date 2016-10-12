@@ -84,7 +84,7 @@ public class GameListener implements Listener {
                         e.setCancelled(true);
                         return;
                     }
-                    fillArea(b, b.getData()); //Rellenar bloques desde b que mantengan su color
+                    fillArea(b, b.getData(), true); //Rellenar bloques desde b que mantengan su color
                     e.setCancelled(true);
                     break;
             }
@@ -179,17 +179,22 @@ public class GameListener implements Listener {
         oldBrushLoc = b.getLocation().add(0.5D, 0.5D, 0.5D);
     }
     
-    public void fillArea(Block block, byte color) {
+    public void fillArea(Block block, byte color, boolean first) {
         if (block.getData() != color) {
             return;
         }
         if (!plugin.getAm().getBuildZone().contains(block)) {
             return;
         }
-        block.setData(plugin.getGm().color.getData());
-        getSurroundingBlocks(block).stream().forEach(other -> fillArea(other, color));
         
-        plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.SPLASH, 0.4F, 1.5F));
+        //Pintar todos los bloques de un area del color elegido
+        block.setData(plugin.getGm().color.getData());
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            getSurroundingBlocks(block).stream().forEach(other -> fillArea(other, color, false));
+        });
+        
+        //Escuchar el cubo solo la primera vez
+        if (first) plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.SPLASH, 0.4F, 1.0F));
     }
     
     //ToDo: Usar este metodo con todos los tipos de pincel
@@ -239,7 +244,7 @@ public class GameListener implements Listener {
                 Pictograma.getPlayer(e.getPlayer()).getBase().sendMessage("&c¡No puedes chivar la palabra, ni intentarlo!");
                 e.setCancelled(true);        
             } else {
-                if (plugin.getGm().getHasFound().contains(e.getPlayer())) {
+                if (plugin.getGm().getHasFound().contains(e.getPlayer().getUniqueId())) {
                     Pictograma.getPlayer(e.getPlayer()).getBase().sendMessage("&aYa has encontrado la palabra y no puedes dar pistas a otros");
                     e.setCancelled(true);
                 } else if (intento.equals(word)) {

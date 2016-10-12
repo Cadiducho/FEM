@@ -3,7 +3,6 @@ package com.cadiducho.fem.pic.task;
 import com.cadiducho.fem.pic.Pictograma;
 import lombok.Getter;
 import org.bukkit.GameMode;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class GameTask extends BukkitRunnable {
@@ -19,11 +18,15 @@ public class GameTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        //Mostrar tiempo restante
         plugin.getGm().getPlayersInGame().forEach(pl ->  pl.setLevel(count));
         
+        //Mostrar la palabra a los jugadores. Entera a quien acerto y contructor, en proceso al resto
         plugin.getGm().getPlayersInGame().stream().forEach(p -> {
             if (p.getUniqueId() == plugin.getGm().builder.getUniqueId()) {
                 plugin.getMsg().sendActionBar(p, "&aPalabra: &b" + plugin.getGm().word.toUpperCase());
+            } else if (plugin.getGm().getHasFound().contains(p.getUniqueId())) {
+                plugin.getMsg().sendActionBar(p, "&e¡Acertada!: &b" + plugin.getGm().word.toUpperCase());
             } else {
                 plugin.getMsg().sendActionBar(p, "&a" + plugin.getGm().wordf.toString().toUpperCase());
             }
@@ -52,15 +55,23 @@ public class GameTask extends BukkitRunnable {
     
     public void prepareNextRound() {
         gameInstance.cancel();
+        
+        //Mover al constructor y asignar valor null para buscar uno nuevo
         Pictograma.getPlayer(plugin.getGm().builder).setCleanPlayer(GameMode.ADVENTURE);
         Pictograma.getPlayer(plugin.getGm().builder).spawn();
         plugin.getGm().builder = null;
+        
+        //Informar a los usuarios
+        plugin.getMsg().sendEmptyLine();
+        plugin.getMsg().sendBroadcast("&aSe acabó el tiempo! La siguiente ronda comenzará en 5 segundos");
         plugin.getMsg().sendBroadcast("&aLa palabra era: &e&l" + plugin.getGm().word);
+        plugin.getMsg().sendEmptyLine();
+        
+        //Comenzar nueva ronda o terminar juego
         if (plugin.getAm().getColaPintar().isEmpty()) {
             plugin.getGm().endGame();
             return;
         }
-        plugin.getMsg().sendBroadcast("&aSe acabó el tiempo! La siguiente ronda comenzará en 5 segundos");
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> plugin.getGm().startRound(), 100L);
     }
 }

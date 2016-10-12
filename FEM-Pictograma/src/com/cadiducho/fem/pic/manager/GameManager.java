@@ -9,6 +9,7 @@ import com.cadiducho.fem.pic.task.ShutdownTask;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.UUID;
 import lombok.Getter;
 import org.bukkit.DyeColor;
 import org.bukkit.Sound;
@@ -22,7 +23,7 @@ public class GameManager {
 
     private final Pictograma plugin;
     @Getter private final ArrayList<Player> playersInGame = new ArrayList<>();
-    @Getter private final ArrayList<Player> hasFound = new ArrayList<>();
+    @Getter private final ArrayList<UUID> hasFound = new ArrayList<>();
     private int playerFound = 0;
     @Getter private final HashMap<Player, Integer> score = new HashMap<>();
     @Getter private Scoreboard board;
@@ -121,8 +122,8 @@ public class GameManager {
     }
     
     public void wordFoundBy(Player player) {
-        if (acceptWords && !hasFound.contains(player)) {
-            hasFound.add(player);
+        if (acceptWords && !hasFound.contains(player.getUniqueId())) {
+            hasFound.add(player.getUniqueId());
             score.keySet().forEach(p -> p.getWorld().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F));
             FEMServer.getUser(player).getUserData().setPicAcertadas(FEMServer.getUser(player).getUserData().getPicAcertadas() + 1);
             FEMServer.getUser(player).save();

@@ -24,6 +24,10 @@ public class Messages {
         player.sendMessage(Metodos.colorizar(prefix + " " + msg));
     }
     
+    public void sendEmptyLine(){
+        plugin.getServer().broadcastMessage("");
+    }
+    
     public void sendBroadcast(String msg){
         plugin.getServer().broadcastMessage(Metodos.colorizar(prefix + " " + msg));
     }

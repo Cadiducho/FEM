@@ -25,8 +25,13 @@ public class CountdownTask extends BukkitRunnable {
         if (count == 7) {            
             //Colocar jugadores
             plugin.getGm().getPlayersInGame().forEach(p -> Pictograma.getPlayer(p).spawn());
+            
+            //Si son 6 jugadores, jugar dos rondas por cabeza. Si son más solo una:
             plugin.getAm().setColaPintar((ArrayList<Player>) plugin.getGm().getPlayersInGame().clone());
-            plugin.getAm().getColaPintar().addAll(plugin.getGm().getPlayersInGame()); //Dos veces, dos rondas por cabeza
+            
+            if (plugin.getGm().getPlayersInGame().size() < 7) {
+                plugin.getAm().getColaPintar().addAll(plugin.getGm().getPlayersInGame()); //Dos veces, dos rondas por cabeza
+            }
         } else if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
         } else if (count == 0) {
@@ -53,5 +58,4 @@ public class CountdownTask extends BukkitRunnable {
         --count;
         plugin.getGm().getPlayersInGame().forEach(pl -> pl.setLevel(count));
     }
-
 }
