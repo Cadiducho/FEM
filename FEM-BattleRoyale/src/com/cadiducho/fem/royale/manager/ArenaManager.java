@@ -173,8 +173,16 @@ public class ArenaManager {
     
     public Location spawnRandomChest() {
         int rd = rand.nextInt(chestRandomList.size() - 1);
+        Location loc = chestRandomList.get(rd);
+        
+        //Comprobar si la localización está dentro del worldborder
+        if (loc.distanceSquared(getWb().getCenter()) > getWb().getSize()) {
+            //Eliminar localizacion no valida y generar otra
+            chestRandomList.remove(rd);
+            return spawnRandomChest();
+        }
         chestRandomList.remove(rd);
-        return chestRandomList.get(rd);
+        return loc;
     }
 
     public void loadSpawn() {
