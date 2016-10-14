@@ -1,10 +1,9 @@
 package com.cadiducho.fem.lucky.manager;
 
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.lucky.LuckyWarriors;
 import java.util.ArrayList;
 import java.util.Random;
-
-import com.cadiducho.fem.lucky.LuckyWarriors;
 import java.util.HashMap;
 import lombok.Getter;
 import org.bukkit.Difficulty;
@@ -26,7 +25,6 @@ public class ArenaManager {
     @Getter private final ArrayList<Location> dungeonSpawnList = new ArrayList<>();
     @Getter private final ArrayList<Location> arenaSpawnList = new ArrayList<>();
     private final HashMap<Player, Location> assignedLuckySpawn = new HashMap<>();
-    @Getter private int spawn;
     @Getter private Location lobby;
     public int luckyTime;
     public int craftTime;
