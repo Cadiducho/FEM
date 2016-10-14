@@ -79,13 +79,7 @@ public class PlayerListener implements Listener {
             e.setCancelled(true);
         }
     }
-    
-    public void onPlayerInteract(PlayerInteractEntityEvent e) {
-        if (plugin.getGm().isInGame()) {
-
-        }
-    }
-
+   
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent e) {
         if (e instanceof LivingEntity) {
@@ -97,6 +91,20 @@ public class PlayerListener implements Listener {
     public void onEntityDamage(EntityDamageEvent e) {
         if (!plugin.getGm().isInGame()) {
             e.setCancelled(true);
+        }
+        if (e.getEntity() instanceof Player) {
+            Player p = (Player) e.getEntity();
+            GemPlayer pl = GemHunters.getPlayer(p);
+
+            //Simular muerte
+            if (p.getHealth() - e.getDamage() < 1) {
+                e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
+                plugin.getMsg().sendBroadcast("&e" + p.getDisplayName() + " &7ha muerto!");
+                
+                //Limpiar jugador y respawn
+                pl.setCleanPlayer(GameMode.SPECTATOR);
+                new RespawnTask(pl).runTaskTimer(plugin, 20L, 20L);
+            }
         }
     }
 
