@@ -58,7 +58,7 @@ public class MySQL {
 
         Class.forName("com.mysql.jdbc.Driver");
         connection = DriverManager.getConnection("jdbc:mysql://"
-                + this.hostname + ":" + this.port + "/" + this.database + "/?autoReconnect=true", this.user, this.password);
+                + this.hostname + ":" + this.port + "/" + this.database + "?autoReconnect=true", this.user, this.password);
         return connection;
     }
 
