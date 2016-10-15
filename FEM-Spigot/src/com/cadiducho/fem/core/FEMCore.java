@@ -1,6 +1,5 @@
 package com.cadiducho.fem.core;
 
-import com.cadiducho.fem.core.listeners.BlockListener;
 import com.cadiducho.fem.core.listeners.PlayerListener;
 import com.cadiducho.fem.core.listeners.BungeeListener;
 import com.cadiducho.fem.core.listeners.InventoryListener;
@@ -66,7 +65,6 @@ public class FEMCore extends JavaPlugin {
 
             pluginManager.registerEvents(new PlayerListener(instance), instance);
             pluginManager.registerEvents(new InventoryListener(instance), instance);
-            pluginManager.registerEvents(new BlockListener(instance), instance);
 
             //Bungee
             getServer().getMessenger().registerOutgoingPluginChannel(instance, "BungeeCord");

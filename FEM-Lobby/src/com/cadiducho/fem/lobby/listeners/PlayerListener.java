@@ -54,6 +54,9 @@ public class PlayerListener implements Listener, PluginMessageListener {
         plugin = instance;
     }
 
+    /*
+     * Acciones que realiza el lobby al entrar un jugador
+     */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
@@ -76,6 +79,9 @@ public class PlayerListener implements Listener, PluginMessageListener {
         LobbyTeams.setScoreboardTeam(u);
     }
     
+    /*
+     * Obtener monedas del suelo
+     */
     @EventHandler
     public void onPlayerGetDrop(PlayerPickupItemEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());

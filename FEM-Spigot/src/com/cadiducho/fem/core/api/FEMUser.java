@@ -242,10 +242,12 @@ public class FEMUser {
         
         //Settings
         Boolean friendRequest = false;
-        Integer hideMode = 1; //0 nadie, 1 amigos, 2 todos
+        Integer hideMode = 2; //0 nadie, 1 amigos, 2 todos
+        Integer lang = 0; //0 castellano, 1 frances, 2 italiano
         
         ArrayList<UUID> amigos = Lists.newArrayList();
         
+        //Establecer valores de 0 en los hashmap al crear instancia, evitar nulls
         public UserData() {
             kills.put(1, 0);
             kills.put(2, 0);
