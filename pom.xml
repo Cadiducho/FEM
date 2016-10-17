@@ -6,16 +6,21 @@
     <version>1.0</version>
     <packaging>pom</packaging>
     <modules>
+        <!-- Modulos globales -->
         <module>FEM-Bungee</module>
         <module>FEM-Spigot</module>
         <module>FEM-Chat</module>
+        
+        <!-- Lobby -->
         <module>FEM-Lobby</module>
+        <module>FEM-LobbySigns</module>
+        
+        <!-- Minijuegos -->
         <module>FEM-GemHunter</module>
         <module>FEM-DyeOrDie</module>
         <module>FEM-TntWars</module>
         <module>FEM-Pictograma</module>
         <module>FEM-BattleRoyale</module>
-        <module>FEM-LobbySigns</module>
         <module>FEM-LuckyWarriors</module>
     </modules>
     <properties>

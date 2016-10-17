@@ -1,9 +1,0 @@
-name: SheepQuest
-description: SheepQuest
-version: 0.0.1
-main: com.cadiducho.fem.ovejas.SheepQuest
-depend: [FEMCore]
-author: Cadiducho
-commands:
-    game:
-        description: a
