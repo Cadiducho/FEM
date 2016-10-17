@@ -21,7 +21,7 @@ public class ListCMD extends FEMCmd {
 
     @Override
     public void run(CommandSender sender, String label, String[] args) {
-        sender.sendMessage(Metodos.colorizar(FEMFileLoader.getLang().getString("list.mensaje")
+        sender.sendMessage(Metodos.colorizar(FEMFileLoader.getEsLang().getString("list.mensaje")
                 .replace("{0}", "" + plugin.getServer().getOnlinePlayers().size()))
                 .replace("{1}", "")); //{1} es online(), mensaje a parte en consola
         sender.sendMessage(online(true));

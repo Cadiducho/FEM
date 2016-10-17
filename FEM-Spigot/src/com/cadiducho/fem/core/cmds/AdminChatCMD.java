@@ -28,7 +28,7 @@ public class AdminChatCMD extends FEMCmd {
     @Override
     public void run(ConsoleCommandSender sender, String label, String[] args) {
         if(args.length < 0) {
-            sender.sendMessage(Metodos.colorizar(FEMFileLoader.getLang().getString("adminchat.uso")));
+            sender.sendMessage(Metodos.colorizar(FEMFileLoader.getEsLang().getString("adminchat.uso")));
         } else {
             String message = Metodos.buildString(args);
             metodos.enviarPorAdminChat("Consola", message);

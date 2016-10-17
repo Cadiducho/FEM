@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
@@ -28,6 +29,7 @@ public class FEMUser {
     
     @Getter private final OfflinePlayer base;
     @Getter private final UUID uuid;
+    @Getter private FileConfiguration userLang;
     private static final FEMCore plugin = FEMCore.getInstance();
     
     @Getter @Setter private UserData userData;
@@ -46,7 +48,8 @@ public class FEMUser {
         plugin.getMysql().saveUser(this);
         FEMServer.users.remove(this);
         plugin.getMysql().loadUserData(uuid);
-        FEMServer.users.add(this);     
+        FEMServer.users.add(this);
+        setUserLang();
     }
 
     public Player getPlayer() {
@@ -68,7 +71,7 @@ public class FEMUser {
     public void sendMessage(String str, Object... obj) {
         String msg;
         if (str.startsWith("*")) { //Intentar reemplazar por mensaje predefinido
-            msg = FEMFileLoader.getLang().getString(str.substring(1), "&o" + str);
+            msg = getUserLang().getString(str.substring(1), "&o" + str);
             if (obj != null) {
                 int i = 0;
                 for (Object re : obj) {
@@ -118,7 +121,7 @@ public class FEMUser {
             getPlayer().setHealth(0);
 	}
         
-        plugin.getServer().broadcastMessage(Metodos.colorizar(FEMFileLoader.getLang().getString("suicide.mensaje").replace("{0}", getDisplayName())));
+        plugin.getServer().broadcastMessage(Metodos.colorizar(FEMFileLoader.getEsLang().getString("suicide.mensaje").replace("{0}", getDisplayName())));
     }
     
     public String getDisplayName() {
@@ -200,6 +203,14 @@ public class FEMUser {
             return pingField.getInt(entityPlayer);
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchFieldException e) {}
         return -1;
+    }
+    
+    public void setUserLang() {
+        switch (getUserData().getLang()) {
+            case 2: userLang = FEMFileLoader.getItLang(); break;
+            case 1: userLang = FEMFileLoader.getFrLang(); break;
+            default: userLang = FEMFileLoader.getEsLang(); break;
+        }
     }
     
     @Data

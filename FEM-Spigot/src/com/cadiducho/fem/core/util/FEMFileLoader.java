@@ -16,7 +16,9 @@ public class FEMFileLoader {
     
     public static File fConf;
     public static File fWarps;
-    public static File fMessages;
+    public static File fMessagesEs;
+    public static File fMessagesFr;
+    public static File fMessagesIt;
 
     public static void load() {
         fConf = new File(plugin.getDataFolder(), "config.yml");
@@ -30,14 +32,34 @@ public class FEMFileLoader {
                 plugin.debugLog("Causa: " + e.toString());
             }
         }
-        File lf = new File(plugin.getDataFolder(), "lang.yml");
+        File lf = new File(plugin.getDataFolder(), "lang_es.yml");
         if (!lf.exists()) {
             try {
-                getLang().options().copyDefaults(true);
-                saveLang();
-                plugin.log("Generated lang.yml succesfully!");
+                getEsLang().options().copyDefaults(true);
+                saveEsLang();
+                plugin.log("Generado lang_es.yml correctamente!");
             } catch (Exception e) {
-                plugin.log("Failed to generate lang.yml!");
+                plugin.log("Fallo al generar un archivo de lenguaje");
+            }
+        }
+        File langFrFile = new File(plugin.getDataFolder(), "lang_fr.yml");
+        if (!langFrFile.exists()) {
+            try {
+                getFrLang().options().copyDefaults(true);
+                saveFrLang();
+                plugin.log("Generado lang_fr.yml correctamente!");
+            } catch (Exception e) {
+                plugin.log("Fallo al generar un archivo de lenguaje");
+            }
+        }
+        File langItFile = new File(plugin.getDataFolder(), "lang_it.yml");
+        if (!langItFile.exists()) {
+            try {
+                getItLang().options().copyDefaults(true);
+                saveItLang();
+                plugin.log("Generado lang_it.yml correctamente!");
+            } catch (Exception e) {
+                plugin.log("Fallo al generar un archivo de lenguaje");
             }
         }
         
@@ -81,37 +103,109 @@ public class FEMFileLoader {
         return new JsonConfig(file);
     }
     
-    private static FileConfiguration lang = null;
-    private static File langFile = null;
+    //Archivos de idiomas
+    
+    private static FileConfiguration esLang = null;
+    private static File esLangFile = null;
 
-    public static void reloadLang() {
-        if (langFile == null) {
-            langFile = new File(plugin.getDataFolder(), "lang.yml");
+    public static void reloadEsLang() {
+        if (esLangFile == null) {
+            esLangFile = new File(plugin.getDataFolder(), "lang_es.yml");
         }
-        lang = YamlConfiguration.loadConfiguration(langFile);
+        esLang = YamlConfiguration.loadConfiguration(esLangFile);
 
-        InputStream defStream = plugin.getResource("lang.yml");
+        InputStream defStream = plugin.getResource("lang_es.yml");
         if (defStream != null) {
             YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defStream);
-            lang.setDefaults(defConfig);
+            esLang.setDefaults(defConfig);
         }
     }
 
-    public static FileConfiguration getLang() {
-        if (lang == null) {
-            reloadLang();
+    public static FileConfiguration getEsLang() {
+        if (esLang == null) {
+            reloadEsLang();
         }
-        return lang;
+        return esLang;
     }
 
-    public static void saveLang() {
-        if (lang == null || langFile == null) {
+    public static void saveEsLang() {
+        if (esLang == null || esLangFile == null) {
             return;
         }
         try {
-            getLang().save(langFile);
+            getEsLang().save(esLangFile);
         } catch (Exception ex) {
-            plugin.log(Level.SEVERE, "No se ha podido guardar " + langFile);
+            plugin.log(Level.SEVERE, "No se ha podido guardar " + esLangFile);
+            plugin.debugLog("Error: " + ex);
+        }
+    }
+    
+    private static FileConfiguration frLang = null;
+    private static File frLangFile = null;
+
+    public static void reloadFrLang() {
+        if (frLangFile == null) {
+            frLangFile = new File(plugin.getDataFolder(), "lang_fr.yml");
+        }
+        frLang = YamlConfiguration.loadConfiguration(frLangFile);
+
+        InputStream defStream = plugin.getResource("lang_fr.yml");
+        if (defStream != null) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defStream);
+            frLang.setDefaults(defConfig);
+        }
+    }
+
+    public static FileConfiguration getFrLang() {
+        if (frLang == null) {
+            reloadFrLang();
+        }
+        return frLang;
+    }
+
+    public static void saveFrLang() {
+        if (frLang == null || frLangFile == null) {
+            return;
+        }
+        try {
+            getFrLang().save(frLangFile);
+        } catch (Exception ex) {
+            plugin.log(Level.SEVERE, "No se ha podido guardar " + frLangFile);
+            plugin.debugLog("Error: " + ex);
+        }
+    }
+    
+    private static FileConfiguration itLang = null;
+    private static File itLangFile = null;
+
+    public static void reloadItLang() {
+        if (itLangFile == null) {
+            itLangFile = new File(plugin.getDataFolder(), "lang_it.yml");
+        }
+        itLang = YamlConfiguration.loadConfiguration(itLangFile);
+
+        InputStream defStream = plugin.getResource("lang_it.yml");
+        if (defStream != null) {
+            YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defStream);
+            itLang.setDefaults(defConfig);
+        }
+    }
+
+    public static FileConfiguration getItLang() {
+        if (itLang == null) {
+            reloadItLang();
+        }
+        return itLang;
+    }
+
+    public static void saveItLang() {
+        if (itLang == null || itLangFile == null) {
+            return;
+        }
+        try {
+            getItLang().save(itLangFile);
+        } catch (Exception ex) {
+            plugin.log(Level.SEVERE, "No se ha podido guardar " + itLangFile);
             plugin.debugLog("Error: " + ex);
         }
     }

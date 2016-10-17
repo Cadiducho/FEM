@@ -26,7 +26,7 @@ public class BroadcastCMD extends FEMCmd {
     @Override
     public void run(ConsoleCommandSender sender, String lbl, String[] args) {
         if (args.length < 1) {
-            sender.sendMessage(Metodos.colorizar(FEMFileLoader.getLang().getString("broadcast.uso")));
+            sender.sendMessage(Metodos.colorizar(FEMFileLoader.getEsLang().getString("broadcast.uso")));
             return;
         }
 
