@@ -210,6 +210,7 @@ public class FEMUser {
         Boolean god = false;
         Long lastConnect = 0L;
         Long timeJoin = 0L;
+        Long timePlayed = 0L;
         String nickname = "";
         Integer coins = 0;
         InetSocketAddress ip = null;

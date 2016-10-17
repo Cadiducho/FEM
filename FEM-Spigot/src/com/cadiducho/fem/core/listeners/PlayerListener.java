@@ -4,12 +4,9 @@ import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.cmds.FEMCmd;
-import com.cadiducho.fem.core.util.FEMFileLoader;
-import com.cadiducho.fem.core.util.Metodos;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,11 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -140,6 +134,9 @@ public class PlayerListener implements Listener {
 
         u.getUserData().setLastLocation(u.getPlayer().getLocation());
         u.getUserData().setLastConnect(System.currentTimeMillis());
+        
+        //Tiempo jugado: Tiempo jugado + hora actual - conexion
+        u.getUserData().setTimePlayed(u.getUserData().getTimePlayed() + System.currentTimeMillis() - u.getUserData().getTimeJoin());
         u.save();
 
         //Evitar sobrecargas con Users null

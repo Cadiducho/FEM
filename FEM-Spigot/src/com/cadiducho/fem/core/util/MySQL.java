@@ -103,14 +103,15 @@ public class MySQL {
             UserData data = u.getUserData();
             try {
 
-                PreparedStatement statementDatos = openConnection().prepareStatement("UPDATE `fem_datos` SET `grupo`=?,`god`=?,`coins`=?,`lastConnect`=?,`ip`=?,`nick`=? WHERE `uuid`=?");
+                PreparedStatement statementDatos = openConnection().prepareStatement("UPDATE `fem_datos` SET `grupo`=?,`god`=?,`coins`=?,`lastConnect`=?,`ip`=?,`nick`=?,`timePlayed=?` WHERE `uuid`=?");
                 statementDatos.setInt(1, data.getGrupo() != null ? data.getGrupo().getRank() : 0);
                 statementDatos.setBoolean(2, data.getGod() == null ? false : data.getGod());
                 statementDatos.setInt(3, data.getCoins() == null ? 0 : data.getCoins());
                 statementDatos.setTimestamp(4, new java.sql.Timestamp(new java.util.Date().getTime()));
                 statementDatos.setString(5, data.getIp() == null ? "" : data.getIp().getAddress().getHostAddress());
                 statementDatos.setString(6, data.getNickname() == null ? "" : data.getNickname());
-                statementDatos.setString(7, u.getUuid().toString());
+                statementDatos.setLong(7, data.getTimePlayed());
+                statementDatos.setString(8, u.getUuid().toString());
                 statementDatos.executeUpdate();
 
                 //Stats
@@ -183,6 +184,7 @@ public class MySQL {
                 int rank = rsDatos.getInt("grupo");
                 data.setGrupo(FEMCmd.Grupo.values()[rank] == null ? FEMCmd.Grupo.Usuario : FEMCmd.Grupo.values()[rank]);
                 data.setTimeJoin(rsDatos.getLong("timeJoin"));
+                data.setTimePlayed(rsDatos.getLong("timePlayed"));
                 data.setGod(rsDatos.getBoolean("god"));
                 data.setCoins(rsDatos.getInt("coins"));
                 data.setLastConnect(rsDatos.getLong("lastConnect"));
