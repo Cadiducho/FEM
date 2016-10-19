@@ -15,6 +15,7 @@ import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -128,8 +129,12 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         inv = plugin.getServer().createInventory(e.getPlayer(), 27, "Viajar");
                         String amistades = u.getUserData().getFriendRequest() ? "Aceptas" : "No aceptas";
                         String otros = u.getUserData().getHideMode() == 0 ? "Nadie" : (u.getUserData().getHideMode() == 1 ? "Amigos" : "Todos");
+                        long secs = (u.getUserData().getTimePlayed() / 1000) % 60;
+                        long mins = (u.getUserData().getTimePlayed() / (1000 * 60)) % 60;
+                        long horas = (u.getUserData().getTimePlayed() / (1000 * 60 * 60)) % 24;
+
                         inv.setItem(26, ItemUtil.createHeadPlayer("Información", e.getPlayer().getName(), Arrays.asList("Pulsa para ver estadísticas",
-                                "Tiempo jugado: " + new SimpleDateFormat("HH:mm:ss").format(new Date(u.getUserData().getTimePlayed())),
+                                "Tiempo jugado: " + horas + " horas, " + mins + " minutos y " + secs + " segundos",
                                 "Amistades: " + amistades, 
                                 "Ver a: " + otros)));
                         inv.setItem(18, ItemUtil.createItem(Material.BEACON, "Lobbies"));

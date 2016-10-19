@@ -72,29 +72,9 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
         
-        //Actualizar variables
-        try {
-            URL url = new URL("http://api.predator.wtf/geoip/?arguments=" + u.getPlayer().getAddress().getHostName());
-            BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-            String strTemp = "";
-            while ((strTemp = br.readLine()) != null) {
-                if (strTemp.contains("Country: ")) {
-                    String country = strTemp.replace("Country: ", "");
-                    Integer lang;
-                    switch (country.toLowerCase()) {
-                        case "france": lang = 1; break;
-                        case "italy": lang = 2; break;
-                        default: lang = 0; break;
-                    }
-                    
-                    u.getUserData().setLang(lang);
-                }
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(PlayerListener.class.getName()).log(Level.SEVERE, null, ex);
-        }
-          
+        //Actualizar variables 
         u.getUserData().setLastConnect(System.currentTimeMillis());
+        u.getUserData().setTimeJoin(System.currentTimeMillis());
         u.getUserData().setIp(u.getPlayer().getAddress());
         u.save(); 
         
