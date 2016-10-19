@@ -15,7 +15,9 @@ import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -61,7 +63,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
 
-        e.setJoinMessage(Metodos.colorizar("&7" + e.getPlayer().getDisplayName() + " " + FEMFileLoader.getLang().getString("entrar")));
+        e.setJoinMessage(Metodos.colorizar("&7" + e.getPlayer().getDisplayName() + " " + FEMFileLoader.getEsLang().getString("entrar")));
         plugin.getServer().getScheduler().runTask(plugin, () -> u.sendMessage("*motd", u.getName(), plugin.getServer().getOnlinePlayers().size()));
         
         e.getPlayer().setHealth(e.getPlayer().getMaxHealth());
@@ -110,7 +112,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 e.setCancelled(true);
             }
         }
-        
+              
         //No destruir tirras de cultivo (soil)
         if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.SOIL) {
             e.setCancelled(true);
@@ -126,7 +128,8 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         inv = plugin.getServer().createInventory(e.getPlayer(), 27, "Viajar");
                         String amistades = u.getUserData().getFriendRequest() ? "Aceptas" : "No aceptas";
                         String otros = u.getUserData().getHideMode() == 0 ? "Nadie" : (u.getUserData().getHideMode() == 1 ? "Amigos" : "Todos");
-                        inv.setItem(26, ItemUtil.createHeadPlayer("Información", e.getPlayer().getName(), Arrays.asList("Pulsa para ver estadísticas", 
+                        inv.setItem(26, ItemUtil.createHeadPlayer("Información", e.getPlayer().getName(), Arrays.asList("Pulsa para ver estadísticas",
+                                "Tiempo jugado: " + new SimpleDateFormat("HH:mm:ss").format(new Date(u.getUserData().getTimePlayed())),
                                 "Amistades: " + amistades, 
                                 "Ver a: " + otros)));
                         inv.setItem(18, ItemUtil.createItem(Material.BEACON, "Lobbies"));
