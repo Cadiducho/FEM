@@ -12,7 +12,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionType;
 
 public class ItemBuilder {
 
@@ -38,7 +41,7 @@ public class ItemBuilder {
 
     public ItemBuilder setDisplayName(String displayName) {
         ItemMeta itemMeta = this.itemStack.getItemMeta();
-        itemMeta.setDisplayName(displayName);
+        itemMeta.setDisplayName(Metodos.colorizar(displayName));
         this.itemStack.setItemMeta(itemMeta);
         return this;
     }
@@ -54,7 +57,7 @@ public class ItemBuilder {
         this.itemStack.setItemMeta(itemMeta);
         return this;
     }
-
+    
     public ItemBuilder setLores(String... lores) {
         ItemMeta itemMeta = this.itemStack.getItemMeta();
         List<String> loresList = new ArrayList<>();
@@ -83,6 +86,13 @@ public class ItemBuilder {
     public ItemBuilder addEnchant(Enchantment ench, int level, boolean ignoreLevelRestriction) {
         ItemMeta itemMeta = this.itemStack.getItemMeta();
         itemMeta.addEnchant(ench, level, ignoreLevelRestriction);
+        this.itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+    
+    public ItemBuilder addPotionType(PotionType type, boolean extended, boolean upgraded) {
+        PotionMeta itemMeta = (PotionMeta) this.itemStack.getItemMeta();
+        itemMeta.setBasePotionData(new PotionData(type, extended, upgraded));
         this.itemStack.setItemMeta(itemMeta);
         return this;
     }
