@@ -49,6 +49,8 @@ public class CoreCMD extends FEMCmd {
     private void reloadConfig(FEMUser user) {
         plugin.reloadConfig();
         FEMFileLoader.reloadEsLang();
+        FEMFileLoader.reloadFrLang();
+        FEMFileLoader.reloadItLang();
         user.sendMessage("&eConfiguración recargada");
     }
 }

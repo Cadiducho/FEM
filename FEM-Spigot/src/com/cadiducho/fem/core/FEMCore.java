@@ -19,8 +19,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class FEMCore extends JavaPlugin {
 
-    @Getter  private final Metodos metodos = new Metodos(this);
-    private static FEMCore instance;
+    @Getter private final Metodos metodos = new Metodos(this);
+    @Getter private static FEMCore instance;
 
     @Getter private MySQL mysql = null;
     private Connection connection = null;
@@ -109,11 +109,7 @@ public class FEMCore extends JavaPlugin {
 
     /*
      * Variables declaradas
-     */
-    public static FEMCore getInstance() {
-        return instance;
-    }
-    
+     */    
     public boolean isDebug() {
         return getConfig().getBoolean("debug");
     }

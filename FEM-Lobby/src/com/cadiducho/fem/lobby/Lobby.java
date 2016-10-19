@@ -1,6 +1,7 @@
 package com.cadiducho.fem.lobby;
 
 import com.cadiducho.fem.core.FEMCommands;
+import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.cmds.SpawnCMD;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.lobby.cmds.DropPuntosCMD;
@@ -104,6 +105,8 @@ public class Lobby extends JavaPlugin {
                 + " \n"
                 + "¡Bienvenido al servidor y disfruta! ;)"));
         libro.setItemMeta(meta);
+        
+        FEMServer.setEnableParkour(true); //Activar parkour siempre
         
         //Mini task para que los usuarios no caigan al vacío
         getServer().getScheduler().runTaskTimer(instance, () -> {

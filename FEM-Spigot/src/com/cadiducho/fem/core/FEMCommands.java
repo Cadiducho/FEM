@@ -47,6 +47,7 @@ public class FEMCommands implements TabCompleter {
         cmds.add(new MoreCMD());
         cmds.add(new NearCMD());
         cmds.add(new NickCMD());
+        cmds.add(new ParkourCMD());
         cmds.add(new PingCMD());
         cmds.add(new RealNameCMD());
         cmds.add(new RepairCMD());

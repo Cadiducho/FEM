@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
@@ -35,6 +37,8 @@ public class FEMServer {
     private static HashMap<UUID, UUID> tp = new HashMap<>();
     private static HashMap<UUID, UUID> tph = new HashMap<>();
     private static ArrayList<Warp> warps = null;
+    
+    @Getter @Setter private static Boolean enableParkour = false;
 
     //Teams -> Colores de TabList
     public static Scoreboard board;

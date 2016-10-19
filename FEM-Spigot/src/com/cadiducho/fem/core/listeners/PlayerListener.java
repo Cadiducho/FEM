@@ -8,17 +8,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -174,6 +179,47 @@ public class PlayerListener implements Listener {
         if (e.getMessage().startsWith("/?") || e.getMessage().startsWith("/bukkit:") || e.getMessage().startsWith("/pl") || e.getMessage().startsWith("/plugins") || e.getMessage().startsWith("/minecraft:")) {
             u.sendMessage("&aPor aquí no hay nada que ver...");
             e.setCancelled(true);
+        }
+    }
+    
+    /*
+     * Parkour en todos los servidores, si está activado
+     */
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent e) {
+        FEMUser u = FEMServer.getUser(e.getPlayer());
+        
+        //No abrir trampillas
+        if (e.getClickedBlock() != null) {
+            if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR) || e.getClickedBlock().getType().equals(Material.FENCE_GATE)) {
+                e.setCancelled(true);
+            }
+        }
+        
+        //Parkour
+        if (FEMServer.getEnableParkour()) {   
+            if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.IRON_PLATE) {
+                //Comenzar u acabar parkour
+                if (u.getUserData().getParkourStartTime() == -1L) { //Comenzar
+                    u.getUserData().setParkourStartTime(System.currentTimeMillis());
+                    u.getUserData().setParkourCheckpoint(e.getPlayer().getLocation());
+                    u.sendMessage("&e¡Has comenzado un parkour! Escribe &a/pk &e si te caes para volver a un checkpoint");
+                    u.save();
+                } else { //Terminar
+                    u.sendMessage("&e¡Enhorabuena! &aHas terminado el pakour con un tiempo de " + new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis() - u.getUserData().getParkourStartTime())));
+                    u.getUserData().setParkourStartTime(-1L);
+                    u.getUserData().setParkourCheckpoint(plugin.getServer().getWorlds().get(0).getSpawnLocation());
+                    u.save();
+                }
+            }
+
+            if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.GOLD_PLATE) {
+                if (u.getUserData().getParkourStartTime() != -1L) {
+                    u.sendMessage("&e¡Checkpoint superado!");
+                    u.getUserData().setParkourCheckpoint(e.getPlayer().getLocation());
+                    u.save();
+                }
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ public class BroadcastCMD extends FEMCmd {
             return;
         }
         String msg = Metodos.buildString(args);
-        metodos.broadcastMsg(msg);
+        Metodos.broadcastMsg(msg);
     }
 
     @Override
@@ -31,6 +31,6 @@ public class BroadcastCMD extends FEMCmd {
         }
 
         String msg = Metodos.buildString(args);
-        metodos.broadcastMsg(msg);
+        Metodos.broadcastMsg(msg);
     }
 }

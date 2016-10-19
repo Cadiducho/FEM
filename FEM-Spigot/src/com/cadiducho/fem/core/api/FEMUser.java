@@ -226,6 +226,9 @@ public class FEMUser {
         Integer coins = 0;
         InetSocketAddress ip = null;
         
+        Long parkourStartTime = -1L; //No guardar en MySQL
+        Location parkourCheckpoint = FEMCore.getInstance().getServer().getWorlds().get(0).getSpawnLocation();
+        
         //Stats
         /* IDs de juegos:
             * 1: TntWars
