@@ -27,7 +27,7 @@ public class GameTask extends BukkitRunnable {
         
         switch (count) {
             case 300:
-                plugin.getAm().muro(plugin.getServer().getWorlds().get(0), false);
+                plugin.getAm().muro(plugin.getServer().getWorlds().get(0));
                 plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f)); 
                 break;
             case 30:
