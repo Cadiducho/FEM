@@ -69,7 +69,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
         e.getPlayer().setHealth(e.getPlayer().getMaxHealth());
         e.getPlayer().setFoodLevel(20);
         e.getPlayer().getInventory().clear();
-        e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&lJuegos", "Desplazate entre los juegos del servidor"));
+        e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&lJuegos", "Desplázate entre los juegos del servidor"));
         e.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.COMMAND, "&lAjustes", "Cambia alguno de tus ajustes de usuario"));
 
         e.getPlayer().getInventory().setItem(4, plugin.getLibro());
@@ -132,7 +132,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                                 "Amistades: " + amistades, 
                                 "Ver a: " + otros)));
                         inv.setItem(18, ItemUtil.createItem(Material.BEACON, "Lobbies"));
-                        inv.setItem(22, ItemUtil.createItem(Material.DOUBLE_PLANT, "Dinero", "(Proximamente)"));
+                        inv.setItem(22, ItemUtil.createItem(Material.DOUBLE_PLANT, "Dinero", u.getUserData().getCoins() + " monedas"));
                         
                         inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&e&lPICTOGRAMA"));
                         inv.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS"));

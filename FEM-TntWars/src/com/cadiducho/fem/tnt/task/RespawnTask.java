@@ -2,6 +2,7 @@ package com.cadiducho.fem.tnt.task;
 
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.tnt.TntPlayer;
+import com.cadiducho.fem.tnt.TntWars;
 import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
@@ -23,6 +24,7 @@ public class RespawnTask extends BukkitRunnable {
     public void run() {
         if (player.getBase().getPlayer() == null) cancel();
         
+        TntWars.getInstance().getMsg().sendActionBar(player.getBase().getPlayer(), "&a&lReaparecerás en: " + count);
         if (count == 9) {
             new Title("&b&l¡Has muerto!", "Reaparecerás al estar tu isla intacta", 1, 2, 1).send(player.getBase().getPlayer()); 
             HashMap<Integer, Integer> deaths = player.getBase().getUserData().getDeaths();

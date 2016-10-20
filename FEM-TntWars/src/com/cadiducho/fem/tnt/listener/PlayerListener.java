@@ -105,11 +105,13 @@ public class PlayerListener implements Listener {
     
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
-        if (plugin.getGm().isInLobby() || GameState.state == GameState.ENDING) {
+        if (plugin.getGm().acceptPlayers() || GameState.state == GameState.COUNTDOWN || GameState.state == GameState.ENDING) {
             e.setCancelled(true);
+            return;
         }
         if (e.getEntity() instanceof Villager) {
             e.setCancelled(true);
+            return;
         }
         if (e.getEntity() instanceof Player) {
             if (e.getCause() == DamageCause.BLOCK_EXPLOSION) {
@@ -149,8 +151,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-        if (plugin.getGm().isInLobby() || GameState.state == GameState.COUNTDOWN || GameState.state == GameState.ENDING) {
+        if (plugin.getGm().acceptPlayers() || GameState.state == GameState.COUNTDOWN || GameState.state == GameState.ENDING) {
             e.setCancelled(true);
+            return;
         } else if (GameState.state == GameState.GAME) {
             if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
                 Player damager = (Player) e.getDamager();

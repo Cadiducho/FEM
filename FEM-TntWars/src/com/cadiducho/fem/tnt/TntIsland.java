@@ -6,21 +6,22 @@ import java.util.Random;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 
 public class TntIsland {
 
     @Getter ArrayList<Location> blocks = new ArrayList<>();
     @Getter @Setter Block bedrockCore;
-    @Getter @Setter Player owner;
+    @Getter @Setter UUID owner;
     @Getter @Setter Location spawn;
     @Getter @Setter String id;
     @Getter @Setter Boolean destroyed = false;
     @Getter @Setter Integer destroyTaskId;
+    @Getter @Setter ChatColor color;
     @Getter HashMap<Location, Material> generadores = new HashMap<>();
     
     public void addBlock(Block block) {
@@ -57,7 +58,7 @@ public class TntIsland {
         if (TntWars.getInstance().getAm().getIslas() != null || !TntWars.getInstance().getAm().getIslas().isEmpty()) {
             for (TntIsland i : TntWars.getInstance().getAm().getIslas()) {
                 if (i.getOwner() != null) {
-                    if (i.getOwner().getUniqueId() == uuid) {
+                    if (i.getOwner() == uuid) {
                         return i;
                     }
                 }

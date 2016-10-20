@@ -13,6 +13,7 @@ import lombok.Setter;
 import me.cybermaxke.merchants.api.Merchant;
 import me.cybermaxke.merchants.api.MerchantAPI;
 import me.cybermaxke.merchants.api.Merchants;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
@@ -134,6 +135,7 @@ public class ArenaManager {
             if (!"centro".equals(str)) {
                 System.out.println("Poniendo isla en " + Metodos.stringToLocation(cfg.getString("spawn")));
                 isla.setSpawn(Metodos.centre(Metodos.stringToLocation(cfg.getString("spawn"))));
+                isla.setColor(ChatColor.valueOf(cfg.getString("color")));
                 Villager v = (Villager) loc1.getWorld().spawnEntity(Metodos.centre(Metodos.stringToLocation(cfg.getString("aldeano"))), EntityType.VILLAGER);
                 v.setCollidable(false);
                 v.setCustomName(Metodos.colorizar("&6Tienda TNTWars"));
@@ -246,9 +248,9 @@ public class ArenaManager {
     
     public void teleport(Player p) {
         for (TntIsland i : unAssignedIslas) {
-            System.out.println("Asignando isla " + i.getId() + " a " + p.getName());
+            System.out.println("Asignando isla " + i.getId() + " (" + i.getColor() + ") a " + p.getName());
             p.teleport(i.getSpawn());
-            i.setOwner(p);
+            i.setOwner(p.getUniqueId());
             unAssignedIslas.remove(i);
             break;
         }

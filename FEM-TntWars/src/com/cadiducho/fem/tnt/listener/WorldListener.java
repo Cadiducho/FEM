@@ -41,7 +41,7 @@ public class WorldListener implements Listener {
                     return;
                 }
                 
-                if (isla.getOwner().getUniqueId().equals(e.getPlayer().getUniqueId())) {
+                if (isla.getOwner().equals(e.getPlayer().getUniqueId())) {
                     pl.getBase().sendMessage("&cNo puedes poner TNT en tu isla");
                     e.setCancelled(true);
                     return;
@@ -72,7 +72,7 @@ public class WorldListener implements Listener {
                     return;
                 }
                 
-                if (isla.getOwner().getUniqueId().equals(e.getPlayer().getUniqueId())) {
+                if (isla.getOwner().equals(e.getPlayer().getUniqueId())) {
                     plugin.getServer().getScheduler().cancelTask(isla.getDestroyTaskId());
                     plugin.getMsg().sendBroadcast(pl.getBase().getDisplayName() + " ha evitado la explosión de su isla!");
                     pl.getBase().getUserData().setTntQuitadas(pl.getBase().getUserData().getTntQuitadas() + 1);
@@ -101,21 +101,14 @@ public class WorldListener implements Listener {
     public TntIsland checkBedrock(Block b) {
         if (TntWars.getInstance().getAm().getIslas() != null || !TntWars.getInstance().getAm().getIslas().isEmpty()) {
             for (TntIsland i : TntWars.getInstance().getAm().getIslas()) {
-                System.out.println("Isla " + i.getId());
                 if (i.getOwner() != null) {
-                    System.out.println("Isla sin owner");
                     if (i.getBedrockCore() != null) {
                         if (i.getBedrockCore().getLocation().getBlockX() == b.getLocation().getBlockX() &&
                                 i.getBedrockCore().getLocation().getBlockY() == b.getLocation().getBlockY() &&
                                 i.getBedrockCore().getLocation().getBlockZ() == b.getLocation().getBlockZ()) {
-                            System.out.println("Localizacion buena, devolviendo");
                             return i;
                         }
-                    } else {
-                        System.out.println("Isla sin core");
                     }
-                } else {
-                    System.out.println("Isla sin owner");
                 }
             }
         }

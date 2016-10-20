@@ -29,7 +29,8 @@ public class PlayerManager {
                 board.text(7, "§3 ");
                 board.text(6, "Asesinatos");
                 board.text(5, "§f" + getKillsToString(player));
-
+                board.text(4, "§f ");
+                board.text(3, "§cmc.undergames.es");
                 board.build(player);
             }
         }.runTaskTimer(plugin, 20l, 20l);

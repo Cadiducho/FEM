@@ -17,6 +17,9 @@ public class CountdownTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        plugin.getGm().getPlayersInGame().stream().forEach(players -> {
+            plugin.getMsg().sendActionBar(players, "&a&lEl juego empieza en: " + (count + 4));
+        });
         if (count == 30) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en 30 segundos");
         } else if (count > 0 && count <= 2) {
@@ -34,8 +37,7 @@ public class CountdownTask extends BukkitRunnable {
             cancel();
         }
 
-        --count;
-        plugin.getGm().getPlayersInGame().forEach(pl -> pl.setLevel(count + 4));
+        --count;      
     }
 
 }
