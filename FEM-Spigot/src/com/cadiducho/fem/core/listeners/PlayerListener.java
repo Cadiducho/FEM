@@ -169,11 +169,9 @@ public class PlayerListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
         
-        //No abrir trampillas
-        if (e.getClickedBlock() != null) {
-            if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR) || e.getClickedBlock().getType().equals(Material.FENCE_GATE)) {
-                e.setCancelled(true);
-            }
+        //No destruir tirras de cultivo (soil)
+        if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.SOIL) {
+            e.setCancelled(true);
         }
         
         //Parkour

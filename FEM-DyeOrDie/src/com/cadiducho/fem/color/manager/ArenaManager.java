@@ -105,7 +105,7 @@ public class ArenaManager {
                     if (carpet.getType() == Material.CARPET) {
                         if (carpet.getData() == arenacolor.getWoolData()) {
                             whiteblocks.add(carpet.getLocation());
-                        } else if (!this.matsalreadyin.containsKey(carpet.getLocation())) {
+                        } else if (!matsalreadyin.containsKey(carpet.getLocation())) {
                             DyeMiniArea mat = new DyeMiniArea();
                             boolean morex = true;
                             for (int x1 = x; morex; x1++) {
@@ -114,7 +114,7 @@ public class ArenaManager {
                                     Block carpettemp = new Location(pos1.getWorld(), x1, carpet.getLocation().getBlockY(), z1).getBlock();
                                     if ((carpettemp.getType() == Material.CARPET) && (carpettemp.getData() == carpet.getData())) {
                                         mat.addBlock(carpettemp);
-                                        this.matsalreadyin.put(carpettemp.getLocation(), true);
+                                        matsalreadyin.put(carpettemp.getLocation(), true);
                                     } else {
                                         if (z == z1) {
                                             morex = false;
@@ -142,7 +142,7 @@ public class ArenaManager {
         allowedcolors.add(DyeColor.RED);
         allowedcolors.add(DyeColor.GREEN);
         
-        plugin.getLogger().log(Level.INFO, "Encontrados {0} \u00e1reas y {1} bloques suelo", new Object[]{colormats.size(), whiteblocks.size()});
+        plugin.getLogger().log(Level.INFO, "Encontrados {0} áreas y {1} bloques suelo", new Object[]{colormats.size(), whiteblocks.size()});
     }
     
     //Mezclarlos aleatoriamente
@@ -154,6 +154,7 @@ public class ArenaManager {
         for (int i = colors.size(); i < colormats.size(); i++) {
             colors.add((DyeColor) allowedcolors.get(rand.nextInt(allowedcolors.size())));
         }
+        
         for (DyeMiniArea mat : colormats) {
             mat.setColor((DyeColor) colors.remove(rand.nextInt(colors.size())));
         }
@@ -183,7 +184,7 @@ public class ArenaManager {
     
     //Aleatoriedad en el suelo
     public DyeColor spinColors(boolean samecolor) {
-        DyeColor tempcolor = (DyeColor) allowedcolors.get(rand.nextInt(allowedcolors.size()));
+        DyeColor tempcolor = (DyeColor) allowedcolors.get(rand.nextInt(allowedcolors.size() - 1));
 
         if (samecolor) {
             ItemStack wool = new ItemStack(Material.WOOL, 1, tempcolor.getWoolData());
@@ -253,7 +254,7 @@ public class ArenaManager {
                 iceblock.getWorld().spawnFallingBlock(iceblock.getLocation(), Material.WOOL, arenacolor.getWoolData()).setDropItem(false);
             }
         }
-        for (DyeMiniArea mat : this.colormats) {
+        for (DyeMiniArea mat : colormats) {
             if (mat.color != currentcolor) {
                 for (Location loc : mat.getBlocks()) {
                     Block carpetblock = loc.getBlock();

@@ -64,7 +64,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
 
-        e.setJoinMessage(Metodos.colorizar("&7" + e.getPlayer().getDisplayName() + " " + FEMFileLoader.getEsLang().getString("entrar")));
         plugin.getServer().getScheduler().runTask(plugin, () -> u.sendMessage("*motd", u.getName(), plugin.getServer().getOnlinePlayers().size()));
         
         e.getPlayer().setHealth(e.getPlayer().getMaxHealth());
@@ -112,11 +111,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
             if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR) || e.getClickedBlock().getType().equals(Material.FENCE_GATE)) {
                 e.setCancelled(true);
             }
-        }
-              
-        //No destruir tirras de cultivo (soil)
-        if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.SOIL) {
-            e.setCancelled(true);
         }
 
         //Menu
