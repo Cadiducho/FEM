@@ -221,17 +221,17 @@ public class LuckyPacks {
         CHETO.add(Arrays.asList(new ItemBuilder().setType(Material.DIAMOND_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 4, true).addEnchant(Enchantment.PROTECTION_FIRE, 4, true).addEnchant(Enchantment.THORNS, 3, true).setDisplayName("Casco Espinoso").build()));
         CHETO.add(Arrays.asList(new ItemBuilder().setType(Material.DIAMOND_BOOTS).addEnchant(Enchantment.PROTECTION_FALL, 4, true).addEnchant(Enchantment.PROTECTION_EXPLOSIONS, 4, true).addEnchant(Enchantment.PROTECTION_PROJECTILE, 4, true).setDisplayName("Botas Celestiales").build()));
         CHETO.add(Arrays.asList(new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.INSTANT_DAMAGE, false, false).setAmount(2).build(), 
-                new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.INSTANT_HEAL, true, false).setAmount(2).build(), 
+                new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.INSTANT_HEAL, false, false).setAmount(2).build(), 
                 new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.WEAKNESS, false, false).setAmount(2).build(), 
                 new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.POISON, true, false).setAmount(2).build()));
         CHETO.add(Arrays.asList(new ItemBuilder().setType(Material.LINGERING_POTION).addPotionType(PotionType.POISON, false, false).setAmount(2).build(), 
                 new ItemBuilder().setType(Material.LINGERING_POTION).addPotionType(PotionType.REGEN, true, false).setAmount(2).build()));
         CHETO.add(Arrays.asList(new ItemBuilder().setType(Material.SPLASH_POTION).addPotionType(PotionType.POISON, false, false).setAmount(2).setDisplayName("Granada").build(), 
                 new ItemBuilder().setType(Material.SPLASH_POTION).addPotionType(PotionType.SLOWNESS, true, false).setAmount(2).setDisplayName("Congelador").build()));
-        CHETO.add(Arrays.asList(new ItemBuilder().setType(Material.SPLASH_POTION).addPotionType(PotionType.REGEN, true, true).setAmount(2).setDisplayName("Botiquín").build(), 
+        CHETO.add(Arrays.asList(new ItemBuilder().setType(Material.SPLASH_POTION).addPotionType(PotionType.REGEN, false, true).setAmount(2).setDisplayName("Botiquín").build(), 
                 new ItemBuilder().setType(Material.SPLASH_POTION).addPotionType(PotionType.INVISIBILITY, false, false).setAmount(2).setDisplayName("Desintegrador").build()));
-        CHETO.add(Arrays.asList(new ItemBuilder().setType(Material.POTION).addPotionType(PotionType.STRENGTH, true, false).setAmount(2).setDisplayName("Esteroides").build(), 
-                new ItemBuilder().setType(Material.POTION).addPotionType(PotionType.SPEED, true, false).setAmount(2).setDisplayName("RedPull").build()));
+        CHETO.add(Arrays.asList(new ItemBuilder().setType(Material.POTION).addPotionType(PotionType.STRENGTH, false, true).setAmount(2).setDisplayName("Esteroides").build(), 
+                new ItemBuilder().setType(Material.POTION).addPotionType(PotionType.SPEED, false, true).setAmount(2).setDisplayName("RedPull").build()));
         CHETO.add(Arrays.asList(new ItemBuilder().setType(Material.ARROW).setAmount(16).build(), 
                 new ItemBuilder().setType(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 5, true).addEnchant(Enchantment.ARROW_FIRE, 1, true).addEnchant(Enchantment.ARROW_KNOCKBACK, 2, true).setDisplayName("Chispeante X").build()));
         CHETO.add(Arrays.asList(new ItemBuilder().setType(Material.ARROW).build(), 
