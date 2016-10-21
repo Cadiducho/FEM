@@ -191,7 +191,7 @@ public class GameListener implements Listener {
         
         //Pintar todos los bloques de un area del color elegido
         block.setData(plugin.getGm().color.getData());
-        getSurroundingBlocks(block).stream().forEach(other -> fillArea(other, color, false));
+        getSurroundingBlocks(block).forEach(other -> fillArea(other, color, false));
         
         //Escuchar el cubo solo la primera vez
         if (first) plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.SPLASH, 0.4F, 1.0F));
