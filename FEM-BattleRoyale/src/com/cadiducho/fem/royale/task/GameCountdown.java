@@ -29,9 +29,17 @@ public class GameCountdown extends BukkitRunnable {
             GameState.state = GameState.GAME;
         } else if (plugin.getAm().gameTime == (plugin.getConfig().getInt("gameTime") - 290)) {
             plugin.getMsg().sendBroadcast("&6¡En 10 segundos los cofres serán reabastecidos!");
-        } else if (plugin.getAm().gameTime == (plugin.getConfig().getInt("gameTime") - 300)) {
+        } else if (plugin.getAm().gameTime == (plugin.getConfig().getInt("gameTime") - 300)) { // Cuando queden 5 minutos, rellenar cofres
             plugin.getAm().refillChests();
             plugin.getMsg().sendBroadcast("&6Los cofres de provisiones han sido reabastecidos");
+        } else if (plugin.getAm().gameTime == (plugin.getConfig().getInt("gameTime") - 180)) { // Avisar de deathmatch. 3, 1 mins, 30, 10 segs
+            plugin.getMsg().sendBroadcast("&6¡En 3 minutos comenzará la fase Deathmatch!");
+        } else if (plugin.getAm().gameTime == (plugin.getConfig().getInt("gameTime") - 60)) {
+            plugin.getMsg().sendBroadcast("&6¡En 1 minuto comenzará la fase Deathmatch!");
+        } else if (plugin.getAm().gameTime == (plugin.getConfig().getInt("gameTime") - 30)) {
+            plugin.getMsg().sendBroadcast("&6¡En 30 segundos comenzará la fase Deathmatch!");
+        } else if (plugin.getAm().gameTime == (plugin.getConfig().getInt("gameTime") - 10)) {
+            plugin.getMsg().sendBroadcast("&6¡En 10 segundos comenzará la fase Deathmatch!");
         } else if (plugin.getAm().gameTime == 0) {
             plugin.getGm().dm = true;
             new DeathMatchCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
