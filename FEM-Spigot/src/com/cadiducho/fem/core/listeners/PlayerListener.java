@@ -4,14 +4,8 @@ import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.cmds.FEMCmd;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -81,6 +75,11 @@ public class PlayerListener implements Listener {
         //Poner usuarios en survival
         if (!u.isOnRank(FEMCmd.Grupo.Owner)) {
             u.getPlayer().setGameMode(GameMode.SURVIVAL);
+        }
+        
+        //Hud
+        if (plugin.isMore18()) {
+            plugin.getHud().addPlayer(e.getPlayer());
         }
     }
     

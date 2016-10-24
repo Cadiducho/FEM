@@ -182,9 +182,9 @@ public class GameManager {
                     plugin.getAm().getColaPintar().remove(p); 
                 }
             } 
-        } 
-        score.remove(player);
-        board.resetScores(player.getName());
+        }
+        if (score != null) score.remove(player);
+        if (board != null) board.resetScores(player.getName());
     }
     
     public boolean acceptPlayers() {
