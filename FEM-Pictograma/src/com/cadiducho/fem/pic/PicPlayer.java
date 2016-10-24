@@ -63,7 +63,7 @@ public class PicPlayer {
     
     public void setArtist() {
         base.getPlayer().teleport(plugin.getAm().getPaintLoc());
-        base.getPlayer().setGameMode(GameMode.CREATIVE);
+        base.getPlayer().setGameMode(GameMode.SURVIVAL);
         base.getPlayer().setFlying(true);
         base.getPlayer().getInventory().clear();
         base.getPlayer().getInventory().setArmorContents(null);
