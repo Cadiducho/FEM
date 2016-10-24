@@ -4,11 +4,9 @@ import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.gem.task.GameTask;
 import com.cadiducho.fem.gem.task.HiddingTask;
-import java.util.ArrayList;
 import lombok.Getter;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.entity.Sheep;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -17,7 +15,6 @@ public class GemPlayer {
 
     private final GemHunters plugin = GemHunters.getInstance();
     @Getter private final FEMUser base;
-    @Getter ArrayList<Sheep> sheeps = new ArrayList<>();
     
     public GemPlayer(FEMUser instance) {
         base = instance;

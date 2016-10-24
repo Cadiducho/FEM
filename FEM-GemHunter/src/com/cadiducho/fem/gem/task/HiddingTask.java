@@ -66,6 +66,7 @@ public class HiddingTask extends BukkitRunnable {
             new Title("&b&lBusca y destruye las Gemas del equipo contrario", "", 1, 2, 1).send(players);
             players.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
             GemHunters.getPlayer(players).setGameScoreboard();
+            plugin.getGm().getPlayersInGame().forEach(p -> GemHunters.getPlayer(p).spawn());
         }
 
         //Iniciar hilo del juego

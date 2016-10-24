@@ -29,11 +29,10 @@ public class LobbyTask extends BukkitRunnable {
                 new Title("&c&l" + count, "", 0, 1, 00).send(p);
                 p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
             });
-        } else if(count == 0){
-            
-            new CountdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
+        } else if(count == 0){    
+            new CountdownTask(plugin).runTaskTimer(plugin, 20l, 1l);
             GameState.state = GameState.COUNTDOWN;
-            this.cancel();
+            cancel();
         }
         --count;
     }
