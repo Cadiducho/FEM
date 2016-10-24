@@ -39,6 +39,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -58,6 +59,8 @@ public class PlayerListener implements Listener, PluginMessageListener {
      */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
+        e.setJoinMessage(null);
+        
         FEMUser u = FEMServer.getUser(e.getPlayer());
 
         plugin.getServer().getScheduler().runTask(plugin, () -> u.sendMessage("*motd", u.getName(), plugin.getServer().getOnlinePlayers().size()));
@@ -76,7 +79,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
         
         LobbyTeams.setScoreboardTeam(u);
     }
-    
+      
     /*
      * Obtener monedas del suelo
      */

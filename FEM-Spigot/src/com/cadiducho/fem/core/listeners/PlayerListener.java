@@ -82,7 +82,7 @@ public class PlayerListener implements Listener {
             plugin.getHud().addPlayer(e.getPlayer());
         }
     }
-    
+     
     @EventHandler(priority = EventPriority.LOW)
     public void onDamage(EntityDamageEvent e) {
         //God
@@ -115,7 +115,9 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
-
+        
+        e.setQuitMessage(null);
+        
         u.getUserData().setLastLocation(u.getPlayer().getLocation());
         u.getUserData().setLastConnect(System.currentTimeMillis());
         
