@@ -3,6 +3,7 @@ package com.cadiducho.fem.tnt.task;
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.tnt.TntIsland;
 import com.cadiducho.fem.tnt.TntWars;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -26,6 +27,9 @@ public class TntExplodeTask extends BukkitRunnable {
             FEMServer.getUser(exploder).sendMessage("&aHas puesto la TNT y explotará en 10 segundos");
             FEMServer.getUser(isla.getOwner()).sendMessage("&cTu isla explotará en 10 segundos si no lo evitas");
         } else if (count > 0 && count < 4) {
+            for (Player p : TntWars.getInstance().getGm().getPlayersInGame()) {
+                p.playSound(isla.getBedrockCore().getLocation(), Sound.BLOCK_ANVIL_PLACE, (9F + count), 1F);
+            }
             FEMServer.getUser(isla.getOwner()).sendMessage("&cTu isla explotará en " + count + " segundo" + (count == 1 ? "" : "s") + "si no lo evitas");
         } else if (count == 0) {
             isla.explode();

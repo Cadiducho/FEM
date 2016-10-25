@@ -8,7 +8,9 @@ import com.cadiducho.fem.tnt.TntWars;
 import com.cadiducho.fem.tnt.manager.GameState;
 import com.cadiducho.fem.tnt.task.TntExplodeTask;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -75,6 +77,9 @@ public class WorldListener implements Listener {
                 if (isla.getOwner().equals(e.getPlayer().getUniqueId())) {
                     plugin.getServer().getScheduler().cancelTask(isla.getDestroyTaskId());
                     plugin.getMsg().sendBroadcast(pl.getBase().getDisplayName() + " ha evitado la explosión de su isla!");
+                    for (Player p : plugin.getGm().getPlayersInGame()) {
+                        p.playSound(isla.getBedrockCore().getLocation(), Sound.BLOCK_ANVIL_USE, 10F, 1F);
+                    }
                     pl.getBase().getUserData().setTntQuitadas(pl.getBase().getUserData().getTntQuitadas() + 1);
                     pl.getBase().save();
                 }
