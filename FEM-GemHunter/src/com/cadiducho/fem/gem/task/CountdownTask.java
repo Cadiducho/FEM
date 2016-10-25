@@ -21,7 +21,7 @@ public class CountdownTask extends BukkitRunnable {
     private int count = 10;
 
     @Override
-    public void run() {       
+    public void run() {
         if (count == 10) {            
             //Colocar jugadores
             plugin.getTm().cleanTeams();
@@ -46,7 +46,7 @@ public class CountdownTask extends BukkitRunnable {
             }
             
             //Iniciar hilo de la fase de esconder
-            new HiddingTask(plugin).runTaskTimer(plugin, 20l, 1l);
+            new HiddingTask(plugin).runTaskTimer(plugin, 1l, 20l);
             cancel();
         }
 

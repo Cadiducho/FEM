@@ -47,7 +47,7 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         e.setJoinMessage(null);
-        if (plugin.getGm().isInLobby()) {
+        if (plugin.getGm().acceptPlayers()) {
             plugin.getServer().getOnlinePlayers().stream().forEach(p -> player.showPlayer(p)); // Mostrar todos los jugadores a todos
             plugin.getServer().getOnlinePlayers().stream().forEach(p -> p.showPlayer(player));
             player.teleport(plugin.getAm().getLobby());
@@ -61,15 +61,10 @@ public class PlayerListener implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         e.setQuitMessage(null);
-        if (plugin.getGm().isInLobby() || plugin.getGm().isInCountdown()) {
-            plugin.getGm().removePlayerFromGame(player);
-            plugin.getMsg().sendBroadcast("&7abandonó el juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
-        } else if (plugin.getGm().isInGame()) {
-            plugin.getGm().removePlayerFromGame(player);
-        } else if (plugin.getGm().isEnding()) {
-            plugin.getGm().removePlayerFromGame(player);
-        }
         
+        plugin.getGm().removePlayerFromGame(player);
+        plugin.getMsg().sendBroadcast("&7abandonó el juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
+ 
         GemHunters.players.remove(GemHunters.getPlayer(player));
     }
 
@@ -91,6 +86,7 @@ public class PlayerListener implements Listener {
     public void onEntityDamage(EntityDamageEvent e) {
         if (!plugin.getGm().isInGame()) {
             e.setCancelled(true);
+            return;
         }
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
@@ -103,7 +99,7 @@ public class PlayerListener implements Listener {
                 
                 //Limpiar jugador y respawn
                 pl.setCleanPlayer(GameMode.SPECTATOR);
-                new RespawnTask(pl).runTaskTimer(plugin, 20L, 20L);
+                new RespawnTask(pl).runTaskTimer(plugin, 1L, 20L);
             }
         }
     }
@@ -132,7 +128,7 @@ public class PlayerListener implements Listener {
                     FEMServer.getUser(damager).save();
                     //Limpiar jugador y respawn
                     pl.setCleanPlayer(GameMode.SPECTATOR);
-                    new RespawnTask(pl).runTaskTimer(plugin, 20L, 20L);
+                    new RespawnTask(pl).runTaskTimer(plugin, 1L, 20L);
                 }
             }
         }

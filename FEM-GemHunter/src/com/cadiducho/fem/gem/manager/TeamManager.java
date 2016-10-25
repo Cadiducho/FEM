@@ -133,7 +133,7 @@ public class TeamManager {
                 Player pl = clon.get(clon.size() - 1);
                 clon.remove(pl);
                 t.addEntry(pl.getName());
-                pl.sendMessage("Has sido asignado al equipo " + t.getDisplayName());
+                FEMServer.getUser(pl).sendMessage(t.getPrefix() + "Has sido asignado al equipo " + t.getDisplayName());
   
                 ArrayList<Player> lista = jugadores.get(t);
                 lista.add(pl);

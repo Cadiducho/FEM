@@ -87,7 +87,7 @@ public class GameTask extends BukkitRunnable {
 
         //Cuenta atrás para envio a los lobbies y cierre del server
         //Iniciar hilo del juego
-        new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
+        new ShutdownTask(plugin).runTaskTimer(plugin, 1l, 20l);
         cancel();
     }
 

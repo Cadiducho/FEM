@@ -41,7 +41,7 @@ public class GemPlayer {
                     cancel();
                 }
             }
-        }.runTaskTimer(plugin, 20l, 20l);
+        }.runTaskTimer(plugin, 1l, 20l);
     }
     
     public void setHiddingScoreboard() {
@@ -98,6 +98,7 @@ public class GemPlayer {
     }
     
     public void setLobbyPlayer() {
+        System.out.println("SetLobby");
         setWaitScoreboard();
         plugin.getGm().addPlayerToGame(base.getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);

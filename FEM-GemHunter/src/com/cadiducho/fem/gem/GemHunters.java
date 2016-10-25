@@ -22,7 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class GemHunters extends JavaPlugin {
 
-    private static GemHunters instance;
+    @Getter private static GemHunters instance;
     
     public static ArrayList<GemPlayer> players = new ArrayList<>();
 
@@ -64,7 +64,7 @@ public class GemHunters extends JavaPlugin {
         gameBoard = new ScoreboardUtil("§d§lGem§e§lHunter", "game");
         
         GameState.state = GameState.LOBBY;
-        getLogger().log(Level.INFO, "ByD: Activado correctamente");
+        getLogger().log(Level.INFO, "GH: Activado correctamente");
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -75,11 +75,7 @@ public class GemHunters extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        getLogger().log(Level.INFO, "ByD: Desativado correctamente");
-    }
-
-    public static GemHunters getInstance() {
-        return instance;
+        getLogger().log(Level.INFO, "GH: Desativado correctamente");
     }
     
     public static GemPlayer getPlayer(OfflinePlayer p) {
@@ -93,7 +89,7 @@ public class GemHunters extends JavaPlugin {
             }
         }
         GemPlayer us = new GemPlayer(u);
-        if (us.getBase().getBase().isOnline()) {
+        if (p.isOnline()) {
             players.add(us);
         }
         return us;

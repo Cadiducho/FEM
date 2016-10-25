@@ -51,11 +51,11 @@ public class HiddingTask extends BukkitRunnable {
         if (plugin.getTm().getPuntos(plugin.getTm().azul) == 0) {
             plugin.getMsg().sendBroadcast("El equipo morado ha ganado ya que el amarillo no ha escondido gemas!");
             GameState.state = GameState.ENDING;
-            new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
+            new ShutdownTask(plugin).runTaskTimer(plugin, 1l, 20l);
         } else if (plugin.getTm().getPuntos(plugin.getTm().rojo) == 0) {
             plugin.getMsg().sendBroadcast("El equipo amarillo ha ganado ya que el morado no ha escondido gema!");
             GameState.state = GameState.ENDING;
-            new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
+            new ShutdownTask(plugin).runTaskTimer(plugin, 1l, 20l);
         }
         
         GameState.state = GameState.GAME;
@@ -70,7 +70,7 @@ public class HiddingTask extends BukkitRunnable {
         }
 
         //Iniciar hilo del juego
-        new GameTask(plugin).runTaskTimer(plugin, 20l, 20l);
+        new GameTask(plugin).runTaskTimer(plugin, 1l, 20l);
         cancel();
     }
 
