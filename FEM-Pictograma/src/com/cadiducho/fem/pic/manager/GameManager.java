@@ -2,6 +2,7 @@ package com.cadiducho.fem.pic.manager;
 
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.task.GameTask;
 import com.cadiducho.fem.pic.task.LobbyTask;
@@ -66,6 +67,7 @@ public class GameManager {
         plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
         color = DyeColor.BLACK;
         
+        new Title("&e&l" + word, "&3Dibuja esta palabra", 1, 2, 1).send(builder);
         Pictograma.getPlayer(builder).setArtist();
         Pictograma.getPlayer(builder).getBase().sendMessage("La palabara es &e" + word);
     
@@ -90,6 +92,10 @@ public class GameManager {
             plugin.getMsg().sendBroadcast("&aPuntuaciones:");
             score.keySet().forEach(p -> plugin.getMsg().sendBroadcast("&b" + p.getName() + ":&e " + score.get(p)));
             plugin.getMsg().sendBroadcast("&6Ganador: " + winner.getName());
+            for (Player p : plugin.getGm().getPlayersInGame()) {
+                p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
+                new Title("&a" + winner.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner); 
+            }
             HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
             wins.replace(4, wins.get(4) + 1);
             FEMServer.getUser(winner).getUserData().setWins(wins);

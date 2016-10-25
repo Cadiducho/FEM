@@ -10,7 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 /**
- * Minecraft 1.9 Title
+ * Minecraft 1.8 - 1.10 Title
  *
  * @version 1.0.5
  * @author Maxim Van de Wynckel
@@ -43,7 +43,7 @@ public class Title {
     }
 
     /**
-     * Create a new 1.8 title
+     * Create a new title
      *
      * @param title Title
      */
@@ -53,7 +53,7 @@ public class Title {
     }
 
     /**
-     * Create a new 1.8 title
+     * Create a new title
      *
      * @param title Title text
      * @param subtitle Subtitle text
@@ -65,7 +65,7 @@ public class Title {
     }
 
     /**
-     * Copy 1.8 title
+     * Copy title
      *
      * @param title Title
      */
@@ -83,7 +83,7 @@ public class Title {
     }
 
     /**
-     * Create a new 1.8 title
+     * Create a new title
      *
      * @param title Title text
      * @param subtitle Subtitle text
