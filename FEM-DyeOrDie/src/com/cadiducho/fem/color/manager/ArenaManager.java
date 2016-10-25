@@ -18,6 +18,7 @@ import org.bukkit.Difficulty;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -219,6 +220,7 @@ public class ArenaManager {
             FEMUser user = FEMServer.getUser(p);
             p.setLevel(round);
             p.setExp(0.9999F);
+            p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
             Integer rondas = user.getUserData().getRondas_dod();        
             user.getUserData().setRondas_dod(rondas + 1);
             if (round > user.getUserData().getRecord_dod()) {
