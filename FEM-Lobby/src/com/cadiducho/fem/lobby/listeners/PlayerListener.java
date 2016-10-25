@@ -19,6 +19,7 @@ import java.util.List;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
@@ -92,6 +93,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
             e.getItem().remove();
             u.getUserData().setCoins(u.getUserData().getCoins() + 1);
             u.save();
+            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
             u.sendMessage("Has obtenido un punto del suelo");
         }
     }
@@ -133,7 +135,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         inv.setItem(18, ItemUtil.createItem(Material.BEACON, "Lobbies"));
                         inv.setItem(22, ItemUtil.createItem(Material.DOUBLE_PLANT, "Dinero", u.getUserData().getCoins() + " monedas"));
                         
-                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&e&lPICTOGRAMA"));
+                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA"));
                         inv.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS"));
                         ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE");
                             LeatherArmorMeta lam = (LeatherArmorMeta) letherBoots.getItemMeta();
@@ -274,7 +276,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         break;
                     case 26:
                         Inventory inv = plugin.getServer().createInventory(p, 18, "Estadisticas del jugador");
-                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&e&lPICTOGRAMA", 
+                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA", 
                                 Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(4), 
                                         "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(4),
                                         "&e---{*}---",
@@ -296,7 +298,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         lam.setColor(Color.BLUE);
                         letherBoots.setItemMeta(lam);
                         inv.setItem(5, letherBoots);
-                        inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lGLADIATOR", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(6), 
+                        inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(6), 
                                         "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(6),
                                         "&fBajas: &l" + u.getUserData().getKills().get(6), "&fMuertes: &l" + u.getUserData().getDeaths().get(6),
                                         "&4---{*}---",

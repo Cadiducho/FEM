@@ -70,7 +70,7 @@ public class TntPlayer {
                                 prefijo = "&c✘  ";
                             }
 
-                            board.text(i, Metodos.colorizar(prefijo) + isla.getColor() + Metodos.colorizar(interfijo) + plugin.getServer().getPlayer(isla.getOwner()).getDisplayName());
+                            board.text(i, Metodos.colorizar(prefijo) + isla.getColor() + Metodos.colorizar(interfijo) + plugin.getServer().getPlayer(isla.getOwner()).getName());
                             i++;    
                         }
                     }
