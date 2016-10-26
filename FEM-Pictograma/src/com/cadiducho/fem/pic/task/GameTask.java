@@ -56,6 +56,10 @@ public class GameTask extends BukkitRunnable {
     public void prepareNextRound() {
         gameInstance.cancel();
         
+        //No escribir palabras entre rondas
+        plugin.getGm().word = "";
+        plugin.getGm().acceptWords = false;
+        
         //Mover al constructor y asignar valor null para buscar uno nuevo
         Pictograma.getPlayer(plugin.getGm().builder).setCleanPlayer(GameMode.ADVENTURE);
         Pictograma.getPlayer(plugin.getGm().builder).spawn();

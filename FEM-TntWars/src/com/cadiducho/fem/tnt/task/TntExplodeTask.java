@@ -35,7 +35,7 @@ public class TntExplodeTask extends BukkitRunnable {
             isla.explode();
             FEMServer.getUser(exploder).getUserData().setTntExplotadas(FEMServer.getUser(exploder).getUserData().getTntExplotadas() + 1);
             FEMServer.getUser(exploder).save();
-            TntWars.getInstance().getMsg().sendBroadcast("&eLa isla de " + TntWars.getInstance().getServer().getPlayer(isla.getOwner()).getDisplayName() + " ha sido destruida por " + exploder.getDisplayName());
+            TntWars.getInstance().getMsg().sendBroadcast("&eLa isla de " + TntWars.getInstance().getServer().getOfflinePlayer(isla.getOwner()).getName() + " ha sido destruida por " + exploder.getName());
             cancel();
         }
         

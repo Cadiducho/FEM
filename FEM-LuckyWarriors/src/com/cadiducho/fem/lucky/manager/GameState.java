@@ -2,7 +2,7 @@ package com.cadiducho.fem.lucky.manager;
 
 public enum GameState {
     
-    PREPARING, LOBBY, COUNTDOWN, LUCKY, CRAFT, GAME, DEATHMATCH, ENDING;
+    PREPARING, LOBBY, COUNTDOWN, TP, LUCKY, CRAFT, GAME, DEATHMATCH, ENDING;
     public static GameState state;
     
     public static String getParsedStatus() {
@@ -10,6 +10,7 @@ public enum GameState {
             case PREPARING: return "STARTING";
             case LOBBY: return "WAITING_FOR_PLAYERS";
             case COUNTDOWN: return "WAITING_FOR_PLAYERS";
+            case TP:
             case LUCKY:
             case CRAFT:
             case DEATHMATCH:

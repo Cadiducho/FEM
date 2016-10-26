@@ -23,6 +23,7 @@ public class BreakLuckyCountdown extends BukkitRunnable {
         });
         
         if (plugin.getAm().luckyTime == plugin.getConfig().getInt("luckyTime")) {
+            GameState.state = GameState.LUCKY;
             plugin.getMsg().sendBroadcast("&7Ya puedes romper Lucky Blocks!");
         } else if (plugin.getAm().luckyTime == 5) {
             plugin.getMsg().sendBroadcast("&7Solo te quedan 5 segundos!");

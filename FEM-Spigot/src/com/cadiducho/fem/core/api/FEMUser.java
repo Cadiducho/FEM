@@ -64,7 +64,7 @@ public class FEMUser {
     }
     
     public boolean isOnline() { 
-        return (base == null || base.isOnline()); 
+        return (base.isOnline()); 
     }
     
     // FEM
@@ -82,7 +82,9 @@ public class FEMUser {
         } else msg = str;
         for (String split : msg.split("\\{n\\}")) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                getPlayer().sendMessage(Metodos.colorizar(plugin.getTag() + " " + split));
+                if (isOnline()) {
+                    getPlayer().sendMessage(Metodos.colorizar(plugin.getTag() + " " + split));
+                }
             });
         }
 
@@ -90,7 +92,9 @@ public class FEMUser {
     
     public void sendRawMessage(String str) {
         plugin.getServer().getScheduler().runTask(plugin, () -> {
-            getPlayer().sendMessage(str);
+            if (isOnline()) {
+                getPlayer().sendMessage(str);
+            }
         });
     }
     

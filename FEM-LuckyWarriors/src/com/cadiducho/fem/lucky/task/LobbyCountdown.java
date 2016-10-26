@@ -24,7 +24,7 @@ public class LobbyCountdown extends BukkitRunnable {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));
         } else if (count == 0) {
-            GameState.state = GameState.LUCKY;
+            GameState.state = GameState.TP;
             new TeleportCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
             cancel();
         }

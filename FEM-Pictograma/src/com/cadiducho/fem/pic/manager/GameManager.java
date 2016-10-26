@@ -1,6 +1,7 @@
 package com.cadiducho.fem.pic.manager;
 
 import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.pic.Pictograma;
@@ -128,7 +129,12 @@ public class GameManager {
     }
     
     public void wordFoundBy(Player player) {
-        if (acceptWords && !hasFound.contains(player.getUniqueId())) {
+        FEMUser user = FEMServer.getUser(player);
+        if (!acceptWords) {
+            user.sendMessage("&e'No puedes escribir una palabra fuera de tiempo!");
+            return;
+        }
+        if (!hasFound.contains(player.getUniqueId())) {
             hasFound.add(player.getUniqueId());
             score.keySet().forEach(p -> p.getWorld().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F));
             FEMServer.getUser(player).getUserData().setPicAcertadas(FEMServer.getUser(player).getUserData().getPicAcertadas() + 1);
