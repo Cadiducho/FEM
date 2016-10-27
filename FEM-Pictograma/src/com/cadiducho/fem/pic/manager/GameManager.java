@@ -141,9 +141,11 @@ public class GameManager {
             FEMServer.getUser(player).save();
             
             int puntos;
+            String sufijo = "!";
             switch (playerFound) {
                 case 0: //10 puntos
                     puntos = 10;
+                    sufijo = ", y ha sido el más rápido!";
                     plugin.getMsg().sendMessage(builder, "&6+2 &aalguien ha adivinado tu palabra!");
                     increaseScore(builder, 2);
                     FEMServer.getUser(builder).getUserData().setPicDibujadas(FEMServer.getUser(builder).getUserData().getPicDibujadas() + 1);
@@ -166,7 +168,7 @@ public class GameManager {
                     break;
             }
             increaseScore(player, puntos);
-            plugin.getMsg().sendBroadcast("&6+" + puntos + " &a" + player.getName() + " ha encontrado la palabra, y ha sido el más rápido!");
+            plugin.getMsg().sendBroadcast("&6+" + puntos + " &a" + player.getName() + " ha encontrado la palabra" + sufijo);
             FEMServer.getUser(builder).getUserData().setPicDibujadas(FEMServer.getUser(builder).getUserData().getPicDibujadas() + 1);
             FEMServer.getUser(builder).save();
             
