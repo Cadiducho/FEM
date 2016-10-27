@@ -8,8 +8,6 @@ import com.cadiducho.fem.tnt.manager.GameState;
 import java.util.HashMap;
 import lombok.Getter;
 import org.bukkit.GameMode;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class TntPlayer {
@@ -56,8 +54,10 @@ public class TntPlayer {
                     board.setName("§d§lTnt§e§lWars");
                     board.text(0, "§cmc.undergames.es");
                     board.text(1, "§f ");
+                    board.text(2, "§f" + plugin.getGm().getPlayersInGame().size() + "§d/§f" + plugin.getAm().getMaxPlayers());
+                    board.text(3, "§7Jugadores: ");
                     
-                    int i = 2; //Int para ir aumentando en la posición del scoreboard
+                    int i = 4; //Int para ir aumentando en la posición del scoreboard
                     for (TntIsland isla : plugin.getAm().getIslas()) {
                         if (!"centro".equals(isla.getId()) && isla.getOwner() != null) { //Solo islas con jugadores en juego
                             String prefijo = "&a✔  ";

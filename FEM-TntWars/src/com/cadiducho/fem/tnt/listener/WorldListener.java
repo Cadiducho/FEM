@@ -15,7 +15,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 public class WorldListener implements Listener {
@@ -123,5 +125,10 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onMotdChange(ServerListPingEvent e){
         e.setMotd(GameState.getParsedStatus());
+    }
+    
+    @EventHandler
+    public void onCraftItem(PrepareItemCraftEvent e) {
+        e.getInventory().setResult(new ItemStack(Material.AIR));
     }
 }

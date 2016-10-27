@@ -63,7 +63,7 @@ public class PlayerListener implements Listener {
         e.setQuitMessage(null);
         //Eliminar de las listas y cancelar sus puntos
         plugin.getGm().removePlayerFromGame(player);
-        plugin.getMsg().sendBroadcast("&e " + player.getDisplayName() + "&7abandonó la partida");
+        plugin.getMsg().sendBroadcast("&e " + player.getDisplayName() + " &7abandonó la partida");
         
         //Comprobar si terminar la partida (solo queda uno)
         if (plugin.getGm().isInGame()) {
