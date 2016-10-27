@@ -160,13 +160,4 @@ public class GameListener implements Listener {
         }
         e.setCancelled(true);
     }
-    
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent e) {
-        if (GameState.state == GameState.TP) {
-            if (!(e.getFrom().getBlockZ() == e.getTo().getBlockZ()) || !(e.getFrom().getBlockX() == e.getTo().getBlockX())) {
-                e.setTo(e.getFrom());
-            }
-        }
-    }
 }

@@ -1,12 +1,14 @@
 package com.cadiducho.fem.lucky.manager;
 
 import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.util.Title;
 import java.util.ArrayList;
 import com.cadiducho.fem.lucky.LuckyWarriors;
-import com.cadiducho.fem.lucky.task.DeathMatchCountdown;
-import com.cadiducho.fem.lucky.task.WinnerCountdown;
+import com.cadiducho.fem.lucky.task.DeathMatchTask;
+import com.cadiducho.fem.lucky.task.ShutdownTask;
 import java.util.HashMap;
 import lombok.Getter;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 public class GameManager {
@@ -34,7 +36,7 @@ public class GameManager {
             dm = true;
             plugin.getAm().loadSpawn();
             GameState.state = GameState.DEATHMATCH;
-            new DeathMatchCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
+            new DeathMatchTask(plugin).runTaskTimer(plugin, 20l, 20l);
         } else if (playersInGame.size() == 1 || playersInGame.isEmpty()) {
             plugin.getServer().shutdown();
         }
@@ -43,14 +45,20 @@ public class GameManager {
     public boolean checkWinner() {
         if (GameState.state == GameState.GAME || GameState.state == GameState.DEATHMATCH) {
             if (playersInGame.size() < 2) {
-                playersInGame.stream().forEach((winner) -> {
-                    plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
-                    HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
-                    wins.replace(6, wins.get(6) + 1);
-                    FEMServer.getUser(winner).getUserData().setWins(wins);
-                    FEMServer.getUser(winner).save();
-                });
-                new WinnerCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
+                Player winner = playersInGame.get(0);
+
+                plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
+                for (Player p : plugin.getServer().getOnlinePlayers()) { 
+                    p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F); 
+                    new Title("&a" + winner.getName(), "&aha ganado la partida!", 1, 2, 1).send(p);  
+                } 
+                
+                HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
+                wins.replace(6, wins.get(6) + 1);
+                FEMServer.getUser(winner).getUserData().setWins(wins);
+                FEMServer.getUser(winner).save();
+                        
+                new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
                 GameState.state = GameState.ENDING;
                 return true;
             }

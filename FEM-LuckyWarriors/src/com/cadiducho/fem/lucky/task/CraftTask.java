@@ -7,11 +7,11 @@ import java.util.Random;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class CraftCountdown extends BukkitRunnable {
+public class CraftTask extends BukkitRunnable {
 
     private final LuckyWarriors plugin;
 
-    public CraftCountdown(LuckyWarriors instance) {
+    public CraftTask(LuckyWarriors instance) {
         plugin = instance;
     }
     
@@ -32,7 +32,7 @@ public class CraftCountdown extends BukkitRunnable {
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));     
         } else if (plugin.getAm().craftTime == 0) {
             plugin.getGm().dm = true;
-            new GameCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
+            new GameTask(plugin).runTaskTimer(plugin, 20l, 20l);
             GameState.state = GameState.GAME;
             cancel();
         }        
