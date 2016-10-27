@@ -34,7 +34,6 @@ public class FEMCommands implements TabCompleter {
         cmds.add(new EncantarCMD());
         cmds.add(new ExtinguishCMD());
         cmds.add(new FriendCMD());
-        cmds.add(new FlyCMD());
         cmds.add(new GamemodeCMD());
         cmds.add(new GodCMD());
         cmds.add(new JumpCMD());
