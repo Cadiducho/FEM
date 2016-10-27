@@ -79,7 +79,7 @@ public class Lobby extends JavaPlugin {
                 + "El jugador con más puntos, ¡gana!§0"));
         meta.addPage(Metodos.colorizar("§1§l▶ TNT WARS:§0\n\n"
                 + "Compite contra el resto de jugadores comprando armas, defensas y bloques."
-                + "Pero ten cuidado, si un jugador hace estallar tu isla colocando la TNT, perderás la oportunidad de revivir. ¡Ganará el último jugador vivo!§0"));
+                + "Pero ten cuidado, si un jugador hace estallar tu isla colocando la TNT, no podrás revivir. ¡Ganará el último jugador vivo!"));
         meta.addPage(Metodos.colorizar("§5§l▶ DYE or DIE:§0\n\n"
                 + "Sitúate sobre el color que haya sido seleccionado en la ronda, tras unos segundos toda la pista caerá excepto el color correcto. "
                 + "Sobrevive todas las rondas posibles. ¡Si caes al vacío perderás!§0"));
