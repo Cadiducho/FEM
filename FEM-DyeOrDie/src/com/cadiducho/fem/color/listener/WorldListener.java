@@ -7,7 +7,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.server.ServerListPingEvent;
@@ -41,10 +40,5 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onMotdChange(ServerListPingEvent e){
         e.setMotd(GameState.getParsedStatus());
-    }
-    
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent e) {
-        e.setCancelled(true);
     }
 }
