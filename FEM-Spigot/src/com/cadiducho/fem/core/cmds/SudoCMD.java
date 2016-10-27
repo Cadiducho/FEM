@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 public class SudoCMD extends FEMCmd {
     
     public SudoCMD() {
-        super("sudo", Grupo.Owner, Arrays.asList());
+        super("sudo", Grupo.Admin, Arrays.asList());
     }
     
     @Override

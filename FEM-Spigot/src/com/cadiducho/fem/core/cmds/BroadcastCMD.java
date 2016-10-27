@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class BroadcastCMD extends FEMCmd {
 
     public BroadcastCMD() {
-        super("broadcast", Grupo.Admin, Arrays.asList("bcast", "bc", "decir"));
+        super("broadcast", Grupo.Moderador, Arrays.asList("bcast", "bc", "decir"));
     }
 
     @Override

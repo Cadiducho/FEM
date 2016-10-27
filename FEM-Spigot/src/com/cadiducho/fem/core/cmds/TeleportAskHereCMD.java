@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 public class TeleportAskHereCMD extends FEMCmd {
     
     public TeleportAskHereCMD() {
-        super("tpahere", Grupo.Admin, Arrays.asList("teleportaskhere"));
+        super("tpahere", Grupo.Moderador, Arrays.asList("teleportaskhere"));
     }
     
     @Override

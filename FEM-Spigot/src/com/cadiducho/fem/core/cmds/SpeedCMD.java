@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 public class SpeedCMD extends FEMCmd {
     
     public SpeedCMD() {
-        super("speed", Grupo.Admin, Arrays.asList());
+        super("speed", Grupo.Moderador, Arrays.asList());
     }
       
     @Override

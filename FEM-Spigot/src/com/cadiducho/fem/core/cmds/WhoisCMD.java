@@ -11,7 +11,7 @@ import org.bukkit.command.ConsoleCommandSender;
 public class WhoisCMD extends FEMCmd {
 
     public WhoisCMD(){
-        super("whois", Grupo.Admin, Arrays.asList("usuario", "informacion", "quienes"));
+        super("whois", Grupo.Moderador, Arrays.asList("usuario", "informacion", "quienes"));
     }
 
     @Override

@@ -18,7 +18,7 @@ public class LagCMD extends FEMCmd {
     public void run(FEMUser user, String label, String[] args) {
         boolean desglose = (args.length != 0 && args[0].equalsIgnoreCase("-d"));
         user.sendMessage("*lag.mensaje", FEMServer.getFormatedTPS());
-        if (user.isOnRank(Grupo.Owner)) {
+        if (user.isOnRank(Grupo.Admin)) {
             if (desglose) {
                 plugin.getServer().getWorlds().stream()
                     .filter(w -> mundos.contains(w.getName().toLowerCase()))

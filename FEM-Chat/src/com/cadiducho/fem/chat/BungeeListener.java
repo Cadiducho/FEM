@@ -36,13 +36,13 @@ public class BungeeListener implements Listener {
     public void sendChat(ProxiedPlayer from, String mensaje) {
         try {
             BaseComponent[] msg = Parser.parse(mensaje);
-
             for (ProxiedPlayer target : plugin.getProxy().getPlayers()) {
                 if (!target.getServer().getInfo().getName().contains("lobby")) return;
                 
-                if (plugin.ignoredPlayers.get(target.getUniqueId()) != null && plugin.ignoredPlayers.get(target.getUniqueId()).contains(from.getUniqueId()))
+                /*if (plugin.ignoredPlayers.get(target.getUniqueId()) != null && plugin.ignoredPlayers.get(target.getUniqueId()).contains(from.getUniqueId()))
                     continue;
-               
+                */// FIX: En ocasiones no se envian mensajes de usuarios. Investigar y corregir
+                
                 target.sendMessage(msg);
             }
         } catch (Throwable th) {

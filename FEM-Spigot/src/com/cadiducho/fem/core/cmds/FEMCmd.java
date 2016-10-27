@@ -64,8 +64,8 @@ public abstract class FEMCmd {
         VipMega(3), //Naranja
         YT(4),
         Helper(5), //Verde
-        Admin(6), //Azul
-        Owner(7), //Rojo
+        Moderador(6), //Azul
+        Admin(7), //Rojo
         Dev(8); //Turquesa
 
         private final int rank;

@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 public class ItemDBCMD extends FEMCmd {
 
     public ItemDBCMD() {
-        super("itemdb", Grupo.Owner, Arrays.asList("itemid"));
+        super("itemdb", Grupo.Admin, Arrays.asList("itemid"));
     }
 
     @Override

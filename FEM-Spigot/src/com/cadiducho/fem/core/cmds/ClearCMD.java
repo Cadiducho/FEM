@@ -8,7 +8,7 @@ import com.cadiducho.fem.core.api.FEMUser;
 public class ClearCMD extends FEMCmd {
 
     public ClearCMD() {
-        super("clear", Grupo.Owner, Arrays.asList("limpiar", "limpia"));
+        super("clear", Grupo.Admin, Arrays.asList("limpiar", "limpia"));
     }
 
     @Override

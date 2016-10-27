@@ -12,7 +12,7 @@ import org.bukkit.command.ConsoleCommandSender;
 public class AdminChatCMD extends FEMCmd {
 
     public AdminChatCMD() {
-        super("a", Grupo.Admin, Arrays.asList("adminchat"));
+        super("a", Grupo.Moderador, Arrays.asList("adminchat"));
     }
 
     @Override

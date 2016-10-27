@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 public class HealCMD extends FEMCmd {
 
     public HealCMD() {
-        super("heal", Grupo.Owner, Arrays.asList("cura", "curar", "feed", "alimentar"));
+        super("heal", Grupo.Admin, Arrays.asList("cura", "curar", "feed", "alimentar"));
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class SetBrujulaCMD extends FEMCmd {
 
     public SetBrujulaCMD() {
-        super("setbrujula", Grupo.Owner, Arrays.asList());
+        super("setbrujula", Grupo.Admin, Arrays.asList());
     }
 
     @Override

@@ -11,7 +11,7 @@ import org.bukkit.entity.EntityType;
 public class SpawnerCMD extends FEMCmd {
 
     public SpawnerCMD() {
-        super("spawner", Grupo.Owner, Arrays.asList());
+        super("spawner", Grupo.Admin, Arrays.asList());
     }
 
     @Override

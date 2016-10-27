@@ -323,7 +323,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 break;
         }
         
-        if (u.isOnRank(FEMCmd.Grupo.Admin)) { //Staff poder usar inventarios
+        if (u.isOnRank(FEMCmd.Grupo.Moderador)) { //Staff poder usar inventarios
             e.setCancelled(false);
             return;
         }
@@ -356,14 +356,14 @@ public class PlayerListener implements Listener, PluginMessageListener {
     //Eventos a cancelar en el lobby
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerBreak(BlockBreakEvent e) {
-        if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Owner)) {
+        if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)) {
             e.setCancelled(true);
         }
     }
     
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerPlace(BlockPlaceEvent e) {
-        if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Owner)) {
+        if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)) {
             e.setCancelled(true);
         }
     }

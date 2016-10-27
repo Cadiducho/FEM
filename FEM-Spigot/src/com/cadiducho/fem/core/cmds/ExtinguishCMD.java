@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 public class ExtinguishCMD extends FEMCmd {
 
     public ExtinguishCMD() {
-        super("extinguish", Grupo.Admin, Arrays.asList("ext", "unfire"));
+        super("extinguish", Grupo.Moderador, Arrays.asList("ext", "unfire"));
     }
 
     @Override

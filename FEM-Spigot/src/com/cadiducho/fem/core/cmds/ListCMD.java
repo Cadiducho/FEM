@@ -16,7 +16,7 @@ public class ListCMD extends FEMCmd {
 
     @Override
     public void run(FEMUser user, String lbl, String[] args) {
-        user.sendMessage("*list.mensaje", plugin.getServer().getOnlinePlayers().size(), online(user.isOnRank(Grupo.Owner)));
+        user.sendMessage("*list.mensaje", plugin.getServer().getOnlinePlayers().size(), online(user.isOnRank(Grupo.Admin)));
     }
 
     @Override
@@ -49,10 +49,10 @@ public class ListCMD extends FEMCmd {
                             case Helper:
                                 sb.append("&a").append(target.getName()).append(" ");
                                 break;
-                            case Admin:
+                            case Moderador:
                                 sb.append("&1").append(target.getName()).append(" ");
                                 break;
-                            case Owner:
+                            case Admin:
                                 sb.append("&b").append(target.getName()).append(" ");
                                 break;
                             case Dev:

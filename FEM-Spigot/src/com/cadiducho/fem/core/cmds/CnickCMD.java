@@ -16,7 +16,7 @@ import org.json.simple.parser.JSONParser;
 public class CnickCMD extends FEMCmd {
     
     public CnickCMD() {
-        super("cnick", Grupo.Admin, Arrays.asList("cambionick"));
+        super("cnick", Grupo.Moderador, Arrays.asList("cambionick"));
     }
     
     private static final JSONParser jsonParser = new JSONParser();

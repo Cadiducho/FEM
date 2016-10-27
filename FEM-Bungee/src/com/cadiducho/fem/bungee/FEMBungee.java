@@ -43,9 +43,13 @@ public class FEMBungee extends Plugin implements Listener {
         if (subchannel.equals("bestLobby")) { 
             ProxiedPlayer p = ProxyServer.getInstance().getPlayer(in.readUTF());
             System.out.println("Moviendo al lobby a " + p.getName());
-            p.connect(getOneLobby());
+            ServerInfo lobby = getOneLobby();
+            if (lobby.getAddress() != p.getServer().getInfo().getAddress()) {
+                p.connect(getOneLobby());
+            }
             return;
         }
+        
         //Reenviar los datos recibidos por el canal a todos los servidores
         ProxyServer.getInstance().getServers().values().stream()
                 .filter(server -> !server.getPlayers().isEmpty())
@@ -63,7 +67,10 @@ public class FEMBungee extends Plugin implements Listener {
     @EventHandler
     public void onPlayerJoin(PostLoginEvent e) {
         ProxiedPlayer p = e.getPlayer();
-        p.connect(getOneLobby());
+        ServerInfo lobby = getOneLobby();
+        if (lobby.getAddress() != p.getServer().getInfo().getAddress()) {
+            p.connect(getOneLobby());
+        }
     }
     
     @EventHandler
@@ -79,11 +86,12 @@ public class FEMBungee extends Plugin implements Listener {
                 if (s.getPlayers().size() < bestOption.getPlayers().size()) bestOption = s;
             }
         }
-        System.out.println("Best: " + bestOption.getName());
         return bestOption;
     }
     
     public void sendUpdatedServerStatus() {
+        if (getProxy().getPlayers().isEmpty()) return;
+        
         //Serializar datos de servidores y enviar bytes
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("serversinfo");
@@ -93,10 +101,9 @@ public class FEMBungee extends Plugin implements Listener {
             s.getPlayers().forEach(pp -> users.add(pp.getUniqueId().toString()));
             FEMServerInfo server = new FEMServerInfo(s.getName(), s.getPlayers().size(), users);
             lista.add(server);
-            //out.writeUTF(new Gson().toJson(server));
         }
         out.writeUTF(new Gson().toJson(lista));
-        ProxyServer.getInstance().getServers().values().forEach(s ->  s.sendData(pluginChannel, out.toByteArray()));
+        ProxyServer.getInstance().getServers().values().forEach(s -> s.sendData(pluginChannel, out.toByteArray()));
     }
     
     @Data

@@ -10,7 +10,7 @@ import com.cadiducho.fem.core.api.FEMUser;
 public class InvSeeCMD extends FEMCmd {
 
     public InvSeeCMD() {
-        super("invsee", Grupo.Owner, Arrays.asList("verinv"));
+        super("invsee", Grupo.Admin, Arrays.asList("verinv"));
     }
 
     @Override

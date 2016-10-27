@@ -73,7 +73,7 @@ public class PlayerListener implements Listener {
         u.save(); 
         
         //Poner usuarios en survival
-        if (!u.isOnRank(FEMCmd.Grupo.Owner)) {
+        if (!u.isOnRank(FEMCmd.Grupo.Admin)) {
             u.getPlayer().setGameMode(GameMode.SURVIVAL);
         }
         
@@ -153,7 +153,7 @@ public class PlayerListener implements Listener {
     public void playerCommand(PlayerCommandPreprocessEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
 
-        if(u.isOnRank(FEMCmd.Grupo.Owner)) {
+        if(u.isOnRank(FEMCmd.Grupo.Admin)) {
             return;
         }
  
