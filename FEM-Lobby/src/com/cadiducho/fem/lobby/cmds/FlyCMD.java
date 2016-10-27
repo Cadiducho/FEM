@@ -1,7 +1,8 @@
-package com.cadiducho.fem.core.cmds;
+package com.cadiducho.fem.lobby.cmds;
 
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.cmds.FEMCmd;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +19,7 @@ public class FlyCMD extends FEMCmd {
     public void run(FEMUser user, String lbl, String[] args){
         if(args.length < 1){
             volar(user);
+            return;
         }
         
         FEMUser target = FEMServer.getUser(plugin.getServer().getPlayer(args[0]));
@@ -27,7 +29,6 @@ public class FlyCMD extends FEMCmd {
         }
         volar(target);
         user.sendMessage("*fly.otro", target.getName());
-
     }
     
     public void volar(FEMUser user){
