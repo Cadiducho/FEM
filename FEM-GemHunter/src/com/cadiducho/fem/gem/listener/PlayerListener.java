@@ -3,6 +3,7 @@ package com.cadiducho.fem.gem.listener;
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.GemHunters;
+import com.cadiducho.fem.gem.task.GameTask;
 import com.cadiducho.fem.gem.task.RespawnTask;
 import java.util.HashMap;
 import org.bukkit.ChatColor;
@@ -66,6 +67,10 @@ public class PlayerListener implements Listener {
         plugin.getMsg().sendBroadcast("&7abandonó el juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
  
         GemHunters.players.remove(GemHunters.getPlayer(player));
+        
+        if (plugin.getGm().getPlayersInGame().isEmpty()) {
+            GameTask.instance.end();
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
