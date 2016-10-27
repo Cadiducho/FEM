@@ -8,12 +8,16 @@ import com.cadiducho.fem.tnt.TntWars;
 import com.cadiducho.fem.tnt.manager.GameState;
 import com.cadiducho.fem.tnt.task.TntExplodeTask;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
 public class WorldListener implements Listener {
@@ -41,7 +45,7 @@ public class WorldListener implements Listener {
                     return;
                 }
                 
-                if (isla.getOwner().getUniqueId().equals(e.getPlayer().getUniqueId())) {
+                if (isla.getOwner().equals(e.getPlayer().getUniqueId())) {
                     pl.getBase().sendMessage("&cNo puedes poner TNT en tu isla");
                     e.setCancelled(true);
                     return;
@@ -72,9 +76,12 @@ public class WorldListener implements Listener {
                     return;
                 }
                 
-                if (isla.getOwner().getUniqueId().equals(e.getPlayer().getUniqueId())) {
+                if (isla.getOwner().equals(e.getPlayer().getUniqueId())) {
                     plugin.getServer().getScheduler().cancelTask(isla.getDestroyTaskId());
                     plugin.getMsg().sendBroadcast(pl.getBase().getDisplayName() + " ha evitado la explosión de su isla!");
+                    for (Player p : plugin.getGm().getPlayersInGame()) {
+                        p.playSound(isla.getBedrockCore().getLocation(), Sound.BLOCK_ANVIL_USE, 10F, 1F);
+                    }
                     pl.getBase().getUserData().setTntQuitadas(pl.getBase().getUserData().getTntQuitadas() + 1);
                     pl.getBase().save();
                 }
@@ -101,21 +108,14 @@ public class WorldListener implements Listener {
     public TntIsland checkBedrock(Block b) {
         if (TntWars.getInstance().getAm().getIslas() != null || !TntWars.getInstance().getAm().getIslas().isEmpty()) {
             for (TntIsland i : TntWars.getInstance().getAm().getIslas()) {
-                System.out.println("Isla " + i.getId());
                 if (i.getOwner() != null) {
-                    System.out.println("Isla sin owner");
                     if (i.getBedrockCore() != null) {
                         if (i.getBedrockCore().getLocation().getBlockX() == b.getLocation().getBlockX() &&
                                 i.getBedrockCore().getLocation().getBlockY() == b.getLocation().getBlockY() &&
                                 i.getBedrockCore().getLocation().getBlockZ() == b.getLocation().getBlockZ()) {
-                            System.out.println("Localizacion buena, devolviendo");
                             return i;
                         }
-                    } else {
-                        System.out.println("Isla sin core");
                     }
-                } else {
-                    System.out.println("Isla sin owner");
                 }
             }
         }
@@ -125,5 +125,10 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onMotdChange(ServerListPingEvent e){
         e.setMotd(GameState.getParsedStatus());
+    }
+    
+    @EventHandler
+    public void onCraftItem(PrepareItemCraftEvent e) {
+        e.getInventory().setResult(new ItemStack(Material.AIR));
     }
 }

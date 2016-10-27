@@ -49,7 +49,7 @@ public class WorldListener implements Listener {
         Block b = e.getBlock();
         if (b.getType() == plugin.getAm().getTypeGema()) {
             if (plugin.getGm().isInGame()) {
-                e.setCancelled(!plugin.getTm().tryRemovePunto(e.getPlayer(), b.getLocation()));
+                e.setCancelled(!plugin.getTm().tryRemoveGema(e.getPlayer(), b.getLocation()));
                 return;
             }
         }

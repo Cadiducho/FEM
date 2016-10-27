@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 public class BurnCMD extends FEMCmd {
     
     public BurnCMD() {
-        super("burn", Grupo.Admin, Arrays.asList("fire", "ignite"));
+        super("burn", Grupo.Moderador, Arrays.asList("fire", "ignite"));
     }
       
     @Override

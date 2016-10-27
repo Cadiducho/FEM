@@ -1,6 +1,8 @@
 package com.cadiducho.fem.tnt.task;
 
 import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.util.Title;
+import com.cadiducho.fem.tnt.TntIsland;
 import com.cadiducho.fem.tnt.TntWars;
 import com.cadiducho.fem.tnt.manager.GameState;
 import java.util.HashMap;
@@ -19,16 +21,24 @@ public class GameTask extends BukkitRunnable {
     }
 
     private static int count = 0;
+    private boolean timePlayed = false;
 
     @Override
     public void run() {
         instance = this;
         checkWinner();
+        if (timePlayed) {
+            plugin.getGm().getPlayersInGame().stream().forEach(players -> {
+                plugin.getMsg().sendActionBar(players, "&a&lTiempo jugado: " + (count - 3));
+            });
+        }
         if (count >= 0 && count < 2) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + (count == 0 ? "2" : "1") + " segundos");
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));  
         } else if (count == 2) {
             for (Player players : plugin.getGm().getPlayersInGame()) {
+                TntIsland isla = TntIsland.getIsland(players.getUniqueId());
+                new Title("", isla.getColor() + "¡Destruye el resto de islas!", 1, 2, 1).send(players);
                 players.playSound(players.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
                 TntWars.getPlayer(players).setCleanPlayer(GameMode.SURVIVAL);
                 players.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
@@ -39,6 +49,7 @@ public class GameTask extends BukkitRunnable {
                 FEMServer.getUser(players).save();
             }
             plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
+            timePlayed = true;
         }
         if (count == 7) { //Desactivar a los 5 segundos la inmunidad por caidas
             plugin.getGm().setDañoEnCaida(true);
@@ -46,12 +57,15 @@ public class GameTask extends BukkitRunnable {
         }
 
         ++count;
-        plugin.getGm().getPlayersInGame().forEach(pl -> pl.setLevel(count - 3));
     }
     
     public void checkWinner() {
         if (plugin.getGm().getPlayersInGame().size() <= 1) {
             Player winner = plugin.getGm().getPlayersInGame().get(0);
+            for (Player p : plugin.getGm().getPlayersInGame()) {
+                p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+                new Title("&a" + p.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner);
+            }
             plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
             HashMap<Integer, Integer> wins = TntWars.getPlayer(winner).getBase().getUserData().getWins();
             wins.replace(1, wins.get(1) + 1);

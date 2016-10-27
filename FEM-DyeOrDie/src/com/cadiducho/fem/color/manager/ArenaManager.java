@@ -18,6 +18,7 @@ import org.bukkit.Difficulty;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -29,32 +30,32 @@ import org.bukkit.inventory.PlayerInventory;
 public class ArenaManager {
 
     private final DyeOrDie plugin;
+    private final Random rand = new Random();
 
-    ConcurrentHashMap<Location, Boolean> matsalreadyin = new ConcurrentHashMap();
     @Getter private final DyeColor arenacolor = DyeColor.WHITE; //¿config?
+    @Getter private final ArrayList<Location> baseBlocks = new ArrayList<>(); //Bloques del suelo, en general blancos.
+    private final ArrayList<Location> matsalreadyin = new ArrayList<>(); //Bloques ya registrados en arenas
+    private final ArrayList<DyeColor> allowedcolors = new ArrayList<>();
+    @Getter private final ArrayList<DyeMiniArea> areasColor = new ArrayList<>();
+    
     @Getter private DyeColor currentcolor = DyeColor.BLUE;
     @Getter private int round = 0;
-    @Getter private final ArrayList<Location> whiteblocks = new ArrayList<>();
     @Getter private final double decayvalue = 0.1D;
-    private final Random rand = new Random();
-    private final ArrayList<DyeColor> allowedcolors = new ArrayList<>();    
+    @Getter private Double timeleft = 0.0;
     
     @Getter private int minPlayers = 2;
     @Getter private int maxPlayers = 16;
-    @Getter private final Location pos1;
-    @Getter private final Location pos2;
+    @Getter private final Location areaBorder1;
+    @Getter private final Location areaBorder2;
     @Getter private final Location lobby;
-    @Getter private final ArrayList<DyeMiniArea> colormats = new ArrayList<>();
-    
-    @Getter private Double timeleft = 0.0;
     
     public ArenaManager(DyeOrDie instance) {
         plugin = instance;
         minPlayers = plugin.getConfig().getInt("Color.Arena.usersMin");
         maxPlayers = plugin.getConfig().getInt("Color.Arena.usersMax");
         
-        pos1 = Metodos.stringToLocation(plugin.getConfig().getString("Color.Arena.borderPos1"));
-        pos2 = Metodos.stringToLocation(plugin.getConfig().getString("Color.Arena.borderPos2"));
+        areaBorder1 = Metodos.stringToLocation(plugin.getConfig().getString("Color.Arena.borderPos1"));
+        areaBorder2 = Metodos.stringToLocation(plugin.getConfig().getString("Color.Arena.borderPos2"));
         lobby = Metodos.stringToLocation(plugin.getConfig().getString("Color.Arena.Lobby"));
     }
 
@@ -75,46 +76,33 @@ public class ArenaManager {
     
     //Calculos para iniciar la arena. Organizar bloques y zonas
     public void initArena() {
-        int lowx = pos1.getBlockX();
-        int lowy = pos1.getBlockY();
-        int lowz = pos1.getBlockZ();
-        int highx = pos2.getBlockX();
-        int highy = pos2.getBlockY();
-        int highz = pos2.getBlockZ();
-        if (highx < lowx) {
-            int lowestx = highx;
-            highx = lowx;
-            lowx = lowestx;
-        }
-        if (highy < lowy) {
-            int lowesty = highy;
-            highy = lowy;
-            lowy = lowesty;
-        }
-        if (highz < lowz) {
-            int lowestz = highz;
-            highz = lowz;
-            lowz = lowestz;
-        }
-        for (int y = lowy; y < highy; y++) {
-            for (int x = lowx; x < highx; x++) {
-                for (int z = lowz; z < highz; z++) {
-                    Location loc3 = new Location(pos1.getWorld(), x, y, z);
-                    Block block = loc3.getBlock();
-                    Block carpet = block.getRelative(BlockFace.UP);
+        int topBlockX = (areaBorder1.getBlockX() < areaBorder2.getBlockX() ? areaBorder2.getBlockX() : areaBorder1.getBlockX());
+        int bottomBlockX = (areaBorder1.getBlockX() > areaBorder2.getBlockX() ? areaBorder2.getBlockX() : areaBorder1.getBlockX());
+
+        int topBlockY = (areaBorder1.getBlockY() < areaBorder2.getBlockY() ? areaBorder2.getBlockY() : areaBorder1.getBlockY());
+        int bottomBlockY = (areaBorder1.getBlockY() > areaBorder2.getBlockY() ? areaBorder2.getBlockY() : areaBorder1.getBlockY());
+
+        int topBlockZ = (areaBorder1.getBlockZ() < areaBorder2.getBlockZ() ? areaBorder2.getBlockZ() : areaBorder1.getBlockZ());
+        int bottomBlockZ = (areaBorder1.getBlockZ() > areaBorder2.getBlockZ() ? areaBorder2.getBlockZ() : areaBorder1.getBlockZ());
+
+        for (int y = bottomBlockY; y < topBlockY; y++) {
+            for (int x = bottomBlockX; x < topBlockX; x++) {
+                for (int z = bottomBlockZ; z < topBlockZ; z++) {
+                    Block ice = areaBorder1.getWorld().getBlockAt(x, y, z);
+                    Block carpet = ice.getRelative(BlockFace.UP);
                     if (carpet.getType() == Material.CARPET) {
                         if (carpet.getData() == arenacolor.getWoolData()) {
-                            whiteblocks.add(carpet.getLocation());
-                        } else if (!this.matsalreadyin.containsKey(carpet.getLocation())) {
+                            baseBlocks.add(carpet.getLocation());
+                        } else if (!matsalreadyin.contains(carpet.getLocation())) {
                             DyeMiniArea mat = new DyeMiniArea();
                             boolean morex = true;
                             for (int x1 = x; morex; x1++) {
                                 boolean morez = true;
                                 for (int z1 = z; morez; z1++) {
-                                    Block carpettemp = new Location(pos1.getWorld(), x1, carpet.getLocation().getBlockY(), z1).getBlock();
+                                    Block carpettemp = new Location(areaBorder1.getWorld(), x1, carpet.getLocation().getBlockY(), z1).getBlock();
                                     if ((carpettemp.getType() == Material.CARPET) && (carpettemp.getData() == carpet.getData())) {
                                         mat.addBlock(carpettemp);
-                                        this.matsalreadyin.put(carpettemp.getLocation(), true);
+                                        matsalreadyin.add(carpettemp.getLocation());
                                     } else {
                                         if (z == z1) {
                                             morex = false;
@@ -123,7 +111,7 @@ public class ArenaManager {
                                     }
                                 }
                             }
-                            colormats.add(mat);
+                            areasColor.add(mat);
                         }
                     }
                 }
@@ -142,35 +130,36 @@ public class ArenaManager {
         allowedcolors.add(DyeColor.RED);
         allowedcolors.add(DyeColor.GREEN);
         
-        plugin.getLogger().log(Level.INFO, "Encontrados {0} \u00e1reas y {1} bloques suelo", new Object[]{colormats.size(), whiteblocks.size()});
+        plugin.getLogger().log(Level.INFO, "Encontrados {0} áreas y {1} bloques suelo", new Object[]{areasColor.size(), baseBlocks.size()});
     }
     
     //Mezclarlos aleatoriamente
     public ArrayList<DyeMiniArea> shuffleMats() {
-        ArrayList<DyeColor> colors = new ArrayList();
+        ArrayList<DyeColor> colors = new ArrayList<>();
         for (DyeColor color : allowedcolors) {
             colors.add(color);
         }
-        for (int i = colors.size(); i < colormats.size(); i++) {
+        for (int i = colors.size(); i < areasColor.size(); i++) {
             colors.add((DyeColor) allowedcolors.get(rand.nextInt(allowedcolors.size())));
         }
-        for (DyeMiniArea mat : colormats) {
+        
+        for (DyeMiniArea mat : areasColor) {
             mat.setColor((DyeColor) colors.remove(rand.nextInt(colors.size())));
         }
-        return colormats;
+        return areasColor;
     }
     
     //Remplazar el suelo con los colores aleatorios
     public void replaceFloor() {
         Block iceblock;
-        for (Location loc : whiteblocks) {
+        for (Location loc : baseBlocks) {
             Block carpetblock = loc.getBlock();
             carpetblock.setType(Material.CARPET);
             carpetblock.setData(arenacolor.getWoolData());
             iceblock = carpetblock.getRelative(BlockFace.DOWN);
             iceblock.setType(Material.ICE);
         }
-        for (DyeMiniArea mat : colormats) {
+        for (DyeMiniArea mat : areasColor) {
             for (Location loc : mat.getBlocks()) {
                 Block b = loc.getBlock();
                 b.setType(Material.CARPET);
@@ -183,7 +172,7 @@ public class ArenaManager {
     
     //Aleatoriedad en el suelo
     public DyeColor spinColors(boolean samecolor) {
-        DyeColor tempcolor = (DyeColor) allowedcolors.get(rand.nextInt(allowedcolors.size()));
+        DyeColor tempcolor = (DyeColor) allowedcolors.get(rand.nextInt(allowedcolors.size() - 1));
 
         if (samecolor) {
             ItemStack wool = new ItemStack(Material.WOOL, 1, tempcolor.getWoolData());
@@ -231,6 +220,7 @@ public class ArenaManager {
             FEMUser user = FEMServer.getUser(p);
             p.setLevel(round);
             p.setExp(0.9999F);
+            p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
             Integer rondas = user.getUserData().getRondas_dod();        
             user.getUserData().setRondas_dod(rondas + 1);
             if (round > user.getUserData().getRecord_dod()) {
@@ -244,7 +234,7 @@ public class ArenaManager {
     public void roundEnded() {
         setTimeLeft(0.0F);
         Block iceblock;
-        for (Location loc : whiteblocks) {
+        for (Location loc : baseBlocks) {
             Block carpetblock = loc.getBlock();
             carpetblock.setType(Material.AIR);
             iceblock = carpetblock.getRelative(BlockFace.DOWN);
@@ -253,7 +243,7 @@ public class ArenaManager {
                 iceblock.getWorld().spawnFallingBlock(iceblock.getLocation(), Material.WOOL, arenacolor.getWoolData()).setDropItem(false);
             }
         }
-        for (DyeMiniArea mat : this.colormats) {
+        for (DyeMiniArea mat : areasColor) {
             if (mat.color != currentcolor) {
                 for (Location loc : mat.getBlocks()) {
                     Block carpetblock = loc.getBlock();

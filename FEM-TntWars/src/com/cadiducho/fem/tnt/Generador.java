@@ -2,11 +2,14 @@ package com.cadiducho.fem.tnt;
 
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.tnt.manager.GameState;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -36,7 +39,13 @@ public class Generador {
             @Override
             public void run() {
                 if (GameState.state == GameState.GAME) {
-                    if (genAnnon.getLevel() != 0) {
+                    
+                    //Generar item solo si el nivel NO es 0 y no hay más de 10 items droppeados
+                    if (genAnnon.getLevel() != 0
+                            && genAnnon.getLoc().getWorld().getEntities().stream()
+                                    .filter(e -> e.getType().equals(EntityType.DROPPED_ITEM))
+                                    .filter(e -> e.getLocation().distance(genAnnon.getLoc()) <= 1).count() < 11) {
+                        
                         genAnnon.getSign().getWorld().dropItemNaturally(genAnnon.getItemSpawn(), genAnnon.getItem()).setVelocity(new Vector(0, 0, 0));
                     }
                 }

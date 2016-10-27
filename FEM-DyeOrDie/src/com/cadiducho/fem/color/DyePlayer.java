@@ -56,8 +56,10 @@ public class DyePlayer {
                 if (base.getPlayer() == null) cancel();
 
                 board.setName(DyeOrDie.colorize("Dye or Die"));
-                board.text(5, "§d ");
-                board.text(4, "§6" + plugin.getGm().getPlayersInGame().size() + "§d/§6" + plugin.getAm().getMaxPlayers());
+                board.text(7, "§d§f");
+                board.text(6, "§dJugadores: ");
+                board.text(5, "§6" + plugin.getGm().getPlayersInGame().size() + "§d/§6" + plugin.getAm().getMaxPlayers());
+                board.text(4, "§d ");
                 board.text(3, "§aRonda: §e" + plugin.getAm().getRound());
                 board.text(2, "§aTiempo restante: §e" + plugin.getAm().getTimeleft().intValue());
                 board.text(1, "§e ");
@@ -96,7 +98,7 @@ public class DyePlayer {
     }
 
     public void spawn() { 
-        base.getPlayer().teleport(plugin.getAm().getWhiteblocks().get(new Random().nextInt(plugin.getAm().getWhiteblocks().size())));
+        base.getPlayer().teleport(plugin.getAm().getBaseBlocks().get(new Random().nextInt(plugin.getAm().getBaseBlocks().size() - 1)));
     }
     
     public void endGame() {

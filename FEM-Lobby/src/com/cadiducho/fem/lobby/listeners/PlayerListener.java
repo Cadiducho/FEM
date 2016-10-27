@@ -3,7 +3,6 @@ package com.cadiducho.fem.lobby.listeners;
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.cmds.FEMCmd;
-import com.cadiducho.fem.core.util.FEMFileLoader;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.lobby.Lobby;
@@ -20,6 +19,7 @@ import java.util.List;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
@@ -40,6 +40,7 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -54,17 +55,21 @@ public class PlayerListener implements Listener, PluginMessageListener {
         plugin = instance;
     }
 
+    /*
+     * Acciones que realiza el lobby al entrar un jugador
+     */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
+        e.setJoinMessage(null);
+        
         FEMUser u = FEMServer.getUser(e.getPlayer());
 
-        e.setJoinMessage(Metodos.colorizar("&7" + e.getPlayer().getDisplayName() + " " + FEMFileLoader.getLang().getString("entrar")));
         plugin.getServer().getScheduler().runTask(plugin, () -> u.sendMessage("*motd", u.getName(), plugin.getServer().getOnlinePlayers().size()));
         
         e.getPlayer().setHealth(e.getPlayer().getMaxHealth());
         e.getPlayer().setFoodLevel(20);
         e.getPlayer().getInventory().clear();
-        e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&lJuegos", "Desplazate entre los juegos del servidor"));
+        e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&lJuegos", "Desplázate entre los juegos del servidor"));
         e.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.COMMAND, "&lAjustes", "Cambia alguno de tus ajustes de usuario"));
 
         e.getPlayer().getInventory().setItem(4, plugin.getLibro());
@@ -75,7 +80,10 @@ public class PlayerListener implements Listener, PluginMessageListener {
         
         LobbyTeams.setScoreboardTeam(u);
     }
-    
+      
+    /*
+     * Obtener monedas del suelo
+     */
     @EventHandler
     public void onPlayerGetDrop(PlayerPickupItemEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
@@ -85,6 +93,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
             e.getItem().remove();
             u.getUserData().setCoins(u.getUserData().getCoins() + 1);
             u.save();
+            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
             u.sendMessage("Has obtenido un punto del suelo");
         }
     }
@@ -104,11 +113,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 e.setCancelled(true);
             }
         }
-        
-        //No destruir tirras de cultivo (soil)
-        if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.SOIL) {
-            e.setCancelled(true);
-        }
 
         //Menu
         if (e.getItem() != null) {
@@ -120,13 +124,18 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         inv = plugin.getServer().createInventory(e.getPlayer(), 27, "Viajar");
                         String amistades = u.getUserData().getFriendRequest() ? "Aceptas" : "No aceptas";
                         String otros = u.getUserData().getHideMode() == 0 ? "Nadie" : (u.getUserData().getHideMode() == 1 ? "Amigos" : "Todos");
-                        inv.setItem(26, ItemUtil.createHeadPlayer("Información", e.getPlayer().getName(), Arrays.asList("Pulsa para ver estadísticas", 
+                        long secs = (u.getUserData().getTimePlayed() / 1000) % 60;
+                        long mins = (u.getUserData().getTimePlayed() / (1000 * 60)) % 60;
+                        long horas = (u.getUserData().getTimePlayed() / (1000 * 60 * 60)) % 24;
+
+                        inv.setItem(26, ItemUtil.createHeadPlayer("Información", e.getPlayer().getName(), Arrays.asList("Pulsa para ver estadísticas",
+                                "Tiempo jugado: " + horas + " horas, " + mins + " minutos y " + secs + " segundos",
                                 "Amistades: " + amistades, 
                                 "Ver a: " + otros)));
                         inv.setItem(18, ItemUtil.createItem(Material.BEACON, "Lobbies"));
-                        inv.setItem(22, ItemUtil.createItem(Material.DOUBLE_PLANT, "Dinero", "(Proximamente)"));
+                        inv.setItem(22, ItemUtil.createItem(Material.DOUBLE_PLANT, "Dinero", u.getUserData().getCoins() + " monedas"));
                         
-                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&e&lPICTOGRAMA"));
+                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA"));
                         inv.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS"));
                         ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE");
                             LeatherArmorMeta lam = (LeatherArmorMeta) letherBoots.getItemMeta();
@@ -267,7 +276,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         break;
                     case 26:
                         Inventory inv = plugin.getServer().createInventory(p, 18, "Estadisticas del jugador");
-                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&e&lPICTOGRAMA", 
+                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA", 
                                 Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(4), 
                                         "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(4),
                                         "&e---{*}---",
@@ -289,7 +298,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         lam.setColor(Color.BLUE);
                         letherBoots.setItemMeta(lam);
                         inv.setItem(5, letherBoots);
-                        inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lGLADIATOR", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(6), 
+                        inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(6), 
                                         "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(6),
                                         "&fBajas: &l" + u.getUserData().getKills().get(6), "&fMuertes: &l" + u.getUserData().getDeaths().get(6),
                                         "&4---{*}---",
@@ -314,7 +323,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 break;
         }
         
-        if (u.isOnRank(FEMCmd.Grupo.Admin)) { //Staff poder usar inventarios
+        if (u.isOnRank(FEMCmd.Grupo.Moderador)) { //Staff poder usar inventarios
             e.setCancelled(false);
             return;
         }
@@ -347,14 +356,14 @@ public class PlayerListener implements Listener, PluginMessageListener {
     //Eventos a cancelar en el lobby
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerBreak(BlockBreakEvent e) {
-        if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Owner)) {
+        if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)) {
             e.setCancelled(true);
         }
     }
     
     @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onPlayerPlace(BlockPlaceEvent e) {
-        if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Owner)) {
+        if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)) {
             e.setCancelled(true);
         }
     }

@@ -1,5 +1,6 @@
 package com.cadiducho.fem.tnt.manager;
 
+import com.cadiducho.fem.core.util.ItemBuilder;
 import com.cadiducho.fem.tnt.TntWars;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.tnt.Generador;
@@ -13,6 +14,7 @@ import lombok.Setter;
 import me.cybermaxke.merchants.api.Merchant;
 import me.cybermaxke.merchants.api.MerchantAPI;
 import me.cybermaxke.merchants.api.Merchants;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
@@ -27,6 +29,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionType;
 
 public class ArenaManager {
 
@@ -134,6 +137,7 @@ public class ArenaManager {
             if (!"centro".equals(str)) {
                 System.out.println("Poniendo isla en " + Metodos.stringToLocation(cfg.getString("spawn")));
                 isla.setSpawn(Metodos.centre(Metodos.stringToLocation(cfg.getString("spawn"))));
+                isla.setColor(ChatColor.valueOf(cfg.getString("color")));
                 Villager v = (Villager) loc1.getWorld().spawnEntity(Metodos.centre(Metodos.stringToLocation(cfg.getString("aldeano"))), EntityType.VILLAGER);
                 v.setCollidable(false);
                 v.setCustomName(Metodos.colorizar("&6Tienda TNTWars"));
@@ -209,7 +213,7 @@ public class ArenaManager {
         weaponsShop.addOffer(api.newOffer(new ItemStack(Material.STONE_SWORD, 1), new ItemStack(Material.IRON_INGOT, 32)));
         weaponsShop.addOffer(api.newOffer(new ItemStack(Material.STONE_AXE, 1), new ItemStack(Material.IRON_INGOT, 48)));
         weaponsShop.addOffer(api.newOffer(new ItemStack(Material.IRON_SWORD, 1), new ItemStack(Material.GOLD_INGOT, 16)));
-        weaponsShop.addOffer(api.newOffer(new ItemStack(Material.IRON_AXE, 1), new ItemStack(Material.IRON_INGOT, 24)));
+        weaponsShop.addOffer(api.newOffer(new ItemStack(Material.IRON_AXE, 1), new ItemStack(Material.GOLD_INGOT, 24)));
         weaponsShop.addOffer(api.newOffer(new ItemStack(Material.DIAMOND_SWORD, 1), new ItemStack(Material.DIAMOND, 12)));
         weaponsShop.addOffer(api.newOffer(new ItemStack(Material.DIAMOND_AXE, 1), new ItemStack(Material.DIAMOND, 20)));
         
@@ -239,16 +243,18 @@ public class ArenaManager {
         archeryShop.addOffer(api.newOffer(new ItemStack(Material.BOW, 1), new ItemStack(Material.DIAMOND, 5)));
         archeryShop.addOffer(api.newOffer(new ItemStack(Material.ARROW, 5), new ItemStack(Material.GOLD_INGOT, 2)));
         archeryShop.addOffer(api.newOffer(new ItemStack(Material.SPECTRAL_ARROW, 1), new ItemStack(Material.GOLD_INGOT, 2)));
-        archeryShop.addOffer(api.newOffer(new ItemStack(Material.TIPPED_ARROW, 1), new ItemStack(Material.GOLD_INGOT, 2)));
+        archeryShop.addOffer(api.newOffer(new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.INSTANT_DAMAGE, false, false).build(), new ItemStack(Material.GOLD_INGOT, 2)));
+        archeryShop.addOffer(api.newOffer(new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.SLOWNESS, false, false).build(), new ItemStack(Material.GOLD_INGOT, 2)));
+        archeryShop.addOffer(api.newOffer(new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.POISON, false, false).build(), new ItemStack(Material.GOLD_INGOT, 6)));
         
         miscShop.addOffer(api.newOffer(new ItemStack(Material.CHEST, 1), new ItemStack(Material.GOLD_INGOT, 5)));
     }
     
     public void teleport(Player p) {
         for (TntIsland i : unAssignedIslas) {
-            System.out.println("Asignando isla " + i.getId() + " a " + p.getName());
+            System.out.println("Asignando isla " + i.getId() + " (" + i.getColor() + ") a " + p.getName());
             p.teleport(i.getSpawn());
-            i.setOwner(p);
+            i.setOwner(p.getUniqueId());
             unAssignedIslas.remove(i);
             break;
         }

@@ -34,7 +34,6 @@ public class ArenaManager {
 
     public void prepareWorld(World w) {
         w.setPVP(true);
-        w.setGameRuleValue("naturalRegeneration", "false");
         w.setGameRuleValue("doDaylightCycle", "false");
         w.setStorm(false);
         w.setDifficulty(Difficulty.EASY);
@@ -43,7 +42,6 @@ public class ArenaManager {
                     .filter(e -> !e.getType().equals(EntityType.PLAYER))
                     .forEach(e -> e.damage(e.getMaxHealth()));
         w.setAutoSave(false);
-        muro(w, true);
         
         plugin.getLogger().log(Level.INFO, "Mundo para {0}/{1} preparado", new Object[]{minPlayers, maxPlayers});
     }
@@ -56,7 +54,7 @@ public class ArenaManager {
         return minPlayers;
     }
     
-    public void muro(World w, boolean poner){  
+    public void muro(World w){  
         int minx = Math.min(pos1.getBlockX(), pos2.getBlockX());
         int miny = Math.min(pos1.getBlockY(), pos2.getBlockY());
         int minz = Math.min(pos1.getBlockZ(), pos2.getBlockZ());
@@ -69,14 +67,9 @@ public class ArenaManager {
             for (int y = miny; y <= maxy; y++){
                 for (z = minz; z <= maxz; z++){
                     currentBlock = w.getBlockAt(x2, y, z);
-                    if (currentBlock.getType() == Material.BEDROCK){
+                    if (currentBlock.getType() == Material.BEDROCK) {
                         currentBlock.setType(Material.AIR);
-                    } else {
-                        currentBlock.setType(Material.BEDROCK);
                     }
-                    /*
-                    if (!poner) currentBlock.setType(Material.AIR);
-                    if (poner) currentBlock.setType(Material.BEDROCK);*/
                 }
             }
         }

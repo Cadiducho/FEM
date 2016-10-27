@@ -56,17 +56,21 @@ public class GameTask extends BukkitRunnable {
     public void prepareNextRound() {
         gameInstance.cancel();
         
-        //Mover al constructor y asignar valor null para buscar uno nuevo
-        Pictograma.getPlayer(plugin.getGm().builder).setCleanPlayer(GameMode.ADVENTURE);
-        Pictograma.getPlayer(plugin.getGm().builder).spawn();
-        plugin.getGm().builder = null;
-        
         //Informar a los usuarios
         plugin.getMsg().sendEmptyLine();
         plugin.getMsg().sendBroadcast("&aSe acabó el tiempo! La siguiente ronda comenzará en 5 segundos");
         plugin.getMsg().sendBroadcast("&aLa palabra era: &e&l" + plugin.getGm().word);
         plugin.getMsg().sendEmptyLine();
         
+        //No escribir palabras entre rondas
+        plugin.getGm().word = "";
+        plugin.getGm().acceptWords = false;
+        
+        //Mover al constructor y asignar valor null para buscar uno nuevo
+        Pictograma.getPlayer(plugin.getGm().builder).setCleanPlayer(GameMode.ADVENTURE);
+        Pictograma.getPlayer(plugin.getGm().builder).spawn();
+        plugin.getGm().builder = null;
+
         //Comenzar nueva ronda o terminar juego
         if (plugin.getAm().getColaPintar().isEmpty()) {
             plugin.getGm().endGame();

@@ -1,7 +1,9 @@
 package com.cadiducho.fem.pic.manager;
 
 import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.task.GameTask;
 import com.cadiducho.fem.pic.task.LobbyTask;
@@ -66,6 +68,7 @@ public class GameManager {
         plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
         color = DyeColor.BLACK;
         
+        new Title("&e&l" + word, "&3Dibuja esta palabra", 1, 2, 1).send(builder);
         Pictograma.getPlayer(builder).setArtist();
         Pictograma.getPlayer(builder).getBase().sendMessage("La palabara es &e" + word);
     
@@ -90,6 +93,10 @@ public class GameManager {
             plugin.getMsg().sendBroadcast("&aPuntuaciones:");
             score.keySet().forEach(p -> plugin.getMsg().sendBroadcast("&b" + p.getName() + ":&e " + score.get(p)));
             plugin.getMsg().sendBroadcast("&6Ganador: " + winner.getName());
+            for (Player p : plugin.getGm().getPlayersInGame()) {
+                p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
+                new Title("&a" + winner.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner); 
+            }
             HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
             wins.replace(4, wins.get(4) + 1);
             FEMServer.getUser(winner).getUserData().setWins(wins);
@@ -122,16 +129,23 @@ public class GameManager {
     }
     
     public void wordFoundBy(Player player) {
-        if (acceptWords && !hasFound.contains(player.getUniqueId())) {
+        FEMUser user = FEMServer.getUser(player);
+        if (!acceptWords) {
+            user.sendMessage("&e'No puedes escribir una palabra fuera de tiempo!");
+            return;
+        }
+        if (!hasFound.contains(player.getUniqueId())) {
             hasFound.add(player.getUniqueId());
             score.keySet().forEach(p -> p.getWorld().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F));
             FEMServer.getUser(player).getUserData().setPicAcertadas(FEMServer.getUser(player).getUserData().getPicAcertadas() + 1);
             FEMServer.getUser(player).save();
             
             int puntos;
+            String sufijo = "!";
             switch (playerFound) {
                 case 0: //10 puntos
                     puntos = 10;
+                    sufijo = ", y ha sido el más rápido!";
                     plugin.getMsg().sendMessage(builder, "&6+2 &aalguien ha adivinado tu palabra!");
                     increaseScore(builder, 2);
                     FEMServer.getUser(builder).getUserData().setPicDibujadas(FEMServer.getUser(builder).getUserData().getPicDibujadas() + 1);
@@ -154,7 +168,7 @@ public class GameManager {
                     break;
             }
             increaseScore(player, puntos);
-            plugin.getMsg().sendBroadcast("&6+" + puntos + " &a" + player.getName() + " ha encontrado la palabra, y ha sido el más rápido!");
+            plugin.getMsg().sendBroadcast("&6+" + puntos + " &a" + player.getName() + " ha encontrado la palabra" + sufijo);
             FEMServer.getUser(builder).getUserData().setPicDibujadas(FEMServer.getUser(builder).getUserData().getPicDibujadas() + 1);
             FEMServer.getUser(builder).save();
             
@@ -182,9 +196,9 @@ public class GameManager {
                     plugin.getAm().getColaPintar().remove(p); 
                 }
             } 
-        } 
-        score.remove(player);
-        board.resetScores(player.getName());
+        }
+        if (score != null) score.remove(player);
+        if (board != null) board.resetScores(player.getName());
     }
     
     public boolean acceptPlayers() {

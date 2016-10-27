@@ -1,7 +1,7 @@
 package com.cadiducho.fem.lucky.listeners;
 
 import com.cadiducho.fem.lucky.LuckyWarriors;
-import com.cadiducho.fem.lucky.task.LobbyCountdown;
+import com.cadiducho.fem.lucky.task.LobbyTask;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -43,7 +43,7 @@ public class PlayerListener implements Listener {
             plugin.getPm().setLobbyPlayer(player);
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
             if (plugin.getGm().getPlayersInGame().size() == plugin.getAm().getMinPlayers() && plugin.getGm().start == false) {
-                new LobbyCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
+                new LobbyTask(plugin).runTaskTimer(plugin, 20l, 20l);
                 plugin.getGm().start = true;
             }
         }

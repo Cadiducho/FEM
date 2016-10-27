@@ -69,36 +69,37 @@ public class GameListener implements Listener {
         if ((e.getAction() == Action.RIGHT_CLICK_AIR) || (e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
             switch (e.getPlayer().getInventory().getItemInHand().getType()) {
                 case COMPASS: //Escoger color
-                    e.getPlayer().openInventory(plugin.colorPicker);
                     e.setCancelled(true);
+                    e.getPlayer().openInventory(plugin.colorPicker);
                     break;
                 case EMPTY_MAP: //Limpiar folio
+                    e.setCancelled(true);
                     plugin.getAm().getBuildZone().clear();
                     plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
                     FEMServer.getUser(e.getPlayer()).sendMessage("&eHas limpiado la hoja completamente");
-                    e.setCancelled(true);
                     break;
                 case LAVA_BUCKET: //Rellenar area
+                    e.setCancelled(true);
                     Block b = e.getPlayer().getTargetBlock((Set<Material>) null, 100);
                     if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
-                        e.setCancelled(true);
                         return;
                     }
                     fillArea(b, b.getData(), true); //Rellenar bloques desde b que mantengan su color
-                    e.setCancelled(true);
                     break;
             }
         }
         
         //Clickar sobre el color y escogerlo
         if ((e.getAction() == Action.LEFT_CLICK_AIR) || (e.getAction() == Action.LEFT_CLICK_BLOCK)) {
-            if (e.getPlayer().getUniqueId() == plugin.getGm().builder.getUniqueId()) {
-                Block b = e.getPlayer().getTargetBlock((Set<Material>) null, 100);
-                if (b.getType() == Material.WOOL) {
-                    Wool wool = (Wool) b.getState().getData();
-                    if (wool.getColor() != DyeColor.WHITE) {
-                        setPencilColor(wool.getColor());
-                        e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
+            if (plugin.getGm().builder != null && plugin.getGm().builder.getUniqueId() != null) {
+                if (e.getPlayer().getUniqueId() == plugin.getGm().builder.getUniqueId()) {
+                    Block b = e.getPlayer().getTargetBlock((Set<Material>) null, 100);
+                    if (b.getType() == Material.WOOL) {
+                        Wool wool = (Wool) b.getState().getData();
+                        if (wool.getColor() != DyeColor.WHITE) {
+                            setPencilColor(wool.getColor());
+                            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
+                        }
                     }
                 }
             }
@@ -189,9 +190,7 @@ public class GameListener implements Listener {
         
         //Pintar todos los bloques de un area del color elegido
         block.setData(plugin.getGm().color.getData());
-        plugin.getServer().getScheduler().runTask(plugin, () -> {
-            getSurroundingBlocks(block).stream().forEach(other -> fillArea(other, color, false));
-        });
+        getSurroundingBlocks(block).forEach(other -> fillArea(other, color, false));
         
         //Escuchar el cubo solo la primera vez
         if (first) plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.SPLASH, 0.4F, 1.0F));

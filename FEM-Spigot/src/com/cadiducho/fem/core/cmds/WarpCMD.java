@@ -16,7 +16,7 @@ import org.bukkit.inventory.Inventory;
 public class WarpCMD extends FEMCmd {
     
     public WarpCMD() {
-        super("warp", Grupo.Admin, Arrays.asList("warps", "warplist"));
+        super("warp", Grupo.Moderador, Arrays.asList("warps", "warplist"));
     }
     
     @Override
@@ -45,7 +45,7 @@ public class WarpCMD extends FEMCmd {
             }
         }
         
-        Inventory inv = plugin.getServer().createInventory(user.getPlayer(), invSize, Metodos.colorizar(FEMFileLoader.getLang().getString("warp.menu")));
+        Inventory inv = plugin.getServer().createInventory(user.getPlayer(), invSize, Metodos.colorizar(FEMFileLoader.getEsLang().getString("warp.menu")));
         int i = 0;
         for (Warp warp : FEMServer.getWarps()) {
             inv.setItem(i, ItemUtil.createItem(Material.getMaterial(warp.getIcon()), warp.getName(), warp.getDesc()));

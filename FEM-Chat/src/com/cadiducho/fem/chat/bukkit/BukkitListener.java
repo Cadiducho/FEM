@@ -71,10 +71,10 @@ public class BukkitListener implements Listener {
                 return "&6[MEGA] ";
             case Helper:
                 return "&2[HELP] ";
+            case Moderador:
+                return "&c[MOD] ";
             case Admin:
-                return "&c[ADM] ";
-            case Owner:
-                return "&4[OWN] ";
+                return "&4[ADM] ";
             case Dev:
                 return "&b[DEV] ";
         }
@@ -84,8 +84,8 @@ public class BukkitListener implements Listener {
     private String getSuffix(Grupo g) {
         switch (g) {
             case Helper:
+            case Moderador:
             case Admin:
-            case Owner:
             case Dev:
                 return "&r&f";
         }

@@ -1,7 +1,9 @@
 package com.cadiducho.fem.pic.listener;
 
+import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.task.GameTask;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +19,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.inventivetalent.bossbar.BossBar;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 public class PlayerListener implements Listener {
 
@@ -48,6 +52,8 @@ public class PlayerListener implements Listener {
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
             plugin.getMsg().sendHeaderAndFooter(player, "&6Under&eGames&7", "&cmc.undergames.es");
             plugin.getGm().checkStart();
+            
+            BossBar bossBar = BossBarAPI.addBar(player, new TextComponent(Metodos.colorizar("    &6&lUnder&e&lGames&7 &c- &emc.undergames.es")), BossBarAPI.Color.WHITE, BossBarAPI.Style.PROGRESS, 1.0f);
         }
     }
 
@@ -57,16 +63,18 @@ public class PlayerListener implements Listener {
         e.setQuitMessage(null);
         //Eliminar de las listas y cancelar sus puntos
         plugin.getGm().removePlayerFromGame(player);
-        plugin.getMsg().sendBroadcast("&e " + player.getDisplayName() + "&7abandonó la partida");
+        plugin.getMsg().sendBroadcast("&e " + player.getDisplayName() + " &7abandonó la partida");
         
         //Comprobar si terminar la partida (solo queda uno)
-        if (plugin.getGm().getPlayersInGame().size() < 2) {
-            GameTask.getGameInstance().cancel();
-            plugin.getGm().endGame();
-        } else if (plugin.getGm().builder.getUniqueId() == player.getUniqueId()) {
-            //Si el constructor se va, terminar la ronda
-            GameTask.getGameInstance().prepareNextRound();
-        } 
+        if (plugin.getGm().isInGame()) {
+            if (plugin.getGm().getPlayersInGame().size() < 2) {
+                GameTask.getGameInstance().cancel();
+                plugin.getGm().endGame();
+            } else if (plugin.getGm().builder.getUniqueId() == player.getUniqueId()) {
+                //Si el constructor se va, terminar la ronda
+                GameTask.getGameInstance().prepareNextRound();
+            }
+        }
         Pictograma.players.remove(Pictograma.getPlayer(player));
     }
 

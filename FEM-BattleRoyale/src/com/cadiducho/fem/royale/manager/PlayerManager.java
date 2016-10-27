@@ -37,11 +37,6 @@ public class PlayerManager {
     
     public void loadKit(Player player){
         setCleanPlayer(player, GameMode.SURVIVAL);
-        /*player.getInventory().setHelmet(new ItemStack(Material.IRON_HELMET));
-        player.getInventory().setChestplate(new ItemStack(Material.IRON_CHESTPLATE));
-        player.getInventory().setLeggings(new ItemStack(Material.IRON_LEGGINGS));
-        player.getInventory().setBoots(new ItemStack(Material.IRON_BOOTS));
-        player.getInventory().setItem(0, new ItemStack(Material.STONE_SWORD));*/
         player.getInventory().setItem(0, plugin.getMoneda());
     }
 
@@ -86,8 +81,4 @@ public class PlayerManager {
         }
         kills.put(player, actual + 1);
     }
-
-    /*public HashMap<Player, Integer> getKills() {
-        return kills;
-    }*/
 }

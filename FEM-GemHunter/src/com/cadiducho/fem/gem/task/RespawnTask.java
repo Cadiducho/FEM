@@ -28,7 +28,7 @@ public class RespawnTask extends BukkitRunnable {
             player.getBase().save();
         } else if (count == 0) {
             player.spawn();
-            player.setCleanPlayer(GameMode.ADVENTURE);
+            player.setCleanPlayer(GameMode.SURVIVAL);
             player.dressPlayer();
         }
         

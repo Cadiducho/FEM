@@ -34,7 +34,6 @@ public class FEMCommands implements TabCompleter {
         cmds.add(new EncantarCMD());
         cmds.add(new ExtinguishCMD());
         cmds.add(new FriendCMD());
-        cmds.add(new FlyCMD());
         cmds.add(new GamemodeCMD());
         cmds.add(new GodCMD());
         cmds.add(new JumpCMD());
@@ -47,6 +46,7 @@ public class FEMCommands implements TabCompleter {
         cmds.add(new MoreCMD());
         cmds.add(new NearCMD());
         cmds.add(new NickCMD());
+        cmds.add(new ParkourCMD());
         cmds.add(new PingCMD());
         cmds.add(new RealNameCMD());
         cmds.add(new RepairCMD());

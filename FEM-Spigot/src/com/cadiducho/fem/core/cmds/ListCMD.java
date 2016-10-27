@@ -16,12 +16,12 @@ public class ListCMD extends FEMCmd {
 
     @Override
     public void run(FEMUser user, String lbl, String[] args) {
-        user.sendMessage("*list.mensaje", plugin.getServer().getOnlinePlayers().size(), online(user.isOnRank(Grupo.Owner)));
+        user.sendMessage("*list.mensaje", plugin.getServer().getOnlinePlayers().size(), online(user.isOnRank(Grupo.Admin)));
     }
 
     @Override
     public void run(CommandSender sender, String label, String[] args) {
-        sender.sendMessage(Metodos.colorizar(FEMFileLoader.getLang().getString("list.mensaje")
+        sender.sendMessage(Metodos.colorizar(FEMFileLoader.getEsLang().getString("list.mensaje")
                 .replace("{0}", "" + plugin.getServer().getOnlinePlayers().size()))
                 .replace("{1}", "")); //{1} es online(), mensaje a parte en consola
         sender.sendMessage(online(true));
@@ -49,10 +49,10 @@ public class ListCMD extends FEMCmd {
                             case Helper:
                                 sb.append("&a").append(target.getName()).append(" ");
                                 break;
-                            case Admin:
+                            case Moderador:
                                 sb.append("&1").append(target.getName()).append(" ");
                                 break;
-                            case Owner:
+                            case Admin:
                                 sb.append("&b").append(target.getName()).append(" ");
                                 break;
                             case Dev:

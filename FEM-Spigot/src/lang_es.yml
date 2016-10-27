@@ -2,8 +2,6 @@ motd: '&aBienvenido, &b{0}&a!{n}&aUsa &b/help&a para ver una lista de comandos.{
 userDesconectado: '&c¡Ese jugador está desconectado!'
 userNotFound: '&cJugador no encontrado.'
 noPermiso: '&cNo tienes permiso para usar este comando'
-entrar: '&7se ha conectado'
-salir: '&7se ha desconectado'
 adminchat:
     uso: '&eUso: &a/a <Mensaje>'
     activado: '&eAdmin Chat: &aActivado'

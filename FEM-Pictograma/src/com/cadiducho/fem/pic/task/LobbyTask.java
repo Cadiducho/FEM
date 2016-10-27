@@ -14,12 +14,16 @@ public class LobbyTask extends BukkitRunnable {
         plugin = instance;
     }
 
-    private int count = 15;
+    private int count = 30;
 
     @Override
     public void run() {
         plugin.getGm().getPlayersInGame().forEach(pl ->  pl.setLevel(count));
-        if (count == 10) {
+        if (count == 30) {
+            plugin.getServer().getOnlinePlayers().forEach(pl -> pl.hidePlayer(pl));
+        } else if (count == 29) {
+            plugin.getServer().getOnlinePlayers().forEach(pl -> pl.showPlayer(pl));
+        } else if (count == 10) {
             plugin.getMsg().sendBroadcast("10 segundos para comenzar");
             plugin.getGm().getPlayersInGame().forEach((players) -> {
                 players.playSound(players.getLocation(), Sound.CLICK, 1f, 1f);

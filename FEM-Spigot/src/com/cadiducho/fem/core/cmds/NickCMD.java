@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 public class NickCMD extends FEMCmd {
     
     public NickCMD() {
-        super("nick", Grupo.Admin, Arrays.asList("nickname"));
+        super("nick", Grupo.Moderador, Arrays.asList("nickname"));
     }
       
     @Override

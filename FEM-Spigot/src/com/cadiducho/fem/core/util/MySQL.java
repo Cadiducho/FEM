@@ -4,6 +4,10 @@ import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.api.FEMUser.UserData;
 import com.cadiducho.fem.core.cmds.FEMCmd;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -70,7 +74,22 @@ public class MySQL {
                 statement.setString(1, p.getUniqueId().toString());
                 ResultSet rs = statement.executeQuery();
                 if (!rs.next()) { //No hay filas encontradas, insertar nuevos datos
-                    try {
+    
+                        URL url = new URL("http://api.predator.wtf/geoip/?arguments=" + p.getAddress().getHostName());
+                        BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                        String strTemp = "";
+                        Integer lang = 0;
+                        
+                        while ((strTemp = br.readLine()) != null) {
+                            if (strTemp.contains("Country: ")) {
+                                String country = strTemp.replace("Country: ", "");
+                                switch (country.toLowerCase()) {
+                                    case "france": lang = 1; break;
+                                    case "italy": lang = 2; break;
+                                }
+                            }
+                        }
+
                         PreparedStatement inserDatos = openConnection().prepareStatement(
                                 "INSERT INTO `fem_datos` (`uuid`, `name`, `grupo`) VALUES (?, ?, ?)");
                         inserDatos.setString(1, p.getUniqueId().toString());
@@ -84,15 +103,13 @@ public class MySQL {
                         inserStats.executeUpdate();
 
                         PreparedStatement inserSettings = openConnection().prepareStatement(
-                                "INSERT INTO `fem_settings` (`uuid`) VALUES (?)");
+                                "INSERT INTO `fem_settings` (`uuid`, `lang`) VALUES (?, ?)");
                         inserSettings.setString(1, p.getUniqueId().toString());
+                        inserSettings.setInt(2, lang);
                         inserSettings.executeUpdate();
 
-                    } catch (SQLException ex) {
-                        ex.printStackTrace();
-                    }
                 }
-            } catch (SQLException | ClassNotFoundException ex) {
+            } catch (SQLException | ClassNotFoundException | IOException ex) {
                 ex.printStackTrace();
             }
         });
@@ -117,7 +134,7 @@ public class MySQL {
                 PreparedStatement statementStats = openConnection().prepareStatement("UPDATE `fem_stats` SET `kills_tnt`=?,`kills_gh`=?,`deaths_tnt`=?,`deaths_gh`=?,`jugadas_tnt`=?,"
                         + "`jugadas_dod`=?,`jugadas_gh`=?,`ganadas_tnt`=?,`ganadas_dod`=?,`ganadas_gh`=?,`tntPuestas`=?,`tntQuitadas`=?,`tntExplotadas`=?,`genUpgraded`=?,"
                         + "`gemDestroyed`=?,`gemPlanted`=?,`record_dod`=?,`rondas_dod`=?,`picAcertadas`=?,`picDibujadas`=?,`ganadas_pic`=?,`jugadas_pic`=?,"
-                        + "`jugadas_br`=?,`ganadas_br`=?,`kills_br`=?,`deaths_br`=?,`brIntercambios`=?,`jugadas_lg`=?,`ganadas_lg`=?,`kills_lg`=?,`deaths_lg`=?,`luckyRotos`=? "
+                        + "`jugadas_br`=?,`ganadas_br`=?,`kills_br`=?,`deaths_br`=?,`brIntercambios`=?,`jugadas_lg`=?,`ganadas_lg`=?,`kills_lg`=?,`deaths_lg`=?,`luckyRotos`=?,`timePlayed`=? "
                         + "WHERE `uuid`=?");
                 
                 statementStats.setInt(1, data.getKills().get(1));
@@ -152,14 +169,16 @@ public class MySQL {
                 statementStats.setInt(30, data.getKills().get(6));
                 statementStats.setInt(31, data.getDeaths().get(6));
                 statementStats.setInt(32, data.getLuckyRotos());
-                statementStats.setString(33, u.getUuid().toString());
+                statementStats.setLong(33, data.getTimePlayed());
+                statementStats.setString(34, u.getUuid().toString());
                 statementStats.executeUpdate();
 
                 //Settings
-                PreparedStatement statementSett = openConnection().prepareStatement("UPDATE `fem_settings` SET `friendRequest`=?,`hideMode`=? WHERE `uuid`=?");
+                PreparedStatement statementSett = openConnection().prepareStatement("UPDATE `fem_settings` SET `friendRequest`=?,`hideMode`=?,`lang`=? WHERE `uuid`=?");
                 statementSett.setBoolean(1, data.getFriendRequest() == null ? true : data.getFriendRequest());
-                statementSett.setInt(2, data.getHideMode() == null ? 1 : data.getHideMode());
-                statementSett.setString(3, u.getUuid().toString());
+                statementSett.setInt(2, data.getHideMode() == null ? 2 : data.getHideMode());
+                statementSett.setInt(3, data.getLang() == null ? 0 : data.getLang());
+                statementSett.setString(4, u.getUuid().toString());
                 statementSett.executeUpdate();
 
             } catch (Exception ex) {
@@ -238,8 +257,9 @@ public class MySQL {
                 data.setPicAcertadas(rsStats.getInt("picAcertadas"));
                 data.setPicDibujadas(rsStats.getInt("picDibujadas"));
                 data.setBrIntercambios(rsStats.getInt("brIntercambios"));
-                data.setLuckyRotos(rsStats.getInt("luckyRotos"));          
+                data.setLuckyRotos(rsStats.getInt("luckyRotos"));
                 
+                data.setTimePlayed(rsStats.getLong("timePlayed"));         
             }
             
             //Settings
@@ -250,6 +270,7 @@ public class MySQL {
             if (rsSett.next()) {
                 data.setFriendRequest(rsSett.getBoolean("friendRequest"));
                 data.setHideMode(rsSett.getInt("hideMode"));
+                data.setLang(rsSett.getInt("lang"));
             }
             
             //Amigos

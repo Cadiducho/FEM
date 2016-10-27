@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class SeedCMD extends FEMCmd {
 
     public SeedCMD() {
-        super("seed", Grupo.Owner, Arrays.asList("semilla", "seedmapa", "idmundo"));
+        super("seed", Grupo.Admin, Arrays.asList("semilla", "seedmapa", "idmundo"));
     }
 
     @Override

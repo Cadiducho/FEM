@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack;
 public class MoreCMD extends FEMCmd {
     
     public MoreCMD() {
-        super("more", Grupo.Admin, Arrays.asList());
+        super("more", Grupo.Moderador, Arrays.asList());
     }
     
     @Override

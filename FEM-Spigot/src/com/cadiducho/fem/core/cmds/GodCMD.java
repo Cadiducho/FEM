@@ -10,12 +10,12 @@ import org.bukkit.command.CommandSender;
 public class GodCMD extends FEMCmd {
     
     public GodCMD() {
-        super("god", Grupo.Admin, Arrays.asList("dios"));
+        super("god", Grupo.Moderador, Arrays.asList("dios"));
     }
     
     @Override
     public void run(FEMUser user, String label, String[] args) {
-        if (args.length >= 1 && user.isOnRank(Grupo.Owner)) {
+        if (args.length >= 1 && user.isOnRank(Grupo.Admin)) {
             FEMUser target =  FEMServer.getUser(plugin.getServer().getPlayerExact(args[0]));
             if (!target.isOnline()) {
                 user.sendMessage("*userDesconectado");

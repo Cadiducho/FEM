@@ -8,7 +8,7 @@ import com.cadiducho.fem.lucky.manager.ArenaManager;
 import com.cadiducho.fem.lucky.manager.GameManager;
 import com.cadiducho.fem.lucky.manager.GameState;
 import com.cadiducho.fem.lucky.manager.PlayerManager;
-import com.cadiducho.fem.lucky.utils.ChestItems;
+import com.cadiducho.fem.lucky.utils.LuckyPacks;
 import com.cadiducho.fem.lucky.utils.Messages;
 import java.io.File;
 import lombok.Getter;
@@ -48,7 +48,7 @@ public class LuckyWarriors extends JavaPlugin {
         msg.init();
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
-        ChestItems.initItems();
+        LuckyPacks.initItems();
         am.init();
         gm.init();
         

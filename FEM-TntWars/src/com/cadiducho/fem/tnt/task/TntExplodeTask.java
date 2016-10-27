@@ -3,6 +3,7 @@ package com.cadiducho.fem.tnt.task;
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.tnt.TntIsland;
 import com.cadiducho.fem.tnt.TntWars;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -23,13 +24,18 @@ public class TntExplodeTask extends BukkitRunnable {
         if (count == 10) {
             FEMServer.getUser(exploder).getUserData().setTntPuestas(FEMServer.getUser(exploder).getUserData().getTntPuestas() + 1);
             FEMServer.getUser(exploder).save();
-            FEMServer.getUser(exploder).sendMessage("Has puesto la TNT y explotará en 10 segundos");
-            isla.getOwner().sendMessage("Tu isla explotará en 10 segundos si no lo evitas");
+            FEMServer.getUser(exploder).sendMessage("&aHas puesto la TNT y explotará en 10 segundos");
+            FEMServer.getUser(isla.getOwner()).sendMessage("&cTu isla explotará en 10 segundos si no lo evitas");
+        } else if (count > 0 && count < 4) {
+            for (Player p : TntWars.getInstance().getGm().getPlayersInGame()) {
+                p.playSound(isla.getBedrockCore().getLocation(), Sound.BLOCK_ANVIL_PLACE, (9F + count), 1F);
+            }
+            FEMServer.getUser(isla.getOwner()).sendMessage("&cTu isla explotará en " + count + " segundo" + (count == 1 ? "" : "s") + "si no lo evitas");
         } else if (count == 0) {
             isla.explode();
             FEMServer.getUser(exploder).getUserData().setTntExplotadas(FEMServer.getUser(exploder).getUserData().getTntExplotadas() + 1);
             FEMServer.getUser(exploder).save();
-            TntWars.getInstance().getMsg().sendBroadcast("La isla de " + isla.getOwner().getDisplayName() + " ha sido destruida por " + exploder.getDisplayName());
+            TntWars.getInstance().getMsg().sendBroadcast("&eLa isla de " + TntWars.getInstance().getServer().getOfflinePlayer(isla.getOwner()).getName() + " ha sido destruida por " + exploder.getName());
             cancel();
         }
         

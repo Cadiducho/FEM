@@ -4,22 +4,20 @@ import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.cmds.FEMCmd;
-import com.cadiducho.fem.core.util.FEMFileLoader;
-import com.cadiducho.fem.core.util.Metodos;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.bukkit.GameMode;
-import org.bukkit.entity.Horse;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -33,6 +31,9 @@ public class PlayerListener implements Listener {
         plugin = instance;
     }
     
+    /*
+     * Capturar eventos del adminchat antes que el resto de juegos
+     */
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         FEMUser user = FEMServer.getUser(event.getPlayer());
@@ -47,6 +48,9 @@ public class PlayerListener implements Listener {
         //Eventos del chat global enlazados en FEM-Chat
     }
     
+    /*
+     * Metodo para registrar al usuario por primera vez
+     */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerLogin(PlayerLoginEvent e) {
         if (e.getResult() == PlayerLoginEvent.Result.ALLOWED) {
@@ -54,21 +58,31 @@ public class PlayerListener implements Listener {
         }
     }
     
+    /*
+     * Metodos que se ejecutan nada más un jugador entre al servidor, 
+     * por encima del resto de plugins
+     */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
         
-        //Actualizar variables
+        //Actualizar variables 
         u.getUserData().setLastConnect(System.currentTimeMillis());
+        u.getUserData().setTimeJoin(System.currentTimeMillis());
         u.getUserData().setIp(u.getPlayer().getAddress());
         u.save(); 
         
         //Poner usuarios en survival
-        if (!u.isOnRank(FEMCmd.Grupo.Owner)) {
+        if (!u.isOnRank(FEMCmd.Grupo.Admin)) {
             u.getPlayer().setGameMode(GameMode.SURVIVAL);
         }
+        
+        //Hud
+        if (plugin.isMore18()) {
+            plugin.getHud().addPlayer(e.getPlayer());
+        }
     }
-    
+     
     @EventHandler(priority = EventPriority.LOW)
     public void onDamage(EntityDamageEvent e) {
         //God
@@ -95,12 +109,20 @@ public class PlayerListener implements Listener {
         }
     }
     
+    /*
+     * Procesar la desonexión de un jugador. Guardar datos y elimiar su cache
+     */
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
-
+        
+        e.setQuitMessage(null);
+        
         u.getUserData().setLastLocation(u.getPlayer().getLocation());
         u.getUserData().setLastConnect(System.currentTimeMillis());
+        
+        //Tiempo jugado: Tiempo jugado + hora actual - conexion
+        u.getUserData().setTimePlayed(u.getUserData().getTimePlayed() + System.currentTimeMillis() - u.getUserData().getTimeJoin());
         u.save();
 
         //Evitar sobrecargas con Users null
@@ -108,7 +130,6 @@ public class PlayerListener implements Listener {
             FEMServer.adminChatMode.remove(u);
         }
 
-        e.setQuitMessage(Metodos.colorizar("&7" + e.getPlayer().getDisplayName() + " " + FEMFileLoader.getLang().getString("salir")));
         FEMServer.users.remove(u);
     }
     
@@ -116,6 +137,7 @@ public class PlayerListener implements Listener {
     public void onPlayerTeleport(PlayerTeleportEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
         
+        //Procesar el /back
         switch (e.getCause()) {
             case COMMAND:
             case PLUGIN:
@@ -124,35 +146,59 @@ public class PlayerListener implements Listener {
         }
     }
     
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent e) {
-        FEMUser u = FEMServer.getUser(e.getEntity());
-
-    }
-
-    @EventHandler
-    public void onBlockBreak(BlockBreakEvent e) {
-        FEMUser u = FEMServer.getUser(e.getPlayer());
-        
-    }
-
-    @EventHandler
-    public void onBlockPlace(BlockPlaceEvent e) {
-        FEMUser u = FEMServer.getUser(e.getPlayer());
-
-    }
-      
+    /*
+     * Bloquear lista de comandos
+     */
     @EventHandler
     public void playerCommand(PlayerCommandPreprocessEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
-        //Bloquear lista de comandos
-        if(u.isOnRank(FEMCmd.Grupo.Owner)) {
+
+        if(u.isOnRank(FEMCmd.Grupo.Admin)) {
             return;
         }
  
         if (e.getMessage().startsWith("/?") || e.getMessage().startsWith("/bukkit:") || e.getMessage().startsWith("/pl") || e.getMessage().startsWith("/plugins") || e.getMessage().startsWith("/minecraft:")) {
             u.sendMessage("&aPor aquí no hay nada que ver...");
             e.setCancelled(true);
+        }
+    }
+    
+    /*
+     * Parkour en todos los servidores, si está activado
+     */
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent e) {
+        FEMUser u = FEMServer.getUser(e.getPlayer());
+        
+        //No destruir tirras de cultivo (soil)
+        if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.SOIL) {
+            e.setCancelled(true);
+        }
+        
+        //Parkour
+        if (FEMServer.getEnableParkour()) {   
+            if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.IRON_PLATE) {
+                //Comenzar u acabar parkour
+                if (u.getUserData().getParkourStartTime() == -1L) { //Comenzar
+                    u.getUserData().setParkourStartTime(System.currentTimeMillis());
+                    u.getUserData().setParkourCheckpoint(e.getPlayer().getLocation());
+                    u.sendMessage("&e¡Has comenzado un parkour! Escribe &a/pk &e si te caes para volver a un checkpoint");
+                    u.save();
+                } else { //Terminar
+                    u.sendMessage("&e¡Enhorabuena! &aHas terminado el pakour con un tiempo de " + new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis() - u.getUserData().getParkourStartTime())));
+                    u.getUserData().setParkourStartTime(-1L);
+                    u.getUserData().setParkourCheckpoint(plugin.getServer().getWorlds().get(0).getSpawnLocation());
+                    u.save();
+                }
+            }
+
+            if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.GOLD_PLATE) {
+                if (u.getUserData().getParkourStartTime() != -1L) {
+                    u.sendMessage("&e¡Checkpoint superado!");
+                    u.getUserData().setParkourCheckpoint(e.getPlayer().getLocation());
+                    u.save();
+                }
+            }
         }
     }
 }

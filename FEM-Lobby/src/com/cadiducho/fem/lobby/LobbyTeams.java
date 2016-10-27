@@ -55,9 +55,9 @@ public class LobbyTeams {
     public static void setScoreboardTeam(FEMUser user) {
         removeScoreboardTeam(user);
         switch(user.getUserData().getGrupo()) {
-            case Owner:
-                tOwner.addEntry(user.getName()); break;
             case Admin:
+                tOwner.addEntry(user.getName()); break;
+            case Moderador:
                 tAdmin.addEntry(user.getName()); break;
             case Dev:
                 tDev.addEntry(user.getName()); break;

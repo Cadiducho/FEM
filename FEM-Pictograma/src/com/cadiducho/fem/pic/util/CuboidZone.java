@@ -21,7 +21,7 @@ public class CuboidZone {
             this.corner2 = corner2;
             world = corner1.getWorld();
         } else {
-            throw new IllegalArgumentException("All cuboid blocks aren't in the same world !");
+            throw new IllegalArgumentException("La selección cuboid debe estar en el mismo mapa");
         }
     }
 

@@ -19,17 +19,18 @@ public class PlayerManager {
     @Getter private final HashMap<Player, Integer> kills = new HashMap<>();
 
     public void setScoreboard(Player player) {
-        ScoreboardUtil board = new ScoreboardUtil("LuckyWarriors");
+        ScoreboardUtil board = new ScoreboardUtil("§eLucky§aWarriors");
         new BukkitRunnable() {
             @Override
             public void run() {
                 board.text(10, "§c ");
-                board.text(9, "Jugadores");
+                board.text(9, "§eJugadores: ");
                 board.text(8, "§f" + plugin.getGm().getPlayersInGame().size() + "/" + plugin.getAm().getMaxPlayers());
                 board.text(7, "§3 ");
-                board.text(6, "Asesinatos");
+                board.text(6, "§eAsesinatos: ");
                 board.text(5, "§f" + getKillsToString(player));
-
+                board.text(4, "§f ");
+                board.text(3, "§cmc.undergames.es");
                 board.build(player);
             }
         }.runTaskTimer(plugin, 20l, 20l);
@@ -76,8 +77,4 @@ public class PlayerManager {
         }
         kills.put(player, actual + 1);
     }
-
-    /*public HashMap<Player, Integer> getKills() {
-        return kills;
-    }*/
 }

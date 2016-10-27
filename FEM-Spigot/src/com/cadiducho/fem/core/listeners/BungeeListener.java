@@ -42,7 +42,7 @@ public class BungeeListener implements PluginMessageListener {
     
     public void sendStaffMessage(String prefijo, String senderName, String mensaje) {
         plugin.getServer().getOnlinePlayers().stream()
-            .filter(p -> FEMServer.getUser(p).isOnRank(FEMCmd.Grupo.Admin))
+            .filter(p -> FEMServer.getUser(p).isOnRank(FEMCmd.Grupo.Moderador))
             .forEach(p -> {
                 String msg = Metodos.colorizar(prefijo+" &b{0}&f: &a{1}"
                 .replace("{0}", senderName).replace("{1}", mensaje));
@@ -54,7 +54,7 @@ public class BungeeListener implements PluginMessageListener {
     
     public void sendHelpOp(String senderName, String mensaje) {
         plugin.getServer().getOnlinePlayers().stream()
-            .filter(p -> FEMServer.getUser(p).isOnRank(FEMCmd.Grupo.Admin))
+            .filter(p -> FEMServer.getUser(p).isOnRank(FEMCmd.Grupo.Moderador))
             .forEach(p -> {
                 String msg = Metodos.colorizar(
                         plugin.getConfig().getString("helpop.sintaxis")

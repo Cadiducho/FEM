@@ -58,12 +58,14 @@ public class PicPlayer {
         base.getPlayer().getInventory().clear();
         base.getPlayer().getInventory().setArmorContents(null);
         base.getPlayer().setGameMode(gameMode);
+        if (gameMode != GameMode.CREATIVE) base.getPlayer().setFlying(false);
         base.getPlayer().getActivePotionEffects().forEach(ef -> base.getPlayer().removePotionEffect(ef.getType()));
     }
     
     public void setArtist() {
         base.getPlayer().teleport(plugin.getAm().getPaintLoc());
-        base.getPlayer().setGameMode(GameMode.CREATIVE);
+        base.getPlayer().setGameMode(GameMode.SURVIVAL);
+        base.getPlayer().setAllowFlight(true);
         base.getPlayer().setFlying(true);
         base.getPlayer().getInventory().clear();
         base.getPlayer().getInventory().setArmorContents(null);

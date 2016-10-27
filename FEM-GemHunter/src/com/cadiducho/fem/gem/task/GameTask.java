@@ -27,7 +27,7 @@ public class GameTask extends BukkitRunnable {
         
         switch (count) {
             case 300:
-                plugin.getAm().muro(plugin.getServer().getWorlds().get(0), false);
+                plugin.getAm().muro(plugin.getServer().getWorlds().get(0));
                 plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f)); 
                 break;
             case 30:
@@ -40,8 +40,8 @@ public class GameTask extends BukkitRunnable {
                 if (checkMinWinner() == null) {
                     plugin.getMsg().sendBroadcast("¡Empate! ¡No hay ningún ganador!");
                     plugin.getGm().getPlayersInGame().forEach(p -> {
-                    new Title("&b&lEMPATE", "", 1, 2, 1).send(p);
-                });
+                        new Title("&b&lEMPATE", "", 1, 2, 1).send(p);
+                    });
                 }
                 end();
                 break;
@@ -65,12 +65,19 @@ public class GameTask extends BukkitRunnable {
         
         //Hay un ganador
         plugin.getMsg().sendBroadcast("Ha ganado el equipo " + winner.getDisplayName());
+        
+        Team loser = plugin.getTm().getOpositeTeam(winner);
         for (Player p : plugin.getTm().getJugadores().get(winner)) {
-            new Title("&b&lEl equipo " + winner.getDisplayName() + " ha ganado l partida", "¡Enhorabuena!", 1, 2, 1).send(p);
+            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+            new Title("&a&lVICTORIA", "¡Tu equipo ha ganado :D!", 1, 2, 1).send(p);
             HashMap<Integer, Integer> wins = FEMServer.getUser(p).getUserData().getWins();
             wins.replace(3, wins.get(3) + 1);
             FEMServer.getUser(p).getUserData().setWins(wins);
             FEMServer.getUser(p).save();
+        }
+        for (Player p : plugin.getTm().getJugadores().get(loser)) {
+            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+            new Title("&c&lDERROTA", "¡Tu equipo ha perdido :C!", 1, 2, 1).send(p);
         }
         return winner;
     }
@@ -80,7 +87,7 @@ public class GameTask extends BukkitRunnable {
 
         //Cuenta atrás para envio a los lobbies y cierre del server
         //Iniciar hilo del juego
-        new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
+        new ShutdownTask(plugin).runTaskTimer(plugin, 1l, 20l);
         cancel();
     }
 

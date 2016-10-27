@@ -175,13 +175,13 @@ public class ArenaManager {
         int rd = rand.nextInt(chestRandomList.size() - 1);
         Location loc = chestRandomList.get(rd);
         
-        //Comprobar si la localización está dentro del worldborder
+        /*//Comprobar si la localización está dentro del worldborder
         if (Math.abs(getWb().getCenter().getX()) + getWb().getSize() > loc.getX() ||
                 Math.abs(getWb().getCenter().getZ()) + getWb().getSize() > loc.getZ()) {
             //Eliminar localizacion no valida y generar otra
             chestRandomList.remove(rd);
             return spawnRandomChest();
-        }
+        }*/
         chestRandomList.remove(rd);
         return loc;
     }

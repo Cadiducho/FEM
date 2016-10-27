@@ -1,9 +1,6 @@
-name: Color
-description: Color
+name: DyeOrDie
+description: DyeOrDie
 version: 0.0.1
 main: com.cadiducho.fem.color.DyeOrDie
 depend: [FEMCore]
 author: Cadiducho
-commands:
-    game:
-        description: a

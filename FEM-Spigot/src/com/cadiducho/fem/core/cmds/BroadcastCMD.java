@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class BroadcastCMD extends FEMCmd {
 
     public BroadcastCMD() {
-        super("broadcast", Grupo.Admin, Arrays.asList("bcast", "bc", "decir"));
+        super("broadcast", Grupo.Moderador, Arrays.asList("bcast", "bc", "decir"));
     }
 
     @Override
@@ -20,17 +20,17 @@ public class BroadcastCMD extends FEMCmd {
             return;
         }
         String msg = Metodos.buildString(args);
-        metodos.broadcastMsg(msg);
+        Metodos.broadcastMsg(msg);
     }
 
     @Override
     public void run(ConsoleCommandSender sender, String lbl, String[] args) {
         if (args.length < 1) {
-            sender.sendMessage(Metodos.colorizar(FEMFileLoader.getLang().getString("broadcast.uso")));
+            sender.sendMessage(Metodos.colorizar(FEMFileLoader.getEsLang().getString("broadcast.uso")));
             return;
         }
 
         String msg = Metodos.buildString(args);
-        metodos.broadcastMsg(msg);
+        Metodos.broadcastMsg(msg);
     }
 }

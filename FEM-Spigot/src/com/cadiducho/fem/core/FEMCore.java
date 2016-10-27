@@ -1,6 +1,5 @@
 package com.cadiducho.fem.core;
 
-import com.cadiducho.fem.core.listeners.BlockListener;
 import com.cadiducho.fem.core.listeners.PlayerListener;
 import com.cadiducho.fem.core.listeners.BungeeListener;
 import com.cadiducho.fem.core.listeners.InventoryListener;
@@ -13,6 +12,9 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.logging.Level;
 import lombok.Getter;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
@@ -20,8 +22,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class FEMCore extends JavaPlugin {
 
-    @Getter  private final Metodos metodos = new Metodos(this);
-    private static FEMCore instance;
+    @Getter private final Metodos metodos = new Metodos(this);
+    @Getter private static FEMCore instance;
 
     @Getter private MySQL mysql = null;
     private Connection connection = null;
@@ -29,6 +31,8 @@ public class FEMCore extends JavaPlugin {
     public static FEMServer server;
 
     @Getter private final String tag = Metodos.colorizar("&7[&6Under&eGames&7]&r");
+    @Getter private BossBar hud;
+    @Getter private boolean isMore18 = true;
 
     @Override
     public void onEnable() {
@@ -66,7 +70,6 @@ public class FEMCore extends JavaPlugin {
 
             pluginManager.registerEvents(new PlayerListener(instance), instance);
             pluginManager.registerEvents(new InventoryListener(instance), instance);
-            pluginManager.registerEvents(new BlockListener(instance), instance);
 
             //Bungee
             getServer().getMessenger().registerOutgoingPluginChannel(instance, "BungeeCord");
@@ -78,6 +81,18 @@ public class FEMCore extends JavaPlugin {
              */
             debugLog("Cargando módulo de comandos...");
             FEMCommands.load();
+            
+            /*
+             * Hud y saber si es 1.8
+             */
+            try {
+                Class.forName("org.bukkit.boss.BossBar");
+                isMore18 = true;
+                hud = getServer().createBossBar(Metodos.colorizar("UnderGames"), BarColor.WHITE, BarStyle.SOLID);
+                hud.setTitle(Metodos.colorizar("&6&lUnder&e&lGames&7 &c- &emc.undergames.es"));
+            } catch(ClassNotFoundException e) {
+                isMore18 = false;
+            }
             
             log("FEMCore v" + getDescription().getVersion() + " ha sido cargado completamente!");
         } catch (Throwable t) {
@@ -111,11 +126,7 @@ public class FEMCore extends JavaPlugin {
 
     /*
      * Variables declaradas
-     */
-    public static FEMCore getInstance() {
-        return instance;
-    }
-    
+     */    
     public boolean isDebug() {
         return getConfig().getBoolean("debug");
     }

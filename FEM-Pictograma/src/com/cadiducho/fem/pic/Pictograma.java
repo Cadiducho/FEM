@@ -11,7 +11,6 @@ import com.cadiducho.fem.pic.tick.Ticker;
 import com.cadiducho.fem.pic.util.Messages;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
@@ -36,7 +35,7 @@ public class Pictograma extends JavaPlugin {
     public static List<String> palabras;
     public ArrayList<String> palabrasUsadas = new ArrayList<>();
     public Inventory colorPicker;
-
+    
     @Override
     public void onEnable() {
         instance = this;
@@ -55,7 +54,7 @@ public class Pictograma extends JavaPlugin {
         gm = new GameManager(instance);
         am = new ArenaManager(instance);
         am.prepareWorld(getServer().getWorld(getConfig().getString("Pictograma.Arena.mundo")));
-        msg = new Messages(instance, "&aPictograma");
+        msg = new Messages(instance, "&3&lPictograma");
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerListener(instance), instance);
@@ -73,7 +72,7 @@ public class Pictograma extends JavaPlugin {
         colorPicker.setItem(6, ItemUtil.createWool("Azul", DyeColor.BLUE));
         colorPicker.setItem(7, ItemUtil.createWool("Morado", DyeColor.PURPLE));
         colorPicker.setItem(8, ItemUtil.createWool("Marrón", DyeColor.BROWN));
-        
+            
         GameState.state = GameState.LOBBY;
         getLogger().log(Level.INFO, "Pictograma: Activado correctamente");
     }

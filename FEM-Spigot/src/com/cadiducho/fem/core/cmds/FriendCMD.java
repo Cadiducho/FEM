@@ -57,7 +57,7 @@ public class FriendCMD extends FEMCmd {
                 user.getUserData().setAmigos(ams);
                 user.sendMessage("*friend.mensaje", target.getName());
                 if (target.getUserData().getFriendRequest()) {
-                    target.sendMessage("*friend.mensajeOtro", target.getName());
+                    target.sendMessage("*friend.mensajeOtro", user.getName());
                 }
                 user.tryHidePlayers();
                 break;

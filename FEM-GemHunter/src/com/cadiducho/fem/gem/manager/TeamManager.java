@@ -8,6 +8,7 @@ import java.util.HashMap;
 import lombok.Getter;
 import org.bukkit.Color;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -71,19 +72,21 @@ public class TeamManager {
         //plugin.getMsg().sendBroadcast("El equipo " + t.getDisplayName() + " ha conseguido un punto");
     }
     
-    public boolean tryRemovePunto(Player p, Location loc) {
+    public boolean tryRemoveGema(Player p, Location loc) {
         HashMap<Team, ArrayList<Location>> hGemas = plugin.getGm().getGemas();
-        Team t = getOpositeTeam(getTeam(p.getPlayer()));
-        System.out.println("T: " + t.getDisplayName());
-        ArrayList<Location> array = hGemas.get(t);
+        Team oppositeTeam = getOpositeTeam(getTeam(p.getPlayer()));
+        ArrayList<Location> array = hGemas.get(oppositeTeam);
         if (array == null) {
             array = new ArrayList<>();
         }
         if (array.contains(loc)) {
             array.remove(loc);
-            hGemas.remove(t);
-            hGemas.put(t, array);
-            plugin.getMsg().sendBroadcast(p.getName() + " ha roto una gema del equipo " + t.getDisplayName());
+            hGemas.remove(oppositeTeam);
+            hGemas.put(oppositeTeam, array);
+            plugin.getMsg().sendBroadcast(p.getName() + " ha roto una gema del equipo " + oppositeTeam.getDisplayName());
+            jugadores.get(getTeam(p.getPlayer())).forEach(ally -> ally.playSound(ally.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F));
+            jugadores.get(oppositeTeam).forEach(ally -> ally.playSound(ally.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1F, 1F));
+                    
             FEMServer.getUser(p).getUserData().setGemDestroyed(FEMServer.getUser(p).getUserData().getGemDestroyed() + 1);
             FEMServer.getUser(p).save();
             plugin.getGm().checkWinner();
@@ -130,7 +133,7 @@ public class TeamManager {
                 Player pl = clon.get(clon.size() - 1);
                 clon.remove(pl);
                 t.addEntry(pl.getName());
-                pl.sendMessage("Has sido asignado al equipo " + t.getDisplayName());
+                FEMServer.getUser(pl).sendMessage(t.getPrefix() + "Has sido asignado al equipo " + t.getDisplayName());
   
                 ArrayList<Player> lista = jugadores.get(t);
                 lista.add(pl);

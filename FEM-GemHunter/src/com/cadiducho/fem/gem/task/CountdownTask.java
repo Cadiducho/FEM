@@ -21,13 +21,12 @@ public class CountdownTask extends BukkitRunnable {
     private int count = 10;
 
     @Override
-    public void run() {       
-        if (count == 7) {            
+    public void run() {
+        if (count == 10) {            
             //Colocar jugadores
             plugin.getTm().cleanTeams();
             plugin.getTm().drawTeams(plugin.getGm().getPlayersInGame());
-            plugin.getGm().getPlayersInGame().forEach(p -> GemHunters.getPlayer(p).spawn());
-            
+            plugin.getGm().getPlayersInGame().forEach(p -> GemHunters.getPlayer(p).spawn());  
         } else if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));
@@ -47,7 +46,7 @@ public class CountdownTask extends BukkitRunnable {
             }
             
             //Iniciar hilo de la fase de esconder
-            new HiddingTask(plugin).runTaskTimer(plugin, 20l, 20l);
+            new HiddingTask(plugin).runTaskTimer(plugin, 1l, 20l);
             cancel();
         }
 

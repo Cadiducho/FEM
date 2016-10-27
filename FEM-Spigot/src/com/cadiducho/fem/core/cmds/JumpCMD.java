@@ -9,7 +9,7 @@ import org.bukkit.Material;
 public class JumpCMD extends FEMCmd {
 
     public JumpCMD(){
-        super("jump", Grupo.Admin, Arrays.asList("j"));
+        super("jump", Grupo.Moderador, Arrays.asList("j"));
     }
     
     @Override

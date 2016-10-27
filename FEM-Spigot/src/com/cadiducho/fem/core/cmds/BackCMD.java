@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 public class BackCMD extends FEMCmd {
     
     public BackCMD() {
-        super("back", Grupo.Owner, Arrays.asList("tpback"));
+        super("back", Grupo.Admin, Arrays.asList("tpback"));
     }
     
     @Override

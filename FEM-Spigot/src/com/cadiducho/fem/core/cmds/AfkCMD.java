@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class AfkCMD extends FEMCmd {
 
     public AfkCMD() {
-        super("afk", Grupo.Admin, Arrays.asList("away", "aefecá"));
+        super("afk", Grupo.Moderador, Arrays.asList("away", "aefecá"));
     }
 
     @Override

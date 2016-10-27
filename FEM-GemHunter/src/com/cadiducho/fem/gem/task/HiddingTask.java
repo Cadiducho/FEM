@@ -51,11 +51,11 @@ public class HiddingTask extends BukkitRunnable {
         if (plugin.getTm().getPuntos(plugin.getTm().azul) == 0) {
             plugin.getMsg().sendBroadcast("El equipo morado ha ganado ya que el amarillo no ha escondido gemas!");
             GameState.state = GameState.ENDING;
-            new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
+            new ShutdownTask(plugin).runTaskTimer(plugin, 1l, 20l);
         } else if (plugin.getTm().getPuntos(plugin.getTm().rojo) == 0) {
             plugin.getMsg().sendBroadcast("El equipo amarillo ha ganado ya que el morado no ha escondido gema!");
             GameState.state = GameState.ENDING;
-            new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
+            new ShutdownTask(plugin).runTaskTimer(plugin, 1l, 20l);
         }
         
         GameState.state = GameState.GAME;
@@ -66,10 +66,11 @@ public class HiddingTask extends BukkitRunnable {
             new Title("&b&lBusca y destruye las Gemas del equipo contrario", "", 1, 2, 1).send(players);
             players.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
             GemHunters.getPlayer(players).setGameScoreboard();
+            plugin.getGm().getPlayersInGame().forEach(p -> GemHunters.getPlayer(p).spawn());
         }
 
         //Iniciar hilo del juego
-        new GameTask(plugin).runTaskTimer(plugin, 20l, 20l);
+        new GameTask(plugin).runTaskTimer(plugin, 1l, 20l);
         cancel();
     }
 

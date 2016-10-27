@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 public class DelWarpCMD extends FEMCmd {
     
     public DelWarpCMD() {
-        super("delwarp", Grupo.Admin, Arrays.asList("deletewarp", "elimwarp", "eliminarwarp"));
+        super("delwarp", Grupo.Moderador, Arrays.asList("deletewarp", "elimwarp", "eliminarwarp"));
     }
     
     @Override

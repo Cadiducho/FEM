@@ -6,11 +6,11 @@ import com.cadiducho.fem.lucky.manager.GameState;
 import java.util.Random;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class GameCountdown extends BukkitRunnable {
+public class GameTask extends BukkitRunnable {
 
     private final LuckyWarriors plugin;
 
-    public GameCountdown(LuckyWarriors instance) {
+    public GameTask(LuckyWarriors instance) {
         plugin = instance;
     }
     
@@ -29,7 +29,7 @@ public class GameCountdown extends BukkitRunnable {
             plugin.getMsg().sendBroadcast("&7¡Que de comienzo la batalla!");
         } else if (plugin.getAm().gameTime == 0) {
             plugin.getGm().dm = true;
-            new DeathMatchCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
+            new DeathMatchTask(plugin).runTaskTimer(plugin, 20l, 20l);
             GameState.state = GameState.DEATHMATCH;
             cancel();
         }        

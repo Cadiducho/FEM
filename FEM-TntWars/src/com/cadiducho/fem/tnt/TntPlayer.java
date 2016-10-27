@@ -4,11 +4,10 @@ import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.core.util.Title;
+import com.cadiducho.fem.tnt.manager.GameState;
 import java.util.HashMap;
 import lombok.Getter;
 import org.bukkit.GameMode;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class TntPlayer {
@@ -45,22 +44,39 @@ public class TntPlayer {
     }
 
     public void setGameScoreboard() {
-        ScoreboardUtil board = new ScoreboardUtil("§d§lTnt§e§lWars", "game");/*
+        ScoreboardUtil board = new ScoreboardUtil("§d§lTnt§e§lWars", "game");
         new BukkitRunnable() {
             @Override
             public void run() {
                 if (base.getPlayer() == null) cancel();
                 
-                if (plugin.getGm().isInGame()) {
+                if (GameState.state == GameState.GAME) {
                     board.setName("§d§lTnt§e§lWars");
-                    board.text(12, "§7Equipos:");
-                    board.text(11, "§dMorado: §f" + plugin.getTm().getPuntos(plugin.getTm().morado));
-                    board.text(10, "§eAmarillo: §f" + plugin.getTm().getPuntos(plugin.getTm().amarillo));
-                    board.text(7, "§f☺ ");
-                    board.text(6, "§7Tiempo restante:");
-                    board.text(5, "§e" + GameTask.getTimeLeft() + " segundos");
-                    board.text(4, "§f☺ ");
-                    board.text(0, "§emc..es");
+                    board.text(0, "§cmc.undergames.es");
+                    board.text(1, "§f ");
+                    board.text(2, "§f" + plugin.getGm().getPlayersInGame().size() + "§d/§f" + plugin.getAm().getMaxPlayers());
+                    board.text(3, "§7Jugadores: ");
+                    
+                    int i = 4; //Int para ir aumentando en la posición del scoreboard
+                    for (TntIsland isla : plugin.getAm().getIslas()) {
+                        if (!"centro".equals(isla.getId()) && isla.getOwner() != null) { //Solo islas con jugadores en juego
+                            String prefijo = "&a✔  ";
+                            String interfijo = isla.getOwner().equals(base.getUuid()) ? "&o" : "";
+                            if (isla.getDestroyed()) {
+                                //Tachar si ha sido eliminado, si no solo mostrar la cruz roja
+                                if (!plugin.getGm().getPlayersInGame().contains(plugin.getServer().getPlayer(isla.getOwner()))) {
+                                    interfijo = interfijo + "&m";
+                                }
+                                prefijo = "&c✘  ";
+                            }
+
+                            board.text(i, Metodos.colorizar(prefijo + isla.getColor() + interfijo) + plugin.getServer().getOfflinePlayer(isla.getOwner()).getName());
+                            i++;    
+                        }
+                    }
+                    
+                    board.text(i, "§7"); i++; //espacio en blanco
+                    board.text(i, "§7Islas:");
                 } else {
                     board.reset();
                     cancel();
@@ -68,7 +84,7 @@ public class TntPlayer {
 
                 if (base.getPlayer() != null) board.build(base.getPlayer());
             }
-        }.runTaskTimer(plugin, 1l, 1l);*/
+        }.runTaskTimer(plugin, 1l, 1l);
     }
     
     public void setLobbyPlayer() {
@@ -110,6 +126,6 @@ public class TntPlayer {
     }
 
     public void spawn() {
-        getBase().getPlayer().teleport(Metodos.centre(TntIsland.getIsland(getBase().getUuid()).getSpawn()));
+        getBase().getPlayer().teleport(TntIsland.getIsland(getBase().getUuid()).getSpawn());
     }
 }

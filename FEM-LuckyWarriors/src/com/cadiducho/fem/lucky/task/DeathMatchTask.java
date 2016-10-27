@@ -8,11 +8,11 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class DeathMatchCountdown extends BukkitRunnable {
+public class DeathMatchTask extends BukkitRunnable {
 
     private final LuckyWarriors plugin;
 
-    public DeathMatchCountdown(LuckyWarriors instance) {
+    public DeathMatchTask(LuckyWarriors instance) {
         plugin = instance;
     }
 

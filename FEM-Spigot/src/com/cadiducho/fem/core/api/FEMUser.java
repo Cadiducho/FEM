@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
@@ -28,6 +29,7 @@ public class FEMUser {
     
     @Getter private final OfflinePlayer base;
     @Getter private final UUID uuid;
+    @Getter private FileConfiguration userLang;
     private static final FEMCore plugin = FEMCore.getInstance();
     
     @Getter @Setter private UserData userData;
@@ -46,7 +48,8 @@ public class FEMUser {
         plugin.getMysql().saveUser(this);
         FEMServer.users.remove(this);
         plugin.getMysql().loadUserData(uuid);
-        FEMServer.users.add(this);     
+        FEMServer.users.add(this);
+        setUserLang();
     }
 
     public Player getPlayer() {
@@ -61,14 +64,14 @@ public class FEMUser {
     }
     
     public boolean isOnline() { 
-        return (base == null || base.isOnline()); 
+        return (base.isOnline()); 
     }
     
     // FEM
     public void sendMessage(String str, Object... obj) {
         String msg;
         if (str.startsWith("*")) { //Intentar reemplazar por mensaje predefinido
-            msg = FEMFileLoader.getLang().getString(str.substring(1), "&o" + str);
+            msg = getUserLang().getString(str.substring(1), "&o" + str);
             if (obj != null) {
                 int i = 0;
                 for (Object re : obj) {
@@ -79,7 +82,9 @@ public class FEMUser {
         } else msg = str;
         for (String split : msg.split("\\{n\\}")) {
             plugin.getServer().getScheduler().runTask(plugin, () -> {
-                getPlayer().sendMessage(Metodos.colorizar(plugin.getTag() + " " + split));
+                if (isOnline()) {
+                    getPlayer().sendMessage(Metodos.colorizar(plugin.getTag() + " " + split));
+                }
             });
         }
 
@@ -87,7 +92,9 @@ public class FEMUser {
     
     public void sendRawMessage(String str) {
         plugin.getServer().getScheduler().runTask(plugin, () -> {
-            getPlayer().sendMessage(str);
+            if (isOnline()) {
+                getPlayer().sendMessage(str);
+            }
         });
     }
     
@@ -118,7 +125,7 @@ public class FEMUser {
             getPlayer().setHealth(0);
 	}
         
-        plugin.getServer().broadcastMessage(Metodos.colorizar(FEMFileLoader.getLang().getString("suicide.mensaje").replace("{0}", getDisplayName())));
+        plugin.getServer().broadcastMessage(Metodos.colorizar(FEMFileLoader.getEsLang().getString("suicide.mensaje").replace("{0}", getDisplayName())));
     }
     
     public String getDisplayName() {
@@ -202,6 +209,14 @@ public class FEMUser {
         return -1;
     }
     
+    public void setUserLang() {
+        switch (getUserData().getLang()) {
+            case 2: userLang = FEMFileLoader.getItLang(); break;
+            case 1: userLang = FEMFileLoader.getFrLang(); break;
+            default: userLang = FEMFileLoader.getEsLang(); break;
+        }
+    }
+    
     @Data
     public static class UserData {
         //Datos
@@ -210,9 +225,13 @@ public class FEMUser {
         Boolean god = false;
         Long lastConnect = 0L;
         Long timeJoin = 0L;
+        Long timePlayed = 0L;
         String nickname = "";
         Integer coins = 0;
         InetSocketAddress ip = null;
+        
+        Long parkourStartTime = -1L; //No guardar en MySQL
+        Location parkourCheckpoint = FEMCore.getInstance().getServer().getWorlds().get(0).getSpawnLocation();
         
         //Stats
         /* IDs de juegos:
@@ -242,10 +261,12 @@ public class FEMUser {
         
         //Settings
         Boolean friendRequest = false;
-        Integer hideMode = 1; //0 nadie, 1 amigos, 2 todos
+        Integer hideMode = 2; //0 nadie, 1 amigos, 2 todos
+        Integer lang = 0; //0 castellano, 1 frances, 2 italiano
         
         ArrayList<UUID> amigos = Lists.newArrayList();
         
+        //Establecer valores de 0 en los hashmap al crear instancia, evitar nulls
         public UserData() {
             kills.put(1, 0);
             kills.put(2, 0);

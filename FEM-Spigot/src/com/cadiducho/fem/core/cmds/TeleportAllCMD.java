@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 public class TeleportAllCMD extends FEMCmd {
     
     public TeleportAllCMD() {
-        super("tpall", Grupo.Owner, Arrays.asList("teleportall"));
+        super("tpall", Grupo.Admin, Arrays.asList("teleportall"));
     }
     
     @Override
