@@ -67,10 +67,7 @@ public class FEMBungee extends Plugin implements Listener {
     @EventHandler
     public void onPlayerJoin(PostLoginEvent e) {
         ProxiedPlayer p = e.getPlayer();
-        ServerInfo lobby = getOneLobby();
-        if (lobby.getAddress() != p.getServer().getInfo().getAddress()) {
-            p.connect(getOneLobby());
-        }
+        p.connect(getOneLobby());
     }
     
     @EventHandler
