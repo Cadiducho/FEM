@@ -58,17 +58,22 @@ public class TeleportSignLayout implements SignLayout {
 	}
         
         String parse(String str) {
-            String abc = "&eDesconocido";
+            String abc;
             switch (str) {
-                case "STARTING":
-                    return "&dIniciando";
+                case "STARTING": 
+                    abc = "&dIniciando";
+                    break;
                 case "WAITING_FOR_PLAYERS":
                     join = true;
-                    return "&aEsperando";
+                    abc = "&aEsperando";
+                    break;
                 case "INGAME":
-                    return "&cEn juego";
+                    abc = "&cEn juego";
+                    break;
                 case "ENDING":
-                    return "&dTerminando";
+                    abc = "&dTerminando";
+                    break;
+                default: abc = "&eDesconocido";
             }
             return ChatColor.translateAlternateColorCodes('&', abc);
         }
