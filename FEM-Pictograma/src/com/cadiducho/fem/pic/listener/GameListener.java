@@ -69,23 +69,22 @@ public class GameListener implements Listener {
         if ((e.getAction() == Action.RIGHT_CLICK_AIR) || (e.getAction() == Action.RIGHT_CLICK_BLOCK)) {
             switch (e.getPlayer().getInventory().getItemInHand().getType()) {
                 case COMPASS: //Escoger color
-                    e.getPlayer().openInventory(plugin.colorPicker);
                     e.setCancelled(true);
+                    e.getPlayer().openInventory(plugin.colorPicker);
                     break;
                 case EMPTY_MAP: //Limpiar folio
+                    e.setCancelled(true);
                     plugin.getAm().getBuildZone().clear();
                     plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
                     FEMServer.getUser(e.getPlayer()).sendMessage("&eHas limpiado la hoja completamente");
-                    e.setCancelled(true);
                     break;
                 case LAVA_BUCKET: //Rellenar area
+                    e.setCancelled(true);
                     Block b = e.getPlayer().getTargetBlock((Set<Material>) null, 100);
                     if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
-                        e.setCancelled(true);
                         return;
                     }
                     fillArea(b, b.getData(), true); //Rellenar bloques desde b que mantengan su color
-                    e.setCancelled(true);
                     break;
             }
         }
