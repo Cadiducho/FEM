@@ -15,10 +15,12 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
+import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.event.ServerKickEvent;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
+import net.md_5.bungee.event.EventPriority;
 
 public class FEMBungee extends Plugin implements Listener {
 
@@ -69,7 +71,7 @@ public class FEMBungee extends Plugin implements Listener {
         ProxiedPlayer p = e.getPlayer();
         p.connect(getOneLobby());
     }
-    
+        
     @EventHandler
     public void onServerKickEvent(ServerKickEvent e) {
         e.setCancelled(true);
@@ -77,10 +79,12 @@ public class FEMBungee extends Plugin implements Listener {
     }
     
     private ServerInfo getOneLobby() {
-        ServerInfo bestOption = ProxyServer.getInstance().getServers().values().iterator().next();
+        ServerInfo bestOption = ProxyServer.getInstance().getServerInfo("lobby1");
         for (ServerInfo s : ProxyServer.getInstance().getServers().values()) {
             if (s.getName().contains("lobby")) {
-                if (s.getPlayers().size() < bestOption.getPlayers().size()) bestOption = s;
+                if (s.getPlayers().size() < bestOption.getPlayers().size()) {
+                    bestOption = s;
+                }
             }
         }
         return bestOption;
