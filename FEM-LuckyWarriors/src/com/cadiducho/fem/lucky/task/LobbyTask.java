@@ -2,7 +2,6 @@ package com.cadiducho.fem.lucky.task;
 
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
-import com.cadiducho.fem.lucky.manager.GameState;
 import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
@@ -23,11 +22,7 @@ public class LobbyTask extends BukkitRunnable {
         plugin.getGm().getPlayersInGame().stream().forEach((players) -> {
             players.setLevel(count);
         });
-        if (count == 35) {
-            plugin.getServer().getOnlinePlayers().forEach(pl -> pl.hidePlayer(pl));
-        } else if (count == 34) {
-            plugin.getServer().getOnlinePlayers().forEach(pl -> pl.showPlayer(pl));
-        } else if (count > 0 && count <= 5) {
+        if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));
         } else if (count == 0) {

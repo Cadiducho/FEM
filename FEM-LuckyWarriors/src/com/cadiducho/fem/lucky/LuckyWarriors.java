@@ -1,5 +1,6 @@
 package com.cadiducho.fem.lucky;
 
+import com.cadiducho.fem.core.listeners.TeleportFix;
 import java.util.logging.Level;
 import com.cadiducho.fem.lucky.listeners.GameListener;
 import com.cadiducho.fem.lucky.listeners.PlayerListener;
@@ -56,6 +57,7 @@ public class LuckyWarriors extends JavaPlugin {
         plugm.registerEvents(new PlayerListener(instance), instance);
         plugm.registerEvents(new GameListener(instance), instance);
         plugm.registerEvents(new ServerListener(instance), instance);
+        plugm.registerEvents(new TeleportFix(instance), instance);
         
         GameState.state = GameState.PREPARING;
         getServer().getLogger().log(Level.INFO, "LuckyWarriors: Juego activado");

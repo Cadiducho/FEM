@@ -2,6 +2,7 @@ package com.cadiducho.fem.gem;
 
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.gem.listener.PlayerListener;
 import com.cadiducho.fem.gem.listener.WorldListener;
@@ -58,6 +59,7 @@ public class GemHunters extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerListener(instance), instance);
         pm.registerEvents(new WorldListener(instance), instance);
+        pm.registerEvents(new TeleportFix(instance), instance);
         
         lobbyBoard = new ScoreboardUtil("§d§lGem§e§lHunter", "lobby");
         hiddingBoard = new ScoreboardUtil("§d§lGem§e§lHunter", "hidding");

@@ -27,11 +27,7 @@ public class LobbyTask extends BukkitRunnable {
             cancel(); 
         }
         plugin.getGm().getPlayersInGame().forEach(pl ->  pl.setLevel(count));
-        if (count == 45) {
-            plugin.getServer().getOnlinePlayers().forEach(pl -> pl.hidePlayer(pl));
-        } else if (count == 44) {
-            plugin.getServer().getOnlinePlayers().forEach(pl -> pl.showPlayer(pl));
-        } else if (count == 10) {
+        if (count == 10) {
             plugin.getMsg().sendBroadcast("10 segundos para crear equipos");
             plugin.getGm().getPlayersInGame().forEach((players) -> {
                 players.playSound(players.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);

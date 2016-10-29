@@ -9,6 +9,7 @@ import com.cadiducho.fem.color.manager.GameManager;
 import com.cadiducho.fem.color.manager.GameState;
 import com.cadiducho.fem.color.util.Messages;
 import com.cadiducho.fem.color.util.ScoreboardUtil;
+import com.cadiducho.fem.core.listeners.TeleportFix;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
@@ -61,7 +62,8 @@ public class DyeOrDie extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerListener(instance), instance);
         pm.registerEvents(new WorldListener(instance), instance);
-
+        pm.registerEvents(new TeleportFix(instance), instance);
+        
         gameBoard = new ScoreboardUtil("Dye or Die", "game");
         lobbyBoard = new ScoreboardUtil("Dye or Die", "lobby");
         

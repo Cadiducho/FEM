@@ -20,11 +20,7 @@ public class CountdownTask extends BukkitRunnable {
         plugin.getGm().getPlayersInGame().stream().forEach(players -> {
             plugin.getMsg().sendActionBar(players, "&a&lEl juego empieza en: " + (count + 4));
         });
-        if (count == 36) {
-            plugin.getServer().getOnlinePlayers().forEach(pl -> pl.hidePlayer(pl));
-        } else if (count == 35) {
-            plugin.getServer().getOnlinePlayers().forEach(pl -> pl.showPlayer(pl));
-        } else if (count == 30) {
+        if (count == 30) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en 30 segundos");
         } else if (count > 0 && count <= 2) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + (count + 3) + " segundos");

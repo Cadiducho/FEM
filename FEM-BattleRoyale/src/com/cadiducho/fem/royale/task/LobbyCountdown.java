@@ -20,12 +20,6 @@ public class LobbyCountdown extends BukkitRunnable {
             players.setLevel(count);
         });
         switch (count) {
-            case 30:
-                plugin.getServer().getOnlinePlayers().forEach(pl -> pl.hidePlayer(pl));
-                break;
-            case 29:
-                plugin.getServer().getOnlinePlayers().forEach(pl -> pl.showPlayer(pl));
-                break;
             case 5:
                 plugin.getMsg().sendBroadcast("&7Serás llevado al mundo en 5 segundos");
                 break;

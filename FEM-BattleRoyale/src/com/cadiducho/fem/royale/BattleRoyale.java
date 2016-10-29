@@ -1,5 +1,6 @@
 package com.cadiducho.fem.royale;
 
+import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.core.util.ItemUtil;
 import java.util.logging.Level;
 import com.cadiducho.fem.royale.listeners.GameListener;
@@ -60,6 +61,7 @@ public class BattleRoyale extends JavaPlugin {
         plugm.registerEvents(new PlayerListener(instance), instance);
         plugm.registerEvents(new GameListener(instance), instance);
         plugm.registerEvents(new ServerListener(instance), instance);
+        plugm.registerEvents(new TeleportFix(instance), instance);
         
         GameState.state = GameState.PREPARING;
         getServer().getLogger().log(Level.INFO, "BattleRoyale: Arena mode Enabled");

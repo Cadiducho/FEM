@@ -23,11 +23,7 @@ public class CountdownTask extends BukkitRunnable {
     @Override
     public void run() {    
         plugin.getGm().getPlayersInGame().forEach(pl -> pl.setLevel(count));
-        if (count == 30) {
-            plugin.getServer().getOnlinePlayers().forEach(pl -> pl.hidePlayer(pl));
-        } else if (count == 29) {
-            plugin.getServer().getOnlinePlayers().forEach(pl -> pl.showPlayer(pl));
-        } else if (count == 7) {            
+        if (count == 7) {            
             //Colocar jugadores
             plugin.getGm().getPlayersInGame().forEach(p -> DyeOrDie.getPlayer(p).spawn());       
         } else if (count > 0 && count <= 5) {
