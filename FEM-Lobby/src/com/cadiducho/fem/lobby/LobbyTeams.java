@@ -33,8 +33,8 @@ public class LobbyTeams {
         tVip = board.getTeam("7Core_Vip") == null ? board.registerNewTeam("7Core_Vip") : board.getTeam("7Core_Vip");
         tUsuario = board.getTeam("8Core_User") == null ? board.registerNewTeam("8Core_User") : board.getTeam("8Core_User");
 
-        tOwner.setPrefix("§4[OWN] ");
-        tAdmin.setPrefix("§c[ADM] ");
+        tOwner.setPrefix("§4[ADM] ");
+        tAdmin.setPrefix("§9[MOD] ");
         tDev.setPrefix("§b[DEV] ");
         tHelper.setPrefix("§2[HELP] ");
         tVipMega.setPrefix("§6[MEGA] ");

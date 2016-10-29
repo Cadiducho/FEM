@@ -72,7 +72,7 @@ public class BukkitListener implements Listener {
             case Helper:
                 return "&2[HELP] ";
             case Moderador:
-                return "&c[MOD] ";
+                return "&9[MOD] ";
             case Admin:
                 return "&4[ADM] ";
             case Dev:
