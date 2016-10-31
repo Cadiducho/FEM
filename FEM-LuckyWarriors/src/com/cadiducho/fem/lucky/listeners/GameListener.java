@@ -82,13 +82,8 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-        if (!plugin.getGm().isInGame()) {
+        if (!plugin.getGm().isInGame() || GameState.state == GameState.LUCKY || GameState.state == GameState.CRAFT) {
             e.setCancelled(true);
-        }
-        if (e.getEntity() instanceof Player) {
-            if (GameState.state == GameState.LUCKY || GameState.state == GameState.CRAFT) {
-                e.setDamage(0.0);
-            }
         }
     }
 
