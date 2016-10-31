@@ -20,8 +20,6 @@ import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.server.ServerListPingEvent;
 
 public class GameListener implements Listener {
 
@@ -29,11 +27,6 @@ public class GameListener implements Listener {
 
     public GameListener(LuckyWarriors instance) {
         plugin = instance;
-    }
-
-    @EventHandler
-    public void onMotd(ServerListPingEvent e) {
-        e.setMotd(GameState.getParsedStatus());
     }
 
     @EventHandler

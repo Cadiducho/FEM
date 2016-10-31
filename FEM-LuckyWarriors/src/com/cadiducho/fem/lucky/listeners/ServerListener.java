@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.server.ServerListPingEvent;
 
 public class ServerListener implements Listener {
 
@@ -14,6 +15,11 @@ public class ServerListener implements Listener {
 
     public ServerListener(LuckyWarriors instance) {
         plugin = instance;
+    }
+    
+    @EventHandler
+    public void onMotd(ServerListPingEvent e) {
+        e.setMotd(GameState.getParsedStatus());
     }
 
     @EventHandler
