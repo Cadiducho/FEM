@@ -73,7 +73,9 @@ public class TeleportSignLayout implements SignLayout {
                 case "ENDING":
                     abc = "&dTerminando";
                     break;
-                default: abc = "&eDesconocido";
+                default:
+                    abc = "&aEsperando";
+                    break;
             }
             return ChatColor.translateAlternateColorCodes('&', abc);
         }
