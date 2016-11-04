@@ -35,7 +35,7 @@ public class GameListener implements Listener {
         if (plugin.getGm().isInGame()) {
             if (e.getEntity().getKiller() instanceof Player) {
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
-                plugin.getMsg().sendMessage(e.getEntity(), "Has matado a " + e.getEntity().getKiller().getDisplayName());
+                plugin.getMsg().sendMessage(e.getEntity(), "Has sido asesinado por " + e.getEntity().getKiller().getDisplayName());
                 plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
                 plugin.getGm().getPlayersInGame().remove(e.getEntity());
                 plugin.getPm().setSpectator(e.getEntity());
