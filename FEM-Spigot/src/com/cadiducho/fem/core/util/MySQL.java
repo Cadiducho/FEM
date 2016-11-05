@@ -183,7 +183,7 @@ public class MySQL {
                 statementSett.executeUpdate();
 
             } catch (Exception ex) {
-                System.out.println("Ha ocurrido un error guardando los datos de " + u.getBase().getName());
+                System.out.println("Ha ocurrido un error guardando los datos de " + u.getName());
                 ex.printStackTrace();
             }
         });

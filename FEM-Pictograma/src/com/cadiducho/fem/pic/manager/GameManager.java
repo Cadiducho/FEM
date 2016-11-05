@@ -70,7 +70,7 @@ public class GameManager {
         
         new Title("&e&l" + word, "&3Dibuja esta palabra", 1, 2, 1).send(builder);
         Pictograma.getPlayer(builder).setArtist();
-        Pictograma.getPlayer(builder).getBase().sendMessage("La palabara es &e" + word);
+        Pictograma.getPlayer(builder).sendMessage("La palabara es &e" + word);
     
         new GameTask(plugin).runTaskTimer(plugin, 2l, 20l);    
     }

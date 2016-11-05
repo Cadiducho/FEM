@@ -4,20 +4,19 @@ import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.gem.task.GameTask;
 import com.cadiducho.fem.gem.task.HiddingTask;
-import lombok.Getter;
+import java.util.UUID;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class GemPlayer {
+public class GemPlayer extends FEMUser {
 
     private final GemHunters plugin = GemHunters.getInstance();
-    @Getter private final FEMUser base;
-    
-    public GemPlayer(FEMUser instance) {
-        base = instance;
+
+    public GemPlayer(UUID id) {
+        super(id);
     }
 
     public void setWaitScoreboard() {
@@ -25,7 +24,7 @@ public class GemPlayer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (base.getPlayer() == null) cancel();
+                if (getPlayer() == null) cancel();
                 
                 if (plugin.getGm().isInLobby()) {
                     board.setName("§d§lGem§e§lHunter");
@@ -35,7 +34,7 @@ public class GemPlayer {
                     board.text(2, "§eEsperando...");
                     board.text(1, "§e ");
                     board.text(0, "§cmc.undergames.es");
-                    if (base.getPlayer() != null) board.build(base.getPlayer());
+                    if (getPlayer() != null) board.build(getPlayer());
                 } else {
                     board.reset();
                     cancel();
@@ -49,7 +48,7 @@ public class GemPlayer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (base.getPlayer() == null) cancel();
+                if (getPlayer() == null) cancel();
                 
                 if (plugin.getGm().isHidding()) {
                     board.setName("§d§lGem§e§lHunter");
@@ -65,7 +64,7 @@ public class GemPlayer {
                     board.reset();
                     cancel();
                 }
-                if (base.getPlayer() != null) board.build(base.getPlayer());
+                if (getPlayer() != null) board.build(getPlayer());
             }
         }.runTaskTimer(plugin, 1l, 1l);
     }
@@ -75,7 +74,7 @@ public class GemPlayer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (base.getPlayer() == null) cancel();
+                if (getPlayer() == null) cancel();
                 
                 if (plugin.getGm().isInGame()) {
                     board.setName("§d§lGem§e§lHunter");
@@ -92,7 +91,7 @@ public class GemPlayer {
                     cancel();
                 }
 
-                if (base.getPlayer() != null) board.build(base.getPlayer());
+                if (getPlayer() != null) board.build(getPlayer());
             }
         }.runTaskTimer(plugin, 1l, 1l);
     }
@@ -100,21 +99,21 @@ public class GemPlayer {
     public void setLobbyPlayer() {
         System.out.println("SetLobby");
         setWaitScoreboard();
-        plugin.getGm().addPlayerToGame(base.getPlayer());
+        plugin.getGm().addPlayerToGame(getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);
     }
    
     public void setCleanPlayer(GameMode gameMode) {
-        base.getPlayer().setHealth(base.getPlayer().getMaxHealth());
-        base.getPlayer().setFoodLevel(20);
-        base.getPlayer().setExp(0);
-        base.getPlayer().setTotalExperience(0);
-        base.getPlayer().setLevel(0);
-        base.getPlayer().setFireTicks(0);
-        base.getPlayer().getInventory().clear();
-        base.getPlayer().getInventory().setArmorContents(null);
-        base.getPlayer().setGameMode(gameMode);
-        base.getPlayer().getActivePotionEffects().forEach(ef -> base.getPlayer().removePotionEffect(ef.getType()));
+        getPlayer().setHealth(getPlayer().getMaxHealth());
+        getPlayer().setFoodLevel(20);
+        getPlayer().setExp(0);
+        getPlayer().setTotalExperience(0);
+        getPlayer().setLevel(0);
+        getPlayer().setFireTicks(0);
+        getPlayer().getInventory().clear();
+        getPlayer().getInventory().setArmorContents(null);
+        getPlayer().setGameMode(gameMode);
+        getPlayer().getActivePotionEffects().forEach(ef -> getPlayer().removePotionEffect(ef.getType()));
     }
     
     public void dressPlayer() {
@@ -122,39 +121,39 @@ public class GemPlayer {
 
         ItemStack tshirt = new ItemStack(Material.LEATHER_CHESTPLATE);
         leatherMeta = (LeatherArmorMeta) tshirt.getItemMeta();
-        leatherMeta.setColor(plugin.getTm().getColor(base.getPlayer()));
+        leatherMeta.setColor(plugin.getTm().getColor(getPlayer()));
         tshirt.setItemMeta(leatherMeta);
 
         ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
         leatherMeta = (LeatherArmorMeta) boots.getItemMeta();
-        leatherMeta.setColor(plugin.getTm().getColor(base.getPlayer()));
+        leatherMeta.setColor(plugin.getTm().getColor(getPlayer()));
         boots.setItemMeta(leatherMeta);
 
         ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS);
         leatherMeta = (LeatherArmorMeta) leggings.getItemMeta();
-        leatherMeta.setColor(plugin.getTm().getColor(base.getPlayer()));
+        leatherMeta.setColor(plugin.getTm().getColor(getPlayer()));
         leggings.setItemMeta(leatherMeta);
 
         ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
         leatherMeta = (LeatherArmorMeta) helmet.getItemMeta();
-        leatherMeta.setColor(plugin.getTm().getColor(base.getPlayer()));
+        leatherMeta.setColor(plugin.getTm().getColor(getPlayer()));
         helmet.setItemMeta(leatherMeta);
 
-        base.getPlayer().setDisplayName(plugin.getTm().getTeam(base.getPlayer()).getPrefix() + base.getPlayer().getName());
-        base.getPlayer().getInventory().setBoots(boots);
-        base.getPlayer().getInventory().setChestplate(tshirt);
-        base.getPlayer().getInventory().setLeggings(leggings);
-        base.getPlayer().getInventory().setHelmet(helmet);
+        getPlayer().setDisplayName(plugin.getTm().getTeam(getPlayer()).getPrefix() + getPlayer().getName());
+        getPlayer().getInventory().setBoots(boots);
+        getPlayer().getInventory().setChestplate(tshirt);
+        getPlayer().getInventory().setLeggings(leggings);
+        getPlayer().getInventory().setHelmet(helmet);
 
         if (plugin.getGm().isHidding()) {
-            base.getPlayer().getInventory().setItem(0, new ItemStack(plugin.getAm().getTypeGema()));
+            getPlayer().getInventory().setItem(0, new ItemStack(plugin.getAm().getTypeGema()));
         } else if (plugin.getGm().isInGame()) {
-            base.getPlayer().getInventory().setItem(0, new ItemStack(Material.IRON_PICKAXE));
-            base.getPlayer().getInventory().setItem(8, new ItemStack(Material.IRON_SWORD));
+            getPlayer().getInventory().setItem(0, new ItemStack(Material.IRON_PICKAXE));
+            getPlayer().getInventory().setItem(8, new ItemStack(Material.IRON_SWORD));
         }
     }
 
     public void spawn() {
-        base.getPlayer().teleport(plugin.getTm().getTeams().get(plugin.getTm().getTeam(base.getPlayer())));
+        getPlayer().teleport(plugin.getTm().getTeams().get(plugin.getTm().getTeam(getPlayer())));
     }
 }

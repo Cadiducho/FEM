@@ -1,7 +1,5 @@
 package com.cadiducho.fem.color;
 
-import com.cadiducho.fem.core.api.FEMServer;
-import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.color.listener.PlayerListener;
 import com.cadiducho.fem.color.listener.WorldListener;
 import com.cadiducho.fem.color.manager.ArenaManager;
@@ -89,17 +87,16 @@ public class DyeOrDie extends JavaPlugin {
     }
     
     public static DyePlayer getPlayer(OfflinePlayer p) {
-        FEMUser u = FEMServer.getUser(p);
         for (DyePlayer pl : players) {
-            if (pl.getBase().getUuid() == null) {
+            if (pl.getUuid() == null) {
                 continue;
             }
-            if (pl.getBase().getUuid().equals(p.getUniqueId())) {
+            if (pl.getUuid().equals(p.getUniqueId())) {
                 return pl;
             }
         }
-        DyePlayer us = new DyePlayer(u);
-        if (us.getBase().getBase().isOnline()) {
+        DyePlayer us = new DyePlayer(p.getUniqueId());
+        if (us.isOnline()) {
             players.add(us);
         }
         return us;

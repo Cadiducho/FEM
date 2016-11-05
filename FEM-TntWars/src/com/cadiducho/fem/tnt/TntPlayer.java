@@ -6,17 +6,16 @@ import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.tnt.manager.GameState;
 import java.util.HashMap;
-import lombok.Getter;
+import java.util.UUID;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class TntPlayer {
+public class TntPlayer extends FEMUser {
 
     private final TntWars plugin = TntWars.getInstance();
-    @Getter private final FEMUser base;
-    
-    public TntPlayer(FEMUser instance) {
-        base = instance;
+
+    public TntPlayer(UUID id) {
+        super(id);
     }
 
     public void setWaitScoreboard() {
@@ -24,7 +23,7 @@ public class TntPlayer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (base.getPlayer() == null) cancel();
+                if (getPlayer() == null) cancel();
                 
                 if (plugin.getGm().isInLobby()) {
                     board.setName("§d§lTnt§e§lWars");
@@ -34,7 +33,7 @@ public class TntPlayer {
                     board.text(2, "§eEsperando...");
                     board.text(1, "§e ");
                     board.text(0, "§cmc.undergames.es");
-                    if (base.getPlayer() != null) board.build(base.getPlayer());
+                    if (getPlayer() != null) board.build(getPlayer());
                 } else {
                     board.reset();
                     cancel();
@@ -48,7 +47,7 @@ public class TntPlayer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (base.getPlayer() == null) cancel();
+                if (getPlayer() == null) cancel();
                 
                 if (GameState.state == GameState.GAME) {
                     board.setName("§d§lTnt§e§lWars");
@@ -61,7 +60,7 @@ public class TntPlayer {
                     for (TntIsland isla : plugin.getAm().getIslas()) {
                         if (!"centro".equals(isla.getId()) && isla.getOwner() != null) { //Solo islas con jugadores en juego
                             String prefijo = "&a✔  ";
-                            String interfijo = isla.getOwner().equals(base.getUuid()) ? "&o" : "";
+                            String interfijo = isla.getOwner().equals(getUuid()) ? "&o" : "";
                             if (isla.getDestroyed()) {
                                 //Tachar si ha sido eliminado, si no solo mostrar la cruz roja
                                 if (!plugin.getGm().getPlayersInGame().contains(plugin.getServer().getPlayer(isla.getOwner()))) {
@@ -82,50 +81,50 @@ public class TntPlayer {
                     cancel();
                 }
 
-                if (base.getPlayer() != null) board.build(base.getPlayer());
+                if (getPlayer() != null) board.build(getPlayer());
             }
         }.runTaskTimer(plugin, 1l, 1l);
     }
     
     public void setLobbyPlayer() {
         setWaitScoreboard();
-        plugin.getGm().addPlayerToGame(base.getPlayer());
+        plugin.getGm().addPlayerToGame(getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);
     }
     
     public void setSpectator() {
         setCleanPlayer(GameMode.SPECTATOR);
-        plugin.getGm().getSpectators().add(base.getPlayer());
-        plugin.getGm().getPlayersInGame().stream().forEach(ig -> ig.hidePlayer(base.getPlayer()));
+        plugin.getGm().getSpectators().add(getPlayer());
+        plugin.getGm().getPlayersInGame().stream().forEach(ig -> ig.hidePlayer(getPlayer()));
     }
 
     public void setCleanPlayer(GameMode gameMode) {
-        base.getPlayer().setHealth(base.getPlayer().getMaxHealth());
-        base.getPlayer().setFoodLevel(20);
-        base.getPlayer().setExp(0);
-        base.getPlayer().setTotalExperience(0);
-        base.getPlayer().setLevel(0);
-        base.getPlayer().setFireTicks(0);
-        base.getPlayer().getInventory().clear();
-        base.getPlayer().getInventory().setArmorContents(null);
-        base.getPlayer().setGameMode(gameMode);
-        base.getPlayer().getActivePotionEffects().forEach(ef -> base.getPlayer().removePotionEffect(ef.getType())); 
+        getPlayer().setHealth(getPlayer().getMaxHealth());
+        getPlayer().setFoodLevel(20);
+        getPlayer().setExp(0);
+        getPlayer().setTotalExperience(0);
+        getPlayer().setLevel(0);
+        getPlayer().setFireTicks(0);
+        getPlayer().getInventory().clear();
+        getPlayer().getInventory().setArmorContents(null);
+        getPlayer().setGameMode(gameMode);
+        getPlayer().getActivePotionEffects().forEach(ef -> getPlayer().removePotionEffect(ef.getType())); 
     }
     
     public void death() {
-        getBase().getPlayer().getInventory().clear();
+        getPlayer().getInventory().clear();
         setSpectator();
-        plugin.getGm().removePlayerFromGame(base.getPlayer());
-        new Title("&b&l¡Has muerto!", "Puedes volver al lobby cuando desees, o ver la partida", 1, 2, 1).send(getBase().getPlayer()); 
-        base.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
-        base.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-        HashMap<Integer, Integer> deaths = base.getUserData().getDeaths();
+        plugin.getGm().removePlayerFromGame(getPlayer());
+        new Title("&b&l¡Has muerto!", "Puedes volver al lobby cuando desees, o ver la partida", 1, 2, 1).send(getPlayer()); 
+        sendMessage("Escribe &e/lobby &fpara volver al Lobby");
+        repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
+        HashMap<Integer, Integer> deaths = getUserData().getDeaths();
         deaths.replace(1, deaths.get(1) + 1);
-        base.getUserData().setDeaths(deaths);
-        base.save();
+        getUserData().setDeaths(deaths);
+        save();
     }
 
     public void spawn() {
-        getBase().getPlayer().teleport(TntIsland.getIsland(getBase().getUuid()).getSpawn());
+        getPlayer().teleport(TntIsland.getIsland(getUuid()).getSpawn());
     }
 }

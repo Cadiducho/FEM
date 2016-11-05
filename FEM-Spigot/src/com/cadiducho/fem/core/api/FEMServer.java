@@ -59,7 +59,7 @@ public class FEMServer {
             }
         }
         FEMUser us = new FEMUser(id);
-        if (us.getBase().isOnline()) {
+        if (us.isOnline()) {
             users.add(us);
         }
         return us;
@@ -75,7 +75,7 @@ public class FEMServer {
             }
         }
         FEMUser us = new FEMUser(p);
-        if (us.getBase().isOnline()) {
+        if (us.isOnline()) {
             users.add(us);
         }
         return us;

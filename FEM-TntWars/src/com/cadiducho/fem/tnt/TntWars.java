@@ -72,17 +72,16 @@ public class TntWars extends JavaPlugin {
     }
 
     public static TntPlayer getPlayer(OfflinePlayer p) {
-        FEMUser u = FEMServer.getUser(p);
         for (TntPlayer pl : players) {
-            if (pl.getBase().getUuid() == null) {
+            if (pl.getUuid() == null) {
                 continue;
             }
-            if (pl.getBase().getUuid().equals(p.getUniqueId())) {
+            if (pl.getUuid().equals(p.getUniqueId())) {
                 return pl;
             }
         }
-        TntPlayer us = new TntPlayer(u);
-        if (us.getBase().getBase().isOnline()) {
+        TntPlayer us = new TntPlayer(p.getUniqueId());
+        if (us.isOnline()) {
             players.add(us);
         }
         return us;

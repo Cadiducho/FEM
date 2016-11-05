@@ -4,18 +4,17 @@ import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
-import lombok.Getter;
+import java.util.UUID;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class PicPlayer {
+public class PicPlayer extends FEMUser {
 
     private final Pictograma plugin = Pictograma.getInstance();
-    @Getter private final FEMUser base;
     
-    public PicPlayer(FEMUser instance) {
-        base = instance;
+    public PicPlayer(UUID id) {
+        super(id);
     }
 
     public void setWaitScoreboard() {
@@ -23,7 +22,7 @@ public class PicPlayer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (base.getPlayer() == null) cancel();
+                if (getPlayer() == null) cancel();
                 
                 if (plugin.getGm().acceptPlayers()) {
                     board.setName("§d§aPictograma");
@@ -33,7 +32,7 @@ public class PicPlayer {
                     board.text(2, "§eEsperando...");
                     board.text(1, "§e ");
                     board.text(0, "§cmc.undergames.es");
-                    if (base.getPlayer() != null) board.build(base.getPlayer());
+                    if (getPlayer() != null) board.build(getPlayer());
                 } else {
                     board.reset();
                     cancel();
@@ -44,42 +43,42 @@ public class PicPlayer {
     
     public void setLobbyPlayer() {
         setWaitScoreboard();
-        plugin.getGm().addPlayerToGame(base.getPlayer());
+        plugin.getGm().addPlayerToGame(getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);
     }
 
     public void setCleanPlayer(GameMode gameMode) {
-        base.getPlayer().setHealth(base.getPlayer().getMaxHealth());
-        base.getPlayer().setFoodLevel(20);
-        base.getPlayer().setExp(0);
-        base.getPlayer().setTotalExperience(0);
-        base.getPlayer().setLevel(0);
-        base.getPlayer().setFireTicks(0);
-        base.getPlayer().getInventory().clear();
-        base.getPlayer().getInventory().setArmorContents(null);
-        base.getPlayer().setGameMode(gameMode);
-        if (gameMode != GameMode.CREATIVE) base.getPlayer().setFlying(false);
-        base.getPlayer().getActivePotionEffects().forEach(ef -> base.getPlayer().removePotionEffect(ef.getType()));
+        getPlayer().setHealth(getPlayer().getMaxHealth());
+        getPlayer().setFoodLevel(20);
+        getPlayer().setExp(0);
+        getPlayer().setTotalExperience(0);
+        getPlayer().setLevel(0);
+        getPlayer().setFireTicks(0);
+        getPlayer().getInventory().clear();
+        getPlayer().getInventory().setArmorContents(null);
+        getPlayer().setGameMode(gameMode);
+        if (gameMode != GameMode.CREATIVE) getPlayer().setFlying(false);
+        getPlayer().getActivePotionEffects().forEach(ef -> getPlayer().removePotionEffect(ef.getType()));
     }
     
     public void setArtist() {
-        base.getPlayer().teleport(plugin.getAm().getPaintLoc());
-        base.getPlayer().setGameMode(GameMode.SURVIVAL);
-        base.getPlayer().setAllowFlight(true);
-        base.getPlayer().setFlying(true);
-        base.getPlayer().getInventory().clear();
-        base.getPlayer().getInventory().setArmorContents(null);
-        base.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.WOOD_SWORD, "&ePincel"));
-        base.getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.GOLD_SWORD, "&eBrocha"));
-        base.getPlayer().getInventory().setItem(2, ItemUtil.createItem(Material.COMPASS, "&aEscoger color"));
-        base.getPlayer().getInventory().setItem(6, ItemUtil.createItem(Material.LAVA_BUCKET, "&eRellenar"));
-        base.getPlayer().getInventory().setItem(7, ItemUtil.createItem(Material.IRON_SWORD, "&eBorrador"));
-        base.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.EMPTY_MAP, "&eNueva hoja"));
-        base.sendMessage("&eSelecciona la herramienta que quieras usar y pulsa click derecho para usarla.");
-        plugin.getMsg().sendBroadcast(Metodos.colorizar("&e " + base.getName() + " &b es el artista esta ronda!"));
+        getPlayer().teleport(plugin.getAm().getPaintLoc());
+        getPlayer().setGameMode(GameMode.SURVIVAL);
+        getPlayer().setAllowFlight(true);
+        getPlayer().setFlying(true);
+        getPlayer().getInventory().clear();
+        getPlayer().getInventory().setArmorContents(null);
+        getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.WOOD_SWORD, "&ePincel"));
+        getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.GOLD_SWORD, "&eBrocha"));
+        getPlayer().getInventory().setItem(2, ItemUtil.createItem(Material.COMPASS, "&aEscoger color"));
+        getPlayer().getInventory().setItem(6, ItemUtil.createItem(Material.LAVA_BUCKET, "&eRellenar"));
+        getPlayer().getInventory().setItem(7, ItemUtil.createItem(Material.IRON_SWORD, "&eBorrador"));
+        getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.EMPTY_MAP, "&eNueva hoja"));
+        sendMessage("&eSelecciona la herramienta que quieras usar y pulsa click derecho para usarla.");
+        plugin.getMsg().sendBroadcast(Metodos.colorizar("&e " + getName() + " &b es el artista esta ronda!"));
     }
 
     public void spawn() {
-        base.getPlayer().teleport(plugin.getAm().getSpawn());
+        getPlayer().teleport(plugin.getAm().getSpawn());
     }
 }

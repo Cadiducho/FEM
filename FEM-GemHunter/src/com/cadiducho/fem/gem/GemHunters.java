@@ -1,7 +1,5 @@
 package com.cadiducho.fem.gem;
 
-import com.cadiducho.fem.core.api.FEMServer;
-import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.gem.listener.PlayerListener;
@@ -81,16 +79,15 @@ public class GemHunters extends JavaPlugin {
     }
     
     public static GemPlayer getPlayer(OfflinePlayer p) {
-        FEMUser u = FEMServer.getUser(p);
         for (GemPlayer pl : players) {
-            if (pl.getBase().getUuid() == null) {
+            if (pl.getUuid() == null) {
                 continue;
             }
-            if (pl.getBase().getUuid().equals(p.getUniqueId())) {
+            if (pl.getUuid().equals(p.getUniqueId())) {
                 return pl;
             }
         }
-        GemPlayer us = new GemPlayer(u);
+        GemPlayer us = new GemPlayer(p.getUniqueId());
         if (p.isOnline()) {
             players.add(us);
         }

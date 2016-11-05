@@ -3,9 +3,9 @@ package com.cadiducho.fem.gem.task;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.manager.GameState;
 import com.cadiducho.fem.core.util.Title;
+import com.cadiducho.fem.gem.GemPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
@@ -42,7 +42,7 @@ public class HiddingTask extends BukkitRunnable {
             }
         }
         --count;
-        plugin.getGm().getPlayersInGame().forEach(pl -> pl.setLevel(count));
+        plugin.getGm().getPlayersInGame().stream().forEach(pl -> pl.setLevel(count));
     }
     
     public void end() {
@@ -59,15 +59,16 @@ public class HiddingTask extends BukkitRunnable {
         }
         
         GameState.state = GameState.GAME;
-        for (Player players : plugin.getGm().getPlayersInGame()) {
-            players.playSound(players.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
-            GemHunters.getPlayer(players).setCleanPlayer(GameMode.SURVIVAL);
-            GemHunters.getPlayer(players).dressPlayer();
-            new Title("&b&lBusca y destruye las Gemas del equipo contrario", "", 1, 2, 1).send(players);
-            players.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
-            GemHunters.getPlayer(players).setGameScoreboard();
-            plugin.getGm().getPlayersInGame().forEach(p -> GemHunters.getPlayer(p).spawn());
-        }
+        plugin.getGm().getPlayersInGame().stream().forEach(p -> {
+            GemPlayer gp = GemHunters.getPlayer(p);
+            p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+            gp.setCleanPlayer(GameMode.SURVIVAL);
+            gp.dressPlayer();
+            new Title("&b&lBusca y destruye las Gemas del equipo contrario", "", 1, 2, 1).send(p);
+            p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
+            gp.setGameScoreboard();
+            gp.spawn();
+        });
 
         //Iniciar hilo del juego
         new GameTask(plugin).runTaskTimer(plugin, 1l, 20l);

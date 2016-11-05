@@ -240,11 +240,11 @@ public class GameListener implements Listener {
             word.replaceAll("ù", "u");
 
             if (plugin.getGm().builder != null  && (plugin.getGm().builder.getUniqueId() == e.getPlayer().getUniqueId())) {
-                Pictograma.getPlayer(e.getPlayer()).getBase().sendMessage("&c¡No puedes chivar la palabra, ni intentarlo!");
+                Pictograma.getPlayer(e.getPlayer()).sendMessage("&c¡No puedes chivar la palabra, ni intentarlo!");
                 e.setCancelled(true);        
             } else {
                 if (plugin.getGm().getHasFound().contains(e.getPlayer().getUniqueId())) {
-                    Pictograma.getPlayer(e.getPlayer()).getBase().sendMessage("&aYa has encontrado la palabra y no puedes dar pistas a otros");
+                    Pictograma.getPlayer(e.getPlayer()).sendMessage("&aYa has encontrado la palabra y no puedes dar pistas a otros");
                     e.setCancelled(true);
                 } else if (intento.equals(word)) {
                     plugin.getGm().wordFoundBy(e.getPlayer());

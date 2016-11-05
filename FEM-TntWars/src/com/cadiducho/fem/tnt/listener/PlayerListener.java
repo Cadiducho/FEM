@@ -128,16 +128,16 @@ public class PlayerListener implements Listener {
             TntPlayer pl = TntWars.getPlayer(p);
             //Simular muerte
             if (p.getHealth() - e.getDamage() < 1) {
-                for (ItemStack i : pl.getBase().getPlayer().getInventory().getContents()) {
+                for (ItemStack i : pl.getPlayer().getInventory().getContents()) {
                     if (i != null) {
-                        pl.getBase().getPlayer().getWorld().dropItemNaturally(pl.getBase().getPlayer().getLocation(), i);
-                        pl.getBase().getPlayer().getInventory().remove(i);
+                        pl.getPlayer().getWorld().dropItemNaturally(pl.getPlayer().getLocation(), i);
+                        pl.getPlayer().getInventory().remove(i);
                     }
                 }
                 pl.setCleanPlayer(GameMode.SPECTATOR);
-                Location tploc = pl.getBase().getPlayer().getLocation();
+                Location tploc = pl.getPlayer().getLocation();
                 tploc.setY(25D);
-                pl.getBase().getPlayer().teleport(tploc);
+                pl.getPlayer().teleport(tploc);
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                 plugin.getMsg().sendBroadcast("&e" + p.getDisplayName() + " &7ha muerto!");
                 if (!TntIsland.getIsland(p.getUniqueId()).getDestroyed()) {
@@ -162,16 +162,16 @@ public class PlayerListener implements Listener {
 
                 //Simular muerte
                 if (p.getHealth() - e.getDamage() < 1) {
-                    for (ItemStack i : pl.getBase().getPlayer().getInventory().getContents()) {
+                    for (ItemStack i : pl.getPlayer().getInventory().getContents()) {
                         if (i != null) {
-                            pl.getBase().getPlayer().getWorld().dropItemNaturally(pl.getBase().getPlayer().getLocation(), i);
-                            pl.getBase().getPlayer().getInventory().remove(i);
+                            pl.getPlayer().getWorld().dropItemNaturally(pl.getPlayer().getLocation(), i);
+                            pl.getPlayer().getInventory().remove(i);
                         }
                     }
                     pl.setCleanPlayer(GameMode.SPECTATOR);
-                    Location tploc = pl.getBase().getPlayer().getLocation();
+                    Location tploc = pl.getPlayer().getLocation();
                     tploc.setY(25D);
-                    pl.getBase().getPlayer().teleport(tploc);
+                    pl.getPlayer().teleport(tploc);
                     e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                     plugin.getMsg().sendBroadcast("&e" + p.getDisplayName() + " &7ha muerto a manos de &e" + damager.getDisplayName());
                     HashMap<Integer, Integer> kills = FEMServer.getUser(damager).getUserData().getKills();

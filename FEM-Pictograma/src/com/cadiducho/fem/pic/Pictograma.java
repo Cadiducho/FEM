@@ -96,17 +96,16 @@ public class Pictograma extends JavaPlugin {
     }
     
     public static PicPlayer getPlayer(OfflinePlayer p) {
-        FEMUser u = FEMServer.getUser(p);
         for (PicPlayer pl : players) {
-            if (pl.getBase().getUuid() == null) {
+            if (pl.getUuid() == null) {
                 continue;
             }
-            if (pl.getBase().getUuid().equals(p.getUniqueId())) {
+            if (pl.getUuid().equals(p.getUniqueId())) {
                 return pl;
             }
         }
-        PicPlayer us = new PicPlayer(u);
-        if (us.getBase().getBase().isOnline()) {
+        PicPlayer us = new PicPlayer(p.getUniqueId());
+        if (us.isOnline()) {
             players.add(us);
         }
         return us;

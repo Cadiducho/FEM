@@ -28,18 +28,18 @@ public class GameTask extends BukkitRunnable {
         switch (count) {
             case 300:
                 plugin.getAm().muro(plugin.getServer().getWorlds().get(0));
-                plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f)); 
+                plugin.getGm().getPlayersInGame().stream().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f)); 
                 break;
             case 30:
                 plugin.getMsg().sendBroadcast("&7Sólo quedan 30 segundos!");
-                plugin.getGm().getPlayersInGame().forEach(p -> {
+                plugin.getGm().getPlayersInGame().stream().forEach(p -> {
                     new Title("&b&lSólo quedan 30 segundos", "¡Dáte prisa!", 1, 2, 1).send(p);
                 });
                 break;
             case 0:
                 if (checkMinWinner() == null) {
                     plugin.getMsg().sendBroadcast("¡Empate! ¡No hay ningún ganador!");
-                    plugin.getGm().getPlayersInGame().forEach(p -> {
+                    plugin.getGm().getPlayersInGame().stream().forEach(p -> {
                         new Title("&b&lEMPATE", "", 1, 2, 1).send(p);
                     });
                 }
@@ -50,7 +50,7 @@ public class GameTask extends BukkitRunnable {
         }
 
         --count;
-        plugin.getGm().getPlayersInGame().forEach(pl -> pl.setLevel(count));
+        plugin.getGm().getPlayersInGame().stream().forEach(pl -> pl.setLevel(count));
     }
     
     public Team checkMinWinner() {
@@ -82,13 +82,13 @@ public class GameTask extends BukkitRunnable {
         return winner;
     }
     
-    public void end() {
+    public static void end() {
         GameState.state = GameState.ENDING;
 
         //Cuenta atrás para envio a los lobbies y cierre del server
         //Iniciar hilo del juego
-        new ShutdownTask(plugin).runTaskTimer(plugin, 1l, 20l);
-        cancel();
+        new ShutdownTask(GemHunters.getInstance()).runTaskTimer(GemHunters.getInstance(), 1l, 20l);
+        if (GameTask.instance != null) GameTask.instance.cancel();
     }
 
 

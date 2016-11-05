@@ -43,9 +43,9 @@ public class GameTask extends BukkitRunnable {
                 TntWars.getPlayer(players).setCleanPlayer(GameMode.SURVIVAL);
                 players.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 TntWars.getPlayer(players).setGameScoreboard();
-                HashMap<Integer, Integer> plays = TntWars.getPlayer(players).getBase().getUserData().getPlays();
+                HashMap<Integer, Integer> plays = TntWars.getPlayer(players).getUserData().getPlays();
                 plays.replace(1, plays.get(1) + 1);
-                TntWars.getPlayer(players).getBase().getUserData().setPlays(plays);
+                TntWars.getPlayer(players).getUserData().setPlays(plays);
                 FEMServer.getUser(players).save();
             }
             plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
@@ -67,10 +67,10 @@ public class GameTask extends BukkitRunnable {
                 new Title("&a" + p.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner);
             }
             plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
-            HashMap<Integer, Integer> wins = TntWars.getPlayer(winner).getBase().getUserData().getWins();
+            HashMap<Integer, Integer> wins = TntWars.getPlayer(winner).getUserData().getWins();
             wins.replace(1, wins.get(1) + 1);
-            TntWars.getPlayer(winner).getBase().getUserData().setWins(wins);
-            TntWars.getPlayer(winner).getBase().save();
+            TntWars.getPlayer(winner).getUserData().setWins(wins);
+            TntWars.getPlayer(winner).save();
             end();
             cancel();
         }

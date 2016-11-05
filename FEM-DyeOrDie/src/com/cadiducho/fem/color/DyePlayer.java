@@ -4,18 +4,17 @@ import com.cadiducho.fem.color.util.ScoreboardUtil;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Title;
 import java.util.Random;
-import lombok.Getter;
+import java.util.UUID;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
-public class DyePlayer {
+public class DyePlayer extends FEMUser {
 
     private final DyeOrDie plugin = DyeOrDie.getInstance();
-    @Getter private final FEMUser base;
-    
-    public DyePlayer(FEMUser instance) {
-        base = instance;
+
+    public DyePlayer(UUID id) {
+        super(id);
     }
 
     public void setWaitScoreboard() {
@@ -23,7 +22,7 @@ public class DyePlayer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (base.getPlayer() == null) cancel();
+                if (getPlayer() == null) cancel();
                 
                 if (plugin.getGm().isInLobby()) {
                     board.setName(DyeOrDie.colorize("Dye or Die"));
@@ -33,8 +32,8 @@ public class DyePlayer {
                     board.text(2, "§eEsperando...");
                     board.text(1, "§e ");
                     board.text(0, "§cmc.undergames.es");
-                    if (base.getPlayer() != null) {
-                        board.build(base.getPlayer());
+                    if (getPlayer() != null) {
+                        board.build(getPlayer());
                     }
                 } else {
                     board.reset();
@@ -49,11 +48,11 @@ public class DyePlayer {
         Team tJugadores = board.getScoreboard().getTeam("1DoD") == null ? 
                 board.getScoreboard().registerNewTeam("1DoD") : board.getScoreboard().getTeam("1DoD");
         tJugadores.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-        tJugadores.addEntry(base.getPlayer().getName());
+        tJugadores.addEntry(getPlayer().getName());
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (base.getPlayer() == null) cancel();
+                if (getPlayer() == null) cancel();
 
                 board.setName(DyeOrDie.colorize("Dye or Die"));
                 board.text(7, "§d§f");
@@ -64,8 +63,8 @@ public class DyePlayer {
                 board.text(2, "§aTiempo restante: §e" + plugin.getAm().getTimeleft().intValue());
                 board.text(1, "§e ");
                 board.text(0, "§cmc.undergames.es");
-                if (base.getPlayer() != null) {
-                    board.build(base.getPlayer());
+                if (getPlayer() != null) {
+                    board.build(getPlayer());
                 }
 
             }
@@ -74,42 +73,42 @@ public class DyePlayer {
 
     public void setLobbyPlayer() {
         setWaitScoreboard();
-        plugin.getGm().addPlayerToGame(base.getPlayer());
+        plugin.getGm().addPlayerToGame(getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);
     }
     
     public void setSpectator() {
         setCleanPlayer(GameMode.SPECTATOR);
-        plugin.getGm().getSpectators().add(base.getPlayer());
-        plugin.getGm().getPlayersInGame().stream().forEach(ig -> ig.hidePlayer(base.getPlayer()));
+        plugin.getGm().getSpectators().add(getPlayer());
+        plugin.getGm().getPlayersInGame().stream().forEach(ig -> ig.hidePlayer(getPlayer()));
     }
 
     public void setCleanPlayer(GameMode gameMode) {
-        base.getPlayer().setHealth(base.getPlayer().getMaxHealth());
-        base.getPlayer().setFoodLevel(20);
-        base.getPlayer().setExp(0);
-        base.getPlayer().setTotalExperience(0);
-        base.getPlayer().setLevel(0);
-        base.getPlayer().setFireTicks(0);
-        base.getPlayer().getInventory().clear();
-        base.getPlayer().getInventory().setArmorContents(null);
-        base.getPlayer().setGameMode(gameMode);
-        base.getPlayer().getActivePotionEffects().forEach(ef -> base.getPlayer().removePotionEffect(ef.getType()));
+        getPlayer().setHealth(getPlayer().getMaxHealth());
+        getPlayer().setFoodLevel(20);
+        getPlayer().setExp(0);
+        getPlayer().setTotalExperience(0);
+        getPlayer().setLevel(0);
+        getPlayer().setFireTicks(0);
+        getPlayer().getInventory().clear();
+        getPlayer().getInventory().setArmorContents(null);
+        getPlayer().setGameMode(gameMode);
+        getPlayer().getActivePotionEffects().forEach(ef -> getPlayer().removePotionEffect(ef.getType()));
     }
 
     public void spawn() { 
-        base.getPlayer().teleport(plugin.getAm().getBaseBlocks().get(new Random().nextInt(plugin.getAm().getBaseBlocks().size() - 1)));
+        getPlayer().teleport(plugin.getAm().getBaseBlocks().get(new Random().nextInt(plugin.getAm().getBaseBlocks().size() - 1)));
     }
     
     public void endGame() {
-        base.getPlayer().getInventory().clear();
+        getPlayer().getInventory().clear();
         setSpectator();
-        base.getPlayer().teleport(base.getPlayer().getLocation().add(0, 50, 0));
-        plugin.getGm().removePlayerFromGame(base.getPlayer());
-        new Title("&b&l¡Has sido eliminado!", "Has caído en la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(base.getPlayer());
-        base.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
-        base.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-        plugin.getMsg().sendBroadcast(base.getName() + " ha caido en la ronda " + plugin.getAm().getRound() + "!");
-        base.sendMessage("¡Enhorabuena! Has llegado hasta la ronda " + plugin.getAm().getRound());
+        getPlayer().teleport(getPlayer().getLocation().add(0, 50, 0));
+        plugin.getGm().removePlayerFromGame(getPlayer());
+        new Title("&b&l¡Has sido eliminado!", "Has caído en la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(getPlayer());
+        sendMessage("Escribe &e/lobby &fpara volver al Lobby");
+        repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
+        plugin.getMsg().sendBroadcast(getName() + " ha caido en la ronda " + plugin.getAm().getRound() + "!");
+        sendMessage("¡Enhorabuena! Has llegado hasta la ronda " + plugin.getAm().getRound());
     }
 }
