@@ -25,13 +25,12 @@ public class GameManager {
     @Getter private final ArrayList<Player> playersInGame = new ArrayList<>();
     @Getter private final HashMap<Team, ArrayList<Location>> gemas = new HashMap<>();
 
-    @Getter @Setter private boolean checkStart = false;
+    //¿Ha de comprobar el inicio del juego?
+    @Getter @Setter private boolean checkStart = true;
 
     public void checkStart() {
-        System.out.println("CheckStart: " + checkStart);
-        if (checkStart == false && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
-            checkStart = true;
-            System.out.println("Comenzando");
+        if (checkStart == true && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
+            checkStart = false;
             new LobbyTask(plugin).runTaskTimer(plugin, 1l, 20l);
         }
     }
@@ -70,7 +69,6 @@ public class GameManager {
             playersInGame.remove(player);
         }
         playersInGame.add(player);
-        System.out.println("Añadido " + player.getName());
     }
 
     public void removePlayerFromGame(Player player) {

@@ -19,7 +19,6 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -49,8 +48,6 @@ public class PlayerListener implements Listener {
         Player player = e.getPlayer();
         e.setJoinMessage(null);
         if (plugin.getGm().acceptPlayers()) {
-            plugin.getServer().getOnlinePlayers().stream().forEach(p -> player.showPlayer(p)); // Mostrar todos los jugadores a todos
-            plugin.getServer().getOnlinePlayers().stream().forEach(p -> p.showPlayer(player));
             player.teleport(plugin.getAm().getLobby());
             GemHunters.getPlayer(player).setLobbyPlayer();
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
@@ -69,7 +66,7 @@ public class PlayerListener implements Listener {
         GemHunters.players.remove(GemHunters.getPlayer(player));
         
         if (plugin.getGm().getPlayersInGame().isEmpty()) {
-            GameTask.instance.end();
+            GameTask.end();
         }
     }
 
