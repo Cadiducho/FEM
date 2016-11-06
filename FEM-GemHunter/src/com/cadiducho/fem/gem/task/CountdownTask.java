@@ -1,6 +1,5 @@
 package com.cadiducho.fem.gem.task;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.GemPlayer;
@@ -32,15 +31,16 @@ public class CountdownTask extends BukkitRunnable {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));
         } else if (count == 0) {
             GameState.state = GameState.HIDDING;
-            plugin.getGm().getPlayersInGame().stream().forEach(p -> {
-                GemPlayer gp = GemHunters.getPlayer(p);
+            plugin.getGm().getPlayersInGame().stream().forEach(p -> {   
                 p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
-                gp.setCleanPlayer(GameMode.SURVIVAL);
-                gp.dressPlayer();
                 new Title("&b&l¡Esconde tu gema!", "", 1, 2, 1).send(p);
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
+                
+                final GemPlayer gp = GemHunters.getPlayer(p);
+                gp.setCleanPlayer(GameMode.SURVIVAL);
+                gp.dressPlayer();
                 gp.setHiddingScoreboard();
-                HashMap<Integer, Integer> plays = FEMServer.getUser(p).getUserData().getPlays();
+                HashMap<Integer, Integer> plays = gp.getUserData().getPlays();
                 plays.replace(3, plays.get(3) + 1);
                 gp.getUserData().setPlays(plays);
                 gp.save();

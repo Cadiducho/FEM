@@ -60,12 +60,13 @@ public class HiddingTask extends BukkitRunnable {
         
         GameState.state = GameState.GAME;
         plugin.getGm().getPlayersInGame().stream().forEach(p -> {
-            GemPlayer gp = GemHunters.getPlayer(p);
             p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+            p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
+            new Title("&b&lBusca y destruye las Gemas del equipo contrario", "", 1, 2, 1).send(p);
+            
+            final GemPlayer gp = GemHunters.getPlayer(p);
             gp.setCleanPlayer(GameMode.SURVIVAL);
             gp.dressPlayer();
-            new Title("&b&lBusca y destruye las Gemas del equipo contrario", "", 1, 2, 1).send(p);
-            p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
             gp.setGameScoreboard();
             gp.spawn();
         });

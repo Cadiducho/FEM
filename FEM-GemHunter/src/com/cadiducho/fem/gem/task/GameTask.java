@@ -1,8 +1,8 @@
 package com.cadiducho.fem.gem.task;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.gem.GemHunters;
+import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.manager.GameState;
 import java.util.HashMap;
 import org.bukkit.Sound;
@@ -70,15 +70,17 @@ public class GameTask extends BukkitRunnable {
         for (Player p : plugin.getTm().getJugadores().get(winner)) {
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
             new Title("&a&lVICTORIA", "¡Tu equipo ha ganado :D!", 1, 2, 1).send(p);
-            HashMap<Integer, Integer> wins = FEMServer.getUser(p).getUserData().getWins();
+            
+            final GemPlayer gp = GemHunters.getPlayer(p);
+            HashMap<Integer, Integer> wins = gp.getUserData().getWins();
             wins.replace(3, wins.get(3) + 1);
-            FEMServer.getUser(p).getUserData().setWins(wins);
-            FEMServer.getUser(p).save();
+            gp.getUserData().setWins(wins);
+            gp.save();
         }
-        for (Player p : plugin.getTm().getJugadores().get(loser)) {
+        plugin.getTm().getJugadores().get(loser).forEach(p -> {
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
             new Title("&c&lDERROTA", "¡Tu equipo ha perdido :C!", 1, 2, 1).send(p);
-        }
+        });
         return winner;
     }
     

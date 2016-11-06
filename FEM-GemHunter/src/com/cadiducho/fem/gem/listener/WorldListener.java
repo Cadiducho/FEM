@@ -1,7 +1,7 @@
 package com.cadiducho.fem.gem.listener;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.gem.GemHunters;
+import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.manager.GameState;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
@@ -22,9 +22,7 @@ public class WorldListener implements Listener {
     
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent e) {
-        if (!e.getEntityType().equals(EntityType.SHEEP)) {
-            e.setCancelled(true);
-        }
+        e.setCancelled(true);
     }
     
     @EventHandler
@@ -34,8 +32,11 @@ public class WorldListener implements Listener {
             if (plugin.getGm().isHidding()) {
                 e.getPlayer().sendMessage("Has puesto tu gema");
                 plugin.getMsg().sendBroadcast(e.getPlayer().getName() + " ha puesto su gema");
-                FEMServer.getUser(e.getPlayer()).getUserData().setGemPlanted(FEMServer.getUser(e.getPlayer()).getUserData().getGemPlanted() + 1);
-                FEMServer.getUser(e.getPlayer());
+                
+                final GemPlayer gp = GemHunters.getPlayer(e.getPlayer());
+                gp.getUserData().setGemPlanted(gp.getUserData().getGemPlanted() + 1);
+                gp.save();
+                
                 plugin.getTm().addPunto(plugin.getTm().getTeam(e.getPlayer()), b.getLocation());   
                 return;
             }
