@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.DyeColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -35,12 +36,13 @@ public class GameManager {
         plugin = instance;
     }
 
-    private boolean checkStart = false;
+    //¿Ha de comprobar el inicio del juego?
+    @Getter @Setter private boolean checkStart = true;
 
     public void checkStart() {
-        if (checkStart == false && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
-            checkStart = true;
-            new LobbyTask(plugin).runTaskTimer(plugin, 20l, 20l);
+        if (checkStart == true && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
+            checkStart = false;
+            new LobbyTask(plugin).runTaskTimer(plugin, 1l, 20l);
             board = plugin.getServer().getScoreboardManager().getNewScoreboard();
             objective = board.registerNewObjective("puntos", "dummy");
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);

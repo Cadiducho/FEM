@@ -2,6 +2,7 @@ package com.cadiducho.fem.lucky.task;
 
 import com.cadiducho.fem.lucky.LuckyPlayer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
+import com.cadiducho.fem.lucky.manager.GameState;
 import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
@@ -19,6 +20,15 @@ public class LobbyTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        //Comprobar si sigue habiendo suficientes jugadores o cancelar
+        if (plugin.getGm().getPlayersInGame().size() < plugin.getAm().getMinPlayers()) {
+            plugin.getGm().setCheckStart(true);
+            plugin.getServer().getOnlinePlayers().forEach(pl ->  pl.setLevel(0));
+            GameState.state = GameState.LOBBY;
+            cancel();
+            return;
+        }
+        
         plugin.getGm().getPlayersInGame().stream().forEach((players) -> {
             players.setLevel(count);
         });

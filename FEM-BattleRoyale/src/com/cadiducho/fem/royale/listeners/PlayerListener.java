@@ -2,7 +2,7 @@ package com.cadiducho.fem.royale.listeners;
 
 import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
-import com.cadiducho.fem.royale.task.LobbyCountdown;
+import com.cadiducho.fem.royale.task.LobbyTask;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -42,10 +42,7 @@ public class PlayerListener implements Listener {
             player.teleport(plugin.getAm().getLobby());
             bp.setLobbyPlayer();
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
-            if (plugin.getGm().getPlayersInGame().size() == plugin.getAm().getMinPlayers() && plugin.getGm().start == false) {
-                new LobbyCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
-                plugin.getGm().start = true;
-            }
+            plugin.getGm().checkStart();
         }
     }
 

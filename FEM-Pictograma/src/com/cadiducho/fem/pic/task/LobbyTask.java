@@ -18,6 +18,15 @@ public class LobbyTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        //Comprobar si sigue habiendo suficientes jugadores o cancelar
+        if (plugin.getGm().getPlayersInGame().size() < plugin.getAm().getMinPlayers()) {
+            plugin.getGm().setCheckStart(true);
+            plugin.getServer().getOnlinePlayers().forEach(pl ->  pl.setLevel(0));
+            GameState.state = GameState.LOBBY;
+            cancel();
+            return;
+        }
+        
         plugin.getGm().getPlayersInGame().forEach(pl ->  pl.setLevel(count));
         if (count == 10) {
             plugin.getMsg().sendBroadcast("10 segundos para comenzar");

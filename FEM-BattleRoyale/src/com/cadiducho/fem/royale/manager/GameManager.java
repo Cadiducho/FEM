@@ -5,10 +5,12 @@ import com.cadiducho.fem.royale.BattlePlayer;
 import java.util.ArrayList;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.task.DeathMatchCountdown;
+import com.cadiducho.fem.royale.task.LobbyTask;
 import com.cadiducho.fem.royale.task.WinnerCountdown;
 import java.util.HashMap;
 import java.util.UUID;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.Player;
 
 public class GameManager {
@@ -22,8 +24,17 @@ public class GameManager {
     @Getter private final ArrayList<Player> playersInGame = new ArrayList<>();
     @Getter private final ArrayList<Player> spectators = new ArrayList<>();
     @Getter private final HashMap<UUID, Integer> kills = new HashMap<>();
-    @Getter public boolean start = false;
     @Getter public boolean dm = false;
+    
+    //¿Ha de comprobar el inicio del juego?
+    @Getter @Setter private boolean checkStart = true;
+
+    public void checkStart() {
+        if (checkStart == true && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
+            checkStart = false;
+            new LobbyTask(plugin).runTaskTimer(plugin, 1l, 20l);
+        }
+    }
 
     public void checkDm() {
         if (playersInGame.size() <= 4 && dm == false) {

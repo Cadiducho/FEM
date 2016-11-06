@@ -5,10 +5,12 @@ import com.cadiducho.fem.lucky.LuckyPlayer;
 import java.util.ArrayList;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import com.cadiducho.fem.lucky.task.DeathMatchTask;
+import com.cadiducho.fem.lucky.task.LobbyTask;
 import com.cadiducho.fem.lucky.task.ShutdownTask;
 import java.util.HashMap;
 import java.util.UUID;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
@@ -23,9 +25,18 @@ public class GameManager {
     @Getter private final ArrayList<Player> playersInGame = new ArrayList<>();
     @Getter private final ArrayList<Player> spectators = new ArrayList<>();
     @Getter private final HashMap<UUID, Integer> kills = new HashMap<>();
-    @Getter public boolean start = false;
     @Getter public boolean dm = false;
 
+    //¿Ha de comprobar el inicio del juego?
+    @Getter @Setter private boolean checkStart = true;
+
+    public void checkStart() {
+        if (checkStart == true && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
+            checkStart = false;
+            new LobbyTask(plugin).runTaskTimer(plugin, 1l, 20l);
+        }
+    }
+    
     public void checkDm() {
         if (playersInGame.size() <= 2 && dm == false) {
             dm = true;

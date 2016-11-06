@@ -5,11 +5,11 @@ import com.cadiducho.fem.tnt.manager.GameState;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class CountdownTask extends BukkitRunnable {
+public class LobbyTask extends BukkitRunnable {
 
     private final TntWars plugin;
 
-    public CountdownTask(TntWars instance) {
+    public LobbyTask(TntWars instance) {
         plugin = instance;
     }
 
@@ -17,6 +17,15 @@ public class CountdownTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        //Comprobar si sigue habiendo suficientes jugadores o cancelar
+        if (plugin.getGm().getPlayersInGame().size() < plugin.getAm().getMinPlayers()) {
+            plugin.getGm().setCheckStart(true);
+            plugin.getServer().getOnlinePlayers().forEach(pl ->  pl.setLevel(0));
+            GameState.state = GameState.LOBBY;
+            cancel();
+            return;
+        }
+        
         plugin.getGm().getPlayersInGame().stream().forEach(players -> {
             plugin.getMsg().sendActionBar(players, "&a&lEl juego empieza en: " + (count + 4));
         });

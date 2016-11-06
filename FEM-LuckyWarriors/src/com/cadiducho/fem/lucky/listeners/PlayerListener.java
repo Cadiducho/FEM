@@ -44,10 +44,7 @@ public class PlayerListener implements Listener {
             player.teleport(plugin.getAm().getLobby());
             lp.setLobbyPlayer();
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
-            if (plugin.getGm().getPlayersInGame().size() == plugin.getAm().getMinPlayers() && plugin.getGm().start == false) {
-                new LobbyTask(plugin).runTaskTimer(plugin, 20l, 20l);
-                plugin.getGm().start = true;
-            }
+            plugin.getGm().checkStart();
         }
     }
 

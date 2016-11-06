@@ -10,18 +10,27 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class CountdownTask extends BukkitRunnable {
+public class LobbyTask extends BukkitRunnable {
 
     private final DyeOrDie plugin;
 
-    public CountdownTask(DyeOrDie instance) {
+    public LobbyTask(DyeOrDie instance) {
         plugin = instance;
     }
 
     private int count = 30;
 
     @Override
-    public void run() {    
+    public void run() {
+        //Comprobar si sigue habiendo suficientes jugadores o cancelar
+        if (plugin.getGm().getPlayersInGame().size() < plugin.getAm().getMinPlayers()) {
+            plugin.getGm().setCheckStart(true);
+            plugin.getServer().getOnlinePlayers().forEach(pl ->  pl.setLevel(0));
+            GameState.state = GameState.LOBBY;
+            cancel();
+            return;
+        }
+        
         plugin.getGm().getPlayersInGame().forEach(pl -> pl.setLevel(count));
         if (count == 7) {            
             //Colocar jugadores

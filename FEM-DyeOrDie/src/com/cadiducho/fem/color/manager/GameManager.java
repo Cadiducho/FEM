@@ -1,10 +1,11 @@
 package com.cadiducho.fem.color.manager;
 
 import com.cadiducho.fem.color.DyeOrDie;
-import com.cadiducho.fem.color.task.CountdownTask;
+import com.cadiducho.fem.color.task.LobbyTask;
 import com.cadiducho.fem.color.task.GameTask;
 import java.util.ArrayList;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -20,12 +21,13 @@ public class GameManager {
     @Getter private final ArrayList<Player> playersInGame = new ArrayList<>();
     @Getter private final ArrayList<Player> spectators = new ArrayList<>();
 
-    private boolean checkStart = false;
+    //¿Ha de comprobar el inicio del juego?
+    @Getter @Setter private boolean checkStart = true;
 
     public void checkStart() {
-        if (checkStart == false && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
-            checkStart = true;
-            new CountdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
+        if (checkStart == true && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
+            checkStart = false;
+            new LobbyTask(plugin).runTaskTimer(plugin, 1l, 20l);
         }
     }
     
