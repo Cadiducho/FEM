@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.cadiducho</groupId>
         <artifactId>FEM</artifactId>
-        <version>1.0</version>
+        <version>1.0.1</version>
     </parent>
     <artifactId>FEM-BattleRoyale</artifactId>
     <packaging>jar</packaging>
