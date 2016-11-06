@@ -42,8 +42,6 @@ public class GameManager {
             plugin.getAm().loadSpawn();
             GameState.state = GameState.DEATHMATCH;
             new DeathMatchCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
-        } else if (playersInGame.size() == 1 || playersInGame.isEmpty()) {
-            plugin.getServer().shutdown();
         }
     }
 

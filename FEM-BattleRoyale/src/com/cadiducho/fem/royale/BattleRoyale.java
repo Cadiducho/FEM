@@ -47,14 +47,13 @@ public class BattleRoyale extends JavaPlugin {
         }
         
         new WorldCreator("espera").createWorld();
+        world = getServer().getWorld(getConfig().getString("worldName"));
+        ChestItems.initItems();
         am = new ArenaManager(instance);
         gm = new GameManager(instance);
         msg = new Messages(instance);
-        world = getServer().getWorld(getConfig().getString("worldName"));
         msg.init();
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-
-        ChestItems.initItems();
         
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerListener(instance), instance);
