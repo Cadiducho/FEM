@@ -1,6 +1,5 @@
 package com.cadiducho.fem.tnt.listener;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.tnt.Generador;
 import com.cadiducho.fem.tnt.TntIsland;
 import com.cadiducho.fem.tnt.TntPlayer;
@@ -51,7 +50,7 @@ public class WorldListener implements Listener {
                     return;
                 }
                 
-                BukkitTask bt = new TntExplodeTask(isla, e.getPlayer()).runTaskTimer(plugin, 1L, 20L);
+                BukkitTask bt = new TntExplodeTask(isla, e.getPlayer().getUniqueId()).runTaskTimer(plugin, 1L, 20L);
                 isla.setDestroyTaskId(bt.getTaskId());
             }
         }

@@ -1,7 +1,5 @@
 package com.cadiducho.fem.tnt;
 
-import com.cadiducho.fem.core.api.FEMServer;
-import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.tnt.listener.PlayerListener;
 import com.cadiducho.fem.tnt.listener.SignListener;

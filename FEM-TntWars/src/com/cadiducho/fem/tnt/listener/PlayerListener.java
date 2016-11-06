@@ -1,6 +1,5 @@
 package com.cadiducho.fem.tnt.listener;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.tnt.TntIsland;
@@ -153,7 +152,6 @@ public class PlayerListener implements Listener {
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
         if (plugin.getGm().acceptPlayers() || GameState.state == GameState.COUNTDOWN || GameState.state == GameState.ENDING) {
             e.setCancelled(true);
-            return;
         } else if (GameState.state == GameState.GAME) {
             if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
                 Player damager = (Player) e.getDamager();
@@ -174,10 +172,13 @@ public class PlayerListener implements Listener {
                     pl.getPlayer().teleport(tploc);
                     e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                     plugin.getMsg().sendBroadcast("&e" + p.getDisplayName() + " &7ha muerto a manos de &e" + damager.getDisplayName());
-                    HashMap<Integer, Integer> kills = FEMServer.getUser(damager).getUserData().getKills();
+                    
+                    final TntPlayer tp = TntWars.getPlayer(p);
+                    HashMap<Integer, Integer> kills = tp.getUserData().getKills();
                     kills.replace(1, kills.get(1) + 1);
-                    FEMServer.getUser(damager).getUserData().setKills(kills);
-                    FEMServer.getUser(damager).save();
+                    tp.getUserData().setKills(kills);
+                    tp.save();
+                    
                     if (!TntIsland.getIsland(p.getUniqueId()).getDestroyed()) {
                         new RespawnTask(pl).runTaskTimer(plugin, 20L, 20L);
                     } else {
