@@ -2,13 +2,11 @@ package com.cadiducho.fem.color.manager;
 
 import com.cadiducho.fem.color.DyeMiniArea;
 import com.cadiducho.fem.color.DyeOrDie;
-import com.cadiducho.fem.core.api.FEMServer;
-import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.color.DyePlayer;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.Title;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import lombok.Getter;
 import org.bukkit.ChatColor;
@@ -217,17 +215,17 @@ public class ArenaManager {
         plugin.getMsg().sendBroadcast("El color actual es " + getColorFromWool(currentcolor) + nombreCastellano(currentcolor) + "! " + ChatColor.DARK_GREEN + "¡Ya!");
         for (Player p : plugin.getGm().getPlayersInGame()) {
             new Title(getColorFromWool(currentcolor) + nombreCastellano(currentcolor), "", 1, 2, 1).send(p);
-            FEMUser user = FEMServer.getUser(p);
             p.setLevel(round);
             p.setExp(0.9999F);
             p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
-            Integer rondas = user.getUserData().getRondas_dod();        
-            user.getUserData().setRondas_dod(rondas + 1);
-            if (round > user.getUserData().getRecord_dod()) {
-                user.getUserData().setRecord_dod(round);
-                user.sendMessage("Has batido tu record de rondas seguidas, ahora es " + round + "!");
+            
+            final DyePlayer dp = DyeOrDie.getPlayer(p);
+            dp.getUserData().setRondas_dod(dp.getUserData().getRondas_dod() + 1);
+            if (round > dp.getUserData().getRecord_dod()) {
+                dp.getUserData().setRecord_dod(round);
+                dp.sendMessage("Has batido tu record de rondas seguidas, ahora es " + round + "!");
             }
-            user.save();
+            dp.save();
         }
     }
 
