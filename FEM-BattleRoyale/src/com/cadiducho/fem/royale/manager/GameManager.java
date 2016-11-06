@@ -22,15 +22,8 @@ public class GameManager {
     @Getter private final ArrayList<Player> playersInGame = new ArrayList<>();
     @Getter private final ArrayList<Player> spectators = new ArrayList<>();
     @Getter private final HashMap<UUID, Integer> kills = new HashMap<>();
-    @Getter public boolean start;
-    @Getter public boolean dm;
-
-    public void init() {
-        playersInGame.clear();
-        spectators.clear();
-        start = false;
-        dm = false;
-    }
+    @Getter public boolean start = false;
+    @Getter public boolean dm = false;
 
     public void checkDm() {
         if (playersInGame.size() <= 4 && dm == false) {

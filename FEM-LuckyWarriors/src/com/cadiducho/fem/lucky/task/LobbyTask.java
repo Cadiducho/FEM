@@ -1,6 +1,6 @@
 package com.cadiducho.fem.lucky.task;
 
-import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.lucky.LuckyPlayer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import java.util.HashMap;
 import org.bukkit.GameMode;
@@ -29,11 +29,13 @@ public class LobbyTask extends BukkitRunnable {
             plugin.getGm().getPlayersInGame().forEach(p -> {
                 plugin.getAm().teleportLucky(p);
                 plugin.getAm().fixPlayer(p.getLocation());
-                plugin.getPm().setCleanPlayer(p, GameMode.SURVIVAL);
-                HashMap<Integer, Integer> plays = FEMServer.getUser(p).getUserData().getPlays();
+                
+                final LuckyPlayer lp = LuckyWarriors.getPlayer(p);
+                lp.setCleanPlayer(GameMode.SURVIVAL);
+                HashMap<Integer, Integer> plays = lp.getUserData().getPlays();
                 plays.replace(6, plays.get(6) + 1);
-                FEMServer.getUser(p).getUserData().setPlays(plays);
-                FEMServer.getUser(p).save();
+                lp.getUserData().setPlays(plays);
+                lp.save();
             });
             new BreakLuckyTask(plugin).runTaskTimer(plugin, 1l, 20l);
             cancel();

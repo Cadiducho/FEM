@@ -1,21 +1,22 @@
-package com.cadiducho.fem.royale;
+package com.cadiducho.fem.lucky;
 
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
 import java.util.UUID;
 import org.bukkit.GameMode;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class BattlePlayer extends FEMUser {
+public class LuckyPlayer extends FEMUser {
 
-    private final BattleRoyale plugin = BattleRoyale.getInstance();
+    private final LuckyWarriors plugin = LuckyWarriors.getInstance();
 
-    public BattlePlayer(UUID id) {
+    public LuckyPlayer(UUID id) {
         super(id);
     }
 
     public void setWaitScoreboard() {
-        ScoreboardUtil board = new ScoreboardUtil("§aBattleRoyale", "lobby"); 
+        ScoreboardUtil board = new ScoreboardUtil("§eLucky§aWarriors", "lobby"); 
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -38,22 +39,24 @@ public class BattlePlayer extends FEMUser {
     }
 
     public void setGameScoreboard() {
-        ScoreboardUtil board = new ScoreboardUtil("§aBattleRoyale", "game"); 
-        new BukkitRunnable() { 
-            @Override 
+        ScoreboardUtil board = new ScoreboardUtil("§eLucky§aWarriors", "game");
+        new BukkitRunnable() {
+            @Override
             public void run() {
                 if (getPlayer() == null) cancel();
                 
-                board.text(10, "§c "); 
-                board.text(9, "Jugadores"); 
-                board.text(8, "§f" + plugin.getGm().getPlayersInGame().size() + "/" + plugin.getAm().getMaxPlayers()); 
-                board.text(7, "§3 "); 
-                board.text(6, "Asesinatos"); 
-                board.text(5, "§f" + getKillsToString()); 
- 
+                board.text(10, "§c ");
+                board.text(9, "§eJugadores: ");
+                board.text(8, "§f" + plugin.getGm().getPlayersInGame().size() + "/" + plugin.getAm().getMaxPlayers());
+                board.text(7, "§3 ");
+                board.text(6, "§eAsesinatos: ");
+                board.text(5, "§f" + getKillsToString());
+                board.text(4, "§f ");
+                board.text(3, "§cmc.undergames.es");
+               
                 if (getPlayer() != null) board.build(getPlayer()); 
-            } 
-        }.runTaskTimer(plugin, 20l, 20l); 
+            }
+        }.runTaskTimer(plugin, 20l, 20l);
     }
    
     public void setCleanPlayer(GameMode gameMode) {
@@ -71,15 +74,14 @@ public class BattlePlayer extends FEMUser {
     
     public void loadKit(){
         setCleanPlayer(GameMode.SURVIVAL);
-        getPlayer().getInventory().setItem(0, plugin.getMoneda());
-        setGameScoreboard();
     }
     
     public void setLobbyPlayer() {
         plugin.getGm().addPlayerToGame(getPlayer());
-        setCleanPlayer( GameMode.ADVENTURE);
+        setCleanPlayer(GameMode.ADVENTURE);
         setWaitScoreboard();
     }
+
 
     public void setSpectator() {
         setCleanPlayer(GameMode.SPECTATOR);

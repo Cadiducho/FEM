@@ -55,8 +55,6 @@ public class BattleRoyale extends JavaPlugin {
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         ChestItems.initItems();
-        am.init();
-        gm.init();
         
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerListener(instance), instance);

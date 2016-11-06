@@ -30,28 +30,7 @@ public class ArenaManager {
 
     public ArenaManager(BattleRoyale instance) {
         plugin = instance;
-    }
-
-    @Getter private int maxPlayers;
-    @Getter private int minPlayers;
-    @Getter private final ArrayList<Location> spawnList = new ArrayList<>();
-    @Getter private ArrayList<Location> deathmatchSpawnList = new ArrayList<>();
-    @Getter private final ArrayList<Location> chestRandomList = new ArrayList<>();
-    @Getter private final ArrayList<Location> chestRefillList = new ArrayList<>();
-    @Getter private int spawn;
-    @Getter private Location lobby;
-    @Getter private WorldBorder wb;
-    Location areaBorder1;
-    Location areaBorder2;
-    public int gameTime;
-    public int deathMatchTime;
-    
-    @Getter private Merchant vendo;
-    @Getter private Merchant compro;
-    
-    private final Random rand = new Random();
-
-    public void init() {
+        
         gameTime = plugin.getConfig().getInt("gameTime");
         deathMatchTime = plugin.getConfig().getInt("deathMatchTime");
         maxPlayers = plugin.getConfig().getInt("Arena.Max");
@@ -63,6 +42,25 @@ public class ArenaManager {
         setupVillagersTrades();
         loadSpawn();
     }
+
+    @Getter private final int maxPlayers;
+    @Getter private final int minPlayers;
+    @Getter private final ArrayList<Location> spawnList = new ArrayList<>();
+    @Getter private ArrayList<Location> deathmatchSpawnList = new ArrayList<>();
+    @Getter private final ArrayList<Location> chestRandomList = new ArrayList<>();
+    @Getter private final ArrayList<Location> chestRefillList = new ArrayList<>();
+    @Getter private int spawn;
+    @Getter private final Location lobby;
+    @Getter private WorldBorder wb;
+    Location areaBorder1;
+    Location areaBorder2;
+    public int gameTime;
+    public int deathMatchTime;
+    
+    @Getter private Merchant vendo;
+    @Getter private Merchant compro;
+    
+    private final Random rand = new Random();
     
     private void loadWorld(World w) {
         w = plugin.getWorld();
@@ -185,7 +183,7 @@ public class ArenaManager {
         return loc;
     }
 
-    public void loadSpawn() {
+    public final void loadSpawn() {
         spawnList.clear();
         try {
             for (int i = 1; i <= maxPlayers; i++) {
@@ -196,7 +194,7 @@ public class ArenaManager {
         deathmatchSpawnList = (ArrayList<Location>) spawnList.clone();
     }
     
-    public void setupVillagersTrades() {
+    private void setupVillagersTrades() {
         MerchantAPI api = Merchants.get();
 
         //tntWarsShop = api.newMerchant(Metodos.colorizar("&6Tienda TNTWars"));

@@ -17,23 +17,7 @@ public class ArenaManager {
 
     public ArenaManager(LuckyWarriors instance) {
         plugin = instance;
-    }
-
-    @Getter private int maxPlayers;
-    @Getter private int minPlayers;
-    @Getter private final ArrayList<Location> luckySpawnList = new ArrayList<>();
-    @Getter private final ArrayList<Location> dungeonSpawnList = new ArrayList<>();
-    @Getter private final ArrayList<Location> arenaSpawnList = new ArrayList<>();
-    private final HashMap<Player, Location> assignedLuckySpawn = new HashMap<>();
-    @Getter private Location lobby;
-    public int luckyTime;
-    public int craftTime;
-    public int gameTime;
-    public int deathMatchTime;
-    
-    private final Random rand = new Random();
-
-    public void init() {
+        
         luckyTime = plugin.getConfig().getInt("luckyTime");
         craftTime = plugin.getConfig().getInt("craftTime");
         gameTime = plugin.getConfig().getInt("gameTime");
@@ -44,6 +28,20 @@ public class ArenaManager {
         loadWorld(plugin.getWorld());
         loadSpawn();
     }
+
+    @Getter private final int maxPlayers;
+    @Getter private final int minPlayers;
+    @Getter private final ArrayList<Location> luckySpawnList = new ArrayList<>();
+    @Getter private final ArrayList<Location> dungeonSpawnList = new ArrayList<>();
+    @Getter private final ArrayList<Location> arenaSpawnList = new ArrayList<>();
+    private final HashMap<Player, Location> assignedLuckySpawn = new HashMap<>();
+    @Getter private final Location lobby;
+    public int luckyTime;
+    public int craftTime;
+    public int gameTime;
+    public int deathMatchTime;
+    
+    private final Random rand = new Random();
 
     public void fixPlayer(Location loc) {
         loc.add(0, 0.5, 0);
@@ -81,7 +79,7 @@ public class ArenaManager {
         arenaSpawnList.remove(rd);
     }
 
-    public void loadSpawn() {
+    public final void loadSpawn() {
         luckySpawnList.clear();
         dungeonSpawnList.clear();
         arenaSpawnList.clear();

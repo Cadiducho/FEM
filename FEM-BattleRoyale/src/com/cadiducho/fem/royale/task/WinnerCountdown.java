@@ -22,5 +22,5 @@ public class WinnerCountdown extends BukkitRunnable {
             cancel();            
         }
         -- game;
-    } 
+    }
 }

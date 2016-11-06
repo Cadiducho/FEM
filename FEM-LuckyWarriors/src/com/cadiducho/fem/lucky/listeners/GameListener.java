@@ -1,6 +1,6 @@
 package com.cadiducho.fem.lucky.listeners;
 
-import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.lucky.LuckyPlayer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import com.cadiducho.fem.lucky.manager.GameState;
 import com.cadiducho.fem.lucky.utils.LuckyPacks;
@@ -33,37 +33,41 @@ public class GameListener implements Listener {
     public void onPlayerDeath(PlayerDeathEvent e) {
         e.setDeathMessage(null);
         if (plugin.getGm().isInGame()) {
+            final LuckyPlayer lpDead = LuckyWarriors.getPlayer(e.getEntity());
+            
             if (e.getEntity().getKiller() instanceof Player) {
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                 plugin.getMsg().sendMessage(e.getEntity(), "Has sido asesinado por " + e.getEntity().getKiller().getDisplayName());
                 plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
                 plugin.getGm().getPlayersInGame().remove(e.getEntity());
-                plugin.getPm().setSpectator(e.getEntity());
-                FEMServer.getUser(e.getEntity()).sendMessage("Escribe &e/lobby &fpara volver al Lobby");
-                FEMServer.getUser(e.getEntity()).repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-                plugin.getPm().addKillToPlayer(e.getEntity().getKiller());
+                
+                final LuckyPlayer lpKiller = LuckyWarriors.getPlayer(e.getEntity());
+                lpDead.setSpectator();
+                lpDead.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
+                lpDead.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
+                lpDead.addKillToPlayer();
                 
                 //Stats
-                HashMap<Integer, Integer> kills = FEMServer.getUser(e.getEntity().getKiller()).getUserData().getKills();
+                HashMap<Integer, Integer> kills = lpKiller.getUserData().getKills();
                 kills.replace(6, kills.get(6) + 1);
-                FEMServer.getUser(e.getEntity().getKiller()).getUserData().setKills(kills);
-                FEMServer.getUser(e.getEntity().getKiller()).save();
-                HashMap<Integer, Integer> deaths = FEMServer.getUser(e.getEntity()).getUserData().getDeaths();
+                lpKiller.getUserData().setKills(kills);
+                lpKiller.save();
+                HashMap<Integer, Integer> deaths = lpKiller.getUserData().getDeaths();
                 deaths.replace(6, deaths.get(6) + 1);
-                FEMServer.getUser(e.getEntity()).getUserData().setDeaths(deaths);
-                FEMServer.getUser(e.getEntity()).save();
+                lpDead.getUserData().setDeaths(deaths);
+                lpDead.save();
             } else {
                 plugin.getMsg().sendMessage(e.getEntity(), "Has muerto");
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                 plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
                 plugin.getGm().getPlayersInGame().remove(e.getEntity());
-                plugin.getPm().setSpectator(e.getEntity());
-                FEMServer.getUser(e.getEntity()).sendMessage("Escribe &e/lobby &fpara volver al Lobby");
-                FEMServer.getUser(e.getEntity()).repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-                HashMap<Integer, Integer> deaths = FEMServer.getUser(e.getEntity()).getUserData().getDeaths();
+                lpDead.setSpectator();
+                lpDead.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
+                lpDead.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
+                HashMap<Integer, Integer> deaths = lpDead.getUserData().getDeaths();
                 deaths.replace(6, deaths.get(6) + 1);
-                FEMServer.getUser(e.getEntity()).getUserData().setDeaths(deaths);
-                FEMServer.getUser(e.getEntity()).save();
+                lpDead.getUserData().setDeaths(deaths);
+                lpDead.save();
             }
             if (!plugin.getGm().checkWinner()) {
                 plugin.getGm().checkDm();
@@ -142,8 +146,9 @@ public class GameListener implements Listener {
                 p.playSound(loc, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
 
                 // Actualizar stats
-                FEMServer.getUser(p).getUserData().setLuckyRotos(FEMServer.getUser(p).getUserData().getLuckyRotos() + 1);
-                FEMServer.getUser(p).save();
+                final LuckyPlayer lp = LuckyWarriors.getPlayer(p);
+                lp.getUserData().setLuckyRotos(lp.getUserData().getLuckyRotos() + 1);
+                lp.save();
             } 
         }
         e.setCancelled(true);
