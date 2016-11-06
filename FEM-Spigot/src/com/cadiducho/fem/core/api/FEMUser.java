@@ -27,7 +27,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class FEMUser {
     
-    @Getter private final OfflinePlayer base;
     @Getter private final UUID uuid;
     @Getter private FileConfiguration userLang;
     private static final FEMCore plugin = FEMCore.getInstance();
@@ -35,13 +34,12 @@ public class FEMUser {
     @Getter @Setter private UserData userData;
     
     public FEMUser(OfflinePlayer p) {
-        base = p;
-        uuid = p.getUniqueId();
-        setUserData(plugin.getMysql().loadUserData(uuid));
+        this(p.getUniqueId());
     }
     
     public FEMUser(UUID id) {
-        this(plugin.getServer().getOfflinePlayer(id));
+        uuid = id;
+        setUserData(plugin.getMysql().loadUserData(uuid));
     }
 
     public void save() {
@@ -51,20 +49,21 @@ public class FEMUser {
         FEMServer.users.add(this);
         setUserLang();
     }
+    
+    public OfflinePlayer getOfflinePlayer() {
+        return plugin.getServer().getOfflinePlayer(uuid);
+    }
 
     public Player getPlayer() {
-        if (getBase().isOnline()) {
-            return getBase().getPlayer();
-        }
-        return null;
+        return plugin.getServer().getPlayer(uuid);
     }
 
     public String getName() {
-        return base.getName(); 
+        return getOfflinePlayer().getName(); 
     }
     
     public boolean isOnline() { 
-        return (base.isOnline()); 
+        return getOfflinePlayer().isOnline();
     }
     
     // FEM
@@ -196,10 +195,10 @@ public class FEMUser {
     
     public int getPing() {
         try {
-            Method getHandleMethod = getBase().getClass().getDeclaredMethod("getHandle");
+            Method getHandleMethod = getPlayer().getClass().getDeclaredMethod("getHandle");
             getHandleMethod.setAccessible(true);
             
-            Object entityPlayer = getHandleMethod.invoke(getBase());
+            Object entityPlayer = getHandleMethod.invoke(getPlayer());
             
             Field pingField = entityPlayer.getClass().getDeclaredField("ping");
             pingField.setAccessible(true);
@@ -226,7 +225,7 @@ public class FEMUser {
         Long lastConnect = 0L;
         Long timeJoin = 0L;
         Long timePlayed = 0L;
-        String nickname = "";
+        String nickname = null;
         Integer coins = 0;
         InetSocketAddress ip = null;
         

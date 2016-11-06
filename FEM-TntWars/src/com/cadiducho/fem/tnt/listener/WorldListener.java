@@ -1,6 +1,5 @@
 package com.cadiducho.fem.tnt.listener;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.tnt.Generador;
 import com.cadiducho.fem.tnt.TntIsland;
 import com.cadiducho.fem.tnt.TntPlayer;
@@ -36,7 +35,7 @@ public class WorldListener implements Listener {
             if (placed.getType() == Material.TNT) {
                 TntIsland isla = checkBedrock(placed.getLocation().add(0, -1, 0).getBlock()); 
                 if (isla == null || isla.getOwner() == null) {
-                    pl.getBase().sendMessage("&eSólo puedes poner TNT en el núcleo de la isla de otros jugadores conectados");
+                    pl.sendMessage("&eSólo puedes poner TNT en el núcleo de la isla de otros jugadores conectados");
                     e.setCancelled(true);
                     return;
                 }
@@ -46,12 +45,12 @@ public class WorldListener implements Listener {
                 }
                 
                 if (isla.getOwner().equals(e.getPlayer().getUniqueId())) {
-                    pl.getBase().sendMessage("&cNo puedes poner TNT en tu isla");
+                    pl.sendMessage("&cNo puedes poner TNT en tu isla");
                     e.setCancelled(true);
                     return;
                 }
                 
-                BukkitTask bt = new TntExplodeTask(isla, e.getPlayer()).runTaskTimer(plugin, 1L, 20L);
+                BukkitTask bt = new TntExplodeTask(isla, e.getPlayer().getUniqueId()).runTaskTimer(plugin, 1L, 20L);
                 isla.setDestroyTaskId(bt.getTaskId());
             }
         }
@@ -78,12 +77,12 @@ public class WorldListener implements Listener {
                 
                 if (isla.getOwner().equals(e.getPlayer().getUniqueId())) {
                     plugin.getServer().getScheduler().cancelTask(isla.getDestroyTaskId());
-                    plugin.getMsg().sendBroadcast(pl.getBase().getDisplayName() + " ha evitado la explosión de su isla!");
+                    plugin.getMsg().sendBroadcast(pl.getDisplayName() + " ha evitado la explosión de su isla!");
                     for (Player p : plugin.getGm().getPlayersInGame()) {
                         p.playSound(isla.getBedrockCore().getLocation(), Sound.BLOCK_ANVIL_USE, 10F, 1F);
                     }
-                    pl.getBase().getUserData().setTntQuitadas(pl.getBase().getUserData().getTntQuitadas() + 1);
-                    pl.getBase().save();
+                    pl.getUserData().setTntQuitadas(pl.getUserData().getTntQuitadas() + 1);
+                    pl.save();
                 }
                 return;
             }
@@ -100,7 +99,7 @@ public class WorldListener implements Listener {
             Generador gen = Generador.getGenerador(broken.getLocation());
             if (gen != null) {
                 e.setCancelled(true);
-                pl.getBase().sendMessage("&c¡No puedes romper generadores!");
+                pl.sendMessage("&c¡No puedes romper generadores!");
             }
         }
     }

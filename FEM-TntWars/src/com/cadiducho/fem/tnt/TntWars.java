@@ -1,7 +1,6 @@
 package com.cadiducho.fem.tnt;
 
-import com.cadiducho.fem.core.api.FEMServer;
-import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.tnt.listener.PlayerListener;
 import com.cadiducho.fem.tnt.listener.SignListener;
 import com.cadiducho.fem.tnt.listener.WorldListener;
@@ -55,7 +54,8 @@ public class TntWars extends JavaPlugin {
         pm.registerEvents(new PlayerListener(instance), instance);
         pm.registerEvents(new WorldListener(instance), instance);
         pm.registerEvents(new SignListener(instance), instance);
-
+        pm.registerEvents(new TeleportFix(instance), instance);
+        
         GameState.state = GameState.LOBBY;
         getLogger().log(Level.INFO, "Tnt: Activado correctamente");
     }
@@ -70,17 +70,16 @@ public class TntWars extends JavaPlugin {
     }
 
     public static TntPlayer getPlayer(OfflinePlayer p) {
-        FEMUser u = FEMServer.getUser(p);
         for (TntPlayer pl : players) {
-            if (pl.getBase().getUuid() == null) {
+            if (pl.getUuid() == null) {
                 continue;
             }
-            if (pl.getBase().getUuid().equals(p.getUniqueId())) {
+            if (pl.getUuid().equals(p.getUniqueId())) {
                 return pl;
             }
         }
-        TntPlayer us = new TntPlayer(u);
-        if (us.getBase().getBase().isOnline()) {
+        TntPlayer us = new TntPlayer(p.getUniqueId());
+        if (us.isOnline()) {
             players.add(us);
         }
         return us;

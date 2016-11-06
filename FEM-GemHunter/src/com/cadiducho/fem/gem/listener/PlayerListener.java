@@ -1,6 +1,5 @@
 package com.cadiducho.fem.gem.listener;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.task.GameTask;
@@ -19,7 +18,6 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -49,8 +47,6 @@ public class PlayerListener implements Listener {
         Player player = e.getPlayer();
         e.setJoinMessage(null);
         if (plugin.getGm().acceptPlayers()) {
-            plugin.getServer().getOnlinePlayers().stream().forEach(p -> player.showPlayer(p)); // Mostrar todos los jugadores a todos
-            plugin.getServer().getOnlinePlayers().stream().forEach(p -> p.showPlayer(player));
             player.teleport(plugin.getAm().getLobby());
             GemHunters.getPlayer(player).setLobbyPlayer();
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
@@ -69,7 +65,7 @@ public class PlayerListener implements Listener {
         GemHunters.players.remove(GemHunters.getPlayer(player));
         
         if (plugin.getGm().getPlayersInGame().isEmpty()) {
-            GameTask.instance.end();
+            GameTask.end();
         }
     }
 
@@ -95,7 +91,7 @@ public class PlayerListener implements Listener {
         }
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
-            GemPlayer pl = GemHunters.getPlayer(p);
+            final GemPlayer pl = GemHunters.getPlayer(p);
 
             //Simular muerte
             if (p.getHealth() - e.getDamage() < 1) {
@@ -117,7 +113,7 @@ public class PlayerListener implements Listener {
             if (e.getEntity() instanceof Player && e.getDamager() instanceof Player) {
                 Player damager = (Player) e.getDamager();
                 Player p = (Player) e.getEntity();
-                GemPlayer pl = GemHunters.getPlayer(p);
+                final GemPlayer pl = GemHunters.getPlayer(p);
 
                 if (plugin.getTm().getTeam(p) == plugin.getTm().getTeam(damager)) {
                     e.setCancelled(true);
@@ -126,11 +122,15 @@ public class PlayerListener implements Listener {
                 //Simular muerte
                 if (p.getHealth() - e.getDamage() < 1) { 
                     e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
-                    plugin.getMsg().sendBroadcast("&e" + p.getDisplayName() + " &7ha muerto a manos de &e" + damager.getDisplayName());            
-                    HashMap<Integer, Integer> kills = FEMServer.getUser(damager).getUserData().getKills();
+                    plugin.getMsg().sendBroadcast("&e" + p.getDisplayName() + " &7ha muerto a manos de &e" + damager.getDisplayName());
+                    
+                    //Stats
+                    final GemPlayer gp = GemHunters.getPlayer(p);
+                    HashMap<Integer, Integer> kills = gp.getUserData().getKills();
                     kills.replace(3, kills.get(3) + 1);
-                    FEMServer.getUser(damager).getUserData().setKills(kills);
-                    FEMServer.getUser(damager).save();
+                    gp.getUserData().setKills(kills);
+                    gp.save();
+                    
                     //Limpiar jugador y respawn
                     pl.setCleanPlayer(GameMode.SPECTATOR);
                     new RespawnTask(pl).runTaskTimer(plugin, 1L, 20L);

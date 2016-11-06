@@ -1,8 +1,8 @@
 package com.cadiducho.fem.gem.manager;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.gem.GemPlayer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import lombok.Getter;
@@ -86,9 +86,11 @@ public class TeamManager {
             plugin.getMsg().sendBroadcast(p.getName() + " ha roto una gema del equipo " + oppositeTeam.getDisplayName());
             jugadores.get(getTeam(p.getPlayer())).forEach(ally -> ally.playSound(ally.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F));
             jugadores.get(oppositeTeam).forEach(ally -> ally.playSound(ally.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1F, 1F));
-                    
-            FEMServer.getUser(p).getUserData().setGemDestroyed(FEMServer.getUser(p).getUserData().getGemDestroyed() + 1);
-            FEMServer.getUser(p).save();
+            
+            final GemPlayer gp = GemHunters.getPlayer(p);
+            gp.getUserData().setGemDestroyed(gp.getUserData().getGemDestroyed() + 1);
+            gp.save();
+            
             plugin.getGm().checkWinner();
             return true;
         }
@@ -133,7 +135,7 @@ public class TeamManager {
                 Player pl = clon.get(clon.size() - 1);
                 clon.remove(pl);
                 t.addEntry(pl.getName());
-                FEMServer.getUser(pl).sendMessage(t.getPrefix() + "Has sido asignado al equipo " + t.getDisplayName());
+                GemHunters.getPlayer(pl).sendMessage(t.getPrefix() + "Has sido asignado al equipo " + t.getDisplayName());
   
                 ArrayList<Player> lista = jugadores.get(t);
                 lista.add(pl);

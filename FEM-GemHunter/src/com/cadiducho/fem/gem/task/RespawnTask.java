@@ -17,15 +17,15 @@ public class RespawnTask extends BukkitRunnable {
     
     @Override
     public void run() {
-        if (player.getBase().getPlayer() == null) cancel();
+        if (player.getPlayer() == null) cancel();
         
         if (count == 5) {
-            player.getBase().sendMessage("Respawnearás en 5 segundos");
-            player.getBase().sendMessage("En 5 segundos serás enviado al Lobby");
-            HashMap<Integer, Integer> deaths = player.getBase().getUserData().getDeaths();
+            player.sendMessage("Respawnearás en 5 segundos");
+            player.sendMessage("En 5 segundos serás enviado al Lobby");
+            HashMap<Integer, Integer> deaths = player.getUserData().getDeaths();
             deaths.replace(3, deaths.get(3) + 1);
-            player.getBase().getUserData().setDeaths(deaths);
-            player.getBase().save();
+            player.getUserData().setDeaths(deaths);
+            player.save();
         } else if (count == 0) {
             player.spawn();
             player.setCleanPlayer(GameMode.SURVIVAL);

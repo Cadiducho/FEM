@@ -77,6 +77,7 @@ public class GamemodeCMD extends FEMCmd {
                         user.sendMessage("*gamemode.uso");
                         break;
                 }
+                break;
             default:
                 user.sendMessage("*gamemode.uso");
                 break;

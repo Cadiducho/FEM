@@ -1,6 +1,5 @@
 package com.cadiducho.fem.gem.task;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.gem.GemHunters;
 import java.util.ArrayList;
 import org.bukkit.Location;
@@ -18,16 +17,16 @@ public class ShutdownTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        
         plugin.getMsg().sendBroadcast("Volverás al lobby en: " + count);
+        
         if (count == 0) {
             ArrayList<Location> gemas = plugin.getGm().getGemas().get(plugin.getTm().azul);
             gemas.addAll(plugin.getGm().getGemas().get(plugin.getTm().rojo));
             gemas.forEach(loc -> loc.getBlock().setType(Material.AIR));
             
-            plugin.getServer().getOnlinePlayers().stream().forEach((players) -> {
-                players.sendMessage("Servidor desconectado");
-                FEMServer.getUser(players).sendToLobby();
+            plugin.getServer().getOnlinePlayers().forEach(p -> {
+                p.sendMessage("Servidor desconectado");
+                GemHunters.getPlayer(p).sendToLobby();
             });
             plugin.getServer().spigot().restart();
             cancel();

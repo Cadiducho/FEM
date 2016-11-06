@@ -1,8 +1,8 @@
 package com.cadiducho.fem.color.task;
 
 import com.cadiducho.fem.color.DyeOrDie;
+import com.cadiducho.fem.color.DyePlayer;
 import com.cadiducho.fem.color.manager.GameState;
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.Title;
 import java.util.HashMap;
 import java.util.Random;
@@ -106,10 +106,12 @@ public class GameTask extends BukkitRunnable {
             plugin.getGm().getSpectators().forEach(spect -> new Title("&b&l" + winner.getName() + " ha ganado!", "Ha llegado hasta la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(spect));
             plugin.getMsg().sendBroadcast(winner.getName() + " ha ganado llegando hasta la ronda " + plugin.getAm().getRound() + "!");
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F));
-            HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
+            
+            final DyePlayer dp = DyeOrDie.getPlayer(winner);
+            HashMap<Integer, Integer> wins = dp.getUserData().getWins();
             wins.replace(2, wins.get(2) + 1);
-            FEMServer.getUser(winner).getUserData().setWins(wins);
-            FEMServer.getUser(winner).save();
+            dp.getUserData().setWins(wins);
+            dp.save();
             
             end();
             plugin.getServer().getScheduler().cancelTask(getTaskId());

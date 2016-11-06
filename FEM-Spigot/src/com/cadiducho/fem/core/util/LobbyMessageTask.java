@@ -15,7 +15,7 @@ public class LobbyMessageTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (player.getBase().getPlayer() == null) cancel();
+        if (player.getPlayer() == null) cancel();
         
         player.sendActionBar(mensaje);
     }

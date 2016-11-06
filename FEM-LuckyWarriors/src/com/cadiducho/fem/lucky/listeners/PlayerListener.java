@@ -1,8 +1,9 @@
 package com.cadiducho.fem.lucky.listeners;
 
+import com.cadiducho.fem.lucky.LuckyPlayer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import com.cadiducho.fem.lucky.task.LobbyTask;
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,20 +33,18 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        Player player = e.getPlayer();
+        final Player player = e.getPlayer();
+        final LuckyPlayer lp = LuckyWarriors.getPlayer(player);
         e.setJoinMessage(null);
         if (!plugin.getGm().acceptPlayers() || plugin.getGm().getPlayersInGame().size() >= plugin.getAm().getMaxPlayers()) {
-            plugin.getPm().setSpectator(player);
+            lp.setSpectator();
         } else {
             plugin.getServer().getOnlinePlayers().stream().forEach(p -> player.showPlayer(p)); // Mostrar todos los jugadores a todos
             plugin.getServer().getOnlinePlayers().stream().forEach(p -> p.showPlayer(player));
             player.teleport(plugin.getAm().getLobby());
-            plugin.getPm().setLobbyPlayer(player);
+            lp.setLobbyPlayer();
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
-            if (plugin.getGm().getPlayersInGame().size() == plugin.getAm().getMinPlayers() && plugin.getGm().start == false) {
-                new LobbyTask(plugin).runTaskTimer(plugin, 20l, 20l);
-                plugin.getGm().start = true;
-            }
+            plugin.getGm().checkStart();
         }
     }
 

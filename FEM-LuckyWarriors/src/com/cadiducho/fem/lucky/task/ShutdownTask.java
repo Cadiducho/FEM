@@ -1,6 +1,5 @@
 package com.cadiducho.fem.lucky.task;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -17,7 +16,7 @@ public class ShutdownTask extends BukkitRunnable{
     @Override
     public void run() {
         if(game == 5){
-            plugin.getServer().getOnlinePlayers().stream().forEach(p -> FEMServer.getUser(p).sendToLobby());
+            plugin.getServer().getOnlinePlayers().stream().forEach(p -> LuckyWarriors.getPlayer(p).sendToLobby());
         } else if(game == 0){
             plugin.getServer().shutdown();
             cancel();            

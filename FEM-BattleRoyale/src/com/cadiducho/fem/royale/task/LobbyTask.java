@@ -4,11 +4,11 @@ import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class LobbyCountdown extends BukkitRunnable {
+public class LobbyTask extends BukkitRunnable {
 
     private final BattleRoyale plugin;
 
-    public LobbyCountdown(BattleRoyale instance) {
+    public LobbyTask(BattleRoyale instance) {
         plugin = instance;
     }
 
@@ -16,16 +16,19 @@ public class LobbyCountdown extends BukkitRunnable {
 
     @Override
     public void run() {
+        //Comprobar si sigue habiendo suficientes jugadores o cancelar
+        if (plugin.getGm().getPlayersInGame().size() < plugin.getAm().getMinPlayers()) {
+            plugin.getGm().setCheckStart(true);
+            plugin.getServer().getOnlinePlayers().forEach(pl ->  pl.setLevel(0));
+            GameState.state = GameState.LOBBY;
+            cancel();
+            return;
+        }
+        
         plugin.getGm().getPlayersInGame().stream().forEach((players) -> {
             players.setLevel(count);
         });
         switch (count) {
-            case 30:
-                plugin.getServer().getOnlinePlayers().forEach(pl -> pl.hidePlayer(pl));
-                break;
-            case 29:
-                plugin.getServer().getOnlinePlayers().forEach(pl -> pl.showPlayer(pl));
-                break;
             case 5:
                 plugin.getMsg().sendBroadcast("&7Serás llevado al mundo en 5 segundos");
                 break;

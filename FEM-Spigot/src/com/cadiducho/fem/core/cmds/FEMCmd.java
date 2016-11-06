@@ -44,7 +44,7 @@ public abstract class FEMCmd {
     }
     
     public void run(FEMUser user, String label, String[] args) {
-        run((CommandSender) user.getBase(), label, args);
+        run((CommandSender) user.getPlayer(), label, args);
     }
     
     public void run(CommandSender sender, String label, String[] args) {

@@ -42,7 +42,6 @@ public class FEMBungee extends Plugin implements Listener {
         String subchannel = in.readUTF();
         if (subchannel.equals("bestLobby")) { 
             ProxiedPlayer p = ProxyServer.getInstance().getPlayer(in.readUTF());
-            System.out.println("Moviendo al lobby a " + p.getName());
             ServerInfo lobby = getOneLobby();
             if (lobby.getAddress() != p.getServer().getInfo().getAddress()) {
                 p.connect(getOneLobby());
@@ -69,7 +68,7 @@ public class FEMBungee extends Plugin implements Listener {
         ProxiedPlayer p = e.getPlayer();
         p.connect(getOneLobby());
     }
-    
+        
     @EventHandler
     public void onServerKickEvent(ServerKickEvent e) {
         e.setCancelled(true);
@@ -77,10 +76,12 @@ public class FEMBungee extends Plugin implements Listener {
     }
     
     private ServerInfo getOneLobby() {
-        ServerInfo bestOption = ProxyServer.getInstance().getServers().values().iterator().next();
+        ServerInfo bestOption = ProxyServer.getInstance().getServerInfo("lobby1");
         for (ServerInfo s : ProxyServer.getInstance().getServers().values()) {
             if (s.getName().contains("lobby")) {
-                if (s.getPlayers().size() < bestOption.getPlayers().size()) bestOption = s;
+                if (s.getPlayers().size() < bestOption.getPlayers().size()) {
+                    bestOption = s;
+                }
             }
         }
         return bestOption;

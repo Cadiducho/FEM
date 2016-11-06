@@ -37,11 +37,11 @@ public class BungeeListener implements Listener {
         try {
             BaseComponent[] msg = Parser.parse(mensaje);
             for (ProxiedPlayer target : plugin.getProxy().getPlayers()) {
-                if (!target.getServer().getInfo().getName().contains("lobby")) return;
+                // Enviar a todos los jugadores que estén en un servidor lobby y no estén ignorados
                 
-                /*if (plugin.ignoredPlayers.get(target.getUniqueId()) != null && plugin.ignoredPlayers.get(target.getUniqueId()).contains(from.getUniqueId()))
-                    continue;
-                */// FIX: En ocasiones no se envian mensajes de usuarios. Investigar y corregir
+                if (target.getServer() == null) continue;
+                if (!target.getServer().getInfo().getName().contains("lobby")) continue;
+                if (plugin.ignoredPlayers.get(target.getUniqueId()) != null && plugin.ignoredPlayers.get(target.getUniqueId()).contains(from.getUniqueId())) continue;
                 
                 target.sendMessage(msg);
             }

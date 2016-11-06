@@ -11,7 +11,7 @@ import org.bukkit.command.CommandSender;
 public class DarRangoCMD extends FEMCmd {
 
     public DarRangoCMD(){
-        super("darrango", Grupo.Admin, Arrays.asList("dargrupo", "setgrupo", "setgroup"));
+        super("darrango", Grupo.Moderador, Arrays.asList("dargrupo", "setgrupo", "setgroup"));
     }
     
     @Override

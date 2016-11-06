@@ -1,8 +1,8 @@
 package com.cadiducho.fem.tnt.task;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.tnt.TntIsland;
+import com.cadiducho.fem.tnt.TntPlayer;
 import com.cadiducho.fem.tnt.TntWars;
 import com.cadiducho.fem.tnt.manager.GameState;
 import java.util.HashMap;
@@ -36,17 +36,19 @@ public class GameTask extends BukkitRunnable {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + (count == 0 ? "2" : "1") + " segundos");
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));  
         } else if (count == 2) {
-            for (Player players : plugin.getGm().getPlayersInGame()) {
-                TntIsland isla = TntIsland.getIsland(players.getUniqueId());
-                new Title("", isla.getColor() + "¡Destruye el resto de islas!", 1, 2, 1).send(players);
-                players.playSound(players.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
-                TntWars.getPlayer(players).setCleanPlayer(GameMode.SURVIVAL);
-                players.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
-                TntWars.getPlayer(players).setGameScoreboard();
-                HashMap<Integer, Integer> plays = TntWars.getPlayer(players).getBase().getUserData().getPlays();
+            for (Player p : plugin.getGm().getPlayersInGame()) {
+                TntIsland isla = TntIsland.getIsland(p.getUniqueId());
+                new Title("", isla.getColor() + "¡Destruye el resto de islas!", 1, 2, 1).send(p);
+                p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+                p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
+                
+                final TntPlayer tp = TntWars.getPlayer(p);
+                tp.setCleanPlayer(GameMode.SURVIVAL);
+                tp.setGameScoreboard();
+                HashMap<Integer, Integer> plays = tp.getUserData().getPlays();
                 plays.replace(1, plays.get(1) + 1);
-                TntWars.getPlayer(players).getBase().getUserData().setPlays(plays);
-                FEMServer.getUser(players).save();
+                tp.getUserData().setPlays(plays);
+                tp.save();
             }
             plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
             timePlayed = true;
@@ -67,10 +69,10 @@ public class GameTask extends BukkitRunnable {
                 new Title("&a" + p.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner);
             }
             plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
-            HashMap<Integer, Integer> wins = TntWars.getPlayer(winner).getBase().getUserData().getWins();
+            HashMap<Integer, Integer> wins = TntWars.getPlayer(winner).getUserData().getWins();
             wins.replace(1, wins.get(1) + 1);
-            TntWars.getPlayer(winner).getBase().getUserData().setWins(wins);
-            TntWars.getPlayer(winner).getBase().save();
+            TntWars.getPlayer(winner).getUserData().setWins(wins);
+            TntWars.getPlayer(winner).save();
             end();
             cancel();
         }

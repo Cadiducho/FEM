@@ -1,7 +1,7 @@
 package com.cadiducho.fem.tnt.listener;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.tnt.Generador;
+import com.cadiducho.fem.tnt.TntPlayer;
 import com.cadiducho.fem.tnt.TntWars;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -365,173 +365,54 @@ public class SignListener implements Listener {
         
         if (e.getCurrentItem() != null) {       
             if (e.getInventory().getTitle().contains("§7Generador Hierro")) {
+                e.setCancelled(true);
                 if (e.getCurrentItem() == null && e.getCurrentItem().getItemMeta() == null) {
-                    e.setCancelled(true);
                     return;
                 }
                 switch (e.getCurrentItem().getItemMeta().getDisplayName()) {
                     case "§2Mejorar a: §2Generador de §7Hierro §2- Nivel 2":
-                        if (p.getInventory().contains(Material.IRON_INGOT, 20)) {
-                            p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.IRON_INGOT, 20)});
-                            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                            Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(2);
-                            FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
-                            FEMServer.getUser(p).save();
-                            p.closeInventory();
-                            clickedSign.remove(p);
-                        } else {
-                            p.sendMessage("§cNo tienes suficiente hierro!");
-                        }
-                        e.setCancelled(true);
+                        updateGen(3, p, Material.IRON_INGOT, 20);
                         break;
                     case "§2Mejorar a: §2Generador de §7Hierro §2- Nivel 3":
-                        if (p.getInventory().contains(Material.GOLD_INGOT, 20)) {
-                            p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 20)});
-                            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                            Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(3);
-                            FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
-                            FEMServer.getUser(p).save();
-                            p.closeInventory();
-                            clickedSign.remove(p);
-                        } else {
-                            p.sendMessage("§cNo tienes suficiente oro!");
-                        }
-                        e.setCancelled(true);
+                        updateGen(3, p, Material.GOLD_INGOT, 20);
                         break;
                     case "§2Mejorar a: §2Generador de §7Hierro §2- Nivel 4":
-                        if (p.getInventory().contains(Material.GOLD_INGOT, 50)) {
-                            p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 50)});
-                            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                            Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(4);
-                            FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
-                            FEMServer.getUser(p).save();
-                            p.closeInventory();
-                            clickedSign.remove(p);
-                        } else {
-                            p.sendMessage("§cNo tienes suficiente oro!");
-                        }
-                        e.setCancelled(true);
-                        break;
-                    default:
-                        e.setCancelled(true);
+                        updateGen(4, p, Material.GOLD_INGOT, 50);
                         break;
                 }
             } else if (e.getInventory().getTitle().contains("§7Generador Oro")) {
+                e.setCancelled(true);
                 if (e.getCurrentItem() == null && e.getCurrentItem().getItemMeta() == null) {
-                    e.setCancelled(true);
                     return;
                 }
                 switch (e.getCurrentItem().getItemMeta().getDisplayName()) {
                     case "§2Mejorar a: §2Generador de §7Oro §2- Nivel 2":
-                        if (p.getInventory().contains(Material.GOLD_INGOT, 10)) {
-                            p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 10)});
-                            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                            Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(2);
-                            FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
-                            FEMServer.getUser(p).save();
-                            p.closeInventory();
-                            clickedSign.remove(p);
-                        } else {
-                            p.sendMessage("§cNo tienes suficiente oro!");
-                        }
-                        e.setCancelled(true);
+                        updateGen(2, p, Material.GOLD_INGOT, 10);
                         break;
                     case "§2Mejorar a: §2Generador de §7Oro §2- Nivel 3":
-                        if (p.getInventory().contains(Material.GOLD_INGOT, 20)) {
-                            p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.GOLD_INGOT, 20)});
-                            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                            Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(3);
-                            FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
-                            FEMServer.getUser(p).save();
-                            p.closeInventory();
-                            clickedSign.remove(p);
-                        } else {
-                            p.sendMessage("§cNo tienes suficiente oro!");
-                        }
-                        e.setCancelled(true);
+                        updateGen(3, p, Material.GOLD_INGOT, 20);
                         break;
                     case "§2Mejorar a: §2Generador de §7Oro §2- Nivel 4":
-                        if (p.getInventory().contains(Material.DIAMOND, 20)) {
-                            p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 20)});
-                            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                            Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(4);
-                            FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
-                            FEMServer.getUser(p).save();
-                            p.closeInventory();
-                            clickedSign.remove(p);
-                        } else {
-                            p.sendMessage("§cNo tienes suficiente diamante!");
-                        }
-                        e.setCancelled(true);
-                        break;
-                    default:
-                        e.setCancelled(true);
+                        updateGen(4, p, Material.DIAMOND, 20);
                         break;
                 }
             } else if (e.getInventory().getTitle().contains("§7Generador Diamante")) {
+                e.setCancelled(true);
                 if (e.getCurrentItem() == null && e.getCurrentItem().getItemMeta() == null) {
-                    e.setCancelled(true);
                     return;
                 }
                 switch (e.getCurrentItem().getItemMeta().getDisplayName()) {
                     case "§2Mejorar a: §2Generador de §7Diamante §2- Nivel 1":
-                        if (p.getInventory().contains(Material.DIAMOND, 5)) {
-                            p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 5)});
-                            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                            Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(1);
-                            FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
-                            FEMServer.getUser(p).save();
-                            p.closeInventory();
-                            clickedSign.remove(p);
-                        } else {
-                            p.sendMessage("§cNo tienes suficiente diamante!");
-                        }
-                        e.setCancelled(true);
+                        updateGen(1, p, Material.DIAMOND, 5);
                         break;
                     case "§2Mejorar a: §2Generador de §7Diamante §2- Nivel 2":
-                        if (p.getInventory().contains(Material.DIAMOND, 10)) {
-                            p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 10)});
-                            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                            Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(2);
-                            FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
-                            FEMServer.getUser(p).save();
-                            p.closeInventory();
-                            clickedSign.remove(p);
-                        } else {
-                            p.sendMessage("§cNo tienes suficiente diamante!");
-                        }
-                        e.setCancelled(true);
+                        updateGen(2, p, Material.DIAMOND, 10);
                         break;
                     case "§2Mejorar a: §2Generador de §7Diamante §2- Nivel 3":
-                        if (p.getInventory().contains(Material.DIAMOND, 50)) {
-                            p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 50)});
-                            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                            Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(3);
-                            FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
-                            FEMServer.getUser(p).save();
-                            p.closeInventory();
-                            clickedSign.remove(p);
-                        } else {
-                            p.sendMessage("§cNo tienes suficiente diamante!");
-                        }
-                        e.setCancelled(true);
+                        updateGen(3, p, Material.DIAMOND, 50);
                         break;
                     case "§2Mejorar a: §2Generador de §7Diamante §2- Nivel 4":
-                        if (p.getInventory().contains(Material.DIAMOND, 75)) {
-                            p.getInventory().removeItem(new ItemStack[]{new ItemStack(Material.DIAMOND, 75)});
-                            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
-                            Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(4);
-                            FEMServer.getUser(p).getUserData().setGenUpgraded(FEMServer.getUser(p).getUserData().getGenUpgraded()+ 1);
-                            FEMServer.getUser(p).save();
-                            p.closeInventory();
-                            clickedSign.remove(p);
-                        } else {
-                            p.sendMessage("§cNo tienes suficiente diamante!");
-                        }
-                        e.setCancelled(true);
-                        break;
-                    default:
-                        e.setCancelled(true);
+                        updateGen(4, p, Material.DIAMOND, 75);
                         break;
                 }
             } else if (e.getInventory().getTitle().contains("§6Tienda TntWars")) {
@@ -561,6 +442,24 @@ public class SignListener implements Listener {
                         break;         
                 }
             }
+        }
+    }
+    
+    private void updateGen(int level, Player p, Material moneda, int cantidad) {
+        if (p.getInventory().contains(moneda, cantidad)) {
+            p.getInventory().removeItem(new ItemStack[]{new ItemStack(moneda, cantidad)});
+            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+            p.closeInventory();
+            
+            final TntPlayer tp = TntWars.getPlayer(p);
+            tp.getUserData().setGenUpgraded(tp.getUserData().getGenUpgraded() + 1);
+            tp.save();
+            Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(level);
+            
+            clickedSign.remove(p);
+        } else {
+            String txt = moneda == Material.DIAMOND ? "diamante" : (moneda == Material.GOLD_INGOT ? "oro" : "hierro");
+            p.sendMessage("§c¡No tienes suficiente " + txt + "!");
         }
     }
 }

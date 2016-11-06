@@ -1,13 +1,16 @@
 package com.cadiducho.fem.royale.manager;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.Title;
+import com.cadiducho.fem.royale.BattlePlayer;
 import java.util.ArrayList;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.task.DeathMatchCountdown;
+import com.cadiducho.fem.royale.task.LobbyTask;
 import com.cadiducho.fem.royale.task.WinnerCountdown;
 import java.util.HashMap;
+import java.util.UUID;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.Player;
 
 public class GameManager {
@@ -20,14 +23,17 @@ public class GameManager {
 
     @Getter private final ArrayList<Player> playersInGame = new ArrayList<>();
     @Getter private final ArrayList<Player> spectators = new ArrayList<>();
-    @Getter public boolean start;
-    @Getter public boolean dm;
+    @Getter private final HashMap<UUID, Integer> kills = new HashMap<>();
+    @Getter public boolean dm = false;
+    
+    //¿Ha de comprobar el inicio del juego?
+    @Getter @Setter private boolean checkStart = true;
 
-    public void init() {
-        playersInGame.clear();
-        spectators.clear();
-        start = false;
-        dm = false;
+    public void checkStart() {
+        if (checkStart == true && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
+            checkStart = false;
+            new LobbyTask(plugin).runTaskTimer(plugin, 1l, 20l);
+        }
     }
 
     public void checkDm() {
@@ -36,8 +42,6 @@ public class GameManager {
             plugin.getAm().loadSpawn();
             GameState.state = GameState.DEATHMATCH;
             new DeathMatchCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
-        } else if (playersInGame.size() == 1 || playersInGame.isEmpty()) {
-            plugin.getServer().shutdown();
         }
     }
 
@@ -46,11 +50,13 @@ public class GameManager {
             if (playersInGame.size() < 2) {
                 playersInGame.stream().forEach((winner) -> {
                     plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
-                    HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
+                    
+                    final BattlePlayer bp = BattleRoyale.getPlayer(winner);
+                    HashMap<Integer, Integer> wins = bp.getUserData().getWins();
                     wins.replace(5, wins.get(5) + 1);
                     new Title("&b&l¡Has ganado!", "", 1, 2, 1).send(winner);
-                    FEMServer.getUser(winner).getUserData().setWins(wins);
-                    FEMServer.getUser(winner).save();
+                    bp.getUserData().setWins(wins);
+                    bp.save();
                 });
                 new WinnerCountdown(plugin).runTaskTimer(plugin, 20l, 20l);
                 GameState.state = GameState.ENDING;

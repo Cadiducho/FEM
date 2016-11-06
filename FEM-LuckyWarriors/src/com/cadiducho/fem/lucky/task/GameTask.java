@@ -25,6 +25,8 @@ public class GameTask extends BukkitRunnable {
             plugin.getGm().getPlayersInGame().forEach(p -> {
                 plugin.getAm().teleportArena(p);
                 new Title("&b&l¡A las armas!", "", 1, 2, 1).send(p);
+                p.setHealth(p.getMaxHealth());
+                p.setFoodLevel(20);
             });
             plugin.getMsg().sendBroadcast("&7¡Que de comienzo la batalla!");
         } else if (plugin.getAm().gameTime == 0) {

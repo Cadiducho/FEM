@@ -1,9 +1,8 @@
 package com.cadiducho.fem.pic.manager;
 
-import com.cadiducho.fem.core.api.FEMServer;
-import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.Title;
+import com.cadiducho.fem.pic.PicPlayer;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.task.GameTask;
 import com.cadiducho.fem.pic.task.LobbyTask;
@@ -13,6 +12,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.DyeColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -36,16 +36,17 @@ public class GameManager {
         plugin = instance;
     }
 
-    private boolean checkStart = false;
+    //¿Ha de comprobar el inicio del juego?
+    @Getter @Setter private boolean checkStart = true;
 
     public void checkStart() {
-        if (checkStart == false && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
-            checkStart = true;
-            new LobbyTask(plugin).runTaskTimer(plugin, 20l, 20l);
+        if (checkStart == true && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
+            checkStart = false;
+            new LobbyTask(plugin).runTaskTimer(plugin, 1l, 20l);
             board = plugin.getServer().getScoreboardManager().getNewScoreboard();
             objective = board.registerNewObjective("puntos", "dummy");
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-            objective.setDisplayName(Metodos.colorizar("&aPictograma: &6Puntuaciones"));
+            objective.setDisplayName(Metodos.colorizar("&3&lPictograma"));
             plugin.getAm().getBuildZone().clear();
             plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
         }
@@ -70,7 +71,7 @@ public class GameManager {
         
         new Title("&e&l" + word, "&3Dibuja esta palabra", 1, 2, 1).send(builder);
         Pictograma.getPlayer(builder).setArtist();
-        Pictograma.getPlayer(builder).getBase().sendMessage("La palabara es &e" + word);
+        Pictograma.getPlayer(builder).sendMessage("La palabara es &e" + word);
     
         new GameTask(plugin).runTaskTimer(plugin, 2l, 20l);    
     }
@@ -97,10 +98,12 @@ public class GameManager {
                 p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
                 new Title("&a" + winner.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner); 
             }
-            HashMap<Integer, Integer> wins = FEMServer.getUser(winner).getUserData().getWins();
+            
+            final PicPlayer pp = Pictograma.getPlayer(winner);
+            HashMap<Integer, Integer> wins = pp.getUserData().getWins();
             wins.replace(4, wins.get(4) + 1);
-            FEMServer.getUser(winner).getUserData().setWins(wins);
-            FEMServer.getUser(winner).save();
+            pp.getUserData().setWins(wins);
+            pp.save();
         }
         new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
     }
@@ -129,16 +132,18 @@ public class GameManager {
     }
     
     public void wordFoundBy(Player player) {
-        FEMUser user = FEMServer.getUser(player);
+        final PicPlayer pp = Pictograma.getPlayer(player);
+        final PicPlayer ppBuilder = Pictograma.getPlayer(builder);
+        
         if (!acceptWords) {
-            user.sendMessage("&e'No puedes escribir una palabra fuera de tiempo!");
+            pp.sendMessage("&e'No puedes escribir una palabra fuera de tiempo!");
             return;
         }
         if (!hasFound.contains(player.getUniqueId())) {
             hasFound.add(player.getUniqueId());
             score.keySet().forEach(p -> p.getWorld().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F));
-            FEMServer.getUser(player).getUserData().setPicAcertadas(FEMServer.getUser(player).getUserData().getPicAcertadas() + 1);
-            FEMServer.getUser(player).save();
+            pp.getUserData().setPicAcertadas(pp.getUserData().getPicAcertadas() + 1);
+            pp.save();
             
             int puntos;
             String sufijo = "!";
@@ -148,8 +153,9 @@ public class GameManager {
                     sufijo = ", y ha sido el más rápido!";
                     plugin.getMsg().sendMessage(builder, "&6+2 &aalguien ha adivinado tu palabra!");
                     increaseScore(builder, 2);
-                    FEMServer.getUser(builder).getUserData().setPicDibujadas(FEMServer.getUser(builder).getUserData().getPicDibujadas() + 1);
-                    FEMServer.getUser(builder).save();
+                    
+                    ppBuilder.getUserData().setPicDibujadas(ppBuilder.getUserData().getPicDibujadas() + 1);
+                    ppBuilder.save();
                     break;
                 case 1: //8 puntos
                     puntos = 8;
@@ -169,8 +175,6 @@ public class GameManager {
             }
             increaseScore(player, puntos);
             plugin.getMsg().sendBroadcast("&6+" + puntos + " &a" + player.getName() + " ha encontrado la palabra" + sufijo);
-            FEMServer.getUser(builder).getUserData().setPicDibujadas(FEMServer.getUser(builder).getUserData().getPicDibujadas() + 1);
-            FEMServer.getUser(builder).save();
             
             playerFound += 1;
         }
@@ -190,6 +194,11 @@ public class GameManager {
 
     public void removePlayerFromGame(Player player) {
         playersInGame.remove(player);
+        
+        if (builder != null && (player.getUniqueId() == builder.getUniqueId())) {
+            GameTask.getGameInstance().prepareNextRound();
+        }
+        //Elminar de la cola
         for (Player p : plugin.getAm().getColaPintar()) { 
             if (p.getUniqueId() == player.getUniqueId()) { 
                 if (plugin.getAm().getColaPintar().contains(p)) {
@@ -197,6 +206,8 @@ public class GameManager {
                 }
             } 
         }
+        
+        //Eliminar sus puntos
         if (score != null) score.remove(player);
         if (board != null) board.resetScores(player.getName());
     }

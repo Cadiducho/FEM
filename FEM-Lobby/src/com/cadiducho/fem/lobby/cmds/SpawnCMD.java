@@ -1,12 +1,13 @@
-package com.cadiducho.fem.core.cmds;
+package com.cadiducho.fem.lobby.cmds;
 
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.cmds.FEMCmd;
 import java.util.Arrays;
 
 public class SpawnCMD extends FEMCmd {
     
     public SpawnCMD() {
-        super("spawn", FEMCmd.Grupo.Usuario, Arrays.asList());
+        super("spawn", Grupo.Usuario, Arrays.asList());
     }
     
     @Override

@@ -1,7 +1,6 @@
 package com.cadiducho.fem.pic;
 
-import com.cadiducho.fem.core.api.FEMServer;
-import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.pic.listener.*;
 import com.cadiducho.fem.pic.manager.ArenaManager;
@@ -60,6 +59,7 @@ public class Pictograma extends JavaPlugin {
         pm.registerEvents(new PlayerListener(instance), instance);
         pm.registerEvents(new WorldListener(instance), instance);
         pm.registerEvents(new GameListener(instance), instance);
+        pm.registerEvents(new TeleportFix(instance), instance);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Ticker(this), 1L, 1L);
         
         colorPicker = getServer().createInventory(null, 9, "Escoge el color del pincel");
@@ -94,17 +94,16 @@ public class Pictograma extends JavaPlugin {
     }
     
     public static PicPlayer getPlayer(OfflinePlayer p) {
-        FEMUser u = FEMServer.getUser(p);
         for (PicPlayer pl : players) {
-            if (pl.getBase().getUuid() == null) {
+            if (pl.getUuid() == null) {
                 continue;
             }
-            if (pl.getBase().getUuid().equals(p.getUniqueId())) {
+            if (pl.getUuid().equals(p.getUniqueId())) {
                 return pl;
             }
         }
-        PicPlayer us = new PicPlayer(u);
-        if (us.getBase().getBase().isOnline()) {
+        PicPlayer us = new PicPlayer(p.getUniqueId());
+        if (us.isOnline()) {
             players.add(us);
         }
         return us;

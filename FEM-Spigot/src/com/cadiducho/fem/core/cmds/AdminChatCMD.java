@@ -19,7 +19,7 @@ public class AdminChatCMD extends FEMCmd {
     public void run(FEMUser user, String label, String[] args) {
         if(args.length > 0) {
             String message = Metodos.buildString(args);
-            metodos.enviarPorAdminChat(user.getDisplayName(), message);
+            metodos.enviarPorAdminChat(user.getName(), message);
         } else {
             user.toggleAdminChat();
         }

@@ -2,7 +2,7 @@ package com.cadiducho.fem.tnt.manager;
 
 import com.cadiducho.fem.tnt.TntIsland;
 import com.cadiducho.fem.tnt.TntWars;
-import com.cadiducho.fem.tnt.task.CountdownTask;
+import com.cadiducho.fem.tnt.task.LobbyTask;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,14 +18,15 @@ public class GameManager {
 
     @Getter private final ArrayList<Player> playersInGame = new ArrayList<>();
     @Getter private final ArrayList<Player> spectators = new ArrayList<>();
-
-    private boolean checkStart = false;
     @Getter @Setter private boolean dañoEnCaida = true;
 
+    //¿Ha de comprobar el inicio del juego?
+    @Getter @Setter private boolean checkStart = true;
+
     public void checkStart() {
-        if (checkStart == false && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
-            checkStart = true;
-            new CountdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
+        if (checkStart == true && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
+            checkStart = false;
+            new LobbyTask(plugin).runTaskTimer(plugin, 1l, 20l);
         }
     }
 

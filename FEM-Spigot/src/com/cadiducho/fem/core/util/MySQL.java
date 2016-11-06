@@ -4,6 +4,7 @@ import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.api.FEMUser.UserData;
 import com.cadiducho.fem.core.cmds.FEMCmd;
+import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -182,7 +183,7 @@ public class MySQL {
                 statementSett.executeUpdate();
 
             } catch (Exception ex) {
-                System.out.println("Ha ocurrido un error guardando los datos de " + u.getBase().getName());
+                System.out.println("Ha ocurrido un error guardando los datos de " + u.getName());
                 ex.printStackTrace();
             }
         });
@@ -283,7 +284,16 @@ public class MySQL {
                 amigos.add(UUID.fromString(rsAmigos.getString("to")));        
             }
             data.setAmigos(amigos);
-
+        } catch (CommunicationsException ex) {
+            //Si el driver ha perdido la conexion (timeout) cerrar, abrir y volver a intentar
+            FEMCore.getInstance().debugLog(ex.toString());
+            try {
+                closeConnection();
+                openConnection();
+                return loadUserData(id);
+            } catch (Exception ex1) {
+                ex1.printStackTrace();
+            }
         } catch (Exception ex) {
             System.out.println("Ha ocurrido un error cargando los datos de " + id);
             ex.printStackTrace();
