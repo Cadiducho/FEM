@@ -1,6 +1,6 @@
 package com.cadiducho.fem.pic.task;
 
-import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.pic.PicPlayer;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.manager.GameState;
 import java.util.ArrayList;
@@ -43,11 +43,13 @@ public class CountdownTask extends BukkitRunnable {
                 //Ajustar puntuaciones y scoreboard
                 plugin.getGm().getScore().put(p, 0);
                 plugin.getGm().increaseScore(p, 0);
-                p.setScoreboard(plugin.getGm().getBoard());  
-                HashMap<Integer, Integer> plays = FEMServer.getUser(p).getUserData().getPlays();
+                p.setScoreboard(plugin.getGm().getBoard());
+                
+                final PicPlayer pp = Pictograma.getPlayer(p);
+                HashMap<Integer, Integer> plays = pp.getUserData().getPlays();
                 plays.replace(4, plays.get(4) + 1);
-                FEMServer.getUser(p).getUserData().setPlays(plays);
-                FEMServer.getUser(p).save();
+                pp.getUserData().setPlays(plays);
+                pp.save();
             }
             
             //Iniciar hilo de la fase de esconder

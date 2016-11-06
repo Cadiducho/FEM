@@ -1,7 +1,5 @@
 package com.cadiducho.fem.pic;
 
-import com.cadiducho.fem.core.api.FEMServer;
-import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.pic.listener.*;

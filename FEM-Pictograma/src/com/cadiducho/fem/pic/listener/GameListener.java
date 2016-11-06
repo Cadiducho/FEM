@@ -1,6 +1,5 @@
 package com.cadiducho.fem.pic.listener;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.tick.EventTick;
 import com.cadiducho.fem.pic.tick.TickType;
@@ -76,7 +75,7 @@ public class GameListener implements Listener {
                     e.setCancelled(true);
                     plugin.getAm().getBuildZone().clear();
                     plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
-                    FEMServer.getUser(e.getPlayer()).sendMessage("&eHas limpiado la hoja completamente");
+                    Pictograma.getPlayer(e.getPlayer()).sendMessage("&eHas limpiado la hoja completamente");
                     break;
                 case LAVA_BUCKET: //Rellenar area
                     e.setCancelled(true);
