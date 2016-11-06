@@ -1,8 +1,7 @@
 package com.cadiducho.fem.royale.listeners;
 
-import com.cadiducho.fem.core.api.FEMServer;
-import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Title;
+import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
 import com.google.common.collect.Lists;
@@ -63,42 +62,43 @@ public class GameListener implements Listener {
     public void onPlayerDeath(PlayerDeathEvent e) {
         e.setDeathMessage(null);
         if (plugin.getGm().isInGame()) {
+            final BattlePlayer bpDead = BattleRoyale.getPlayer(e.getEntity());
+            
             if (e.getEntity().getKiller() instanceof Player) {
-                FEMUser user = FEMServer.getUser(e.getEntity());
-                FEMUser killer = FEMServer.getUser(e.getEntity().getKiller());
+                final BattlePlayer bpKiller = BattleRoyale.getPlayer(e.getEntity().getKiller());
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                 plugin.getMsg().sendMessage(e.getEntity(), "Te ha matado " + e.getEntity().getKiller().getDisplayName());
                 plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
                 plugin.getGm().getPlayersInGame().remove(e.getEntity());
-                plugin.getPm().setSpectator(e.getEntity());
-                user.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
-                user.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-                plugin.getPm().addKillToPlayer(e.getEntity().getKiller());
-                killer.sendMessage("Has recibido una moneda por matar a &e" + e.getEntity().getName());
-                killer.getPlayer().getInventory().addItem(plugin.getMoneda());
+                bpDead.setSpectator();
+                bpDead.addKillToPlayer();
+                bpDead.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
+                bpDead.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
+                bpKiller.sendMessage("Has recibido una moneda por matar a &e" + e.getEntity().getName());
+                bpKiller.getPlayer().getInventory().addItem(plugin.getMoneda());
                 
                 //Stats
-                HashMap<Integer, Integer> kills = killer.getUserData().getKills();
+                HashMap<Integer, Integer> kills = bpKiller.getUserData().getKills();
                 kills.replace(5, kills.get(5) + 1);
-                killer.getUserData().setKills(kills);
-                killer.save();
-                HashMap<Integer, Integer> deaths = user.getUserData().getDeaths();
+                bpKiller.getUserData().setKills(kills);
+                bpKiller.save();
+                HashMap<Integer, Integer> deaths = bpDead.getUserData().getDeaths();
                 deaths.replace(5, deaths.get(5) + 1);
-                user.getUserData().setDeaths(deaths);
-                user.save();
+                bpDead.getUserData().setDeaths(deaths);
+                bpDead.save();
             } else {
                 plugin.getMsg().sendMessage(e.getEntity(), "Has muerto");
                 new Title("&b&l¡Has muerto!", "Puedes volver al Lobby cuando quieras", 1, 3, 1).send(e.getEntity());
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                 plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
                 plugin.getGm().getPlayersInGame().remove(e.getEntity());
-                plugin.getPm().setSpectator(e.getEntity());
-                FEMServer.getUser(e.getEntity()).sendMessage("Escribe &e/lobby &fpara volver al Lobby");
-                FEMServer.getUser(e.getEntity()).repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-                HashMap<Integer, Integer> deaths = FEMServer.getUser(e.getEntity()).getUserData().getDeaths();
+                bpDead.setSpectator();
+                bpDead.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
+                bpDead.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
+                HashMap<Integer, Integer> deaths = bpDead.getUserData().getDeaths();
                 deaths.replace(5, deaths.get(5) + 1);
-                FEMServer.getUser(e.getEntity()).getUserData().setDeaths(deaths);
-                FEMServer.getUser(e.getEntity()).save();
+                bpDead.getUserData().setDeaths(deaths);
+                bpDead.save();
             }
             if (!plugin.getGm().checkWinner()) {
                 plugin.getGm().checkDm();

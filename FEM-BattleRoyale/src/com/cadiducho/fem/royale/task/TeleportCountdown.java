@@ -1,7 +1,7 @@
 package com.cadiducho.fem.royale.task;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.Title;
+import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
 import java.util.HashMap;
@@ -31,11 +31,13 @@ public class TeleportCountdown extends BukkitRunnable {
         } else if (count == 0) {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> {
                 plugin.getAm().fixPlayer(p.getLocation());
-                plugin.getPm().loadKit(p);
-                HashMap<Integer, Integer> plays = FEMServer.getUser(p).getUserData().getPlays();
+                
+                final BattlePlayer bp = BattleRoyale.getPlayer(p);
+                bp.loadKit();
+                HashMap<Integer, Integer> plays = bp.getUserData().getPlays();
                 plays.replace(5, plays.get(5) + 1);
-                FEMServer.getUser(p).getUserData().setPlays(plays);
-                FEMServer.getUser(p).save();
+                bp.getUserData().setPlays(plays);
+                bp.save();
             });
             GameState.state = GameState.PVE;
             new GameCountdown(plugin).runTaskTimer(plugin, 20l, 20l);

@@ -1,11 +1,10 @@
 package com.cadiducho.fem.royale.manager;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.ItemBuilder;
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.royale.BattlePlayer;
 import java.util.ArrayList;
 import java.util.Random;
-
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.utils.ChestItems;
 import lombok.Getter;
@@ -253,10 +252,12 @@ public class ArenaManager {
         vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.DIAMOND_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build(), moneda30));
         
         vendo.addListener((Merchant merchant, MerchantOffer offer, Player customer) -> {
-            FEMServer.getUser(customer).getUserData().setBrIntercambios(FEMServer.getUser(customer).getUserData().getBrIntercambios() + 1);
+            final BattlePlayer bp = BattleRoyale.getPlayer(customer);
+            bp.getUserData().setBrIntercambios(bp.getUserData().getBrIntercambios() + 1);
         }); 
         compro.addListener((Merchant merchant, MerchantOffer offer, Player customer) -> {
-            FEMServer.getUser(customer).getUserData().setBrIntercambios(FEMServer.getUser(customer).getUserData().getBrIntercambios() + 1);
+            final BattlePlayer bp = BattleRoyale.getPlayer(customer);
+            bp.getUserData().setBrIntercambios(bp.getUserData().getBrIntercambios() + 1);
         });
     }
 }

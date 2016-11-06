@@ -1,5 +1,6 @@
 package com.cadiducho.fem.royale.listeners;
 
+import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.task.LobbyCountdown;
 import org.bukkit.ChatColor;
@@ -32,15 +33,14 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        Player player = e.getPlayer();
+        final Player player = e.getPlayer();
+        final BattlePlayer bp = BattleRoyale.getPlayer(player);
         e.setJoinMessage(null);
         if (!plugin.getGm().acceptPlayers() || plugin.getGm().getPlayersInGame().size() >= plugin.getAm().getMaxPlayers()) {
-            plugin.getPm().setSpectator(player);
+            bp.setSpectator();
         } else {
-            plugin.getServer().getOnlinePlayers().stream().forEach(p -> player.showPlayer(p)); // Mostrar todos los jugadores a todos
-            plugin.getServer().getOnlinePlayers().stream().forEach(p -> p.showPlayer(player));
             player.teleport(plugin.getAm().getLobby());
-            plugin.getPm().setLobbyPlayer(player);
+            bp.setLobbyPlayer();
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
             if (plugin.getGm().getPlayersInGame().size() == plugin.getAm().getMinPlayers() && plugin.getGm().start == false) {
                 new LobbyCountdown(plugin).runTaskTimer(plugin, 20l, 20l);

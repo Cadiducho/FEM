@@ -1,6 +1,5 @@
 package com.cadiducho.fem.royale.task;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.royale.BattleRoyale;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -17,7 +16,7 @@ public class WinnerCountdown extends BukkitRunnable {
     @Override
     public void run() {
         if(game == 5){
-            plugin.getServer().getOnlinePlayers().stream().forEach(p -> FEMServer.getUser(p).sendToLobby());
+            plugin.getServer().getOnlinePlayers().stream().forEach(p -> BattleRoyale.getPlayer(p).sendToLobby());
         } else if(game == 0){
             plugin.getServer().shutdown();
             cancel();            
