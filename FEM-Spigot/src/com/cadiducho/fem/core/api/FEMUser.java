@@ -225,7 +225,7 @@ public class FEMUser {
         Long lastConnect = 0L;
         Long timeJoin = 0L;
         Long timePlayed = 0L;
-        String nickname = "";
+        String nickname = null;
         Integer coins = 0;
         InetSocketAddress ip = null;
         

@@ -27,7 +27,7 @@ public class GemPlayer extends FEMUser {
                 if (getPlayer() == null) cancel();
                 
                 if (plugin.getGm().isInLobby()) {
-                    board.setName("§d§lGem§e§lHunter");
+                    board.setName("§2§lGemHunters");
                     board.text(5, "§d ");
                     board.text(4, "§6" + plugin.getGm().getPlayersInGame().size() + "§d/§6" + plugin.getAm().getMaxPlayers());
                     board.text(3, "§a ");
@@ -51,8 +51,8 @@ public class GemPlayer extends FEMUser {
                 if (getPlayer() == null) cancel();
                 
                 if (plugin.getGm().isHidding()) {
-                    board.setName("§d§lGem§e§lHunter");
-                    board.text(12, "§7Equipos:");
+                    board.setName("§2§lGemHunters");
+                    board.text(12, "§7Gemas restantes:");
                     board.text(11, "§cRojo: §f" + plugin.getTm().getPuntos(plugin.getTm().rojo));
                     board.text(10, "§3Azul: §f" + plugin.getTm().getPuntos(plugin.getTm().azul));
                     board.text(7, "§f☺ ");
@@ -77,7 +77,7 @@ public class GemPlayer extends FEMUser {
                 if (getPlayer() == null) cancel();
                 
                 if (plugin.getGm().isInGame()) {
-                    board.setName("§d§lGem§e§lHunter");
+                    board.setName("§2§lGemHunters");
                     board.text(12, "§7Equipos:");
                     board.text(11, "§cRojo: §f" + plugin.getTm().getPuntos(plugin.getTm().rojo));
                     board.text(10, "§1Azul: §f" + plugin.getTm().getPuntos(plugin.getTm().azul));
@@ -97,7 +97,6 @@ public class GemPlayer extends FEMUser {
     }
     
     public void setLobbyPlayer() {
-        System.out.println("SetLobby");
         setWaitScoreboard();
         plugin.getGm().addPlayerToGame(getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);

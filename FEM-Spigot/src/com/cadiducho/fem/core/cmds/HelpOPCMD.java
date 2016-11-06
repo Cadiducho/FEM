@@ -26,7 +26,7 @@ public class HelpOPCMD extends FEMCmd {
         }
 
         String message = Metodos.buildString(args);
-        metodos.enviarPorHP(user.getDisplayName(), message);
+        metodos.enviarPorHP(user.getName(), message);
         temp.setOnCooldown(user.getPlayer());
         user.sendMessage("*helpop.mensaje");
     }

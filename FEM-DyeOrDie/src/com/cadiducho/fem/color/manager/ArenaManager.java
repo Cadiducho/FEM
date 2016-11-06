@@ -287,19 +287,19 @@ public class ArenaManager {
     
     private String nombreCastellano(DyeColor dye) {
         switch (dye) {
-            case BLACK: return "negro";
-            case BLUE: return "azul";
-            case BROWN: return "marrón";
-            case CYAN: return "cian";
-            case GRAY: return "gris";
-            case GREEN: return "verde";
-            case LIME: return "lima";
-            case MAGENTA: return "magenta";
-            case ORANGE: return "naranja";
-            case PINK: return "rosa";
-            case PURPLE: return "morado";
-            case RED: return "rojo";
-            case YELLOW: return "amarillo";
+            case BLACK: return "Negro";
+            case BLUE: return "Azul";
+            case BROWN: return "Marrón";
+            case CYAN: return "Cian";
+            case GRAY: return "Gris";
+            case GREEN: return "Verde";
+            case LIME: return "Lima";
+            case MAGENTA: return "Magenta";
+            case ORANGE: return "Naranja";
+            case PINK: return "Rosa";
+            case PURPLE: return "Morado";
+            case RED: return "Rojo";
+            case YELLOW: return "Amarillo";
         }
         return "?";
     }
