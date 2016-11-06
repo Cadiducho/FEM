@@ -46,7 +46,7 @@ public class GameManager {
             board = plugin.getServer().getScoreboardManager().getNewScoreboard();
             objective = board.registerNewObjective("puntos", "dummy");
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-            objective.setDisplayName(Metodos.colorizar("&aPictograma: &6Puntuaciones"));
+            objective.setDisplayName(Metodos.colorizar("&3&lPictograma"));
             plugin.getAm().getBuildZone().clear();
             plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
         }
@@ -194,6 +194,11 @@ public class GameManager {
 
     public void removePlayerFromGame(Player player) {
         playersInGame.remove(player);
+        
+        if (builder != null && (player.getUniqueId() == builder.getUniqueId())) {
+            GameTask.getGameInstance().prepareNextRound();
+        }
+        //Elminar de la cola
         for (Player p : plugin.getAm().getColaPintar()) { 
             if (p.getUniqueId() == player.getUniqueId()) { 
                 if (plugin.getAm().getColaPintar().contains(p)) {
@@ -201,6 +206,8 @@ public class GameManager {
                 }
             } 
         }
+        
+        //Eliminar sus puntos
         if (score != null) score.remove(player);
         if (board != null) board.resetScores(player.getName());
     }

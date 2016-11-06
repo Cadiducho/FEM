@@ -58,7 +58,9 @@ public class GameTask extends BukkitRunnable {
         
         //Informar a los usuarios
         plugin.getMsg().sendEmptyLine();
-        plugin.getMsg().sendBroadcast("&aSe acabó el tiempo! La siguiente ronda comenzará en 5 segundos");
+        if (plugin.getGm().builder != null || !plugin.getGm().builder.isOnline()) {
+            plugin.getMsg().sendBroadcast("&aSe acabó el tiempo! La siguiente ronda comenzará en 5 segundos");
+        }
         plugin.getMsg().sendBroadcast("&aLa palabra era: &e&l" + plugin.getGm().word);
         plugin.getMsg().sendEmptyLine();
         
@@ -67,8 +69,10 @@ public class GameTask extends BukkitRunnable {
         plugin.getGm().acceptWords = false;
         
         //Mover al constructor y asignar valor null para buscar uno nuevo
-        Pictograma.getPlayer(plugin.getGm().builder).setCleanPlayer(GameMode.ADVENTURE);
-        Pictograma.getPlayer(plugin.getGm().builder).spawn();
+        if (plugin.getGm().builder != null || !plugin.getGm().builder.isOnline()) {
+            Pictograma.getPlayer(plugin.getGm().builder).setCleanPlayer(GameMode.ADVENTURE);
+            Pictograma.getPlayer(plugin.getGm().builder).spawn();
+        }
         plugin.getGm().builder = null;
 
         //Comenzar nueva ronda o terminar juego
