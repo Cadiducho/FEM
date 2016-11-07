@@ -27,10 +27,13 @@ public class FEMChat extends Plugin implements Listener {
     
     private static FEMChat instance;
     private BungeeListener bungeeListener;
+    public final String tag = "&7[&6Under&eGames&7]&r ";
     
     private Configuration ignoredConf;
     private File ignoredFile;
+    
     public final HashMap<UUID, ArrayList<UUID>> ignoredPlayers = new HashMap<>();
+    public final HashMap<UUID, AntiSpamData> spamDataMap = new HashMap<>();
     
     @Override
     public void onEnable() {
@@ -63,7 +66,7 @@ public class FEMChat extends Plugin implements Listener {
         
         replyTarget.put(user, replyTo);
     }
-    
+
     public void saveIgnoredConf() throws IOException {
         ignoredPlayers.keySet().forEach(id -> {
             ArrayList<String> ignorados = new ArrayList<>();

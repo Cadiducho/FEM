@@ -35,6 +35,9 @@ public class BungeeListener implements Listener {
     
     public void sendChat(ProxiedPlayer from, String mensaje) {
         try {
+            //Filtro antispam
+            if(checkSpam(from)) return;
+          
             BaseComponent[] msg = Parser.parse(mensaje);
             for (ProxiedPlayer target : plugin.getProxy().getPlayers()) {
                 // Enviar a todos los jugadores que estén en un servidor lobby y no estén ignorados
@@ -95,15 +98,19 @@ public class BungeeListener implements Listener {
         if (plugin.chatsActivados.containsKey(p.getUniqueId())) {
             ProxiedPlayer oldChat = plugin.getProxy().getPlayer(plugin.chatsActivados.get(p.getUniqueId()));
             plugin.chatsActivados.remove(p.getUniqueId());
-            p.sendMessage(Parser.parse("Has terminado tu chat con " + oldChat.getName()));
+            p.sendMessage(Parser.parse(c(plugin.tag + "&cHas terminado tu chat con " + oldChat.getName())));
             return true;
         }
         return false;
     }
     
     public void sendPrivateMessage(ProxiedPlayer target, ProxiedPlayer from, String mensaje) {
+        //Filtro antispam
+        if(checkSpam(from)) return;
+            
         from.sendMessage(Parser.parse(c("&6A " + target.getName() + ": &d" + mensaje)));
         
+        //Solo mostrar el mensaje si target no ignora a from
         if (plugin.ignoredPlayers.get(target.getUniqueId()) != null && plugin.ignoredPlayers.get(target.getUniqueId()).contains(from.getUniqueId())) return;
         
         target.sendMessage(Parser.parse(c("&6De " + from.getName() + ": &d" + mensaje)));
@@ -116,12 +123,12 @@ public class BungeeListener implements Listener {
         
         ProxiedPlayer target = plugin.getProxy().getPlayer(targetS);
         if (target == null) {
-            from.sendMessage(Parser.parse(c("&c¡Jugador no encontrado!")));
+            from.sendMessage(Parser.parse(c(plugin.tag + "&c¡Jugador no encontrado!")));
             return;
         }
         
-        if (target.getGroups().contains("admin") || target.getGroups().contains("tecnico") || target.getGroups().contains("moderador")) {
-            from.sendMessage(Parser.parse(c("&c¡No puedes ignorar a alguien del staff!")));
+        if (target.getGroups().contains("admin") || target.getGroups().contains("mod")) {
+            from.sendMessage(Parser.parse(c(plugin.tag + "&c¡No puedes ignorar a alguien del staff!")));
             return;
         }
         
@@ -132,10 +139,10 @@ public class BungeeListener implements Listener {
         
         if (ignorados.contains(target.getUniqueId())) { //Eliminar ignore
             ignorados.remove(target.getUniqueId());
-            from.sendMessage(Parser.parse(c("&aYa no ignoras a " + target.getName())));
+            from.sendMessage(Parser.parse(c(plugin.tag + "&aYa no ignoras a " + target.getName())));
         } else {
             ignorados.add(target.getUniqueId());
-            from.sendMessage(Parser.parse(c("&aAhora ignoras a " + target.getName())));
+            from.sendMessage(Parser.parse(c(plugin.tag + "&aAhora ignoras a " + target.getName())));
             plugin.ignoredPlayers.put(from.getUniqueId(), ignorados);
         }
         try {
@@ -149,8 +156,8 @@ public class BungeeListener implements Listener {
         
         ArrayList<UUID> ignorados = plugin.ignoredPlayers.get(p.getUniqueId());
         if (ignorados == null || ignorados.isEmpty()) {
-            p.sendMessage(Parser.parse(c("&aNo has ignorado a nadie")));
-            p.sendMessage(Parser.parse(c("&aUsa &e/ignore <usuario> &apara hacerlo")));
+            p.sendMessage(Parser.parse(c(plugin.tag + "&aNo has ignorado a nadie")));
+            p.sendMessage(Parser.parse(c(plugin.tag + "&aUsa &e/ignore <usuario> &apara hacerlo")));
             return;
         }
         
@@ -161,7 +168,7 @@ public class BungeeListener implements Listener {
         
         if (!"".equals(usuarios)) usuarios = usuarios.substring(0, usuarios.length() - 2);
         
-        p.sendMessage(Parser.parse(c("&aUsuarios que están actualmente ignorados:")));
+        p.sendMessage(Parser.parse(c(plugin.tag + "&aUsuarios que están actualmente ignorados:")));
         p.sendMessage(Parser.parse(c("&e" + usuarios)));
     }
     /*
@@ -207,5 +214,17 @@ public class BungeeListener implements Listener {
     
     public String c(String str) {
         return ChatColor.translateAlternateColorCodes('&', str);
+    }
+    
+    public boolean checkSpam(ProxiedPlayer p) {
+        if (!plugin.spamDataMap.containsKey(p.getUniqueId())) {
+            plugin.spamDataMap.put(p.getUniqueId(), new AntiSpamData());
+        }
+        AntiSpamData antiSpamData = plugin.spamDataMap.get(p.getUniqueId());
+        if (antiSpamData.isSpamming()) {
+            p.sendMessage(Parser.parse(c(plugin.tag + "&cHas enviado demasiados mensajes. Vuelve a intentarlo en un minuto")));
+            return true;
+        }
+        return false;
     }
 }
