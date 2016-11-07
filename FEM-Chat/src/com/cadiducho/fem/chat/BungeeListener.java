@@ -110,6 +110,10 @@ public class BungeeListener implements Listener {
             
         from.sendMessage(Parser.parse(c("&6A " + target.getName() + ": &d" + mensaje)));
         
+        //Si el target tiene activados los mensajes privados
+        
+        if (plugin.getDisableTell().contains(target.getUniqueId())) return;
+        
         //Solo mostrar el mensaje si target no ignora a from
         if (plugin.ignoredPlayers.get(target.getUniqueId()) != null && plugin.ignoredPlayers.get(target.getUniqueId()).contains(from.getUniqueId())) return;
         

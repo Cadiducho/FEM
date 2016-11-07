@@ -1,10 +1,6 @@
 package com.cadiducho.fem.chat;
 
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,7 +12,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.md_5.bungee.api.ProxyServer;
-import org.bukkit.entity.Player;
 
 /**
  * Objeto para conexiones de MySQL
@@ -128,6 +123,34 @@ public class MySQL {
                     ex1.printStackTrace();
                 } 
             }catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
+    
+    public void updateDisableTellList() { 
+        ProxyServer.getInstance().getScheduler().runAsync(FEMChat.getInstance(), () -> {
+            try {
+                ArrayList<UUID> lista = new ArrayList<>();
+                PreparedStatement statement = openConnection().prepareStatement("SELECT `uuid` FROM `fem_settings` WHERE `enableTell` = '1'");
+                statement.executeUpdate();
+
+                ResultSet rs = statement.executeQuery();
+
+                while (rs.next()) {
+                    lista.add(UUID.fromString(rs.getString("uuid")));
+                }
+                FEMChat.getInstance().setDisableTell(lista);
+            } catch (CommunicationsException ex) {
+                //Si el driver ha perdido la conexion (timeout) cerrar, abrir y volver a intentar
+                try {
+                    closeConnection();
+                    openConnection();
+                    updateDisableTellList();
+                } catch (Exception ex1) {
+                    ex1.printStackTrace();
+                }            
+            } catch (SQLException | ClassNotFoundException ex) {
                 Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
             }
         });

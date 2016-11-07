@@ -6,9 +6,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lombok.Getter;
+import lombok.Setter;
 
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -28,6 +30,7 @@ public class FEMChat extends Plugin implements Listener {
     
     public final HashMap<UUID, UUID> chatsActivados = new HashMap<>();
     public final HashMap<UUID, UUID> replyTarget = new HashMap<>();
+    @Getter @Setter private ArrayList<UUID> disableTell = new ArrayList<>();
     
     @Getter private static FEMChat instance;
     @Getter private final String tag = "&7[&6Under&eGames&7]&r ";
@@ -68,7 +71,12 @@ public class FEMChat extends Plugin implements Listener {
         } catch (SQLException | ClassNotFoundException ex) {
             getProxy().getLogger().severe("No se ha podido abrir conexión mysql");
             ex.printStackTrace();
-        } 
+        }
+        
+        //Mantener actualizada la lista de gente que tiene desactivada los tell
+        getProxy().getScheduler().schedule(this, () -> {
+            mysql.updateDisableTellList();
+        }, 5, 5, TimeUnit.SECONDS);
     }
     
     @Override
