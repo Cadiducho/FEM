@@ -2,9 +2,13 @@ package com.cadiducho.fem.chat;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import lombok.Getter;
 
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -25,14 +29,16 @@ public class FEMChat extends Plugin implements Listener {
     public final HashMap<UUID, UUID> chatsActivados = new HashMap<>();
     public final HashMap<UUID, UUID> replyTarget = new HashMap<>();
     
-    private static FEMChat instance;
-    private BungeeListener bungeeListener;
-    public final String tag = "&7[&6Under&eGames&7]&r ";
+    @Getter private static FEMChat instance;
+    @Getter private final String tag = "&7[&6Under&eGames&7]&r ";
     
-    private Configuration ignoredConf;
-    private File ignoredFile;
+    private BungeeListener bungeeListener; 
+    @Getter private MySQL mysql = null;
     
-    public final HashMap<UUID, ArrayList<UUID>> ignoredPlayers = new HashMap<>();
+    private Configuration config;
+    private File configFile;
+    
+    public HashMap<UUID, ArrayList<UUID>> ignoredPlayers = new HashMap<>();
     public final HashMap<UUID, AntiSpamData> spamDataMap = new HashMap<>();
     
     @Override
@@ -41,38 +47,40 @@ public class FEMChat extends Plugin implements Listener {
         bungeeListener = new BungeeListener(instance);
         getProxy().registerChannel(MAIN_CHANNEL);
         getProxy().getPluginManager().registerListener(this, bungeeListener);
-        
+         
         try {
-            ignoredFile = new File(getDataFolder(), "ignored.yml");
+            configFile = new File(getDataFolder(), "config.yml");
             
             if (!getDataFolder().exists()) getDataFolder().mkdir();
-            if (!ignoredFile.exists()) ignoredFile.createNewFile();
+            if (!configFile.exists()) configFile.createNewFile();
 
-            ignoredConf = ConfigurationProvider.getProvider(YamlConfiguration.class).load(ignoredFile);
-            ignoredConf.getKeys().forEach(key -> {
-                UUID ignorer = UUID.fromString(key);
-                ArrayList<UUID> ignorados = new ArrayList<>();
-
-                ignoredConf.getStringList(key).forEach(i -> ignorados.add(UUID.fromString(i)));
-                ignoredPlayers.put(ignorer, ignorados);
-            });
+            config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(configFile);
         } catch (IOException ex) {
-            getProxy().getLogger().severe("No se ha podido cargar la lista de ignorados");
+            getProxy().getLogger().severe("No se ha podido cargar la config");
         }
+        
+        try {
+            mysql = new MySQL(config.getString("mysql.host"), config.getString("mysql.port"),
+                        config.getString("mysql.database"), config.getString("mysql.username"),
+                        config.getString("mysql.password"));
+            mysql.openConnection();
+            ignoredPlayers = mysql.loadIgnoredList();
+        } catch (SQLException | ClassNotFoundException ex) {
+            getProxy().getLogger().severe("No se ha podido abrir conexión mysql");
+            ex.printStackTrace();
+        } 
+    }
+    
+    @Override
+    public void onDisable() {
+        try {
+            mysql.closeConnection();
+        } catch (SQLException ex) {} //Ignorar
     }
     
     public void setReply(UUID user, UUID replyTo) {
         if (replyTarget.containsKey(user)) replyTarget.remove(user);
         
         replyTarget.put(user, replyTo);
-    }
-
-    public void saveIgnoredConf() throws IOException {
-        ignoredPlayers.keySet().forEach(id -> {
-            ArrayList<String> ignorados = new ArrayList<>();
-            ignoredPlayers.get(id).forEach(i -> ignorados.add(i.toString()));
-            ignoredConf.set(id.toString(), ignorados);
-        });
-        ConfigurationProvider.getProvider(YamlConfiguration.class).save(ignoredConf, ignoredFile);
     }
 }

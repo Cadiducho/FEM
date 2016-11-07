@@ -98,7 +98,7 @@ public class BungeeListener implements Listener {
         if (plugin.chatsActivados.containsKey(p.getUniqueId())) {
             ProxiedPlayer oldChat = plugin.getProxy().getPlayer(plugin.chatsActivados.get(p.getUniqueId()));
             plugin.chatsActivados.remove(p.getUniqueId());
-            p.sendMessage(Parser.parse(c(plugin.tag + "&cHas terminado tu chat con " + oldChat.getName())));
+            p.sendMessage(Parser.parse(c(plugin.getTag() + "&cHas terminado tu chat con " + oldChat.getName())));
             return true;
         }
         return false;
@@ -123,12 +123,12 @@ public class BungeeListener implements Listener {
         
         ProxiedPlayer target = plugin.getProxy().getPlayer(targetS);
         if (target == null) {
-            from.sendMessage(Parser.parse(c(plugin.tag + "&c¡Jugador no encontrado!")));
+            from.sendMessage(Parser.parse(c(plugin.getTag() + "&c¡Jugador no encontrado!")));
             return;
         }
         
         if (target.getGroups().contains("admin") || target.getGroups().contains("mod")) {
-            from.sendMessage(Parser.parse(c(plugin.tag + "&c¡No puedes ignorar a alguien del staff!")));
+            from.sendMessage(Parser.parse(c(plugin.getTag() + "&c¡No puedes ignorar a alguien del staff!")));
             return;
         }
         
@@ -139,15 +139,14 @@ public class BungeeListener implements Listener {
         
         if (ignorados.contains(target.getUniqueId())) { //Eliminar ignore
             ignorados.remove(target.getUniqueId());
-            from.sendMessage(Parser.parse(c(plugin.tag + "&aYa no ignoras a " + target.getName())));
+            from.sendMessage(Parser.parse(c(plugin.getTag() + "&aYa no ignoras a " + target.getName())));
+            plugin.getMysql().removeIgnore(from.getUniqueId(), target.getUniqueId());
         } else {
             ignorados.add(target.getUniqueId());
-            from.sendMessage(Parser.parse(c(plugin.tag + "&aAhora ignoras a " + target.getName())));
-            plugin.ignoredPlayers.put(from.getUniqueId(), ignorados);
+            from.sendMessage(Parser.parse(c(plugin.getTag() + "&aAhora ignoras a " + target.getName())));
+            plugin.getMysql().addIgnore(from.getUniqueId(), target.getUniqueId());
         }
-        try {
-            plugin.saveIgnoredConf();
-        } catch (IOException ex) {}
+        plugin.ignoredPlayers.put(from.getUniqueId(), ignorados);
     }
     
     public void processIgnoreList(String pS) {
@@ -156,8 +155,8 @@ public class BungeeListener implements Listener {
         
         ArrayList<UUID> ignorados = plugin.ignoredPlayers.get(p.getUniqueId());
         if (ignorados == null || ignorados.isEmpty()) {
-            p.sendMessage(Parser.parse(c(plugin.tag + "&aNo has ignorado a nadie")));
-            p.sendMessage(Parser.parse(c(plugin.tag + "&aUsa &e/ignore <usuario> &apara hacerlo")));
+            p.sendMessage(Parser.parse(c(plugin.getTag() + "&aNo has ignorado a nadie")));
+            p.sendMessage(Parser.parse(c(plugin.getTag() + "&aUsa &e/ignore <usuario> &apara hacerlo")));
             return;
         }
         
@@ -168,7 +167,7 @@ public class BungeeListener implements Listener {
         
         if (!"".equals(usuarios)) usuarios = usuarios.substring(0, usuarios.length() - 2);
         
-        p.sendMessage(Parser.parse(c(plugin.tag + "&aUsuarios que están actualmente ignorados:")));
+        p.sendMessage(Parser.parse(c(plugin.getTag() + "&aUsuarios que están actualmente ignorados:")));
         p.sendMessage(Parser.parse(c("&e" + usuarios)));
     }
     /*
@@ -222,7 +221,7 @@ public class BungeeListener implements Listener {
         }
         AntiSpamData antiSpamData = plugin.spamDataMap.get(p.getUniqueId());
         if (antiSpamData.isSpamming()) {
-            p.sendMessage(Parser.parse(c(plugin.tag + "&cHas enviado demasiados mensajes. Vuelve a intentarlo en un minuto")));
+            p.sendMessage(Parser.parse(c(plugin.getTag() + "&cHas enviado demasiados mensajes. Vuelve a intentarlo en un minuto")));
             return true;
         }
         return false;

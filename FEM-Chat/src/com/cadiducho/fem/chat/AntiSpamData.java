@@ -14,7 +14,7 @@ public class AntiSpamData {
         lastMessages[2] = lastMessages[1];
         lastMessages[1] = lastMessages[0];
         lastMessages[0] = now;
-        // 4 mensajes en menos de 4 minutos -> Spam
+        // 4 mensajes en menos de 4 segundos -> Spam
         boolean isSpamming = delta < 4000;
         if (isSpamming) {
             lastSpam = now;
