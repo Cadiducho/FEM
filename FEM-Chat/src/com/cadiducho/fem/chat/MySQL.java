@@ -133,8 +133,6 @@ public class MySQL {
             try {
                 ArrayList<UUID> lista = new ArrayList<>();
                 PreparedStatement statement = openConnection().prepareStatement("SELECT `uuid` FROM `fem_settings` WHERE `enableTell` = '1'");
-                statement.executeUpdate();
-
                 ResultSet rs = statement.executeQuery();
 
                 while (rs.next()) {

@@ -125,6 +125,8 @@ public class Metodos {
         }
     }
     
+    
+    
     public static String locationToString(Location loc) {
         return loc.getWorld().getName() + "%" + loc.getX() + "%" + loc.getY() + "%" + loc.getZ() + "%" + loc.getYaw() + "%" + loc.getPitch();
     }

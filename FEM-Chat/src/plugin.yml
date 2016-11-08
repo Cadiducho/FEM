@@ -2,12 +2,3 @@ name: ${project.artifactId}
 main: com.cadiducho.fem.chat.bukkit.BukkitPlugin
 version: ${project.version}
 author: Cadiducho
-commands:
-    tell:
-        aliases: ["w", "m", "msg"]
-    r:
-        aliases: ["reply"]
-    ignore:
-        aliases: ["ignora", "ignorar"]
-    ignorados:
-        aliases: ["ignored", "ignoredlist"]

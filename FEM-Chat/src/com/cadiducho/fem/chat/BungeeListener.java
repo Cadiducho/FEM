@@ -60,7 +60,7 @@ public class BungeeListener implements Listener {
         
         if (targetS.equals("")) { //terminar chat privado
             if (!checkEndChat(from)) {
-                from.sendMessage(Parser.parse(c("&dUsa /tell <Usuario> <Mensaje>!")));
+                from.sendMessage(Parser.parse(c(plugin.getTag()+ "&eUsa &a/tell <Usuario> <Mensaje>!")));
             }
             return;
         }
@@ -69,26 +69,26 @@ public class BungeeListener implements Listener {
         if (targetS.equals(FEMChat.CHAR + "reply")) {
             UUID targetId = plugin.replyTarget.get(from.getUniqueId());
             if(targetId == null){
-                from.sendMessage(Parser.parse(c("¡Nadie te ha enviado un mensaje! :(")));
+                from.sendMessage(Parser.parse(c(plugin.getTag() + "¡Nadie te ha enviado un mensaje! :(")));
                 return;
             }
             target = plugin.getProxy().getPlayer(targetId);
         }
         
         if (target == null) {
-            from.sendMessage(Parser.parse(c("&c¡Jugador no encontrado!")));
+            from.sendMessage(Parser.parse(c(plugin.getTag() + "&c¡Jugador no encontrado!")));
             return;
         }
         
         if (plugin.ignoredPlayers.get(from.getUniqueId()) != null && plugin.ignoredPlayers.get(from.getUniqueId()).contains(target.getUniqueId())) {
-            from.sendMessage(Parser.parse(c("&c¡No puedes hablar a un usuario al que has ignorado!")));
+            from.sendMessage(Parser.parse(c(plugin.getTag() + "&c¡No puedes hablar a un usuario al que has ignorado!")));
             return;
         }
         
         if (mensaje.equals("")) { //Iniciar chat con target   
             if (checkEndChat(from)) return;
             plugin.chatsActivados.put(from.getUniqueId(), target.getUniqueId());
-            from.sendMessage(Parser.parse("Has iniciado una conversación privada con "+target.getName()));
+            from.sendMessage(Parser.parse(plugin.getTag() + "&aHas iniciado una conversación privada con &e" + target.getName()));
             return;
         }
         sendPrivateMessage(target, from, mensaje);   

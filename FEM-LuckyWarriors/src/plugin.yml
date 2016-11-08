@@ -1,6 +1,6 @@
 name: LuckyWarriors
 description: LuckyWarriors
-version: 0.0.1
+version: ${project.version}
 author: Cadiducho
 depend: [FEMCore]
 main: com.cadiducho.fem.lucky.LuckyWarriors

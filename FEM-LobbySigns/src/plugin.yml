@@ -1,5 +1,5 @@
 name: Lobby Signs
-version: 0.0.1
+version: ${project.version}
 description: Lobby
 author: zh32
 

@@ -40,6 +40,8 @@ public class FEMCommands implements TabCompleter {
         cmds.add(new HatCMD());
         cmds.add(new HealCMD());
         cmds.add(new HelpOPCMD());
+        cmds.add(new IgnoradosCMD());
+        cmds.add(new IgnoreCMD());
         cmds.add(new InvSeeCMD());
         cmds.add(new ItemDBCMD());
         cmds.add(new MeCMD());
@@ -50,6 +52,7 @@ public class FEMCommands implements TabCompleter {
         cmds.add(new PingCMD());
         cmds.add(new RealNameCMD());
         cmds.add(new RepairCMD());
+        cmds.add(new ReplyCMD());
         cmds.add(new SeedCMD());
         cmds.add(new SignEditorCMD());
 //        cmds.add(new StaffCMD());
@@ -62,6 +65,7 @@ public class FEMCommands implements TabCompleter {
         cmds.add(new TeleportAskHereCMD());
         cmds.add(new TeleportAcceptCMD());
         cmds.add(new TeleportDenyCMD());
+        cmds.add(new TellCMD());
         cmds.add(new LagCMD());
         cmds.add(new ListCMD());
         cmds.add(new LobbyCMD());
