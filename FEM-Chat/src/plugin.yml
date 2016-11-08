@@ -2,3 +2,4 @@ name: ${project.artifactId}
 main: com.cadiducho.fem.chat.bukkit.BukkitPlugin
 version: ${project.version}
 author: Cadiducho
+depend: [FEMCore]
