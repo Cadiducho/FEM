@@ -1,6 +1,6 @@
 name: Pictograma
 description: Pictograma
-version: 0.0.1
+version: ${project.version}
 main: com.cadiducho.fem.pic.Pictograma
 depend: [FEMCore]
 author: Cadiducho

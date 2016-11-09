@@ -1,6 +1,6 @@
 name: GemHunters
 description: GemHunters
-version: 0.0.1
+version: ${project.version}
 main: com.cadiducho.fem.gem.GemHunters
 depend: [FEMCore]
 author: Cadiducho

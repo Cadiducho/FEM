@@ -74,6 +74,7 @@ public class FEMCore extends JavaPlugin {
             //Bungee
             getServer().getMessenger().registerOutgoingPluginChannel(instance, "BungeeCord");
             getServer().getMessenger().registerOutgoingPluginChannel(instance, "FEM");
+            getServer().getMessenger().registerOutgoingPluginChannel(instance, "FEMChat");
             getServer().getMessenger().registerIncomingPluginChannel(instance, "FEM", new BungeeListener(instance));
 
             /*

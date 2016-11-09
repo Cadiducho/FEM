@@ -1,6 +1,6 @@
 name: TntWars
 description: TntWars
-version: 0.0.1
+version: ${project.version}
 main: com.cadiducho.fem.tnt.TntWars
 depend: [FEMCore, Merchants]
 author: Cadiducho

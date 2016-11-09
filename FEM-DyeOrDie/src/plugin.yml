@@ -1,6 +1,6 @@
 name: DyeOrDie
 description: DyeOrDie
-version: 0.0.1
+version: ${project.version}
 main: com.cadiducho.fem.color.DyeOrDie
 depend: [FEMCore]
 author: Cadiducho
