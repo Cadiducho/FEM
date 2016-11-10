@@ -41,7 +41,7 @@
         <dependency>
             <groupId>com.cadiducho</groupId>
             <artifactId>FEM-Spigot</artifactId>
-            <version>1.0</version>
+            <version>LATEST</version>
             <type>jar</type>
         </dependency>
         <dependency>
