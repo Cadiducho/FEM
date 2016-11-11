@@ -37,6 +37,21 @@ public class BungeeListener implements Listener {
         try {
             //Filtro antispam
             if(checkSpam(from)) return;
+            
+            //Filtro antimayusculas
+            if (!plugin.isStaff(from) && mensaje.length() > 3) {
+                int mayusculas = 0;
+                for (char c : mensaje.toCharArray()) {
+                    if (c <= 'Z' && c >= 'A') {
+                        mayusculas++;
+                    }
+                }
+
+                if (mayusculas > mensaje.length() / 2) {
+                    mensaje = mensaje.substring(0, 1).toUpperCase().concat(mensaje.toLowerCase().substring(1));
+                }
+            }
+            
           
             BaseComponent[] msg = Parser.parse(mensaje);
             for (ProxiedPlayer target : plugin.getProxy().getPlayers()) {
@@ -131,7 +146,7 @@ public class BungeeListener implements Listener {
             return;
         }
         
-        if (target.getGroups().contains("admin") || target.getGroups().contains("mod")) {
+        if (plugin.isStaff(target)) {
             from.sendMessage(Parser.parse(c(plugin.getTag() + "&c¡No puedes ignorar a alguien del staff!")));
             return;
         }
@@ -223,6 +238,7 @@ public class BungeeListener implements Listener {
         if (!plugin.spamDataMap.containsKey(p.getUniqueId())) {
             plugin.spamDataMap.put(p.getUniqueId(), new AntiSpamData());
         }
+        
         AntiSpamData antiSpamData = plugin.spamDataMap.get(p.getUniqueId());
         if (antiSpamData.isSpamming()) {
             p.sendMessage(Parser.parse(c(plugin.getTag() + "&cHas enviado demasiados mensajes. Vuelve a intentarlo en un minuto")));

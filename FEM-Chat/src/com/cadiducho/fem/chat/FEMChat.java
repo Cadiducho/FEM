@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import lombok.Setter;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -88,5 +89,9 @@ public class FEMChat extends Plugin implements Listener {
         if (replyTarget.containsKey(user)) replyTarget.remove(user);
         
         replyTarget.put(user, replyTo);
+    }
+    
+    public boolean isStaff(ProxiedPlayer p) {
+        return p.getGroups().contains("admin") || p.getGroups().contains("mod");
     }
 }
