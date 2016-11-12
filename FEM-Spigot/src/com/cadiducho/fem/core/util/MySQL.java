@@ -175,11 +175,12 @@ public class MySQL {
                 statementStats.executeUpdate();
 
                 //Settings
-                PreparedStatement statementSett = openConnection().prepareStatement("UPDATE `fem_settings` SET `friendRequest`=?,`hideMode`=?,`lang`=? WHERE `uuid`=?");
+                PreparedStatement statementSett = openConnection().prepareStatement("UPDATE `fem_settings` SET `friendRequest`=?,`hideMode`=?,`lang`=?,`enableTell`=? WHERE `uuid`=?");
                 statementSett.setBoolean(1, data.getFriendRequest() == null ? true : data.getFriendRequest());
                 statementSett.setInt(2, data.getHideMode() == null ? 2 : data.getHideMode());
                 statementSett.setInt(3, data.getLang() == null ? 0 : data.getLang());
-                statementSett.setString(4, u.getUuid().toString());
+                statementSett.setBoolean(4, data.getEnableTell() == null ? true : data.getEnableTell());
+                statementSett.setString(5, u.getUuid().toString());
                 statementSett.executeUpdate();
 
             } catch (Exception ex) {
@@ -272,6 +273,7 @@ public class MySQL {
                 data.setFriendRequest(rsSett.getBoolean("friendRequest"));
                 data.setHideMode(rsSett.getInt("hideMode"));
                 data.setLang(rsSett.getInt("lang"));
+                data.setEnableTell(rsSett.getBoolean("enableTell"));
             }
             
             //Amigos

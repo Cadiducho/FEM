@@ -7,6 +7,7 @@ import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.lobby.Lobby;
 import com.cadiducho.fem.lobby.Lobby.FEMServerInfo;
+import com.cadiducho.fem.lobby.LobbyMenu;
 import com.cadiducho.fem.lobby.LobbyTeams;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -14,10 +15,7 @@ import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 import java.util.List;
-import org.bukkit.Color;
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -40,11 +38,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
 public class PlayerListener implements Listener, PluginMessageListener {
@@ -72,7 +67,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
         e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&lJuegos", "Desplázate entre los juegos del servidor"));
         e.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.COMMAND, "&lAjustes", "Cambia alguno de tus ajustes de usuario"));
 
-        e.getPlayer().getInventory().setItem(4, plugin.getLibro());
+        e.getPlayer().getInventory().setItem(4, LobbyMenu.getLibro());
         e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
         
         u.tryHidePlayers();
@@ -117,58 +112,15 @@ public class PlayerListener implements Listener, PluginMessageListener {
         //Menu
         if (e.getItem() != null) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                Inventory inv = null;
+                e.setCancelled(false);
                 FEMUser u = FEMServer.getUser(e.getPlayer());
                 switch (e.getItem().getType()) {
                     case COMPASS:
-                        inv = plugin.getServer().createInventory(e.getPlayer(), 27, "Viajar");
-                        String amistades = u.getUserData().getFriendRequest() ? "Aceptas" : "No aceptas";
-                        String otros = u.getUserData().getHideMode() == 0 ? "Nadie" : (u.getUserData().getHideMode() == 1 ? "Amigos" : "Todos");
-                        long secs = (u.getUserData().getTimePlayed() / 1000) % 60;
-                        long mins = (u.getUserData().getTimePlayed() / (1000 * 60)) % 60;
-                        long horas = (u.getUserData().getTimePlayed() / (1000 * 60 * 60)) % 24;
-
-                        inv.setItem(26, ItemUtil.createHeadPlayer("Información", e.getPlayer().getName(), Arrays.asList("Pulsa para ver estadísticas",
-                                "Tiempo jugado: " + horas + " horas, " + mins + " minutos y " + secs + " segundos",
-                                "Amistades: " + amistades, 
-                                "Ver a: " + otros)));
-                        inv.setItem(18, ItemUtil.createItem(Material.BEACON, "Lobbies"));
-                        inv.setItem(22, ItemUtil.createItem(Material.DOUBLE_PLANT, "Dinero", u.getUserData().getCoins() + " monedas"));
-                        
-                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA"));
-                        inv.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS"));
-                        ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE");
-                            LeatherArmorMeta lam = (LeatherArmorMeta) letherBoots.getItemMeta();
-                            lam.setColor(Color.BLUE);
-                            lam.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES, 
-                                ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
-                            letherBoots.setItemMeta(lam);
-                        inv.setItem(5, letherBoots);
-                        inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR"));
-                        inv.setItem(13, ItemUtil.createItem(Material.EMERALD, "&a&lGEM HUNTERS"));
-                        inv.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6&lBATTLE ROYALE"));
-                        e.setCancelled(true);
+                        LobbyMenu.openMenu(u, LobbyMenu.Menu.VIAJAR);
                         break;
                     case COMMAND:
-                        inv = plugin.getServer().createInventory(e.getPlayer(), 18, "Ajustes del jugador");
-                        String lore1 = u.getUserData().getFriendRequest() ? "Aceptas amistades" : "No aceptas amistades";
-                        inv.setItem(2, ItemUtil.createItem(Material.CHORUS_FRUIT, "Aceptar amistades", lore1));
-                        DyeColor glassColor = u.getUserData().getFriendRequest() ? DyeColor.LIME : DyeColor.RED;
-                        inv.setItem(11, ItemUtil.createGlass("Aceptar amistades", lore1, glassColor));
-
-                        DyeColor bannerColor = (u.getUserData().getHideMode() == 0 ? DyeColor.RED : (u.getUserData().getHideMode() == 1 ? DyeColor.PURPLE : DyeColor.LIME));
-                        inv.setItem(6, ItemUtil.createBanner("Ver a otros jugadores", "Escoge si ver a tus amigos, a todos o a nadie", bannerColor));
-                        inv.setItem(14, ItemUtil.createWool("No ver a nadie", DyeColor.RED));
-                        inv.setItem(15, ItemUtil.createWool("Ver solo a tus amigos", DyeColor.PURPLE));
-                        inv.setItem(16, ItemUtil.createWool("Ver a todos los usuarios", DyeColor.LIME));
-                        e.setCancelled(true);
+                        LobbyMenu.openMenu(u, LobbyMenu.Menu.AJUSTES);
                         break;
-                    default: 
-                        e.setCancelled(false);
-                        return;
-                }
-                if (inv != null) {
-                    e.getPlayer().openInventory(inv);
                 }
             }
         }
@@ -209,8 +161,9 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         break;
                     default:
                         return;
-                }   
-                u.sendMessage("Ajuste cambiado");
+                }
+                u.getPlayer().playSound(u.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
+                u.sendMessage("&eAjuste cambiado");
                 break;
             case "Lobbies":
                 e.setCancelled(true);
@@ -275,49 +228,10 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         p.closeInventory();
                         break;
                     case 26:
-                        Inventory inv = plugin.getServer().createInventory(p, 18, "Estadisticas del jugador");
-                        inv.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA", 
-                                Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(4), 
-                                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(4),
-                                        "&e---{*}---",
-                                        "&fPalabras acertadas: &l" + u.getUserData().getPicAcertadas(),
-                                        "&fPalabras bien dibujadas: &l" + u.getUserData().getPicDibujadas())));
-                        inv.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS", 
-                                Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(1), 
-                                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(1),
-                                        "&fBajas: &l" + u.getUserData().getKills().get(1), "&fMuertes: &l" + u.getUserData().getDeaths().get(1),
-                                        "&1---{*}---",
-                                        "&fTNT Activadas: &l" + u.getUserData().getTntPuestas(), "&fTNT Desactivadas: &l" + u.getUserData().getTntQuitadas(), 
-                                        "&fTNT Explotadas: &f" + u.getUserData().getTntExplotadas(), "&fGeneradores mejorados: &l" + u.getUserData().getGenUpgraded())));
-                        ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(1), 
-                                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(1),
-                                        "&5---{*}---",
-                                        "&fRecord de ronda: &l" + u.getUserData().getRecord_dod(),
-                                        "&fRondas jugadas: &l" + u.getUserData().getRondas_dod()));
-                        LeatherArmorMeta lam = (LeatherArmorMeta) letherBoots.getItemMeta();
-                        lam.setColor(Color.BLUE);
-                        letherBoots.setItemMeta(lam);
-                        inv.setItem(5, letherBoots);
-                        inv.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(6), 
-                                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(6),
-                                        "&fBajas: &l" + u.getUserData().getKills().get(6), "&fMuertes: &l" + u.getUserData().getDeaths().get(6),
-                                        "&4---{*}---",
-                                        "&fLuckies rotos: &l" + u.getUserData().getLuckyRotos())));
-                        inv.setItem(13, ItemUtil.createItem(Material.EMERALD, "&a&lGEM HUNTERS",  
-                                Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(3), 
-                                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(3),
-                                        "&fBajas: &l" + u.getUserData().getKills().get(3), "&fMuertes: &l" + u.getUserData().getDeaths().get(3),
-                                        "&a---{*}---",
-                                        "&fGemas escondidas: &l" + u.getUserData().getGemPlanted(), "&fGemas destruidas: &l" + u.getUserData().getGemDestroyed())));
-                        inv.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6&lBATTLE ROYALE", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(5), 
-                                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(5),
-                                        "&fBajas: &l" + u.getUserData().getKills().get(5), "&fMuertes: &l" + u.getUserData().getDeaths().get(5),
-                                        "&6---{*}---",
-                                        "&fIntercambios realizados: &l" + u.getUserData().getBrIntercambios())));
-                        p.closeInventory();
-                        plugin.getServer().getScheduler().runTask(plugin, () -> p.openInventory(inv));
+                        LobbyMenu.openMenu(u, LobbyMenu.Menu.AJUSTES);
                         break;
                 }
+                p.playSound(u.getPlayer().getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
                 break;
             default:
                 break;

@@ -38,7 +38,7 @@ public class BungeeListener implements Listener {
             //Filtro antispam
             if(checkSpam(from)) return;
             
-            //Filtro antimayusculas
+            //Filtro antimayúsculas
             if (!plugin.isStaff(from) && mensaje.length() > 3) {
                 int mayusculas = 0;
                 for (char c : mensaje.toCharArray()) {

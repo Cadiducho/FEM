@@ -262,6 +262,7 @@ public class FEMUser {
         Boolean friendRequest = false;
         Integer hideMode = 2; //0 nadie, 1 amigos, 2 todos
         Integer lang = 0; //0 castellano, 1 frances, 2 italiano
+        Boolean enableTell = true;
         
         ArrayList<UUID> amigos = Lists.newArrayList();
         
