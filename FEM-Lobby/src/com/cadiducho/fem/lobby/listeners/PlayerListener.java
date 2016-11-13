@@ -136,31 +136,25 @@ public class PlayerListener implements Listener, PluginMessageListener {
             case "Ajustes del jugador":
                 e.setCancelled(true);
                 switch (e.getSlot()) {
-                    case 11:
+                    case 1:
+                    case 10:
                         u.getUserData().setFriendRequest(!u.getUserData().getFriendRequest());
                         u.save();
-                        p.closeInventory();
+                        LobbyMenu.openMenu(u, LobbyMenu.Menu.AJUSTES);
                         break;
-                    case 14:
-                        u.getUserData().setHideMode(0);
+                    case 4:
+                    case 13:
+                        u.getUserData().setEnableTell(!u.getUserData().getEnableTell());
                         u.save();
-                        u.tryHidePlayers();
-                        p.closeInventory();
+                        LobbyMenu.openMenu(u, LobbyMenu.Menu.AJUSTES);
                         break;
-                    case 15:
-                        u.getUserData().setHideMode(1);
-                        u.save();
-                        u.tryHidePlayers();
-                        p.closeInventory();
-                        break;
+                    case 7:
                     case 16:
-                        u.getUserData().setHideMode(2);
+                        u.getUserData().setHideMode(u.getUserData().getHideMode() == 2 ? 0 : (u.getUserData().getHideMode() + 1));
                         u.save();
                         u.tryHidePlayers();
-                        p.closeInventory();
+                        LobbyMenu.openMenu(u, LobbyMenu.Menu.AJUSTES);
                         break;
-                    default:
-                        return;
                 }
                 u.getPlayer().playSound(u.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
                 u.sendMessage("&eAjuste cambiado");

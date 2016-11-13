@@ -35,12 +35,15 @@ public class ItemUtil {
     }
     
     public static ItemStack createItem(Material material, int amount, String displayname, List<String> lore) {
-        ArrayList<String> colorLore = new ArrayList<>();
-        lore.forEach(str -> colorLore.add(Metodos.colorizar(str)));
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(Metodos.colorizar(displayname));
-        meta.setLore(colorLore);
+        ArrayList<String> colorLore = new ArrayList<>();
+        if (lore != null) {
+            lore.forEach(str -> colorLore.add(Metodos.colorizar(str)));
+            meta.setLore(colorLore);
+        }
+        
         meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES, 
                 ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
 
@@ -68,7 +71,11 @@ public class ItemUtil {
         meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES, 
                 ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
         meta.setDisplayName(displayname);
-        meta.setLore(lore);
+        ArrayList<String> colorLore = new ArrayList<>();
+        if (lore != null) {
+            lore.forEach(str -> colorLore.add(Metodos.colorizar(str)));
+            meta.setLore(colorLore);
+        }
         
         item.setItemMeta(meta);
         return item;
@@ -82,10 +89,15 @@ public class ItemUtil {
         ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE, 1, dye.getData());
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(displayname);
+        
+        ArrayList<String> colorLore = new ArrayList<>();
+        if (lore != null) {
+            lore.forEach(str -> colorLore.add(Metodos.colorizar(str)));
+            meta.setLore(colorLore);
+        }
+
         meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES, 
                 ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
-        meta.setLore(lore);
-
         item.setItemMeta(meta);
         return item;
     }
@@ -94,7 +106,12 @@ public class ItemUtil {
         ItemStack playerHead = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
         SkullMeta sm = (SkullMeta)playerHead.getItemMeta();
         sm.setOwner(username);
-        sm.setLore(lore);
+        ArrayList<String> colorLore = new ArrayList<>();
+        if (lore != null) {
+            lore.forEach(str -> colorLore.add(Metodos.colorizar(str)));
+            sm.setLore(colorLore);
+        }
+        
         sm.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES, 
                 ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
         sm.setDisplayName(Metodos.colorizar(displayname));
@@ -108,11 +125,12 @@ public class ItemUtil {
         itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES, 
                 ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
         ArrayList<String> Lore = new ArrayList<>();
-        Lore.add(lore);
+        Lore.add(Metodos.colorizar(lore));
         itemMeta.setLore(Lore);
         itemMeta.setBaseColor(color);
         itemMeta.setDisplayName(name);
         banner.setItemMeta(itemMeta);
         return banner;
     }
+
 }
