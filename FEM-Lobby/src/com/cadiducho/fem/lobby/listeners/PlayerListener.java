@@ -18,6 +18,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
@@ -27,6 +28,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -101,10 +103,17 @@ public class PlayerListener implements Listener, PluginMessageListener {
     }
     
     @EventHandler
+    public void onEntityFire(EntityCombustEvent e){
+        e.setCancelled(true);
+    }
+    
+    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
-        //No abrir trampillas
+        //No abrir trampillas y no apagar fuegos
         if (e.getClickedBlock() != null) {
-            if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR) || e.getClickedBlock().getType().equals(Material.FENCE_GATE)) {
+            if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR) 
+                    || e.getClickedBlock().getType().equals(Material.FENCE_GATE) || e.getClickedBlock().getType().equals(Material.FIRE) 
+                    || e.getClickedBlock().getType().equals(Material.CAULDRON) || e.getClickedBlock().getRelative(BlockFace.UP).getType().equals(Material.FIRE)) {
                 e.setCancelled(true);
             }
         }
