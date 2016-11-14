@@ -95,7 +95,7 @@ public class GameListener implements Listener {
                     Block b = e.getPlayer().getTargetBlock((Set<Material>) null, 100);
                     if (b.getType() == Material.WOOL) {
                         Wool wool = (Wool) b.getState().getData();
-                        if (plugin.getAm().getBuildZone().contains(b)) {
+                        if (!plugin.getAm().getBuildZone().contains(b)) {
                             setPencilColor(wool.getColor());
                             e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                         }
