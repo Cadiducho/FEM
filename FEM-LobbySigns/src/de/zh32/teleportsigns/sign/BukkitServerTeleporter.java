@@ -15,6 +15,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import org.bukkit.ChatColor;
 
 /**
  * @author zh32
@@ -39,7 +40,12 @@ public class BukkitServerTeleporter extends ServerTeleporter implements Listener
 		}
 		TeleportSign teleportSign = findTeleportSign(event);
 		if (teleportSign != null) {
-			teleportPlayer(event.getPlayer().getName(), teleportSign);
+                        if (teleportSign.getLayout().isJoinAvailable()) {
+                                teleportPlayer(event.getPlayer().getName(), teleportSign);
+                        } else {
+                                event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&6Under&eGames&7] &cServidor en juego, ¡prueba con otro!"));
+                                event.setCancelled(true);
+                        }
 		}
 	}
 

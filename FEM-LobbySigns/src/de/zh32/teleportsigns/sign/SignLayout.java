@@ -8,6 +8,8 @@ import de.zh32.teleportsigns.server.GameServer;
 public interface SignLayout {
 
 	public boolean isTeleport();
+        
+        public boolean isJoinAvailable();
 
 	public String[] renderLayoutFor(GameServer sinfo);
 

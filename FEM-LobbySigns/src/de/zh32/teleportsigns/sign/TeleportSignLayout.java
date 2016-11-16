@@ -79,4 +79,9 @@ public class TeleportSignLayout implements SignLayout {
             }
             return ChatColor.translateAlternateColorCodes('&', abc);
         }
+
+    @Override
+    public boolean isJoinAvailable() {
+        return join;
+    }
 }
