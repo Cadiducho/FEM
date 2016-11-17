@@ -219,7 +219,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                             for (FEMServerInfo server : plugin.getServers()) {
                                 if (server.getName().contains("lobby")) {
                                     Material mat = server.getUsers().contains(p.getUniqueId().toString()) ? Material.BEACON : Material.GLASS;
-                                    invLobbies.setItem(i, ItemUtil.createItem(mat, normalize(server.getName()), server.getPlayers() + "/200"));
+                                    invLobbies.setItem(i, ItemUtil.createItem(mat, normalize(server.getName()), server.getPlayers() + "/500"));
                                     i++;
                                 }
                             }

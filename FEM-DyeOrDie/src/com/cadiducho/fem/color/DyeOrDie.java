@@ -71,6 +71,7 @@ public class DyeOrDie extends JavaPlugin {
         getServer().getScheduler().runTaskTimer(instance, () -> {
             if (getGm().isInGame()) {
                 getGm().getPlayersInGame().stream()
+                        .filter(player -> (player.getLocation() != null))
                         .filter(player -> ((player.getLocation().getBlockY() < 0) && (player.getGameMode() != GameMode.SPECTATOR)))
                         .forEach(player -> getPlayer(player).endGame());
             }

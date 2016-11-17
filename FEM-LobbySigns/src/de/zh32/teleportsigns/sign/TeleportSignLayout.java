@@ -20,7 +20,7 @@ public class TeleportSignLayout implements SignLayout {
 	private String online;
 	private String offline;
 	private String numberPlaceHolder;
-        private boolean join = false;
+        private boolean join = true;
         
 	@Override
 	public String[] renderLayoutFor(GameServer sinfo) {
@@ -62,6 +62,7 @@ public class TeleportSignLayout implements SignLayout {
             switch (str) {
                 case "STARTING": 
                     abc = "&dIniciando";
+                    join = false;
                     break;
                 case "WAITING_FOR_PLAYERS":
                     join = true;
@@ -69,12 +70,15 @@ public class TeleportSignLayout implements SignLayout {
                     break;
                 case "INGAME":
                     abc = "&cEn juego";
+                    join = false;
                     break;
                 case "ENDING":
                     abc = "&dTerminando";
+                    join = false;
                     break;
                 default:
                     abc = "&aEsperando";
+                    join = true;
                     break;
             }
             return ChatColor.translateAlternateColorCodes('&', abc);
