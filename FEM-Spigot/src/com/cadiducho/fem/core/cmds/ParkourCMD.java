@@ -1,6 +1,5 @@
 package com.cadiducho.fem.core.cmds;
 
-import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +16,7 @@ public class ParkourCMD extends FEMCmd {
     public void run(FEMUser user, String lbl, String[] args) {
         if (user.getUserData().getParkourStartTime() != -1L) { //Está en un parkour
             user.sendMessage("&eLlevandote al checkpoint...");
-            user.getPlayer().teleport(user.getUserData().getLastLocation());
+            user.getPlayer().teleport(user.getUserData().getParkourCheckpoint());
         }
     }
 

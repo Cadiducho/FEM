@@ -62,7 +62,7 @@ public class TeleportSignLayout implements SignLayout {
             switch (str) {
                 case "STARTING": 
                     abc = "&dIniciando";
-                    join = false;
+                    join = true;
                     break;
                 case "WAITING_FOR_PLAYERS":
                     join = true;

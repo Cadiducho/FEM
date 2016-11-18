@@ -182,7 +182,7 @@ public class PlayerListener implements Listener {
                 if (u.getUserData().getParkourStartTime() == -1L) { //Comenzar
                     u.getUserData().setParkourStartTime(System.currentTimeMillis());
                     u.getUserData().setParkourCheckpoint(e.getPlayer().getLocation());
-                    u.sendMessage("&e¡Has comenzado un parkour! Escribe &a/pk &e si te caes para volver a un checkpoint");
+                    u.sendMessage("&e¡Has comenzado un parkour! Escribe &a/pk &esi te caes para volver a un checkpoint");
                     u.save();
                 } else { //Terminar
                     u.sendMessage("&e¡Enhorabuena! &aHas terminado el pakour con un tiempo de " + new SimpleDateFormat("HH:mm:ss").format(new Date(System.currentTimeMillis() - u.getUserData().getParkourStartTime())));

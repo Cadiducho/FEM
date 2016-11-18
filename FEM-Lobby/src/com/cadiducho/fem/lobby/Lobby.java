@@ -57,7 +57,7 @@ public class Lobby extends JavaPlugin {
         
         LobbyMenu lobbyMenu = new LobbyMenu(instance);
         
-        FEMServer.setEnableParkour(true); //Activar parkour siempre
+        FEMServer.setEnableParkour(false); //Activar parkour siempre -> JAJA not yet
         
         //Mini task para que los usuarios no caigan al vacío
         getServer().getScheduler().runTaskTimer(instance, () -> {
