@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -27,7 +26,7 @@ public class FEMBungee extends Plugin implements Listener {
     @Override
     public void onEnable() {
         getProxy().registerChannel(pluginChannel);
-        ProxyServer.getInstance().getPluginManager().registerListener(this, this);
+        getProxy().getPluginManager().registerListener(this, this);
         getProxy().getScheduler().schedule(this, () -> {
             sendUpdatedServerStatus();
         }, 5, 5, TimeUnit.SECONDS);
@@ -41,7 +40,7 @@ public class FEMBungee extends Plugin implements Listener {
         ByteArrayDataInput in = ByteStreams.newDataInput(e.getData().clone());
         String subchannel = in.readUTF();
         if (subchannel.equals("bestLobby")) { 
-            ProxiedPlayer p = ProxyServer.getInstance().getPlayer(in.readUTF());
+            ProxiedPlayer p = getProxy().getPlayer(in.readUTF());
             ServerInfo lobby = getOneLobby();
             if (lobby.getAddress() != p.getServer().getInfo().getAddress()) {
                 p.connect(getOneLobby());
@@ -50,7 +49,7 @@ public class FEMBungee extends Plugin implements Listener {
         }
         
         //Reenviar los datos recibidos por el canal a todos los servidores
-        ProxyServer.getInstance().getServers().values().stream()
+        getProxy().getServers().values().stream()
                 .filter(server -> !server.getPlayers().isEmpty())
                 .forEach(server ->  server.sendData(pluginChannel, e.getData()));
     }
@@ -76,8 +75,8 @@ public class FEMBungee extends Plugin implements Listener {
     }
     
     private ServerInfo getOneLobby() {
-        ServerInfo bestOption = ProxyServer.getInstance().getServerInfo("lobby1");
-        for (ServerInfo s : ProxyServer.getInstance().getServers().values()) {
+        ServerInfo bestOption = getProxy().getServerInfo("lobby1");
+        for (ServerInfo s : getProxy().getServers().values()) {
             if (s.getName().contains("lobby")) {
                 if (s.getPlayers().size() < bestOption.getPlayers().size()) {
                     bestOption = s;
@@ -94,14 +93,15 @@ public class FEMBungee extends Plugin implements Listener {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("serversinfo");
         ArrayList<FEMServerInfo> lista = new ArrayList<>();
-        for (ServerInfo s : ProxyServer.getInstance().getServers().values()) {
+        getProxy().getServers().values().forEach(s -> {
             ArrayList<String> users = new ArrayList<>();
             s.getPlayers().forEach(pp -> users.add(pp.getUniqueId().toString()));
             FEMServerInfo server = new FEMServerInfo(s.getName(), s.getPlayers().size(), users);
+            
             lista.add(server);
-        }
+        });
         out.writeUTF(new Gson().toJson(lista));
-        ProxyServer.getInstance().getServers().values().forEach(s -> s.sendData(pluginChannel, out.toByteArray()));
+        getProxy().getServers().values().forEach(s -> s.sendData(pluginChannel, out.toByteArray()));
     }
     
     @Data
