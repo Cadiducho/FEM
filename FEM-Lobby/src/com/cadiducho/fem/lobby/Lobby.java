@@ -2,16 +2,23 @@ package com.cadiducho.fem.lobby;
 
 import com.cadiducho.fem.core.FEMCommands;
 import com.cadiducho.fem.core.api.FEMServer;
+import static com.cadiducho.fem.core.util.Metodos.plugin;
 import com.cadiducho.fem.lobby.cmds.*;
 import com.cadiducho.fem.lobby.listeners.PlayerListener;
 import com.cadiducho.fem.lobby.listeners.WorldListener;
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+import com.google.gson.Gson;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.logging.Level;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -59,6 +66,7 @@ public class Lobby extends JavaPlugin {
         
         FEMServer.setEnableParkour(false); //Activar parkour siempre -> JAJA not yet
         
+        //TODO: Mover a otras clases
         //Mini task para que los usuarios no caigan al vacío
         getServer().getScheduler().runTaskTimer(instance, () -> {
             getServer().getOnlinePlayers().stream().forEach(p -> {
@@ -67,6 +75,18 @@ public class Lobby extends JavaPlugin {
                 }
             });
         }, 20, 20);
+        
+        //Solicitar a Bungee la lista de servidores actualizada
+        if (getConfig().getBoolean("threadLobby")) {
+            getServer().getScheduler().runTaskTimer(instance, () -> {
+                ByteArrayDataOutput out = ByteStreams.newDataOutput();
+                out.writeUTF("askServerList");
+
+                Collection<? extends Player> c = Bukkit.getOnlinePlayers(); //Usar jugador falso
+                Player p = (Player) c.toArray()[0];
+                p.sendPluginMessage(plugin, "FEM", out.toByteArray());
+            }, 20, 100);
+        }
         
         getServer().getScheduler().runTaskLater(instance, () -> {
             LobbyTeams.initTeams();

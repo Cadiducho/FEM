@@ -27,9 +27,11 @@ public class FEMBungee extends Plugin implements Listener {
     public void onEnable() {
         getProxy().registerChannel(pluginChannel);
         getProxy().getPluginManager().registerListener(this, this);
-        getProxy().getScheduler().schedule(this, () -> {
+        
+        //Desactivado por OutOfMemoryError
+        /*getProxy().getScheduler().schedule(this, () -> {
             sendUpdatedServerStatus();
-        }, 5, 5, TimeUnit.SECONDS);
+        }, 5, 5, TimeUnit.SECONDS);*/
     }
 
     @EventHandler
@@ -45,6 +47,9 @@ public class FEMBungee extends Plugin implements Listener {
             if (lobby.getAddress() != p.getServer().getInfo().getAddress()) {
                 p.connect(getOneLobby());
             }
+            return;
+        } else if (subchannel.equals("askServerList")) { 
+            sendUpdatedServerStatus();
             return;
         }
         
