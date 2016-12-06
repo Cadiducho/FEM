@@ -3,8 +3,9 @@ package com.cadiducho.fem.lucky.task;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import com.cadiducho.fem.lucky.manager.GameState;
-import java.util.Random;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Random;
 
 public class GameTask extends BukkitRunnable {
 

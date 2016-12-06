@@ -3,10 +3,11 @@ package com.cadiducho.fem.lucky.task;
 import com.cadiducho.fem.lucky.LuckyPlayer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import com.cadiducho.fem.lucky.manager.GameState;
-import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
 
 public class LobbyTask extends BukkitRunnable {
 
@@ -39,7 +40,9 @@ public class LobbyTask extends BukkitRunnable {
             plugin.getGm().getPlayersInGame().forEach(p -> {
                 plugin.getAm().teleportLucky(p);
                 plugin.getAm().fixPlayer(p.getLocation());
-                
+                p.setHealth(p.getMaxHealth());
+                p.setFoodLevel(20);
+
                 final LuckyPlayer lp = LuckyWarriors.getPlayer(p);
                 lp.setCleanPlayer(GameMode.SURVIVAL);
                 HashMap<Integer, Integer> plays = lp.getUserData().getPlays();

@@ -21,6 +21,13 @@ public class DeathMatchTask extends BukkitRunnable {
         if (GameState.state == GameState.ENDING) {
             cancel();
         }
+        if(plugin.getAm().deathMatchTime == plugin.getConfig().getInt("deathMatchTime")){
+            plugin.getGm().getPlayersInGame().stream().forEach(p -> {
+                p.setHealth(p.getMaxHealth());
+                p.setFoodLevel(20);
+            });
+        }
+
         if (plugin.getAm().deathMatchTime > 0) {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> {
                 plugin.getMsg().sendActionBar(p, "&f&lDEATHMATCH: &a&l" + plugin.getAm().deathMatchTime);

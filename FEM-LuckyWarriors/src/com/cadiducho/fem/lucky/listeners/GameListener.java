@@ -4,8 +4,6 @@ import com.cadiducho.fem.lucky.LuckyPlayer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import com.cadiducho.fem.lucky.manager.GameState;
 import com.cadiducho.fem.lucky.utils.LuckyPacks;
-import java.util.HashMap;
-import java.util.Random;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -20,6 +18,9 @@ import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+
+import java.util.HashMap;
+import java.util.Random;
 
 public class GameListener implements Listener {
 
@@ -106,7 +107,7 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
-        e.setCancelled(true);
+        if(GameState.state == GameState.CRAFT ||GameState.state == GameState.LUCKY) e.setCancelled(true);
     }
 
     @EventHandler
