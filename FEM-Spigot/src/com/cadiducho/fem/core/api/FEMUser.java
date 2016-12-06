@@ -8,14 +8,6 @@ import com.cadiducho.fem.core.util.Metodos;
 import com.google.common.collect.Lists;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,6 +16,15 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class FEMUser {
     
@@ -245,6 +246,8 @@ public class FEMUser {
         HashMap<Integer, Integer> deaths = new HashMap<>();
         HashMap<Integer, Integer> wins = new HashMap<>();
         HashMap<Integer, Integer> plays = new HashMap<>();
+        ArrayList<Integer> secrets = new ArrayList<>(); //Secretos numero
+
         Integer tntPuestas = 0;
         Integer tntQuitadas = 0;
         Integer tntExplotadas = 0;
@@ -292,6 +295,7 @@ public class FEMUser {
             plays.put(4, 0);
             plays.put(5, 0);
             plays.put(6, 0);
+            secrets.add(0);
         }
     }
     //-----
