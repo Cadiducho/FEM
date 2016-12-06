@@ -51,7 +51,7 @@ fixtablist:
     mensaje: '&aScoreboards reestablecidos correctamente.'
 fly:
     otro: '&aLe has dado fly a &7{0}'
-    activado: '&aModo de vuelvo activado'
+    activado: '&aModo de vuelo activado'
     desactivado: '&aModo de vuelo &cdesactivado'
 friend:
     uso: '&eUsa: &a/friend <add / list / remove> [Usuario]'
