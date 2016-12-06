@@ -107,7 +107,11 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
-        if(GameState.state == GameState.CRAFT ||GameState.state == GameState.LUCKY) e.setCancelled(true);
+        if(GameState.state == GameState.CRAFT ||GameState.state == GameState.LUCKY) {
+            if (e.getBlock().getType() == Material.CAKE_BLOCK || e.getBlock().getType() == Material.CAKE || e.getBlock().getType() == Material.WEB) {
+                e.setCancelled(true);
+            }
+        }
     }
 
     @EventHandler
