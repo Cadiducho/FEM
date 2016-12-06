@@ -4,8 +4,6 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
-import java.util.concurrent.TimeUnit;
-import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.md_5.bungee.api.ServerPing;
@@ -19,6 +17,8 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
 
+import java.util.ArrayList;
+
 public class FEMBungee extends Plugin implements Listener {
 
     String pluginChannel = "FEM";
@@ -27,6 +27,7 @@ public class FEMBungee extends Plugin implements Listener {
     public void onEnable() {
         getProxy().registerChannel(pluginChannel);
         getProxy().getPluginManager().registerListener(this, this);
+        getProxy().getPluginManager().registerCommand(this, new CommandAlert());
         
         //Desactivado por OutOfMemoryError
         /*getProxy().getScheduler().schedule(this, () -> {
