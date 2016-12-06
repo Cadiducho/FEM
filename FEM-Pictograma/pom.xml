@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.8.8-R0.1-SNAPSHOT</version> <!-- 1.8.8 para usar el método isBlocking -->
+            <version>1.10.2-R0.1-SNAPSHOT</version> <!-- 1.8.8 para usar el método isBlocking -->
         </dependency>
         <dependency>
             <groupId>com.cadiducho</groupId>

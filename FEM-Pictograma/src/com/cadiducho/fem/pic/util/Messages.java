@@ -2,13 +2,14 @@ package com.cadiducho.fem.pic.util;
 
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.pic.Pictograma;
-import java.lang.reflect.Field;
-import net.minecraft.server.v1_8_R3.IChatBaseComponent;
-import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
-import net.minecraft.server.v1_8_R3.PlayerConnection;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import net.minecraft.server.v1_10_R1.IChatBaseComponent;
+import net.minecraft.server.v1_10_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_10_R1.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_10_R1.PlayerConnection;
+import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+
+import java.lang.reflect.Field;
 
 public class Messages {
 
