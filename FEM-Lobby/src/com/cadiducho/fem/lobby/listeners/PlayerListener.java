@@ -1,36 +1,5 @@
 package com.cadiducho.fem.lobby.listeners;
 
-import java.lang.reflect.Type;
-import java.util.List;
-
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDamageEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityCombustEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityTargetEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.messaging.PluginMessageListener;
-
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.cmds.FEMCmd;
@@ -45,6 +14,30 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.messaging.PluginMessageListener;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 public class PlayerListener implements Listener, PluginMessageListener {
 
@@ -78,6 +71,8 @@ public class PlayerListener implements Listener, PluginMessageListener {
 		plugin.getServer().getOnlinePlayers().forEach(p -> FEMServer.getUser(p).tryHidePlayers());
 
 		LobbyTeams.setScoreboardTeam(u);
+
+		e.getPlayer().setGameMode(GameMode.ADVENTURE);
 	}
 
 	/*
@@ -91,7 +86,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
 			e.setCancelled(true);
 			e.getItem().remove();
 			u.getUserData().setCoins(u.getUserData().getCoins() + 1);
-			u.save();
+            u.save();
 			e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
 			u.sendMessage("Has obtenido un punto del suelo");
 		}
@@ -116,6 +111,35 @@ public class PlayerListener implements Listener, PluginMessageListener {
 			if(e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR) || e.getClickedBlock().getType().equals(Material.FENCE_GATE) || e.getClickedBlock().getType().equals(Material.FIRE) || e.getClickedBlock().getType().equals(Material.CAULDRON) || e.getClickedBlock().getRelative(BlockFace.UP).getType().equals(Material.FIRE) || e.getClickedBlock().getType() == Material.CHEST || e.getClickedBlock().getType() == Material.TRAPPED_CHEST || e.getClickedBlock().getType() == Material.DROPPER || e.getClickedBlock().getType() == Material.DISPENSER || e.getClickedBlock().getType() == Material.BED_BLOCK || e.getClickedBlock().getType() == Material.BED){
 				e.setCancelled(true);
 			}
+
+			//Secretos
+			if(e.getClickedBlock().getType() == Material.SIGN_POST){
+				Sign s = (Sign)e.getClickedBlock();
+				int number = Integer.parseInt(s.getLine(0).split(" ")[1].split("/")[0]);
+                FEMUser u = FEMServer.getUser(e.getPlayer());
+
+                //Comprobar si tiene el secreto
+                if(u.getUserData().getSecrets().contains(number)) {
+                    u.sendMessage("&cYa tienes el secreto número &6" + number);
+                    return;
+                }
+
+                //Añadir secreto
+                u.getUserData().getSecrets().add(number);
+                u.getUserData().setCoins(0); //Cambiar
+                u.save();
+                u.sendActionBar("&2Has encontrado el secreto número &6" + number);
+                u.sendMessage("&3Secreto encontrado: &6" + number);
+                u.sendMessage("&2Has obtenido &c" + "" + " &2de dinero");
+                e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
+
+                if(u.getUserData().getSecrets().size() == 5){
+                    u.sendActionBar("&3Wow, has encontrado todos los secretos del mapa, ¡FELICIDADES!");
+                    u.sendMessage("&3Recibiste: &6 "); //TODO: Paticulas
+                    e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1F, 1F);
+                }
+			}
+			//
 		}
 
 		//Menu
