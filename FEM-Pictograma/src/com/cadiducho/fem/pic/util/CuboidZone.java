@@ -26,9 +26,7 @@ public class CuboidZone {
     }
 
     public void set(Material material) {
-        for (Block b : toArray()) {
-            b.setType(material);
-        }
+        toArray().forEach(b -> b.setType(material));
     }
 
     public boolean contains(Block b) {
@@ -75,14 +73,10 @@ public class CuboidZone {
     }
 
     public void clear() {
-        for (Block b : toArray()) {
-            b.setType(Material.AIR);
-        }
+        toArray().forEach(b -> b.setType(Material.AIR));
     }
 
     public void setWool(DyeColor dc) {
-        for (Block b : toArray()) {
-            b.setTypeIdAndData(Material.WOOL.getId(), dc.getData(), true);
-        }
+        toArray().forEach(b -> b.setTypeIdAndData(Material.WOOL.getId(), dc.getWoolData(), true));
     }
 }
