@@ -95,7 +95,7 @@ public class GameManager {
             score.keySet().forEach(p -> plugin.getMsg().sendBroadcast("&b" + p.getName() + ":&e " + score.get(p)));
             plugin.getMsg().sendBroadcast("&6Ganador: " + winner.getName());
             for (Player p : plugin.getGm().getPlayersInGame()) {
-                p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
+                p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
                 new Title("&a" + winner.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner); 
             }
             
@@ -141,7 +141,7 @@ public class GameManager {
         }
         if (!hasFound.contains(player.getUniqueId())) {
             hasFound.add(player.getUniqueId());
-            score.keySet().forEach(p -> p.getWorld().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F));
+            score.keySet().forEach(p -> p.getWorld().playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0F, 1.0F));
             pp.getUserData().setPicAcertadas(pp.getUserData().getPicAcertadas() + 1);
             pp.save();
             
