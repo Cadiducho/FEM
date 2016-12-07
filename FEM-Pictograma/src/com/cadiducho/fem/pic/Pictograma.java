@@ -7,7 +7,7 @@ import com.cadiducho.fem.pic.manager.ArenaManager;
 import com.cadiducho.fem.pic.manager.GameManager;
 import com.cadiducho.fem.pic.manager.GameState;
 import com.cadiducho.fem.pic.tick.Ticker;
-import com.cadiducho.fem.pic.util.Messages;
+import com.cadiducho.fem.core.util.Messages;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

@@ -8,7 +8,7 @@ import com.cadiducho.fem.tnt.manager.ArenaManager;
 import com.cadiducho.fem.tnt.manager.GameManager;
 import com.cadiducho.fem.tnt.manager.GameState;
 import com.cadiducho.fem.tnt.util.ChestItems;
-import com.cadiducho.fem.tnt.util.Messages;
+import com.cadiducho.fem.core.util.Messages;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -47,8 +47,7 @@ public class TntWars extends JavaPlugin {
         chestItems = new ChestItems(instance);
         am = new ArenaManager(instance);
         am.prepareWorld(getServer().getWorld(getConfig().getString("Tnt.Arena.mundo")));
-        msg = new Messages(instance);
-        msg.init();
+        msg = new Messages(instance, "&dTnt&eWars");
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerListener(instance), instance);

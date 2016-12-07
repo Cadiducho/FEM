@@ -5,7 +5,7 @@ import com.cadiducho.fem.color.listener.WorldListener;
 import com.cadiducho.fem.color.manager.ArenaManager;
 import com.cadiducho.fem.color.manager.GameManager;
 import com.cadiducho.fem.color.manager.GameState;
-import com.cadiducho.fem.color.util.Messages;
+import com.cadiducho.fem.core.util.Messages;
 import com.cadiducho.fem.color.util.ScoreboardUtil;
 import com.cadiducho.fem.core.listeners.TeleportFix;
 import java.io.File;
@@ -55,7 +55,7 @@ public class DyeOrDie extends JavaPlugin {
         gm = new GameManager(instance);
         am = new ArenaManager(instance);
         am.prepareWorld(getServer().getWorld(getConfig().getString("Color.Arena.mundo")));
-        msg = new Messages(instance);
+        msg = new Messages(instance, colorize("Dye or Die"));
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerListener(instance), instance);

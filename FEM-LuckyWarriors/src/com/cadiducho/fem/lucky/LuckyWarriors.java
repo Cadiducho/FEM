@@ -1,6 +1,7 @@
 package com.cadiducho.fem.lucky;
 
 import com.cadiducho.fem.core.listeners.TeleportFix;
+import com.cadiducho.fem.core.util.Messages;
 import java.util.logging.Level;
 import com.cadiducho.fem.lucky.listeners.GameListener;
 import com.cadiducho.fem.lucky.listeners.PlayerListener;
@@ -9,7 +10,6 @@ import com.cadiducho.fem.lucky.manager.ArenaManager;
 import com.cadiducho.fem.lucky.manager.GameManager;
 import com.cadiducho.fem.lucky.manager.GameState;
 import com.cadiducho.fem.lucky.utils.LuckyPacks;
-import com.cadiducho.fem.lucky.utils.Messages;
 import java.io.File;
 import java.util.ArrayList;
 import lombok.Getter;
@@ -45,9 +45,8 @@ public class LuckyWarriors extends JavaPlugin {
         new WorldCreator("espera").createWorld();
         am = new ArenaManager(instance);
         gm = new GameManager(instance);
-        msg = new Messages(instance);
+        msg = new Messages(instance, "&eLucky&aWarriors");
         world = getServer().getWorld(getConfig().getString("worldName"));
-        msg.init();
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         LuckyPacks.initItems();

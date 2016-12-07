@@ -8,7 +8,7 @@ import com.cadiducho.fem.gem.manager.ArenaManager;
 import com.cadiducho.fem.gem.manager.GameManager;
 import com.cadiducho.fem.gem.manager.GameState;
 import com.cadiducho.fem.gem.manager.TeamManager;
-import com.cadiducho.fem.gem.util.Messages;
+import com.cadiducho.fem.core.util.Messages;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -51,8 +51,7 @@ public class GemHunters extends JavaPlugin {
         tm = new TeamManager(instance);
         am = new ArenaManager(instance);
         am.prepareWorld(getServer().getWorld(getConfig().getString("GemHunters.Arena.mundo")));
-        msg = new Messages(instance);
-        msg.init();
+        msg = new Messages(instance, "&dGem&eHunters");
 
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new PlayerListener(instance), instance);

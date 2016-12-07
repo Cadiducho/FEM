@@ -13,7 +13,7 @@ import com.cadiducho.fem.royale.manager.ArenaManager;
 import com.cadiducho.fem.royale.manager.GameManager;
 import com.cadiducho.fem.royale.manager.GameState;
 import com.cadiducho.fem.royale.utils.ChestItems;
-import com.cadiducho.fem.royale.utils.Messages;
+import com.cadiducho.fem.core.util.Messages;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -51,8 +51,7 @@ public class BattleRoyale extends JavaPlugin {
         ChestItems.initItems();
         am = new ArenaManager(instance);
         gm = new GameManager(instance);
-        msg = new Messages(instance);
-        msg.init();
+        msg = new Messages(instance, "&aBattleRoyale");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         
         PluginManager pm = getServer().getPluginManager();

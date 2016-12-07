@@ -1,7 +1,8 @@
 package com.cadiducho.fem.core.util;
 
+/*
 import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
+import com.mojang.authlib.properties.Property;*/
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +106,7 @@ public class ItemBuilder {
         return this;
     }
     
-    
+    /*
     public ItemBuilder createSkull(String url) {
         if (url.isEmpty()) return this;
         SkullMeta headMeta = (SkullMeta) itemStack.getItemMeta();
@@ -120,7 +121,7 @@ public class ItemBuilder {
         }
         itemStack.setItemMeta(headMeta);
         return this;
-    }
+    }*/
 
     public ItemStack build() {
         return this.itemStack;

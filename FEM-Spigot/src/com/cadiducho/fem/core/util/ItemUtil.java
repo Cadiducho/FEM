@@ -71,7 +71,7 @@ public class ItemUtil {
     }
     
     public static ItemStack createClay(String displayname, List<String> lore, DyeColor dye) {
-        ItemStack item = new ItemStack(Material.STAINED_CLAY, 1, dye.getData());
+        ItemStack item = new ItemStack(Material.STAINED_CLAY, 1, dye.getWoolData());
         ItemMeta meta = item.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES, 
                 ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
@@ -91,7 +91,7 @@ public class ItemUtil {
     }
     
     public static ItemStack createGlass(String displayname, List<String> lore, DyeColor dye) {
-        ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE, 1, dye.getData());
+        ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE, 1, dye.getWoolData());
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(displayname);
         
