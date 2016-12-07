@@ -18,7 +18,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
@@ -106,13 +105,19 @@ public class PlayerListener implements Listener, PluginMessageListener {
 
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e){
+        FEMUser u = FEMServer.getUser(e.getPlayer());
 		//Sin interacción
 		if(e.getClickedBlock() != null){
 			if(e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR) || e.getClickedBlock().getType().equals(Material.FENCE_GATE) || e.getClickedBlock().getType().equals(Material.FIRE) || e.getClickedBlock().getType().equals(Material.CAULDRON) || e.getClickedBlock().getRelative(BlockFace.UP).getType().equals(Material.FIRE) || e.getClickedBlock().getType() == Material.CHEST || e.getClickedBlock().getType() == Material.TRAPPED_CHEST || e.getClickedBlock().getType() == Material.DROPPER || e.getClickedBlock().getType() == Material.DISPENSER || e.getClickedBlock().getType() == Material.BED_BLOCK || e.getClickedBlock().getType() == Material.BED){
 				e.setCancelled(true);
 			}
 
-			//Secretos
+			if(e.getClickedBlock().getType().equals(Material.ENCHANTMENT_TABLE) && e.getClickedBlock().getLocation().equals(Metodos.stringToLocation(plugin.getConfig().getString("nvidia")))){
+                e.setCancelled(true);
+			    LobbyMenu.openMenu(u, LobbyMenu.Menu.NVIDIA);
+            }
+
+/*			//Secretos
 			if(e.getClickedBlock().getType() == Material.SIGN_POST){
 				Sign s = (Sign)e.getClickedBlock();
 				int number = Integer.parseInt(s.getLine(0).split(" ")[1].split("/")[0]);
@@ -125,7 +130,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 }
 
                 //Añadir secreto
-                u.getUserData().getSecrets().add(number);
                 u.getUserData().setCoins(0); //Cambiar
                 u.save();
                 u.sendActionBar("&2Has encontrado el secreto número &6" + number);
@@ -133,20 +137,21 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 u.sendMessage("&2Has obtenido &c" + "" + " &2de dinero");
                 e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
 
+
+                //Si tiene los 5, algo especial
                 if(u.getUserData().getSecrets().size() == 5){
-                    u.sendActionBar("&3Wow, has encontrado todos los secretos del mapa, ¡FELICIDADES!");
-                    u.sendMessage("&3Recibiste: &6 "); //TODO: Paticulas
-                    e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1F, 1F);
-                }
+					u.sendActionBar("&3Wow, has encontrado todos los secretos del mapa, ¡FELICIDADES!");
+					u.sendMessage("&3Recibiste: &6 "); //TODO: Paticulas
+					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1F, 1F);
+				}
 			}
-			//
+			//*/
 		}
 
 		//Menu
 		if(e.getItem() != null){
 			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK){
 				e.setCancelled(false);
-				FEMUser u = FEMServer.getUser(e.getPlayer());
 				switch(e.getItem().getType()){
 				case COMPASS:
 					LobbyMenu.openMenu(u, LobbyMenu.Menu.VIAJAR);
@@ -267,6 +272,27 @@ public class PlayerListener implements Listener, PluginMessageListener {
 			}
 			p.playSound(u.getPlayer().getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
 			break;
+		case "&3NVIDIA &0Point":
+                e.setCancelled(true);
+                switch(e.getCurrentItem().getType()){
+                    case INK_SACK:
+                        u.sendMessage("Falta Inv");
+                        break;
+                    case BONE:
+                        u.sendMessage("Falta Inv");
+                        break;
+                    case IRON_SWORD:
+                        u.sendMessage("Falta Inv");
+                        break;
+                    case ENCHANTMENT_TABLE:
+                        //TODO: Comprobar si tiene cajas
+                        u.sendMessage("Falta Inv");
+                        break;
+                    default:
+                        break;
+                }
+                p.closeInventory();
+                break;
 		default:
 			break;
 		}

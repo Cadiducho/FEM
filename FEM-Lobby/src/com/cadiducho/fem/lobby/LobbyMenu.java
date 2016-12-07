@@ -3,8 +3,6 @@ package com.cadiducho.fem.lobby;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
-import java.util.Arrays;
-import java.util.List;
 import lombok.Getter;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -16,11 +14,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class LobbyMenu {
 
     private static Lobby plugin;
     public enum Menu {
-        AJUSTES, VIAJAR, STATS
+        AJUSTES, VIAJAR, STATS, NVIDIA;
     }
 
     @Getter private static ItemStack libro;
@@ -28,6 +30,7 @@ public class LobbyMenu {
     @Getter private static Inventory invAjustes;
     @Getter private static Inventory invViajar;
     @Getter private static Inventory invStats;
+    @Getter private static Inventory invNvidia;
     
     @Getter private static final List<String> loreAmistades = Arrays.asList("Informar de nuevos seguimientos de amistad", "- Informar (Verde)", "- No informar (Rojo)");
     @Getter private static final List<String> loreMsgPrivados = Arrays.asList("Acepta o rechaza los mensajes privados en el chat", "- Aceptar (Verde)", "- Rechaza (Rojo)");
@@ -100,6 +103,12 @@ public class LobbyMenu {
         //Stats
         invStats = plugin.getServer().createInventory(null, 18, "Estadisticas del jugador");
 
+        //Nvidia
+        invNvidia = plugin.getServer().createInventory(null, 36, Metodos.colorizar("&3NVIDIA &0Point"));
+        invNvidia.setItem(11, ItemUtil.createItem(Material.INK_SACK, 1, (short)3, "Partículas", new ArrayList<>()));
+        invNvidia.setItem(13, ItemUtil.createItem(Material.BONE, "Animales", new ArrayList<>()));
+        invNvidia.setItem(15, ItemUtil.createItem(Material.IRON_SWORD, "Comprar Mejoras", new ArrayList<>()));
+        invNvidia.setItem(31, ItemUtil.createItem(Material.ENCHANTMENT_TABLE, "Abrir Cajas", new ArrayList<>()));
     }
 
     public static void openMenu(FEMUser u, Menu type) {
@@ -108,7 +117,7 @@ public class LobbyMenu {
         switch (type) {
             case AJUSTES:
                 clon = invAjustes;
-                
+
                 //Amistades
                 DyeColor amistadesColor = u.getUserData().getFriendRequest() ? DyeColor.LIME : DyeColor.RED;
                 clon.setItem(10, ItemUtil.createClay("NUEVAS AMISTADES", loreAmistades, amistadesColor));
@@ -123,7 +132,7 @@ public class LobbyMenu {
                 break;
             case VIAJAR:
                 clon = invViajar;
-                
+
                 //Viajar - Stats
                 String amistades = u.getUserData().getFriendRequest() ? "Aceptas" : "No aceptas";
                 String otros = u.getUserData().getHideMode() == 0 ? "Nadie" : (u.getUserData().getHideMode() == 1 ? "Amigos" : "Todos");
@@ -136,11 +145,11 @@ public class LobbyMenu {
                         "Amistades: " + amistades,
                         "Ver a: " + otros)));
                 clon.setItem(22, ItemUtil.createItem(Material.DOUBLE_PLANT, "Dinero", u.getUserData().getCoins() + " monedas"));
-        
+
                 break;
             case STATS:
                 clon = invStats;
-                
+
                 clon.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA",
                         Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(4),
                                 "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(4),
@@ -180,6 +189,8 @@ public class LobbyMenu {
                         "&6---{*}---",
                         "&fIntercambios realizados: &l" + u.getUserData().getBrIntercambios())));
                 break;
+            case NVIDIA:
+                clon = invNvidia;
         }
         
         if (clon != null) {
