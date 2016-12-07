@@ -246,7 +246,6 @@ public class FEMUser {
         HashMap<Integer, Integer> deaths = new HashMap<>();
         HashMap<Integer, Integer> wins = new HashMap<>();
         HashMap<Integer, Integer> plays = new HashMap<>();
-        ArrayList<Integer> secrets = new ArrayList<>(); //Secretos numero
 
         Integer tntPuestas = 0;
         Integer tntQuitadas = 0;
@@ -295,7 +294,6 @@ public class FEMUser {
             plays.put(4, 0);
             plays.put(5, 0);
             plays.put(6, 0);
-            secrets.add(0);
         }
     }
     //-----

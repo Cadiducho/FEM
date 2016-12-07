@@ -1,8 +1,5 @@
 package com.cadiducho.fem.core.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
@@ -11,6 +8,10 @@ import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.material.Wool;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -33,9 +34,13 @@ public class ItemUtil {
     public static ItemStack createItem(Material material, String displayname, List<String> lore) {
         return createItem(material, 1, displayname, lore);
     }
-    
+
     public static ItemStack createItem(Material material, int amount, String displayname, List<String> lore) {
-        ItemStack item = new ItemStack(material);
+        return createItem(material, amount, (short)0, displayname, lore);
+    }
+    
+    public static ItemStack createItem(Material material, int amount, short data, String displayname, List<String> lore) {
+        ItemStack item = new ItemStack(material, amount, data);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(Metodos.colorizar(displayname));
         ArrayList<String> colorLore = new ArrayList<>();

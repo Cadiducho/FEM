@@ -5,21 +5,18 @@ import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.api.FEMUser.UserData;
 import com.cadiducho.fem.core.cmds.FEMCmd;
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
+import org.bukkit.entity.Player;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.bukkit.entity.Player;
 
 /**
  * Objeto para conexiones de MySQL
@@ -261,7 +258,7 @@ public class MySQL {
                 data.setBrIntercambios(rsStats.getInt("brIntercambios"));
                 data.setLuckyRotos(rsStats.getInt("luckyRotos"));
                 
-                data.setTimePlayed(rsStats.getLong("timePlayed"));         
+                data.setTimePlayed(rsStats.getLong("timePlayed"));
             }
             
             //Settings
