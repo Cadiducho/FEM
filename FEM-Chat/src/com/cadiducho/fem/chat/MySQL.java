@@ -77,6 +77,8 @@ public class MySQL {
                 }
                 ignorados.put(UUID.fromString(rsUuid.getString("uuid")), igno);
             }
+            
+            closeConnection();
         } catch (SQLException | ClassNotFoundException ex) {
             System.out.println("Ha ocurrido un error cargando la lista de ignorados");
             System.out.println(ex.getMessage());
@@ -139,6 +141,9 @@ public class MySQL {
                     lista.add(UUID.fromString(rs.getString("uuid")));
                 }
                 FEMChat.getInstance().setDisableTell(lista);
+                
+                //Cerrar la conexión para evitar tener hilos abiertos
+                closeConnection();
             } catch (CommunicationsException ex) {
                 //Si el driver ha perdido la conexion (timeout) cerrar, abrir y volver a intentar
                 try {

@@ -61,17 +61,11 @@ public class FEMChat extends Plugin implements Listener {
             getProxy().getLogger().severe("No se ha podido cargar la config");
         }
         
-        try {
-            mysql = new MySQL(config.getString("mysql.host"), config.getString("mysql.port"),
-                        config.getString("mysql.database"), config.getString("mysql.username"),
-                        config.getString("mysql.password"));
-            mysql.openConnection();
-            ignoredPlayers = mysql.loadIgnoredList();
-        } catch (SQLException | ClassNotFoundException ex) {
-            getProxy().getLogger().severe("No se ha podido abrir conexión mysql");
-            ex.printStackTrace();
-        }
-        
+        mysql = new MySQL(config.getString("mysql.host"), config.getString("mysql.port"),
+                config.getString("mysql.database"), config.getString("mysql.username"),
+                config.getString("mysql.password"));
+        ignoredPlayers = mysql.loadIgnoredList();
+
         //Mantener actualizada la lista de gente que tiene desactivada los tell
         getProxy().getScheduler().schedule(this, () -> {
             mysql.updateDisableTellList();

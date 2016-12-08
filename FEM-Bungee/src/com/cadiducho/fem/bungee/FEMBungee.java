@@ -63,8 +63,8 @@ public class FEMBungee extends Plugin implements Listener {
     @EventHandler
     public void onProxyPing(ProxyPingEvent e) {
         ServerPing.Protocol version = e.getResponse().getVersion();
-        version.setName("Undergames.es 1.10");
-        version.setProtocol(210);
+        version.setName("Undergames.es 1.11");
+        version.setProtocol(315);
         e.getResponse().setVersion(version);
     }
     

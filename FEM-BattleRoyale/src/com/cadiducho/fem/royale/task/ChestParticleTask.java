@@ -2,10 +2,10 @@ package com.cadiducho.fem.royale.task;
 
 import com.cadiducho.fem.core.util.ReflectionUtils;
 import com.cadiducho.fem.royale.BattleRoyale;
-import net.minecraft.server.v1_10_R1.EnumParticle;
-import net.minecraft.server.v1_10_R1.PacketPlayOutWorldParticles;
+import net.minecraft.server.v1_11_R1.EnumParticle;
+import net.minecraft.server.v1_11_R1.PacketPlayOutWorldParticles;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ChestParticleTask extends BukkitRunnable {
