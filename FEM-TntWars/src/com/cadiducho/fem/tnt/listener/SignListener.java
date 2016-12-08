@@ -420,25 +420,25 @@ public class SignListener implements Listener {
                 p.closeInventory();
                 switch (e.getSlot()) {
                     case 0:
-                        plugin.getAm().getBuildingShop().addCustomer(p);
+                        p.openMerchant(plugin.getAm().getBuildingShop(), true);
                         break;
                     case 1:
-                        plugin.getAm().getWeaponsShop().addCustomer(p);
+                        p.openMerchant(plugin.getAm().getWeaponsShop(), true);
                         break;
                     case 2:
-                        plugin.getAm().getArmourShop().addCustomer(p);
+                        p.openMerchant(plugin.getAm().getArmourShop(), true);
                         break;
                     case 3:
-                        plugin.getAm().getFoodShop().addCustomer(p);
+                        p.openMerchant(plugin.getAm().getFoodShop(), true);;
                         break;
                     case 4:
-                        plugin.getAm().getToolsShop().addCustomer(p);
+                        p.openMerchant(plugin.getAm().getToolsShop(), true);
                         break;
                     case 5:
-                        plugin.getAm().getArcheryShop().addCustomer(p);
+                        p.openMerchant(plugin.getAm().getArcheryShop(), true);
                         break;
                     case 6:
-                        plugin.getAm().getMiscShop().addCustomer(p);
+                        p.openMerchant(plugin.getAm().getMiscShop(), true);
                         break;         
                 }
             }

@@ -48,9 +48,9 @@ public class GameListener implements Listener {
                 e.setCancelled(true);
                 Villager v = (Villager) e.getRightClicked();
                 if (v.getName().toLowerCase().contains("compro")) {
-                    plugin.getAm().getCompro().addCustomer(e.getPlayer());
+                    e.getPlayer().openMerchant(plugin.getAm().getCompro(), true);
                 } else if (v.getName().toLowerCase().contains("vendo")) {
-                    plugin.getAm().getVendo().addCustomer(e.getPlayer());
+                    e.getPlayer().openMerchant(plugin.getAm().getVendo(), true);
                 }
             }
         } else {

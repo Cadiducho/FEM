@@ -49,12 +49,6 @@
             <type>jar</type>
         </dependency>
         <dependency>
-            <groupId>com.cadiducho</groupId>
-            <artifactId>MerchantsAPI</artifactId>
-            <version>1.0</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.14.8</version>

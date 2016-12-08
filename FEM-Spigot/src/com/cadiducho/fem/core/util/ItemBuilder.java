@@ -1,20 +1,13 @@
 package com.cadiducho.fem.core.util;
 
-/*
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;*/
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
-
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
@@ -105,23 +98,6 @@ public class ItemBuilder {
         this.itemStack.setItemMeta(meta);
         return this;
     }
-    
-    /*
-    public ItemBuilder createSkull(String url) {
-        if (url.isEmpty()) return this;
-        SkullMeta headMeta = (SkullMeta) itemStack.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-        profile.getProperties().put("textures", new Property("textures", url));
-        Field profileField;
-        try {
-            profileField = headMeta.getClass().getDeclaredField("profile");
-            profileField.setAccessible(true);
-            profileField.set(headMeta, profile);
-        } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException e1) {
-        }
-        itemStack.setItemMeta(headMeta);
-        return this;
-    }*/
 
     public ItemStack build() {
         return this.itemStack;
