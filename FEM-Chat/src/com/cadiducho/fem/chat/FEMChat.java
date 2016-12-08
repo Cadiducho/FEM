@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -24,6 +23,7 @@ public class FEMChat extends Plugin implements Listener {
     public static final String PRIVATE_SUBCHANNEL = "priv";
     public static final String IGNORE_SUBCHANNEL = "ign";
     public static final String IGNLIST_SUBCHANNEL = "ignlist";
+    public static final String UPDATE_SUBCHANNEL = "update";
     public static final String SINTAXIS = "%prefix%%displayName%%suffix%: ";
     public static final String CHAR = "\u00A8";
     
@@ -65,11 +65,6 @@ public class FEMChat extends Plugin implements Listener {
                 config.getString("mysql.database"), config.getString("mysql.username"),
                 config.getString("mysql.password"));
         ignoredPlayers = mysql.loadIgnoredList();
-
-        //Mantener actualizada la lista de gente que tiene desactivada los tell
-        getProxy().getScheduler().schedule(this, () -> {
-            mysql.updateDisableTellList();
-        }, 5, 5, TimeUnit.SECONDS);
     }
     
     @Override

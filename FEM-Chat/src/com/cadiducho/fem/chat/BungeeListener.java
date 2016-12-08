@@ -215,6 +215,9 @@ public class BungeeListener implements Listener {
                         case FEMChat.IGNLIST_SUBCHANNEL:
                             processIgnoreList(in.readUTF());
                             break;
+                        case FEMChat.UPDATE_SUBCHANNEL:
+                            plugin.getMysql().updateDisableTellList();
+                            break;
                     }
                 } catch (IOException ex) {
                     plugin.getLogger().log(Level.SEVERE, "Error obtieniendo datos de Bukkit", ex);
