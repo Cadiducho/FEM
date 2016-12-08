@@ -1,16 +1,21 @@
 package com.cadiducho.fem.core.util;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import net.minecraft.server.v1_11_R1.IChatBaseComponent;
-import net.minecraft.server.v1_11_R1.PacketPlayOutChat;
-import net.minecraft.server.v1_11_R1.PacketPlayOutPlayerListHeaderFooter;
-import net.minecraft.server.v1_11_R1.PlayerConnection;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+
 public class Messages {
+    private static Class<?> packetClass = null;
+    private static Class<?> componentClass = null;
+    private static Class<?> packetTabClass = null;
+    private static Class<?> serializerClass = null;
+    private static Constructor<?> packetConstructor = null;
+    private static Constructor<?> packetTabConstructor = null;
+    @SuppressWarnings("rawtypes")
+    private static Class<Enum> enumTitleAction = null;
 
     private static String nmsver;
     
@@ -41,34 +46,87 @@ public class Messages {
         plugin.getServer().broadcastMessage(""); 
     }
 
-    public void sendActionBar(Player p, String msg) { 
-        IChatBaseComponent cbc = IChatBaseComponent.ChatSerializer 
-                .a("{\"text\": \"" + Metodos.colorizar(msg) + "\"}"); 
-        PacketPlayOutChat ppoc = new PacketPlayOutChat(cbc, (byte) 2); 
-        ((CraftPlayer) p).getHandle().playerConnection.sendPacket(ppoc); 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void sendTitle(Player p, Integer fadeIn, Integer stay, Integer fadeOut, String title, String subtitle){
+        packetClass = ReflectionAPI.getNmsClass("PacketPlayOutTitle");
+        componentClass = ReflectionAPI.getNmsClass("IChatBaseComponent");
+        serializerClass = ReflectionAPI.getNmsClass("IChatBaseComponent$ChatSerializer");
+        enumTitleAction = (Class<Enum>) ReflectionAPI.getNmsClass("PacketPlayOutTitle$EnumTitleAction");
+        try {
+            packetConstructor = packetClass.getConstructor(enumTitleAction, componentClass, int.class, int.class, int.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+        if (subtitle != null) {
+            Object subTitleSer;
+            Object subTitlePacket;
+            try {
+                subTitleSer = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + subtitle + "\"}");
+                subTitlePacket = packetConstructor.newInstance(enumTitleAction.getEnumConstants()[1], subTitleSer, fadeIn.intValue(), stay.intValue(), fadeOut.intValue());
+                ReflectionAPI.sendPacket(p, subTitlePacket);
+            } catch (IllegalAccessException | InstantiationException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                e.printStackTrace();
+                System.out.println(enumTitleAction.getEnumConstants());
+            }
+        }
+        if (title != null) {
+            Object titleSer;
+            Object titlePacket;
+            try {
+                titleSer = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + title + "\"}");
+                titlePacket = packetConstructor.newInstance(enumTitleAction.getEnumConstants()[0], titleSer, fadeIn.intValue(), stay.intValue(), fadeOut.intValue());
+                ReflectionAPI.sendPacket(p, titlePacket);
+            } catch (IllegalAccessException | InstantiationException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public void sendHeaderAndFooter(Player p, String head, String foot) {
-        CraftPlayer craftplayer = (CraftPlayer) p;
-        PlayerConnection connection = craftplayer.getHandle().playerConnection;
-        IChatBaseComponent header = IChatBaseComponent.ChatSerializer
-                .a("{'color': '', 'text': '" + Metodos.colorizar(head) + "'}");
-        IChatBaseComponent footer = IChatBaseComponent.ChatSerializer
-                .a("{'color': '', 'text': '" + Metodos.colorizar(foot) + "'}");
-        PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+    public void sendActionBar(Player p, String msg){
         try {
-            Field headerField = packet.getClass().getDeclaredField("a");
-            headerField.setAccessible(true);
-            headerField.set(packet, header);
-            headerField.setAccessible(!headerField.isAccessible());
-
-            Field footerField = packet.getClass().getDeclaredField("b");
-            footerField.setAccessible(true);
-            footerField.set(packet, footer);
-            footerField.setAccessible(!footerField.isAccessible());
-        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+            packetClass = ReflectionAPI.getNmsClass("PacketPlayOutChat");
+            componentClass = ReflectionAPI.getNmsClass("IChatBaseComponent");
+            serializerClass = ReflectionAPI.getNmsClass("IChatBaseComponent$ChatSerializer");
+            packetConstructor = packetClass.getConstructor(componentClass, byte.class);
+            Object BaseComponent = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + msg + "\"}");
+            Object packet = packetConstructor.newInstance(BaseComponent, (byte) 2);
+            ReflectionAPI.sendPacket(p, packet);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        connection.sendPacket(packet);
+    }
+
+    public void sendHeaderAndFooter(Player p, String header, String footer){
+        packetTabClass = ReflectionAPI.getNmsClass("PacketPlayOutPlayerListHeaderFooter");
+        componentClass = ReflectionAPI.getNmsClass("IChatBaseComponent");
+        serializerClass = ReflectionAPI.getNmsClass("IChatBaseComponent$ChatSerializer");
+        try {
+            packetTabConstructor = packetTabClass.getConstructor(componentClass);
+        } catch (NoSuchMethodException e1) {
+            e1.printStackTrace();
+        } catch (SecurityException e1) {
+            e1.printStackTrace();
+        }
+        if (header == null)
+            header = "";
+        if (footer == null)
+            footer = "";
+        Object tabTitle;
+        Object tabFoot;
+        Object headerPacket;
+        try {
+            tabTitle = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + header + "\"}");
+            tabFoot = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + footer + "\"}");
+            headerPacket = packetTabConstructor.newInstance(tabTitle);
+            Field field = headerPacket.getClass().getDeclaredField("b");
+            field.setAccessible(true);
+            field.set(headerPacket, tabFoot);
+            ReflectionAPI.sendPacket(p, headerPacket);
+        } catch (IllegalAccessException | InstantiationException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getPrefix() {

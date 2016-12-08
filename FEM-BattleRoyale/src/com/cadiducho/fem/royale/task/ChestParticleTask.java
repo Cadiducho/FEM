@@ -1,11 +1,10 @@
 package com.cadiducho.fem.royale.task;
 
-import com.cadiducho.fem.core.util.ReflectionUtils;
+import com.cadiducho.fem.core.particles.ParticleEffect;
 import com.cadiducho.fem.royale.BattleRoyale;
-import net.minecraft.server.v1_11_R1.EnumParticle;
-import net.minecraft.server.v1_11_R1.PacketPlayOutWorldParticles;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ChestParticleTask extends BukkitRunnable {
@@ -26,12 +25,8 @@ public class ChestParticleTask extends BukkitRunnable {
         for (double y = 0; y <= 100; y += 0.05) {
             double x = radio * Math.cos(y);
             double z = radio * Math.sin(y);
-       
-            PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.REDSTONE, false, (float) (loc.getX() + x), (float) (loc.getY() + y), (float) (loc.getZ() + z), (float) 0, (float) 0, (float) 255, (float) 0, 0, 1);
-            try {
-                ReflectionUtils.setValue(packet, true, "j", true);
-            } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex) {}
-            plugin.getServer().getOnlinePlayers().forEach(p -> ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet));
+
+            ParticleEffect.REDSTONE.display(new ParticleEffect.OrdinaryColor(0,0,255), new Location(loc.getWorld(), x, y, z), Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
         }
         if (count == 0) {
             cancel();

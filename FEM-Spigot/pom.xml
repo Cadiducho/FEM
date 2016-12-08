@@ -35,10 +35,6 @@
             <id>cadiducho-repo</id>
             <url>http://repo.cadiducho.com/</url>
         </repository>
-        <repository>
-            <id>inventive-repo</id>
-            <url>https://repo.inventivetalent.org/content/groups/public/</url>
-        </repository>
     </repositories>
     <dependencies>
         <dependency>

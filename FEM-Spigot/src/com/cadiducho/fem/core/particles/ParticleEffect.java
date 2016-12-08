@@ -1,7 +1,7 @@
-package com.cadiducho.fem.lobby.particles;
+package com.cadiducho.fem.core.particles;
 
 
-import com.cadiducho.fem.lobby.particles.ReflectionUtils.PackageType;
+import com.cadiducho.fem.core.particles.ReflectionUtils.PackageType;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Material;

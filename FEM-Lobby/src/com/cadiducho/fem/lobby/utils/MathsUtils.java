@@ -2,7 +2,7 @@ package com.cadiducho.fem.lobby.utils;
 
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.lobby.Lobby;
-import com.cadiducho.fem.lobby.particles.ParticleEffect;
+import com.cadiducho.fem.core.particles.ParticleEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -25,7 +25,7 @@ public class MathsUtils {
                 double x = radius * Math.cos(y);
                 double z = radius * Math.sin(y);
 
-                pe.display( (long)(l.getX() + x), (long)(l.getY() + y), (long)(l.getZ() + z), 0, 1, l, Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
+                pe.display((long)(l.getX() + x), (long)(l.getY() + y), (long)(l.getZ() + z), 0, 1, l, Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
             }
         }, 1, 20).getTaskId());
     }
@@ -44,7 +44,7 @@ public class MathsUtils {
                 double x = l.getX() + (radius * Math.cos(angle));
                 double z = l.getZ() + (radius * Math.sin(angle));
 
-                pe.display( (long)(l.getX() + x), (long)(l.getY()), (long)(l.getZ() + z), 0, 1, l, Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
+                pe.display((long)(l.getX() + x), (long)(l.getY()), (long)(l.getZ() + z), 0, 1, l, Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
             }
         }, 1, 20).getTaskId());
     }

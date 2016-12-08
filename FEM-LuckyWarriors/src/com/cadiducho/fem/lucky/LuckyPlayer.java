@@ -2,10 +2,10 @@ package com.cadiducho.fem.lucky;
 
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
-import java.util.UUID;
 import org.bukkit.GameMode;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.UUID;
 
 public class LuckyPlayer extends FEMUser {
 

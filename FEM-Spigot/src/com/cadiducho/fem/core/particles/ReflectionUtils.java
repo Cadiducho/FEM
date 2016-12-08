@@ -1,4 +1,4 @@
-package com.cadiducho.fem.lobby.particles;
+package com.cadiducho.fem.core.particles;
 
 import org.bukkit.Bukkit;
 
