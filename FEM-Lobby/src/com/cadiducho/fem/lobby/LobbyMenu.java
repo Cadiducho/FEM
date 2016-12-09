@@ -116,6 +116,8 @@ public class LobbyMenu {
 
         //Particulas
         invParticulas = plugin.getServer().createInventory(null, 36, "Particulas");
+        invParticulas.setItem(30, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 1, (short)6, "❮ Atrás", new ArrayList<>()));
+        invParticulas.setItem(32, ItemUtil.createItem(Material.BARRIER, "✖ Quitar Partículas", new ArrayList<>()));
         Arrays.asList(ParticleType.values()).forEach(pt -> invParticulas.setItem(pt.getID() ,pt.getItem())); //Todos los items creados
     }
 

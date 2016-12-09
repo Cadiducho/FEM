@@ -312,7 +312,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                     case 30: //Cambiar botón atrás
                         LobbyMenu.openMenu(u, LobbyMenu.Menu.NVIDIA);
                          break;
-                    case 31: //Cambiar botón parar
+                    case 32: //Cambiar botón parar
                         if (particles.containsKey(u)) particles.get(u).cancel();
                         break;
                     default:
