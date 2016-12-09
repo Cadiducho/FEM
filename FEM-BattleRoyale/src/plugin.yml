@@ -2,5 +2,5 @@ name: BattleRoyale
 description: BattleRoyale
 version: 0.0.1
 author: Cadiducho
-depend: [FEMCore, Merchants]
+depend: [FEMCore]
 main: com.cadiducho.fem.royale.BattleRoyale

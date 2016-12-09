@@ -20,7 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class TntWars extends JavaPlugin {
 
-    private static TntWars instance;
+    @Getter private static TntWars instance;
 
     public static ArrayList<TntPlayer> players = new ArrayList<>();
 
@@ -62,10 +62,6 @@ public class TntWars extends JavaPlugin {
     @Override
     public void onDisable() {
         getLogger().log(Level.INFO, "Tnt: Desativado correctamente");
-    }
-
-    public static TntWars getInstance() {
-        return instance;
     }
 
     public static TntPlayer getPlayer(OfflinePlayer p) {

@@ -2,7 +2,7 @@ name: TntWars
 description: TntWars
 version: ${project.version}
 main: com.cadiducho.fem.tnt.TntWars
-depend: [FEMCore, Merchants]
+depend: [FEMCore]
 author: Cadiducho
 commands:
     game:
