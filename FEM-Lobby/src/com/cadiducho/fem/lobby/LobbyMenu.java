@@ -22,7 +22,7 @@ public class LobbyMenu {
 
     private static Lobby plugin;
     public enum Menu {
-        AJUSTES, VIAJAR, STATS, NVIDIA;
+        AJUSTES, VIAJAR, STATS, NVIDIA, PARTICULAS, PETS, CAJAS;
     }
 
     @Getter private static ItemStack libro;
@@ -31,6 +31,9 @@ public class LobbyMenu {
     @Getter private static Inventory invViajar;
     @Getter private static Inventory invStats;
     @Getter private static Inventory invNvidia;
+    @Getter private static Inventory invParticulas;
+    @Getter private static Inventory invPets;
+    @Getter private static Inventory invCajas;
     
     @Getter private static final List<String> loreAmistades = Arrays.asList("Informar de nuevos seguimientos de amistad", "- Informar (Verde)", "- No informar (Rojo)");
     @Getter private static final List<String> loreMsgPrivados = Arrays.asList("Acepta o rechaza los mensajes privados en el chat", "- Aceptar (Verde)", "- Rechaza (Rojo)");
@@ -103,12 +106,19 @@ public class LobbyMenu {
         //Stats
         invStats = plugin.getServer().createInventory(null, 18, "Estadisticas del jugador");
 
+        //TODO: Añadir Lore
+
         //Nvidia
         invNvidia = plugin.getServer().createInventory(null, 36, Metodos.colorizar("&3NVIDIA &0Point"));
         invNvidia.setItem(11, ItemUtil.createItem(Material.INK_SACK, 1, (short)3, "Partículas", new ArrayList<>()));
         invNvidia.setItem(13, ItemUtil.createItem(Material.BONE, "Animales", new ArrayList<>()));
         invNvidia.setItem(15, ItemUtil.createItem(Material.IRON_SWORD, "Comprar Mejoras", new ArrayList<>()));
         invNvidia.setItem(31, ItemUtil.createItem(Material.ENCHANTMENT_TABLE, "Abrir Cajas", new ArrayList<>()));
+
+        //Particulas
+        invParticulas = plugin.getServer().createInventory(null, 36, "Particulas");
+        invParticulas.setItem(0, ItemUtil.createItem(Material.FIRE, 1, "Espiral de Fuego", new ArrayList<>()));
+        invParticulas.setItem(1, ItemUtil.createItem(Material.STATIONARY_WATER, 1, "Circulo de Agua", new ArrayList<>()));
     }
 
     public static void openMenu(FEMUser u, Menu type) {

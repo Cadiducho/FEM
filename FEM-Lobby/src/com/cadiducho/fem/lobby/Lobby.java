@@ -2,17 +2,14 @@ package com.cadiducho.fem.lobby;
 
 import com.cadiducho.fem.core.FEMCommands;
 import com.cadiducho.fem.core.api.FEMServer;
-import static com.cadiducho.fem.core.util.Metodos.plugin;
-import com.cadiducho.fem.lobby.cmds.*;
+import com.cadiducho.fem.lobby.cmds.DropPuntosCMD;
+import com.cadiducho.fem.lobby.cmds.FlyCMD;
+import com.cadiducho.fem.lobby.cmds.SetBrujulaCMD;
+import com.cadiducho.fem.lobby.cmds.SpawnCMD;
 import com.cadiducho.fem.lobby.listeners.PlayerListener;
 import com.cadiducho.fem.lobby.listeners.WorldListener;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
-import com.google.gson.Gson;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.logging.Level;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -21,6 +18,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.logging.Level;
+
+import static com.cadiducho.fem.core.util.Metodos.plugin;
 
 public class Lobby extends JavaPlugin {
 
