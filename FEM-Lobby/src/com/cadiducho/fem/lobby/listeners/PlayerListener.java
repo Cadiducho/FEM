@@ -9,6 +9,8 @@ import com.cadiducho.fem.lobby.Lobby;
 import com.cadiducho.fem.lobby.Lobby.FEMServerInfo;
 import com.cadiducho.fem.lobby.LobbyMenu;
 import com.cadiducho.fem.lobby.LobbyTeams;
+import com.cadiducho.fem.lobby.task.TaskParticles;
+import com.cadiducho.fem.lobby.utils.ParticleType;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -34,11 +36,15 @@ import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.messaging.PluginMessageListener;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
 
 public class PlayerListener implements Listener, PluginMessageListener {
+
+    private HashMap<FEMUser, BukkitRunnable> particles = new HashMap<>();
 
     private final Lobby plugin;
 
@@ -281,17 +287,17 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 break;
             case "&3NVIDIA &0Point":
                 e.setCancelled(true);
-                switch (e.getCurrentItem().getType()) {
-                    case INK_SACK:
+                switch (e.getSlot()) {
+                    case 11:
+                        LobbyMenu.openMenu(u, LobbyMenu.Menu.PARTICULAS);
+                        break;
+                    case 13:
                         u.sendMessage("Falta Inv");
                         break;
-                    case BONE:
+                    case 15:
                         u.sendMessage("Falta Inv");
                         break;
-                    case IRON_SWORD:
-                        u.sendMessage("Falta Inv");
-                        break;
-                    case ENCHANTMENT_TABLE:
+                    case 31:
                         //TODO: Comprobar si tiene cajas
                         u.sendMessage("Falta Inv");
                         break;
@@ -300,6 +306,23 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 }
                 p.closeInventory();
                 break;
+            case "Particulas":
+                e.setCancelled(true);
+                switch (e.getSlot()){
+                    case 30: //Cambiar botón atrás
+                        LobbyMenu.openMenu(u, LobbyMenu.Menu.NVIDIA);
+                         break;
+                    case 31: //Cambiar botón parar
+                        if (particles.containsKey(u)) particles.get(u).cancel();
+                        break;
+                    default:
+                        if (particles.containsKey(u)) particles.get(u).cancel(); particles.remove(u);
+
+                        BukkitRunnable b = new TaskParticles(p, ParticleType.values()[e.getSlot()]);
+                        particles.put(u, b);
+                        break;
+                }
+
             default:
                 break;
         }

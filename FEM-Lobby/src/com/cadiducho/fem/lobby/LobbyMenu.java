@@ -3,6 +3,7 @@ package com.cadiducho.fem.lobby;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.lobby.utils.ParticleType;
 import lombok.Getter;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -14,9 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class LobbyMenu {
 
@@ -117,8 +116,7 @@ public class LobbyMenu {
 
         //Particulas
         invParticulas = plugin.getServer().createInventory(null, 36, "Particulas");
-        invParticulas.setItem(0, ItemUtil.createItem(Material.FIRE, 1, "Espiral de Fuego", new ArrayList<>()));
-        invParticulas.setItem(1, ItemUtil.createItem(Material.STATIONARY_WATER, 1, "Circulo de Agua", new ArrayList<>()));
+        Arrays.asList(ParticleType.values()).forEach(pt -> invParticulas.setItem(pt.getID() ,pt.getItem())); //Todos los items creados
     }
 
     public static void openMenu(FEMUser u, Menu type) {
@@ -201,6 +199,10 @@ public class LobbyMenu {
                 break;
             case NVIDIA:
                 clon = invNvidia;
+                break;
+            case PARTICULAS:
+                clon = invParticulas;
+                break;
         }
         
         if (clon != null) {
