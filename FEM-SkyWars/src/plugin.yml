@@ -1,0 +1,9 @@
+name: SkyWars
+description: SkyWars
+version: ${project.version}
+main: com.cadiducho.fem.sky.SkyWars
+depend: [FEMCore]
+author: Cadiducho
+commands:
+    game:
+        description: a

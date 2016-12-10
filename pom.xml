@@ -22,6 +22,7 @@
         <module>FEM-Pictograma</module>
         <module>FEM-BattleRoyale</module>
         <module>FEM-LuckyWarriors</module>
+        <module>FEM-SkyWars</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
