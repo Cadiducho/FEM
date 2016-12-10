@@ -1,7 +1,5 @@
 package com.cadiducho.fem.core.util;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -10,6 +8,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemBuilder {
 
@@ -81,6 +82,11 @@ public class ItemBuilder {
         ItemMeta itemMeta = this.itemStack.getItemMeta();
         itemMeta.addEnchant(ench, level, ignoreLevelRestriction);
         this.itemStack.setItemMeta(itemMeta);
+        return this;
+    }
+
+    public ItemBuilder addUnsafeEnchant(Enchantment ench, int level) {
+        this.itemStack.addUnsafeEnchantment(ench, level);
         return this;
     }
     
