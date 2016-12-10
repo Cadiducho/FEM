@@ -3,24 +3,23 @@ package com.cadiducho.fem.skywars.listener;
 import com.cadiducho.fem.skywars.SkyPlayer;
 import com.cadiducho.fem.skywars.SkyWars;
 import com.cadiducho.fem.skywars.manager.GameState;
-import java.util.HashMap;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
 
 public class PlayerListener implements Listener {
 
@@ -137,6 +136,27 @@ public class PlayerListener implements Listener {
                     sp.save();
                     
                     pl.death(); 
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent e){
+        Player p = e.getPlayer();
+
+        if (e.getItem() != null){
+            if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (e.getHand() == EquipmentSlot.HAND) {
+                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName() && e.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("Vida")) {
+                        e.setCancelled(true);
+                        p.getInventory().getItemInMainHand().setType(Material.AIR);
+                        if (p.getHealth() + (p.getHealth() * 0.5) >= p.getMaxHealth()) {
+                            p.setHealth(p.getMaxHealth());
+                            return;
+                        }
+                        p.setHealth(p.getHealth() + (p.getHealth() * 0.5));
+                    }
                 }
             }
         }

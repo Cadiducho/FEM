@@ -2,11 +2,13 @@ package com.cadiducho.fem.skywars.util;
 
 import com.cadiducho.fem.core.util.ItemBuilder;
 import com.cadiducho.fem.skywars.SkyWars;
-import java.util.ArrayList;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
 
 //ToDo: Votación de Items chetos, modo de juego...
 public final class ChestItems {
@@ -93,6 +95,8 @@ public final class ChestItems {
         items_basic.add(MADERA2);
         ItemStack SNOWBALL = new ItemBuilder(Material.SNOW_BALL).setAmount(6).build();
         items_basic.add(SNOWBALL);
+        ItemStack FLOR = new ItemBuilder(Material.RED_ROSE).setDisplayName(ChatColor.RED + "Rosa").addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
+        items_basic.add(FLOR);
     }
 
     public void addArmasBasic() {
@@ -105,7 +109,6 @@ public final class ChestItems {
         armas_basic.add(ARCO);
         ItemStack CAÑA = new ItemBuilder(Material.FISHING_ROD).setAmount(1).build();
         armas_basic.add(CAÑA);
-
     }
 
     //OP
@@ -179,7 +182,8 @@ public final class ChestItems {
         items_op.add(LAVA);
         ItemStack AGUA = new ItemBuilder(Material.WATER_BUCKET).setAmount(1).build();
         items_op.add(AGUA);
-
+        ItemStack VIDA = new ItemBuilder(Material.BLAZE_ROD).setDisplayName("Vida").addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
+        armas_basic.add(VIDA);
     }
 
     //NORMAL
