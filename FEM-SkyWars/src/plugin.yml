@@ -1,7 +1,7 @@
 name: SkyWars
 description: SkyWars
 version: ${project.version}
-main: com.cadiducho.fem.sky.SkyWars
+main: com.cadiducho.fem.skywars.SkyWars
 depend: [FEMCore]
 author: Cadiducho
 commands:
