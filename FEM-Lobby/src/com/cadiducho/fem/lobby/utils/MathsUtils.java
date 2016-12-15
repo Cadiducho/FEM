@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class MathsUtils {
 
@@ -13,23 +14,38 @@ public class MathsUtils {
     public void drawParticles(final Player p, final ParticleType pt){
         Location l = p.getLocation();
 
-        switch (pt.getPID()){
+        switch (pt.getPid()){
             case NONE:
-                drawFollowParticles(l, pt.getPE(), pt.getColor());
+                drawFollowParticles(l, pt.getPe(), pt.getColor());
                 break;
             case HALO:
-                drawCircle(l, pt.getPE(), pt.getColor(), 2);
+                drawCircle(l, pt.getPe(), pt.getColor(), 2);
                 break;
             case SPIRAL:
-                drawSpiral(l, pt.getPE(), pt.getColor());
+                drawSpiral(l, pt.getPe(), pt.getColor());
                 break;
             case SPHERE:
-                drawSphere(l, pt.getPE(), pt.getColor());
+                drawSphere(l, pt.getPe(), pt.getColor());
+                break;
+            case WINGS:
+                drawWings(p.getEyeLocation(), pt.getPe(), pt.getColor());
+                break;
+            case POLYGON:
+                drawPolygon(pt.getPoints(), p.getEyeLocation(), pt.getPe(), pt.getColor());
+                break;
+            case POLYGON_FULL:
+                drawFullPolygon(pt.getPoints(), p.getEyeLocation(), pt.getPe(), pt.getColor());
+                break;
+            case SHIELD:
+                drawShield(l, pt.getPe(), pt.getColor());
+                break;
+            case TORNADO:
+                drawTornado(l, pt.getPe(), pt.getColor());
                 break;
         }
     }
 
-    private void drawFollowParticles(final Location l, final ParticleEffect pe, ParticleEffect.OrdinaryColor color){
+    private void drawFollowParticles(final Location l, final ParticleEffect pe, final ParticleEffect.OrdinaryColor color){
         if (pe.hasProperty(ParticleEffect.ParticleProperty.COLORABLE)) {
             pe.display(color, l, players);
             return;
@@ -37,7 +53,7 @@ public class MathsUtils {
         pe.display((long)(l.getX()), (long)(l.getY()), (long)(l.getZ()), 0, 1, l, players);
     }
 
-    private void drawSpiral(final Location l, final ParticleEffect pe, ParticleEffect.OrdinaryColor color){
+    private void drawSpiral(final Location l, final ParticleEffect pe, final ParticleEffect.OrdinaryColor color){
         final int radius = 2;
 
         for (double y = 0; y <= 5; y+=0.05) {
@@ -52,7 +68,7 @@ public class MathsUtils {
         }
     }
 
-    private void drawCircle(final Location l, final ParticleEffect pe, ParticleEffect.OrdinaryColor color, int radius) {
+    private void drawCircle(final Location l, final ParticleEffect pe, final ParticleEffect.OrdinaryColor color, int radius) {
         final int amount = 8;
         final double increment = (2 * Math.PI) / amount;
 
@@ -69,73 +85,66 @@ public class MathsUtils {
         }
     }
 
-    private void rotationEffect(final Location l, final ParticleEffect pe, ParticleEffect.OrdinaryColor color){
-        final double radialsPerStep = Math.PI / 30;
-        float step = 0;
+    private void drawShield(final Location l, final ParticleEffect pe, final ParticleEffect.OrdinaryColor color){
+        int particles = 120;
+        int particlesPerIteration = 8;
+        float size = 1.0F;
+        float xFactor = 1.4F;
+        float yFactor = 1.4F;
+        float zFactor = 1.4F;
+        float yOffset = 1.0F;
+        double xRotation = 0.0D;
+        double yRotation = 0.0D;
+        double zRotation = 0.0D;
+        int step = 0;
+        Vector v = new Vector();
 
-        for (int y = 0; y < 5; y++) {
-            l.add(0, y, 0);
-            l.add(Math.cos(radialsPerStep * step) * 2, 0, Math.sin(radialsPerStep * step) * 2);
+        for (int i = 0; i < particlesPerIteration; i++) {
+            step += 1;
+
+            float f1 = 3.1415927F / particles * step;
+            float f2 = (float) (Math.sin(f1) * size);
+            float f3 = f2 * 3.1415927F * f1;
+
+            v.setX(xFactor * f2 * Math.cos(f3));
+            v.setZ(zFactor * f2 * Math.sin(f3));
+            v.setY(yFactor * Math.cos(f1) + yOffset);
+
+            Utils.rotateVector(v, xRotation, yRotation, zRotation);
 
             if (pe.hasProperty(ParticleEffect.ParticleProperty.COLORABLE)) {
                 pe.display(color, l, players);
             } else {
                 pe.display(0.0F, 0.0F, 0.0F, 1.0F, 1, l, players);
             }
-
-            step++;
+            l.subtract(l);
         }
-
     }
 
-    private void radarEffect(final Location l, final ParticleEffect pe, ParticleEffect.OrdinaryColor color){
-        final float radius = 0.2f;
-        final double radialsPerStep = Math.PI / 18;
+    private void drawTornado(final Location l, final ParticleEffect pe, final ParticleEffect.OrdinaryColor color){
+        float lineNumber = 3.0F;
         float j = 0.0F;
+        float radius = 0.3F;
+        float heightEcart = 0.01F;
 
-        l.setY(l.getY() + 2.0D);
+        l.setY(l.getY() + 0.5D);
 
-        for (int k = 0; k < 5F; k++){
-            l.setX(l.getX() + Math.sin(j * radialsPerStep) * radius);
-            l.setY(l.getY());
-            l.setZ(l.getZ() + Math.cos(j * radialsPerStep) * radius);
+        for (int i = 0; i < lineNumber; i++) {
+            l.add(Math.cos(j) * radius, j * heightEcart,Math.sin(j) * radius);
 
             if (pe.hasProperty(ParticleEffect.ParticleProperty.COLORABLE)) {
                 pe.display(color, l, players);
             } else {
                 pe.display(0.0F, 0.0F, 0.0F, 1.0F, 1, l, players);
             }
-            j += 0.3F;
         }
-        if(j >= 360.0F){
+        j += 0.2F;
+        if (j > 50.0F) {
             j = 0.0F;
         }
     }
 
-    private void tornadoEffect(final Location l, final ParticleEffect pe, ParticleEffect.OrdinaryColor color){
-        final float LineNumber = 3f;
-        float j = 0.0f;
-        final float radius = 0.3f;
-        final float heightEcart = 0.01f;
-
-        l.setY(l.getY() + 2);
-
-        for(int k = 0; k < LineNumber; k++){
-            l.add(Math.cos(j) * radius, j * heightEcart, Math.sin(j) * radius);
-
-            if (pe.hasProperty(ParticleEffect.ParticleProperty.COLORABLE)) {
-                pe.display(color, l, players);
-            } else {
-                pe.display(0.0F, 0.0F, 0.0F, 1.0F, 1, l, players);
-            }
-        }
-        j += 0.2f;
-        if(j > 50){
-            j = 0;
-        }
-    }
-
-    private void drawSphere(final Location l, final ParticleEffect pe, ParticleEffect.OrdinaryColor color){
+    private void drawSphere(final Location l, final ParticleEffect pe, final ParticleEffect.OrdinaryColor color){
         for(double i = 0; i <= Math.PI; i += Math.PI / 10){
             double radius = Math.sin(i);
             double y = Math.cos(i);
@@ -148,7 +157,7 @@ public class MathsUtils {
                 if (pe.hasProperty(ParticleEffect.ParticleProperty.COLORABLE)) {
                     pe.display(color, l, players);
                 } else {
-                pe.display(0.0F, 0.0F, 0.0F, 1.0F, 1, l, players);
+                    pe.display(0.0F, 0.0F, 0.0F, 1.0F, 1, l, players);
                 }
 
                 l.subtract(x, y, z);
@@ -156,7 +165,7 @@ public class MathsUtils {
         }
     }
 
-    private void createPolygon(final int points, final Location l, final ParticleEffect pe, ParticleEffect.OrdinaryColor color){
+    private void drawPolygon(final int points, final Location l, final ParticleEffect pe, final ParticleEffect.OrdinaryColor color){
         int t = 0;
         for(int iteration = 0; iteration < points; iteration++){
             double angle = 360.0 / points * iteration;
@@ -190,7 +199,7 @@ public class MathsUtils {
         }
     }
 
-    private void createFullPolygon(final int points, final Location l, final ParticleEffect pe, ParticleEffect.OrdinaryColor color){
+    private void drawFullPolygon(final int points, final Location l, final ParticleEffect pe, final ParticleEffect.OrdinaryColor color){
         int t = 0;
         for(int iteration = 0; iteration < points; iteration++){
             double angle = 360.0 / points * iteration;
@@ -229,6 +238,30 @@ public class MathsUtils {
                     if (r == 6)
                         Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F));
                 }
+            }
+        }
+    }
+
+    //Location = EyeLocation
+    public void drawWings(final Location l, final ParticleEffect pe, final ParticleEffect.OrdinaryColor color){
+        Location loc = l.subtract(0.0D, 0.3D, 0.0D);
+        loc.setPitch(0.0F);
+        loc.setYaw(l.getYaw());
+        Vector v1 = loc.getDirection().normalize().multiply(-0.3D);
+        v1.setY(0);
+        loc.add(v1);
+        for (double i = -10.0D; i < 6.2D; i += 0.2) {
+            double var = Math.sin(i / 12.0D);
+            double x = Math.sin(i)* (Math.exp(Math.cos(i)) - 2.0D * Math.cos(4.0D * i) - Math.pow(var, 5.0D)) / 2.0D;
+            double z = Math.cos(i)* (Math.exp(Math.cos(i)) - 2.0D * Math.cos(4.0D * i) - Math.pow(var, 5.0D)) / 2.0D;
+            Vector v = new Vector(-x, 0.0D, -z);
+            Utils.rotateAroundAxisX(v, (loc.getPitch() + 90.0F) * 0.017453292F);
+            Utils.rotateAroundAxisY(v, -loc.getYaw() * 0.017453292F);
+
+            if (pe.hasProperty(ParticleEffect.ParticleProperty.COLORABLE)) {
+                pe.display(color, l, players);
+            } else {
+                pe.display(0.0F, 0.0F, 0.0F, 1.0F, 1, l, players);
             }
         }
     }
