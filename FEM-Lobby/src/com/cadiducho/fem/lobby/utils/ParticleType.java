@@ -28,7 +28,7 @@ public enum ParticleType {
 
 
     @Getter private int id;
-    @Getter private ItemStack i;
+    @Getter private ItemStack item;
     @Getter private ParticleEffect pe;
     @Getter private ParticleID pid;
     @Getter private ParticleEffect.OrdinaryColor color;
@@ -48,7 +48,7 @@ public enum ParticleType {
 
     ParticleType(int id, ItemStack i, ParticleEffect pe, ParticleID pid, ParticleEffect.OrdinaryColor color, int points){
         this.id = id;
-        this.i = i;
+        this.item = i;
         this.pe = pe;
         this.pid = pid;
         this.color = color;
