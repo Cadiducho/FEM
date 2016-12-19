@@ -14,8 +14,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.*;
-import org.inventivetalent.bossbar.BossBar;
-import org.inventivetalent.bossbar.BossBarAPI;
 
 public class PlayerListener implements Listener {
 
@@ -47,8 +45,6 @@ public class PlayerListener implements Listener {
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
             plugin.getMsg().sendHeaderAndFooter(player, "&6Under&eGames&7", "&cmc.undergames.es");
             plugin.getGm().checkStart();
-            
-            BossBar bossBar = BossBarAPI.addBar(player, new TextComponent(Metodos.colorizar("    &6&lUnder&e&lGames&7 &c- &emc.undergames.es")), BossBarAPI.Color.WHITE, BossBarAPI.Style.PROGRESS, 1.0f);
         }
     }
 
