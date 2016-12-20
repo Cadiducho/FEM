@@ -43,10 +43,10 @@ public class LuckyWarriors extends JavaPlugin {
         }
         
         new WorldCreator("espera").createWorld();
+        world = getServer().getWorld(getConfig().getString("worldName"));
         am = new ArenaManager(instance);
         gm = new GameManager(instance);
         msg = new Messages(instance, "&eLucky&aWarriors");
-        world = getServer().getWorld(getConfig().getString("worldName"));
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         LuckyPacks.initItems();
