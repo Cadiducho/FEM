@@ -8,6 +8,7 @@ import com.cadiducho.fem.tnt.Generador;
 import com.cadiducho.fem.tnt.Generador.GenType;
 import com.cadiducho.fem.tnt.TntIsland;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Level;
 import lombok.Getter;
@@ -198,94 +199,100 @@ public class ArenaManager {
         archeryShop = plugin.getServer().createMerchant(Metodos.colorizar("&aTiro"));
         miscShop = plugin.getServer().createMerchant(Metodos.colorizar("&aMisceláneo"));
 
-        buildingShop.setRecipe(0, new MerchantBuilder(new ItemStack(Material.SANDSTONE, 3))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build());
-        buildingShop.setRecipe(1, new MerchantBuilder(new ItemStack(Material.WOOD, 3))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 2)).build());
-        buildingShop.setRecipe(2, new MerchantBuilder(new ItemStack(Material.GLASS, 2))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build());
-        buildingShop.setRecipe(3, new MerchantBuilder(new ItemStack(Material.GLOWSTONE, 2))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 3)).build());
-        buildingShop.setRecipe(4, new MerchantBuilder(new ItemStack(Material.HAY_BLOCK, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 5)).build());
-        buildingShop.setRecipe(5, new MerchantBuilder(new ItemStack(Material.OBSIDIAN, 1))
-                .addIngredient(new ItemStack(Material.DIAMOND, 5)).build());
+        buildingShop.setRecipes(Arrays.asList(new MerchantBuilder(new ItemStack(Material.SANDSTONE, 3))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build(),
+                new MerchantBuilder(new ItemStack(Material.WOOD, 3))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 2)).build(),
+                new MerchantBuilder(new ItemStack(Material.GLASS, 2))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build(),
+                new MerchantBuilder(new ItemStack(Material.GLOWSTONE, 2))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 3)).build(),
+                new MerchantBuilder(new ItemStack(Material.HAY_BLOCK, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 5)).build(),
+                new MerchantBuilder(new ItemStack(Material.OBSIDIAN, 1))
+                .addIngredient(new ItemStack(Material.DIAMOND, 5)).build()
+        ));
+        weaponsShop.setRecipes(Arrays.asList(new MerchantBuilder(new ItemStack(Material.WOOD_SWORD, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 5)).build(),
+                new MerchantBuilder(new ItemStack(Material.WOOD_AXE, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 8)).build(),
+                new MerchantBuilder(new ItemStack(Material.STONE_SWORD, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 32)).build(),
+                new MerchantBuilder(new ItemStack(Material.STONE_AXE, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 48)).build(),
+                new MerchantBuilder(new ItemStack(Material.IRON_SWORD, 1))
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 16)).build(),
+                new MerchantBuilder(new ItemStack(Material.IRON_AXE, 1))
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 24)).build(),
+                new MerchantBuilder(new ItemStack(Material.DIAMOND_SWORD, 1))
+                .addIngredient(new ItemStack(Material.DIAMOND, 12)).build(),
+                new MerchantBuilder(new ItemStack(Material.DIAMOND_AXE, 1))
+                .addIngredient(new ItemStack(Material.DIAMOND, 20)).build()
+        ));
         
-        weaponsShop.setRecipe(0, new MerchantBuilder(new ItemStack(Material.WOOD_SWORD, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 5)).build());
-        weaponsShop.setRecipe(1, new MerchantBuilder(new ItemStack(Material.WOOD_AXE, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 8)).build());
-        weaponsShop.setRecipe(2, new MerchantBuilder(new ItemStack(Material.STONE_SWORD, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 32)).build());
-        weaponsShop.setRecipe(3, new MerchantBuilder(new ItemStack(Material.STONE_AXE, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 48)).build());
-        weaponsShop.setRecipe(4, new MerchantBuilder(new ItemStack(Material.IRON_SWORD, 1))
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 16)).build());
-        weaponsShop.setRecipe(5, new MerchantBuilder(new ItemStack(Material.IRON_AXE, 1))
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 24)).build());
-        weaponsShop.setRecipe(6, new MerchantBuilder(new ItemStack(Material.DIAMOND_SWORD, 1))
-                .addIngredient(new ItemStack(Material.DIAMOND, 12)).build());
-        weaponsShop.setRecipe(7, new MerchantBuilder(new ItemStack(Material.DIAMOND_AXE, 1))
-                .addIngredient(new ItemStack(Material.DIAMOND, 20)).build());
+        armourShop.setRecipes(Arrays.asList(new MerchantBuilder(new ItemStack(Material.LEATHER_HELMET, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build(),
+                new MerchantBuilder(new ItemStack(Material.LEATHER_CHESTPLATE, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build(),
+                new MerchantBuilder(new ItemStack(Material.LEATHER_LEGGINGS, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build(),
+                new MerchantBuilder(new ItemStack(Material.LEATHER_BOOTS, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build(),
+                new MerchantBuilder(new ItemStack(Material.CHAINMAIL_HELMET, 1))
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 10)).build(),
+                new MerchantBuilder(new ItemStack(Material.CHAINMAIL_CHESTPLATE, 1))
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 10)).build(),
+                new MerchantBuilder(new ItemStack(Material.CHAINMAIL_LEGGINGS, 1))
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 10)).build(),
+                new MerchantBuilder(new ItemStack(Material.CHAINMAIL_BOOTS, 1))
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 10)).build(),
+                new MerchantBuilder(new ItemStack(Material.IRON_HELMET, 1))
+                .addIngredient(new ItemStack(Material.DIAMOND, 5)).build(),
+                new MerchantBuilder(new ItemStack(Material.IRON_CHESTPLATE, 1))
+                .addIngredient(new ItemStack(Material.DIAMOND, 5)).build(),
+                new MerchantBuilder(new ItemStack(Material.IRON_LEGGINGS, 1))
+                .addIngredient(new ItemStack(Material.DIAMOND, 5)).build(),
+                new MerchantBuilder(new ItemStack(Material.IRON_BOOTS, 1))
+                .addIngredient(new ItemStack(Material.DIAMOND, 5)).build(),
+                new MerchantBuilder(new ItemStack(Material.SHIELD, 1))
+                .addIngredient(new ItemStack(Material.DIAMOND, 15)).build()
+        ));
         
-        armourShop.setRecipe(0, new MerchantBuilder(new ItemStack(Material.LEATHER_HELMET, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build());
-        armourShop.setRecipe(1, new MerchantBuilder(new ItemStack(Material.LEATHER_CHESTPLATE, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build());
-        armourShop.setRecipe(2, new MerchantBuilder(new ItemStack(Material.LEATHER_LEGGINGS, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build());
-        armourShop.setRecipe(3, new MerchantBuilder(new ItemStack(Material.LEATHER_BOOTS, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build());
-        armourShop.setRecipe(4, new MerchantBuilder(new ItemStack(Material.CHAINMAIL_HELMET, 1))
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 10)).build());
-        armourShop.setRecipe(5, new MerchantBuilder(new ItemStack(Material.CHAINMAIL_CHESTPLATE, 1))
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 10)).build());
-        armourShop.setRecipe(6, new MerchantBuilder(new ItemStack(Material.CHAINMAIL_LEGGINGS, 1))
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 10)).build());
-        armourShop.setRecipe(7, new MerchantBuilder(new ItemStack(Material.CHAINMAIL_BOOTS, 1))
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 10)).build());
-        armourShop.setRecipe(8, new MerchantBuilder(new ItemStack(Material.IRON_HELMET, 1))
-                .addIngredient(new ItemStack(Material.DIAMOND, 5)).build());
-        armourShop.setRecipe(9, new MerchantBuilder(new ItemStack(Material.IRON_CHESTPLATE, 1))
-                .addIngredient(new ItemStack(Material.DIAMOND, 5)).build());
-        armourShop.setRecipe(10, new MerchantBuilder(new ItemStack(Material.IRON_LEGGINGS, 1))
-                .addIngredient(new ItemStack(Material.DIAMOND, 5)).build());
-        armourShop.setRecipe(11, new MerchantBuilder(new ItemStack(Material.IRON_BOOTS, 1))
-                .addIngredient(new ItemStack(Material.DIAMOND, 5)).build());
-        armourShop.setRecipe(12, new MerchantBuilder(new ItemStack(Material.SHIELD, 1))
-                .addIngredient(new ItemStack(Material.DIAMOND, 15)).build());
-        
-        foodShop.setRecipe(0, new MerchantBuilder(new ItemStack(Material.CARROT_ITEM, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build());
-        foodShop.setRecipe(1, new MerchantBuilder(new ItemStack(Material.COOKED_BEEF, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 5)).build());
-        foodShop.setRecipe(2, new MerchantBuilder(new ItemStack(Material.CAKE, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 12)).build());
-        foodShop.setRecipe(3, new MerchantBuilder(new ItemStack(Material.GOLDEN_APPLE, 1))
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 25)).build());
+        foodShop.setRecipes(Arrays.asList(new MerchantBuilder(new ItemStack(Material.CARROT_ITEM, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 1)).build(),
+                new MerchantBuilder(new ItemStack(Material.COOKED_BEEF, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 5)).build(),
+                new MerchantBuilder(new ItemStack(Material.CAKE, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 12)).build(),
+                new MerchantBuilder(new ItemStack(Material.GOLDEN_APPLE, 1))
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 25)).build()
+        ));
        
-        toolsShop.setRecipe(0, new MerchantBuilder(new ItemStack(Material.STONE_PICKAXE, 1))
-                .addIngredient(new ItemStack(Material.IRON_INGOT, 10)).build());
-        toolsShop.setRecipe(1, new MerchantBuilder(new ItemStack(Material.IRON_PICKAXE, 1))
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 3)).build());
-        toolsShop.setRecipe(2, new MerchantBuilder(new ItemStack(Material.DIAMOND_PICKAXE, 1))
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 10)).build());
+        toolsShop.setRecipes(Arrays.asList(new MerchantBuilder(new ItemStack(Material.STONE_PICKAXE, 1))
+                .addIngredient(new ItemStack(Material.IRON_INGOT, 10)).build(),
+                new MerchantBuilder(new ItemStack(Material.IRON_PICKAXE, 1))
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 3)).build(),
+                new MerchantBuilder(new ItemStack(Material.DIAMOND_PICKAXE, 1))
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 10)).build()
+        ));
         
-        archeryShop.setRecipe(0, new MerchantBuilder(new ItemStack(Material.BOW, 1))
-                .addIngredient(new ItemStack(Material.DIAMOND, 5)).build());
-        archeryShop.setRecipe(1, new MerchantBuilder(new ItemStack(Material.ARROW, 5))
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 2)).build());
-        archeryShop.setRecipe(2, new MerchantBuilder(new ItemStack(Material.SPECTRAL_ARROW, 1))
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 2)).build());
-        archeryShop.setRecipe(3, new MerchantBuilder(new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.INSTANT_DAMAGE, false, false).build())
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 2)).build());
-        archeryShop.setRecipe(4, new MerchantBuilder(new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.SLOWNESS, false, false).build())
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 2)).build());
-        archeryShop.setRecipe(5, new MerchantBuilder(new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.POISON, false, false).build())
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 6)).build());
+        archeryShop.setRecipes(Arrays.asList(new MerchantBuilder(new ItemStack(Material.BOW, 1))
+                .addIngredient(new ItemStack(Material.DIAMOND, 5)).build(),
+                new MerchantBuilder(new ItemStack(Material.ARROW, 5))
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 2)).build(),
+                new MerchantBuilder(new ItemStack(Material.SPECTRAL_ARROW, 1))
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 2)).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.INSTANT_DAMAGE, false, false).build())
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 2)).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.SLOWNESS, false, false).build())
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 2)).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.TIPPED_ARROW).addPotionType(PotionType.POISON, false, false).build())
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 6)).build()
+        ));
         
-        miscShop.setRecipe(0, new MerchantBuilder(new ItemStack(Material.CHEST, 1))
-                .addIngredient(new ItemStack(Material.GOLD_INGOT, 2)).build());
+        miscShop.setRecipes(Arrays.asList(new MerchantBuilder(new ItemStack(Material.CHEST, 1))
+                .addIngredient(new ItemStack(Material.GOLD_INGOT, 2)).build()
+        ));
     }
     
     public void teleport(Player p) {
