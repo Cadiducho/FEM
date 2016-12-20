@@ -1,9 +1,10 @@
 package com.cadiducho.fem.pic.listener;
 
-import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.task.GameTask;
-import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -37,6 +38,7 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         e.setJoinMessage(null);
+        player.setResourcePack("enlace");
         if (plugin.getGm().acceptPlayers()) {
             plugin.getServer().getOnlinePlayers().stream().forEach(p -> player.showPlayer(p)); // Mostrar todos los jugadores a todos
             plugin.getServer().getOnlinePlayers().stream().forEach(p -> p.showPlayer(player));
@@ -106,5 +108,26 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerPickUp(PlayerPickupItemEvent e) {
         e.setCancelled(true);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onResourcePlayer(PlayerResourcePackStatusEvent e){
+        Player p = e.getPlayer();
+        PlayerResourcePackStatusEvent.Status status = e.getStatus();
+        if(status == PlayerResourcePackStatusEvent.Status.ACCEPTED || status == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED){
+            return;
+        }
+        final String reason = "";
+        switch (status) {
+            case DECLINED:
+                plugin.getGm().removePlayerFromGame(p);
+                new Title(ChatColor.RED + "Debes aceptar el ResourcePack");
+                break;
+            case FAILED_DOWNLOAD:
+                plugin.getGm().removePlayerFromGame(p);
+                new Title(ChatColor.RED + "Debes aceptar el ResourcePack");
+                break;
+        }
+        Bukkit.getScheduler().runTaskLater(Pictograma.getInstance(), ()-> Pictograma.getPlayer(p).sendToLobby(), 40L);
     }
 }
