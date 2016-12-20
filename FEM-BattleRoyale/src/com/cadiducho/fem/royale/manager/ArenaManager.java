@@ -3,11 +3,11 @@ package com.cadiducho.fem.royale.manager;
 import com.cadiducho.fem.core.util.ItemBuilder;
 import com.cadiducho.fem.core.util.MerchantBuilder;
 import com.cadiducho.fem.core.util.Metodos;
-import com.cadiducho.fem.royale.BattlePlayer;
 import java.util.ArrayList;
 import java.util.Random;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.utils.ChestItems;
+import java.util.Arrays;
 import lombok.Getter;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
@@ -217,34 +217,35 @@ public class ArenaManager {
         ItemStack moneda30 = plugin.getMoneda().clone();
         moneda30.setAmount(30);
 
-        compro.setRecipe(0, new MerchantBuilder(plugin.getMoneda()).addIngredient(new ItemStack(Material.WOOD_SWORD, 1)).build());
-        compro.setRecipe(1, new MerchantBuilder(plugin.getMoneda()).addIngredient(new ItemStack(Material.WOOD_AXE, 1)).build());
-        compro.setRecipe(2, new MerchantBuilder(moneda2).addIngredient(new ItemStack(Material.STONE_SWORD, 1)).build());
-        compro.setRecipe(3, new MerchantBuilder(moneda2).addIngredient(new ItemStack(Material.STONE_AXE, 1)).build());
-        compro.setRecipe(4, new MerchantBuilder(moneda2).addIngredient(new ItemStack(Material.ARROW, 5)).build());
-        compro.setRecipe(5, new MerchantBuilder(moneda2).addIngredient(new ItemStack(Material.BOW, 1)).build());
-        compro.setRecipe(6, new MerchantBuilder(moneda3).addIngredient(new ItemStack(Material.CHAINMAIL_BOOTS, 1)).build());
-        compro.setRecipe(7, new MerchantBuilder(moneda3).addIngredient(new ItemStack(Material.CHAINMAIL_HELMET, 1)).build());
-        compro.setRecipe(8, new MerchantBuilder(moneda4).addIngredient(new ItemStack(Material.IRON_SWORD, 1)).build());
-        compro.setRecipe(9, new MerchantBuilder(moneda4).addIngredient(new ItemStack(Material.IRON_AXE, 1)).build());
-        compro.setRecipe(10, new MerchantBuilder(moneda5).addIngredient(new ItemStack(Material.ELYTRA, 1)).build());
-        compro.setRecipe(11, new MerchantBuilder(moneda8).addIngredient(new ItemStack(Material.DIAMOND_BLOCK, 1)).build());
-        compro.setRecipe(12, new MerchantBuilder(moneda10).addIngredient(new ItemStack(Material.GOLDEN_APPLE, 1)).build());
+        compro.setRecipes(Arrays.asList(new MerchantBuilder(plugin.getMoneda()).addIngredient(new ItemStack(Material.WOOD_SWORD, 1)).build(), 
+                new MerchantBuilder(plugin.getMoneda()).addIngredient(new ItemStack(Material.WOOD_AXE, 1)).build(),
+                new MerchantBuilder(moneda2).addIngredient(new ItemStack(Material.STONE_SWORD, 1)).build(),
+                new MerchantBuilder(moneda2).addIngredient(new ItemStack(Material.STONE_AXE, 1)).build(),
+                new MerchantBuilder(moneda2).addIngredient(new ItemStack(Material.ARROW, 5)).build(),
+                new MerchantBuilder(moneda2).addIngredient(new ItemStack(Material.BOW, 1)).build(),
+                new MerchantBuilder(moneda3).addIngredient(new ItemStack(Material.CHAINMAIL_BOOTS, 1)).build(),
+                new MerchantBuilder(moneda3).addIngredient(new ItemStack(Material.CHAINMAIL_HELMET, 1)).build(),
+                new MerchantBuilder(moneda4).addIngredient(new ItemStack(Material.IRON_SWORD, 1)).build(),
+                new MerchantBuilder(moneda4).addIngredient(new ItemStack(Material.IRON_AXE, 1)).build(),
+                new MerchantBuilder(moneda5).addIngredient(new ItemStack(Material.ELYTRA, 1)).build(),
+                new MerchantBuilder(moneda8).addIngredient(new ItemStack(Material.DIAMOND_BLOCK, 1)).build(),
+                new MerchantBuilder(moneda10).addIngredient(new ItemStack(Material.GOLDEN_APPLE, 1)).build()
+        ));
         
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1, true).build()).addIngredient(moneda15).build());
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1, true).build()).addIngredient(moneda15).build());
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.DIAMOND_SWORD).build()).addIngredient(moneda20).build());
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1, true).addEnchant(Enchantment.ARROW_INFINITE, 1, true).addEnchant(Enchantment.ARROW_FIRE, 1, true).build()).addIngredient(moneda25).build());
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.GOLDEN_APPLE).build()).addIngredient(moneda25).build());
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.IRON_SWORD).addEnchant(Enchantment.FIRE_ASPECT, 2, true).build()).addIngredient(moneda25).build());
-        
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build()).addIngredient(moneda25).build());
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.IRON_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build()).addIngredient(moneda25).build());
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.IRON_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build()).addIngredient(moneda25).build());
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.IRON_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build()).addIngredient(moneda25).build());
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.DIAMOND_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 2, true).addEnchant(Enchantment.KNOCKBACK, 1, true).build()).addIngredient(moneda25).build());
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.DIAMOND_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build()).addIngredient(moneda25).build());
-        vendo.setRecipe(0, new MerchantBuilder(new ItemBuilder().setType(Material.DIAMOND_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build()).addIngredient(moneda30).build());
+        vendo.setRecipes(Arrays.asList(new MerchantBuilder(new ItemBuilder().setType(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1, true).build()).addIngredient(moneda15).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1, true).build()).addIngredient(moneda15).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.DIAMOND_SWORD).build()).addIngredient(moneda20).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1, true).addEnchant(Enchantment.ARROW_INFINITE, 1, true).addEnchant(Enchantment.ARROW_FIRE, 1, true).build()).addIngredient(moneda25).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.GOLDEN_APPLE).build()).addIngredient(moneda25).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.IRON_SWORD).addEnchant(Enchantment.FIRE_ASPECT, 2, true).build()).addIngredient(moneda25).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build()).addIngredient(moneda25).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.IRON_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build()).addIngredient(moneda25).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.IRON_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build()).addIngredient(moneda25).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.IRON_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build()).addIngredient(moneda25).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.DIAMOND_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 2, true).addEnchant(Enchantment.KNOCKBACK, 1, true).build()).addIngredient(moneda25).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.DIAMOND_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build()).addIngredient(moneda25).build(),
+                new MerchantBuilder(new ItemBuilder().setType(Material.DIAMOND_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build()).addIngredient(moneda30).build()
+        ));
         
         //Desactivado hasta encontrar MerchantListener
         /*
