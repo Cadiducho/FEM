@@ -63,7 +63,7 @@ public class Messages {
             Object subTitleSer;
             Object subTitlePacket;
             try {
-                subTitleSer = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + subtitle + "\"}");
+                subTitleSer = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + Metodos.colorizar(subtitle) + "\"}");
                 subTitlePacket = packetConstructor.newInstance(enumTitleAction.getEnumConstants()[1], subTitleSer, fadeIn.intValue(), stay.intValue(), fadeOut.intValue());
                 ReflectionAPI.sendPacket(p, subTitlePacket);
             } catch (IllegalAccessException | InstantiationException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -75,7 +75,7 @@ public class Messages {
             Object titleSer;
             Object titlePacket;
             try {
-                titleSer = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + title + "\"}");
+                titleSer = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + Metodos.colorizar(title) + "\"}");
                 titlePacket = packetConstructor.newInstance(enumTitleAction.getEnumConstants()[0], titleSer, fadeIn.intValue(), stay.intValue(), fadeOut.intValue());
                 ReflectionAPI.sendPacket(p, titlePacket);
             } catch (IllegalAccessException | InstantiationException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -90,7 +90,7 @@ public class Messages {
             componentClass = ReflectionAPI.getNmsClass("IChatBaseComponent");
             serializerClass = ReflectionAPI.getNmsClass("IChatBaseComponent$ChatSerializer");
             packetConstructor = packetClass.getConstructor(componentClass, byte.class);
-            Object BaseComponent = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + msg + "\"}");
+            Object BaseComponent = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + Metodos.colorizar(msg) + "\"}");
             Object packet = packetConstructor.newInstance(BaseComponent, (byte) 2);
             ReflectionAPI.sendPacket(p, packet);
         } catch (Exception ex) {
@@ -117,8 +117,8 @@ public class Messages {
         Object tabFoot;
         Object headerPacket;
         try {
-            tabTitle = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + header + "\"}");
-            tabFoot = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + footer + "\"}");
+            tabTitle = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + Metodos.colorizar(header) + "\"}");
+            tabFoot = serializerClass.getMethod("a", String.class).invoke(null, "{\"text\": \"" + Metodos.colorizar(footer) + "\"}");
             headerPacket = packetTabConstructor.newInstance(tabTitle);
             Field field = headerPacket.getClass().getDeclaredField("b");
             field.setAccessible(true);
