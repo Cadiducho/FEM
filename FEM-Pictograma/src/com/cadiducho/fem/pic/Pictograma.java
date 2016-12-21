@@ -1,5 +1,6 @@
 package com.cadiducho.fem.pic;
 
+import com.cadiducho.fem.core.listeners.ResourcePackManager;
 import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.pic.listener.*;
@@ -24,6 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Pictograma extends JavaPlugin {
 
     @Getter private static Pictograma instance;
+    private static final String packUrl = "http://picapiedra.es/dowload/PictogramaResourcePack.zip"; //TODO: Mantener actualizado
     
     public static ArrayList<PicPlayer> players = new ArrayList<>();
 
@@ -60,6 +62,7 @@ public class Pictograma extends JavaPlugin {
         pm.registerEvents(new WorldListener(instance), instance);
         pm.registerEvents(new GameListener(instance), instance);
         pm.registerEvents(new TeleportFix(instance), instance);
+        pm.registerEvents(new ResourcePackManager(instance, packUrl), instance);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Ticker(this), 1L, 1L);
         
         colorPicker = getServer().createInventory(null, 9, "Escoge el color del pincel");

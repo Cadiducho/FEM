@@ -1,5 +1,6 @@
 package com.cadiducho.fem.lucky;
 
+import com.cadiducho.fem.core.listeners.ResourcePackManager;
 import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.core.util.Messages;
 import java.util.logging.Level;
@@ -22,6 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class LuckyWarriors extends JavaPlugin {
 
     @Getter private static LuckyWarriors instance;
+    private static final String packUrl = "http://picapiedra.es/dowload/Lucky-Pack.zip"; //TODO: Mantener actualizado
     
     public static ArrayList<LuckyPlayer> players = new ArrayList<>();
     
@@ -56,6 +58,7 @@ public class LuckyWarriors extends JavaPlugin {
         plugm.registerEvents(new GameListener(instance), instance);
         plugm.registerEvents(new ServerListener(instance), instance);
         plugm.registerEvents(new TeleportFix(instance), instance);
+        plugm.registerEvents(new ResourcePackManager(instance, packUrl), instance);
         
         GameState.state = GameState.PREPARING;
         getServer().getLogger().log(Level.INFO, "LuckyWarriors: Juego activado");

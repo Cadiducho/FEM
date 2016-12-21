@@ -1,5 +1,6 @@
 package com.cadiducho.fem.royale;
 
+import com.cadiducho.fem.core.listeners.ResourcePackManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -25,6 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class BattleRoyale extends JavaPlugin {
 
     @Getter private static BattleRoyale instance;
+    private static final String packUrl = "http://picapiedra.es/dowload/Royale.zip"; //TODO: Mantener actualizado
     
     public static ArrayList<BattlePlayer> players = new ArrayList<>();
     
@@ -59,6 +61,7 @@ public class BattleRoyale extends JavaPlugin {
         pm.registerEvents(new GameListener(instance), instance);
         pm.registerEvents(new ServerListener(instance), instance);
         pm.registerEvents(new TeleportFix(instance), instance);
+        pm.registerEvents(new ResourcePackManager(instance, packUrl), instance);
         
         GameState.state = GameState.PREPARING;
         getServer().getLogger().log(Level.INFO, "BattleRoyale: Activado");
