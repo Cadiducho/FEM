@@ -71,7 +71,7 @@ public class LobbyMenu {
                 + "Dos equipos deberán esconder sus gemas por el mapa. "
                 + "Tras ese tiempo, el muro divisorio se abrirá y tu objetivo será encontrar las gemas enemigas y defender las propias, atacando al equipo contrario.§0"));
         meta.addPage(Metodos.colorizar("§6§l▶ BATTLE ROYALE:§0\n\n"
-                + "Busca los cofres por el mapa, Equípate, compra o vende lo que necesites en las tiendas y se el último jugador con vida. "
+                + "Busca los cofres por el mapa, equípate, compra o vende lo que necesites en las tiendas y se el último jugador con vida. "
                 + "Recuerda que los limites del mapa disminuyen y te pueden eliminar.§0"));
         meta.addPage(Metodos.colorizar("Síguenos en Twitter:\n"
                 + "&8&l@UnderGames_info\n"
@@ -89,18 +89,18 @@ public class LobbyMenu {
         //Viajar
         invViajar = plugin.getServer().createInventory(null, 27, "Viajar");
         invViajar.setItem(18, ItemUtil.createItem(Material.BEACON, "Lobbies"));
-        invViajar.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA"));
-        invViajar.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS"));
-        ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE");
+        invViajar.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA", "&6Dibuja y adivina"));
+        invViajar.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS", "&6Pon TNT y destroza islas"));
+        ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE", "&6Salta al color seleccionado");
         LeatherArmorMeta lam = (LeatherArmorMeta) letherBoots.getItemMeta();
         lam.setColor(Color.BLUE);
         lam.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES,
                 ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
         letherBoots.setItemMeta(lam);
         invViajar.setItem(5, letherBoots);
-        invViajar.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR"));
-        invViajar.setItem(13, ItemUtil.createItem(Material.EMERALD, "&a&lGEM HUNTERS"));
-        invViajar.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6&lBATTLE ROYALE"));
+        invViajar.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR", "&6Que la suerte este contigo..."));
+        invViajar.setItem(13, ItemUtil.createItem(Material.EMERALD, "&a&lGEM HUNTERS", "&6A todos nos gusta buscar gemas"));
+        invViajar.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6&lBATTLE ROYALE", "&6Equípate y lucha por la victoria"));
         
         //Stats
         invStats = plugin.getServer().createInventory(null, 18, "Estadisticas del jugador");

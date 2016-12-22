@@ -1,20 +1,16 @@
 package com.cadiducho.fem.core.util;
 
 import com.cadiducho.fem.core.FEMCore;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.Collection;
 import org.bukkit.Bukkit;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Collection;
 
 public class Metodos {
     
