@@ -73,41 +73,44 @@ public class MySQL {
                 ResultSet rs = statement.executeQuery();
                 if (!rs.next()) { //No hay filas encontradas, insertar nuevos datos
     
-                        URL url = new URL("http://api.predator.wtf/geoip/?arguments=" + p.getAddress().getHostName());
-                        BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
-                        String strTemp = "";
-                        Integer lang = 0;
-                        
-                        while ((strTemp = br.readLine()) != null) {
-                            if (strTemp.contains("Country: ")) {
-                                String country = strTemp.replace("Country: ", "");
-                                switch (country.toLowerCase()) {
-                                    case "france": lang = 1; break;
-                                    case "italy": lang = 2; break;
-                                }
+                    Integer lang = 0;
+                    
+                    //No comprobar pais de momento
+                    /*URL url = new URL("http://api.predator.wtf/geoip/?arguments=" + p.getAddress().getHostName());
+                    BufferedReader br = new BufferedReader(new InputStreamReader(url.openStream()));
+                    String strTemp = "";
+                    
+
+                    while ((strTemp = br.readLine()) != null) {
+                        if (strTemp.contains("Country: ")) {
+                            String country = strTemp.replace("Country: ", "");
+                            switch (country.toLowerCase()) {
+                                case "france": lang = 1; break;
+                                case "italy": lang = 2; break;
                             }
                         }
+                    } */
 
-                        PreparedStatement inserDatos = openConnection().prepareStatement(
-                                "INSERT INTO `fem_datos` (`uuid`, `name`, `grupo`) VALUES (?, ?, ?)");
-                        inserDatos.setString(1, p.getUniqueId().toString());
-                        inserDatos.setString(2, p.getName());
-                        inserDatos.setInt(3, 0);
-                        inserDatos.executeUpdate();
+                    PreparedStatement inserDatos = openConnection().prepareStatement(
+                            "INSERT INTO `fem_datos` (`uuid`, `name`, `grupo`) VALUES (?, ?, ?)");
+                    inserDatos.setString(1, p.getUniqueId().toString());
+                    inserDatos.setString(2, p.getName());
+                    inserDatos.setInt(3, 0);
+                    inserDatos.executeUpdate();
 
-                        PreparedStatement inserStats = openConnection().prepareStatement(
-                                "INSERT INTO `fem_stats` (`uuid`) VALUES (?)");
-                        inserStats.setString(1, p.getUniqueId().toString());
-                        inserStats.executeUpdate();
+                    PreparedStatement inserStats = openConnection().prepareStatement(
+                            "INSERT INTO `fem_stats` (`uuid`) VALUES (?)");
+                    inserStats.setString(1, p.getUniqueId().toString());
+                    inserStats.executeUpdate();
 
-                        PreparedStatement inserSettings = openConnection().prepareStatement(
-                                "INSERT INTO `fem_settings` (`uuid`, `lang`) VALUES (?, ?)");
-                        inserSettings.setString(1, p.getUniqueId().toString());
-                        inserSettings.setInt(2, lang);
-                        inserSettings.executeUpdate();
+                    PreparedStatement inserSettings = openConnection().prepareStatement(
+                            "INSERT INTO `fem_settings` (`uuid`, `lang`) VALUES (?, ?)");
+                    inserSettings.setString(1, p.getUniqueId().toString());
+                    inserSettings.setInt(2, lang);
+                    inserSettings.executeUpdate();
 
                 }
-            } catch (SQLException | ClassNotFoundException | IOException ex) {
+            } catch (SQLException | ClassNotFoundException /*| IOException*/ ex) {
                 ex.printStackTrace();
             }
         });
