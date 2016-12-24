@@ -1,11 +1,11 @@
 package com.cadiducho.fem.core.api;
 
+import com.cadiducho.fem.core.FEMCore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.cadiducho.fem.core.util.JsonConfig;
 import com.cadiducho.fem.core.util.FEMFileLoader;
 import com.cadiducho.fem.core.util.Metodos;
-import static com.cadiducho.fem.core.util.Metodos.plugin;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import java.lang.reflect.Field;
@@ -33,6 +33,7 @@ public class FEMServer {
     public static ArrayList<FEMUser> users = new ArrayList<>();
     public static ArrayList<FEMUser> adminChatMode = new ArrayList<>();
     public static ArrayList<FEMUser> afkMode = new ArrayList<>();
+    @Getter @Setter private static ArrayList<FEMMap> mapas = new ArrayList<>();
 
     private static HashMap<UUID, UUID> tp = new HashMap<>();
     private static HashMap<UUID, UUID> tph = new HashMap<>();
@@ -90,7 +91,7 @@ public class FEMServer {
         Collection<? extends Player> c = Bukkit.getOnlinePlayers(); //Usar jugador falso
         if (!c.isEmpty()) {
             Player p = (Player) c.toArray()[0];
-            if (p != null) p.sendPluginMessage(plugin, "FEM", out.toByteArray());
+            if (p != null) p.sendPluginMessage(FEMCore.getInstance(), "FEM", out.toByteArray());
         }
     }
 

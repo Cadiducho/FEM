@@ -1,5 +1,6 @@
 package com.cadiducho.fem.core;
 
+import com.cadiducho.fem.core.api.FEMMap;
 import com.cadiducho.fem.core.listeners.PlayerListener;
 import com.cadiducho.fem.core.listeners.BungeeListener;
 import com.cadiducho.fem.core.listeners.InventoryListener;
@@ -7,10 +8,18 @@ import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.util.FEMFileLoader;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.MySQL;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.Getter;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -27,13 +36,24 @@ public class FEMCore extends JavaPlugin {
 
     @Getter private MySQL mysql = null;
     private Connection connection = null;
-
-    public static FEMServer server;
+    static Gson gson = new Gson();
 
     @Getter private final String tag = Metodos.colorizar("&7[&6Under&eGames&7]&r");
     @Getter private BossBar hud;
     @Getter private boolean isMore18 = true;
 
+    @Override
+    public void onLoad() {
+        try {
+            final String content = new Scanner(new File("/home/COMUNITARIO/mapas/mapas.json")).useDelimiter("\\Z").next();
+            
+            final Type listType = new TypeToken<List<FEMMap>>() {}.getType();
+            FEMServer.setMapas(gson.fromJson(content, listType));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FEMCore.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @Override
     public void onEnable() {
         instance = this;

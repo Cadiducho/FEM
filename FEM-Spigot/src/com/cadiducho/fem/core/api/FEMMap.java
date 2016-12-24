@@ -1,44 +1,30 @@
 package com.cadiducho.fem.core.api;
 
 import com.cadiducho.fem.core.FEMCore;
-import com.google.common.io.Files;
-import lombok.Getter;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Random;
-import java.util.logging.Level;
+import java.util.HashMap;
+import lombok.Data;
 
+@Data
 public class FEMMap {
 
-	//TODO: Hacer código más eficiente
+    private static final FEMCore plugin = FEMCore.getInstance();
 
-	@Getter private String fileLocation;
-	@Getter private String name;
-	@Getter private String gameType; //Por si añadimos más mapas que no son del juego
-    @Getter private String config;
+    private String nombre;
+    private String juego;
+    private String path;
+    private int maxPlayer;
+    private int minPlayer;
+    private HashMap<String, Object> parametros;
 
-	private static final FEMCore plugin = FEMCore.getInstance();
-
-    public FEMMap(String name){
-        this.name = name;
-        fileLocation = plugin.getDataFolder() + "/mapas/";
-        config = plugin.getDataFolder() + "/mapConfig/" + name + ".yml";
-
-        cambiarMapa();
+    File getWorld() {
+        return new File(path);
     }
 
-    @Deprecated
-	public FEMMap(String name, String game){
-		this.name = name;
-		this.gameType = game;
-		fileLocation = plugin.getDataFolder() + "/mapas/" + game + "/";
-        config = plugin.getDataFolder() + "/mapConfig/" + game + "/" + name + ".yml";
-
-		cambiarMapa();
-	}
-
-	//TODO: Cargar configuración
+    /*
+	//TODO: Implementar nuevo sistema
+    
 	public void cambiarMapa(){
 		if(new File("world").delete()){ //Nombre del mapa principal
 			try{
@@ -64,4 +50,6 @@ public class FEMMap {
 		}
 		return mapas[new Random().nextInt(dir.length)];
 	}
+
+*/
 }
