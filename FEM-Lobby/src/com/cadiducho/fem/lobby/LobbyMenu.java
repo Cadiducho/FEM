@@ -1,5 +1,6 @@
 package com.cadiducho.fem.lobby;
 
+import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
@@ -15,13 +16,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class LobbyMenu {
 
     private static Lobby plugin;
     public enum Menu {
-        AJUSTES, VIAJAR, STATS, NVIDIA, PARTICULAS, PETS, CAJAS;
+        AJUSTES, VIAJAR, STATS, NVIDIA, PARTICULAS, PETS, CAJAS, EVENTOS;
     }
 
     @Getter private static ItemStack libro;
@@ -33,7 +36,8 @@ public class LobbyMenu {
     @Getter private static Inventory invParticulas;
     @Getter private static Inventory invPets;
     @Getter private static Inventory invCajas;
-    
+    @Getter private static Inventory invEventos;
+
     @Getter private static final List<String> loreAmistades = Arrays.asList("Informar de nuevos seguimientos de amistad", "- Informar (Verde)", "- No informar (Rojo)");
     @Getter private static final List<String> loreMsgPrivados = Arrays.asList("Acepta o rechaza los mensajes privados en el chat", "- Aceptar (Verde)", "- Rechaza (Rojo)");
     @Getter private static final List<String> loreVisibilidad = Arrays.asList("Selecciona que tipo de jugadores quieres ver", "- Todos (Verde)", "- Amigos (Amarillo)", "- Nadie (Rojo)");
@@ -119,6 +123,9 @@ public class LobbyMenu {
         invParticulas.setItem(30, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 1, (short)6, "❮ Atrás", new ArrayList<>()));
         invParticulas.setItem(32, ItemUtil.createItem(Material.BARRIER, "✖ Quitar Partículas", new ArrayList<>()));
         Arrays.asList(ParticleType.values()).forEach(pt -> invParticulas.setItem(pt.getId() ,pt.getItem())); //Todos los items creados
+
+        //Eventos
+        invEventos = plugin.getServer().createInventory(null, 9, "Eventos");
     }
 
     public static void openMenu(FEMUser u, Menu type) {
@@ -204,6 +211,38 @@ public class LobbyMenu {
                 break;
             case PARTICULAS:
                 clon = invParticulas;
+                break;
+            case EVENTOS:
+                clon = invEventos;
+                List<String> lore = new ArrayList<>();
+                lore.clear();
+
+                //Pic
+                FEMCore.getInstance().getMysql().get3Top("picAcertadas").keySet().forEach(k -> {
+                    lore.add("&f" + k.getName() + " &c" + FEMCore.getInstance().getMysql().get3Top("picAcertadas").get(k));
+                });
+                lore.add(" ");
+                lore.add("&f" + u.getName() + " &c" + u.getUserData().getPicAcertadas());
+                clon.setItem(0, ItemUtil.createItem(Material.GOLD_NUGGET, "&d&lPuntos Pictograma", lore));
+                lore.clear();
+
+                //LW
+                FEMCore.getInstance().getMysql().get3Top("kills_lg").keySet().forEach(k -> {
+                    lore.add("&f" + k.getName() + " &c" + FEMCore.getInstance().getMysql().get3Top("kills_lg").get(k));
+                });
+                lore.add(" ");
+                lore.add("&f" + u.getName() + " &c" + u.getUserData().getKills().get(6));
+                clon.setItem(0, ItemUtil.createItem(Material.GOLD_NUGGET, "&3&lAsesinatos Lucky Warriors", lore));
+                lore.clear();
+
+                //DyD
+                FEMCore.getInstance().getMysql().get3Top("record_dod").keySet().forEach(k -> {
+                    lore.add("&f" + k.getName() + " &c" + FEMCore.getInstance().getMysql().get3Top("record_dod").get(k));
+                });
+                lore.add(" ");
+                lore.add("&f" + u.getName() + " &c" + u.getUserData().getRecord_dod());
+                clon.setItem(0, ItemUtil.createItem(Material.GOLD_NUGGET, "&c&lRondas Aguantadas DyD",
+                        Arrays.asList("&f1. " )));
                 break;
         }
         

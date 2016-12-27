@@ -69,6 +69,8 @@ public class PlayerListener implements Listener, PluginMessageListener {
         e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&lJuegos", "Desplázate entre los juegos del servidor"));
         e.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.COMMAND, "&lAjustes", "Cambia alguno de tus ajustes de usuario"));
 
+        e.getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.EMERALD, "&aEventos de Navidad", "&fYa han llegado los eventos de navidad"));
+
         e.getPlayer().getInventory().setItem(4, LobbyMenu.getLibro());
         e.getPlayer().teleport(e.getPlayer().getWorld().getSpawnLocation());
 
@@ -164,6 +166,9 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         break;
                     case COMMAND:
                         LobbyMenu.openMenu(u, LobbyMenu.Menu.AJUSTES);
+                        break;
+                    case EMERALD:
+                        LobbyMenu.openMenu(u, LobbyMenu.Menu.EVENTOS);
                         break;
                 }
             }
@@ -322,6 +327,10 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         particles.put(u, b);
                         break;
                 }
+                break;
+            case "Eventos":
+                e.setCancelled(true);
+                break;
 
             default:
                 break;

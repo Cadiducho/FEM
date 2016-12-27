@@ -7,14 +7,8 @@ import com.cadiducho.fem.core.cmds.FEMCmd;
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import org.bukkit.entity.Player;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -327,5 +321,34 @@ public class MySQL {
                 Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+    }
+
+    public HashMap<FEMUser, Integer> get3Top(String search){
+        HashMap<FEMUser, Integer> winners = new HashMap<>();
+        HashMap<FEMUser, Integer> top = new HashMap<>();
+
+        try {
+            Statement s = openConnection().createStatement();
+            s.executeQuery("SELECT uuid, " + search + " FROM fem_stats");
+            ResultSet rs = s.getResultSet ();
+            while (rs.next ()) {
+                UUID uuid = UUID.fromString(rs.getString("uuid"));
+                int kills = rs.getInt("kills_lg");
+                winners.put(new FEMUser(uuid), kills);
+            }
+        } catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+
+        List<Integer> list = new ArrayList<Integer>(winners.values());
+        Collections.sort(list, Collections.reverseOrder());
+
+        winners.keySet().forEach(k -> list.subList(0, 3).forEach(v -> {
+                if (winners.get(k).equals(v)){
+                    top.put(k, v);
+                }
+            }));
+
+        return top;
     }
 }
