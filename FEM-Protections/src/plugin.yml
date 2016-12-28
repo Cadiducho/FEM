@@ -1,0 +1,5 @@
+name: ${project.artifactId}
+version: ${project.version}
+main: com.cadiducho.fem.proions
+depend: [FEMCore]
+authors: [Cadiducho, cadox8]
