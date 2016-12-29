@@ -15,14 +15,14 @@
     <build>
         <sourceDirectory>src</sourceDirectory>
         <resources>
-                <resource>
-                    <targetPath>.</targetPath>
-                    <filtering>true</filtering>
-                    <directory>src</directory>
-                    <includes>
-                        <include>*.yml</include>
-                    </includes>
-                </resource>
+            <resource>
+                <targetPath>.</targetPath>
+                <filtering>true</filtering>
+                <directory>src</directory>
+                <includes>
+                    <include>*.yml</include>
+                </includes>
+            </resource>
         </resources>
         <finalName>FEM-Pictograma</finalName>
     </build>
@@ -31,10 +31,10 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-	<repository>
+        <repository>
             <id>inventive-repo</id>
             <url>https://repo.inventivetalent.org/content/groups/public/</url>
-	</repository>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>

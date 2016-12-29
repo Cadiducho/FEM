@@ -23,6 +23,10 @@
         <module>FEM-BattleRoyale</module>
         <module>FEM-LuckyWarriors</module>
         <module>FEM-SkyWars</module>
+        
+        <!-- Survival -->
+        <module>FEM-Protections</module>
+        
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
