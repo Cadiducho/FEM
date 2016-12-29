@@ -1,5 +1,7 @@
 package com.cadiducho.fem.pro;
 
+import com.cadiducho.fem.core.FEMCommands;
+import com.cadiducho.fem.pro.cmd.Items;
 import com.cadiducho.fem.pro.events.PlayerEvents;
 import com.cadiducho.fem.pro.events.WorldEvents;
 import com.cadiducho.fem.pro.files.Files;
@@ -18,6 +20,7 @@ public class Protections extends JavaPlugin{
         instance = this;
 
         registerEvents();
+        FEMCommands.registrar(new Items());
     }
 
     private void registerEvents(){

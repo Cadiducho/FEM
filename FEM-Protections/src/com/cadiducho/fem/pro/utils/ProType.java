@@ -1,8 +1,10 @@
 package com.cadiducho.fem.pro.utils;
 
+import com.cadiducho.fem.core.util.ItemBuilder;
 import com.cadiducho.fem.pro.Protections;
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 
@@ -29,5 +31,15 @@ public enum ProType {
             if (t.getMat() == m) type = t;
         });
         return type;
+    }
+
+    public static ItemStack[] getItems(){
+        ItemStack[] items = null;
+
+        items[0] = new ItemBuilder().setType(BASIC.getMat()).setDisplayName(BASIC.getName()).build();
+        items[1] = new ItemBuilder().setType(MEDIUM.getMat()).setDisplayName(MEDIUM.getName()).build();
+        items[0] = new ItemBuilder().setType(BIG.getMat()).setDisplayName(BIG.getName()).build();
+
+        return items;
     }
 }

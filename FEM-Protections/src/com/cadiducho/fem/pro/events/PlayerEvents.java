@@ -42,7 +42,7 @@ public class PlayerEvents implements Listener{
                     if (!a.getSetting("pvp")) {
                         e.setCancelled(true);
                         ((Player) damaged).setLastDamage(0);
-                        ((Player)damager).sendMessage(ChatColor.RED + "Este area es un area no-pvp");
+                        damager.sendMessage(ChatColor.RED + "Este area es un area no-pvp");
                         return;
                     }
                 }

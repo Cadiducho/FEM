@@ -3,3 +3,6 @@ version: ${project.version}
 main: com.cadiducho.fem.proions
 depend: [FEMCore]
 authors: [Cadiducho, cadox8]
+commands:
+    game:
+        description: a
