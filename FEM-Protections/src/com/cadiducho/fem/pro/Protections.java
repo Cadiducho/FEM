@@ -1,5 +1,6 @@
 package com.cadiducho.fem.pro;
 
+import com.cadiducho.fem.pro.events.PlayerEvents;
 import com.cadiducho.fem.pro.events.WorldEvents;
 import com.cadiducho.fem.pro.files.Files;
 import lombok.Getter;
@@ -23,5 +24,6 @@ public class Protections extends JavaPlugin{
         PluginManager pm = Bukkit.getPluginManager();
 
         pm.registerEvents(new WorldEvents(this), this);
+        pm.registerEvents(new PlayerEvents(this), this);
     }
 }

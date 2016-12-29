@@ -1,5 +1,6 @@
 package com.cadiducho.fem.pro.utils;
 
+import com.cadiducho.fem.pro.Protections;
 import lombok.Getter;
 import org.bukkit.Material;
 
@@ -7,9 +8,9 @@ import java.util.Arrays;
 
 public enum ProType {
 
-    BASIC(10, Material.LAPIS_BLOCK, "Protección Básica"),
-    MEDIUM(20, Material.REDSTONE_ORE, "Protección Media"),
-    BIG(30, Material.IRON_ORE, "Protección Grande");
+    BASIC(Protections.getInstance().getFiles().getConfig().getInt("Area.Basico"), Material.LAPIS_BLOCK, "Protección Básica"),
+    MEDIUM(Protections.getInstance().getFiles().getConfig().getInt("Area.Medio"), Material.REDSTONE_ORE, "Protección Media"),
+    BIG(Protections.getInstance().getFiles().getConfig().getInt("Area.Grande"), Material.IRON_ORE, "Protección Grande");
 
     @Getter private int area;
     @Getter private Material mat;
