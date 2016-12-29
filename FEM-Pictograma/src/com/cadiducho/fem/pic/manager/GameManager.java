@@ -82,13 +82,17 @@ public class GameManager {
         //Checkwinner          
         Player winner = null;
         for (Player p : score.keySet()) {
+            int puntos = score.get(p);
             if (winner != null) {
-                if (score.get(p) > score.get(winner)) {
+                if (puntos > score.get(winner)) {
                     winner = p;
                 }
             } else {
                 winner = p;
             }
+            
+            final PicPlayer picPlayer = Pictograma.getPlayer(p);
+            picPlayer.getUserData().setPicPuntosTotales(picPlayer.getUserData().getPicPuntosTotales() + puntos);
         }
         if (score.containsKey(winner)) {
             plugin.getMsg().sendBroadcast("&aPuntuaciones:");

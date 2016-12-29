@@ -128,7 +128,7 @@ public class MySQL {
                 //Stats
                 PreparedStatement statementStats = openConnection().prepareStatement("UPDATE `fem_stats` SET `kills_tnt`=?,`kills_gh`=?,`deaths_tnt`=?,`deaths_gh`=?,`jugadas_tnt`=?,"
                         + "`jugadas_dod`=?,`jugadas_gh`=?,`ganadas_tnt`=?,`ganadas_dod`=?,`ganadas_gh`=?,`tntPuestas`=?,`tntQuitadas`=?,`tntExplotadas`=?,`genUpgraded`=?,"
-                        + "`gemDestroyed`=?,`gemPlanted`=?,`record_dod`=?,`rondas_dod`=?,`picAcertadas`=?,`picDibujadas`=?,`ganadas_pic`=?,`jugadas_pic`=?,"
+                        + "`gemDestroyed`=?,`gemPlanted`=?,`record_dod`=?,`rondas_dod`=?,`picAcertadas`=?,`picDibujadas`=?,`picPuntosTotales`=?,`ganadas_pic`=?,`jugadas_pic`=?,"
                         + "`jugadas_br`=?,`ganadas_br`=?,`kills_br`=?,`deaths_br`=?,`brIntercambios`=?,`jugadas_lg`=?,`ganadas_lg`=?,`kills_lg`=?,`deaths_lg`=?,`luckyRotos`=?,`timePlayed`=? "
                         + "WHERE `uuid`=?");
                 
@@ -152,20 +152,21 @@ public class MySQL {
                 statementStats.setInt(18, data.getRondas_dod());
                 statementStats.setInt(19, data.getPicAcertadas());
                 statementStats.setInt(20, data.getPicDibujadas());
-                statementStats.setInt(21, data.getWins().get(4));
-                statementStats.setInt(22, data.getPlays().get(4));
-                statementStats.setInt(23, data.getPlays().get(5));
-                statementStats.setInt(24, data.getWins().get(5));
-                statementStats.setInt(25, data.getKills().get(5));
-                statementStats.setInt(26, data.getDeaths().get(5));
-                statementStats.setInt(27, data.getBrIntercambios());
-                statementStats.setInt(28, data.getPlays().get(6));
-                statementStats.setInt(29, data.getWins().get(6));
-                statementStats.setInt(30, data.getKills().get(6));
-                statementStats.setInt(31, data.getDeaths().get(6));
-                statementStats.setInt(32, data.getLuckyRotos());
-                statementStats.setLong(33, data.getTimePlayed());
-                statementStats.setString(34, u.getUuid().toString());
+                statementStats.setInt(21, data.getPicPuntosTotales());
+                statementStats.setInt(22, data.getWins().get(4));
+                statementStats.setInt(23, data.getPlays().get(4));
+                statementStats.setInt(24, data.getPlays().get(5));
+                statementStats.setInt(25, data.getWins().get(5));
+                statementStats.setInt(26, data.getKills().get(5));
+                statementStats.setInt(27, data.getDeaths().get(5));
+                statementStats.setInt(28, data.getBrIntercambios());
+                statementStats.setInt(29, data.getPlays().get(6));
+                statementStats.setInt(30, data.getWins().get(6));
+                statementStats.setInt(31, data.getKills().get(6));
+                statementStats.setInt(32, data.getDeaths().get(6));
+                statementStats.setInt(33, data.getLuckyRotos());
+                statementStats.setLong(34, data.getTimePlayed());
+                statementStats.setString(35, u.getUuid().toString());
                 statementStats.executeUpdate();
 
                 //Settings
@@ -252,6 +253,7 @@ public class MySQL {
                 data.setRondas_dod(rsStats.getInt("rondas_dod"));
                 data.setPicAcertadas(rsStats.getInt("picAcertadas"));
                 data.setPicDibujadas(rsStats.getInt("picDibujadas"));
+                data.setPicPuntosTotales(rsStats.getInt("picPuntosTotales"));
                 data.setBrIntercambios(rsStats.getInt("brIntercambios"));
                 data.setLuckyRotos(rsStats.getInt("luckyRotos"));
                 
@@ -340,7 +342,7 @@ public class MySQL {
             e.printStackTrace();
         }
 
-        List<Integer> list = new ArrayList<Integer>(winners.values());
+        List<Integer> list = new ArrayList<>(winners.values());
         Collections.sort(list, Collections.reverseOrder());
 
         winners.keySet().forEach(k -> list.subList(0, 3).forEach(v -> {

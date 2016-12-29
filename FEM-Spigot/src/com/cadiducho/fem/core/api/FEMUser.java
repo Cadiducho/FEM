@@ -257,6 +257,7 @@ public class FEMUser {
         Integer rondas_dod = 0;
         Integer picAcertadas = 0;
         Integer picDibujadas = 0; //Bien dibujadas, que alguien lo acertó
+        Integer picPuntosTotales = 0;
         Integer brIntercambios = 0;
         Integer luckyRotos = 0;
         
