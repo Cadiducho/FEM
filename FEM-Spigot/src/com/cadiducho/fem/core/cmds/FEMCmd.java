@@ -14,29 +14,17 @@ import org.bukkit.command.ConsoleCommandSender;
 
 public abstract class FEMCmd {
     
-    private final transient String name;
-    private final transient Grupo grupo;
-    private final transient List<String> aliases;
+    @Getter private final transient String name;
+    @Getter private final transient Grupo group;
+    @Getter private final transient List<String> aliases;
     protected static transient FEMCore plugin = FEMCore.getInstance();
     protected static transient FEMServer server = new FEMServer();
     protected static transient Metodos metodos = FEMCore.getInstance().getMetodos();
     
     public FEMCmd(final String name, final Grupo grupo, final List<String> aliases) {
-        this.name = name;
-        this.grupo = grupo;
+        this.name = name.toLowerCase();
+        this.group = grupo;
         this.aliases = aliases;
-    }
-    
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getAliases() {
-        return aliases;
-    }
-    
-    public Grupo getGroup() {
-        return grupo;
     }
     
     public void run(ConsoleCommandSender sender, String label, String[] args) {
