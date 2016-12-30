@@ -12,10 +12,10 @@ public class Files {
 
     private Protections pro = Protections.getInstance();
 
-    private File fileAreas = new File(pro.getDataFolder(), "areas.yml");
+    private File fileAreas = new File("plugins/Protections/", "areas.yml");
     @Getter private YamlConfiguration areas = YamlConfiguration.loadConfiguration(fileAreas);
 
-    private File fileConfig = new File(pro.getDataFolder(), "config.yml");
+    private File fileConfig = new File("plugins/Protections/", "config.yml");
     @Getter private YamlConfiguration config = YamlConfiguration.loadConfiguration(fileConfig);
 
     public void setupFiles(){
@@ -25,6 +25,7 @@ public class Files {
         if (!fileConfig.exists()){
             config.options().copyDefaults(true);
         }
+        saveFiles();
     }
 
     public void saveFiles(){

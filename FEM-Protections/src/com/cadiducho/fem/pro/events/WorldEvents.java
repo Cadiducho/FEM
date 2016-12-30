@@ -37,22 +37,21 @@ public class WorldEvents implements Listener {
                     return;
                 }
             }
-
-            Arrays.asList(ProType.values()).forEach(t -> {
-                if (player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(t.getName())) {
-                    if (b.getType() == t.getMat()) {
-                        ProArea newArea = new ProArea(player.getPlayer().getLocation(), ProType.parseMaterial(b.getType()), player);
-                        if (newArea.hitOtherArena()) {
-                            player.getPlayer().sendMessage(ChatColor.RED + "El nuevo arena esta chocando con otro area. Pon el bloque en otro lugar");
-                            return;
-                        }
-                        newArea.generateArea();
-                        newArea.showArea();
-                        newArea.setBorderMaterial(Material.DOUBLE_STONE_SLAB2);
-                    }
-                }
-            });
         }
+        Arrays.asList(ProType.values()).forEach(t -> {
+            if (player.getPlayer().getInventory().getItemInMainHand().getItemMeta().getDisplayName().equalsIgnoreCase(t.getName())) {
+                if (b.getType() == t.getMat()) {
+                    ProArea newArea = new ProArea(player.getPlayer().getLocation(), ProType.parseMaterial(b.getType()), player);
+                    if (newArea.hitOtherArena()) {
+                        player.getPlayer().sendMessage(ChatColor.RED + "El nuevo arena esta chocando con otro area. Pon el bloque en otro lugar");
+                        return;
+                    }
+                    newArea.generateArea();
+                    newArea.showArea();
+                    newArea.setBorderMaterial(Material.DOUBLE_STONE_SLAB2);
+                }
+            }
+        });
     }
 
     @EventHandler

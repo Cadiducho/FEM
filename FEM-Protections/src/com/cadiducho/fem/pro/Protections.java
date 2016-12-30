@@ -19,6 +19,8 @@ public class Protections extends JavaPlugin{
     public void onEnable(){
         instance = this;
 
+        files.setupFiles();
+
         registerEvents();
         FEMCommands.registrar(new Items());
     }

@@ -1,6 +1,6 @@
 name: ${project.artifactId}
 version: ${project.version}
-main: com.cadiducho.fem.proions
+main: com.cadiducho.fem.pro.Protections
 depend: [FEMCore]
 authors: [Cadiducho, cadox8]
 commands:

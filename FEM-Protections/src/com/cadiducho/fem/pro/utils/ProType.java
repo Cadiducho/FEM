@@ -4,6 +4,8 @@ import com.cadiducho.fem.core.util.ItemBuilder;
 import com.cadiducho.fem.pro.Protections;
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -36,9 +38,9 @@ public enum ProType {
     public static ItemStack[] getItems(){
         ItemStack[] items = null;
 
-        items[0] = new ItemBuilder().setType(BASIC.getMat()).setDisplayName(BASIC.getName()).build();
-        items[1] = new ItemBuilder().setType(MEDIUM.getMat()).setDisplayName(MEDIUM.getName()).build();
-        items[0] = new ItemBuilder().setType(BIG.getMat()).setDisplayName(BIG.getName()).build();
+        items[0] = new ItemBuilder().setType(BASIC.getMat()).setDisplayName(BASIC.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
+        items[1] = new ItemBuilder().setType(MEDIUM.getMat()).setDisplayName(MEDIUM.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
+        items[0] = new ItemBuilder().setType(BIG.getMat()).setDisplayName(BIG.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
 
         return items;
     }

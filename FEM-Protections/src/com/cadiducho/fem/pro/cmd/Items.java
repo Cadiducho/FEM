@@ -9,7 +9,7 @@ import java.util.Arrays;
 public class Items extends FEMCmd {
 
     public Items() {
-        super("proBlock", Grupo.Moderador, Arrays.asList());
+        super("proBlock", Grupo.Dev, Arrays.asList());
     }
 
     @Override
