@@ -93,6 +93,10 @@ public class ProArea {
         return new ProPlayer(UUID.fromString(pro.getFiles().getAreas().getString("area_" + id + ".dueño")));
     }
 
+    public boolean exist(){
+        return pro.getFiles().getAreas().contains("area_" + id);
+    }
+
     public ProType getProType(){
         return ProType.valueOf(pro.getFiles().getAreas().getString("area_" + id + ".tipo"));
     }

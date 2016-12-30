@@ -8,13 +8,15 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public enum ProType {
 
-    BASIC(Protections.getInstance().getFiles().getConfig().getInt("Area.Basico"), Material.LAPIS_BLOCK, "Protección Básica"),
-    MEDIUM(Protections.getInstance().getFiles().getConfig().getInt("Area.Medio"), Material.REDSTONE_ORE, "Protección Media"),
-    BIG(Protections.getInstance().getFiles().getConfig().getInt("Area.Grande"), Material.IRON_ORE, "Protección Grande");
+    BASIC(Protections.getInstance().getFiles().getConfig().getInt("Area.Basico"), Material.LAPIS_ORE, "Protección Básica"),
+    MEDIUM(Protections.getInstance().getFiles().getConfig().getInt("Area.Medio"), Material.IRON_ORE, "Protección Media"),
+    BIG(Protections.getInstance().getFiles().getConfig().getInt("Area.Grande"), Material.REDSTONE_ORE, "Protección Grande");
 
     @Getter private int area;
     @Getter private Material mat;
@@ -35,12 +37,12 @@ public enum ProType {
         return type;
     }
 
-    public static ItemStack[] getItems(){
-        ItemStack[] items = null;
+    public static List<ItemStack> getItems(){
+        List<ItemStack> items = new ArrayList<>();
 
-        items[0] = new ItemBuilder().setType(BASIC.getMat()).setDisplayName(BASIC.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
-        items[1] = new ItemBuilder().setType(MEDIUM.getMat()).setDisplayName(MEDIUM.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
-        items[0] = new ItemBuilder().setType(BIG.getMat()).setDisplayName(BIG.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
+        items.add(new ItemBuilder().setType(BASIC.getMat()).setDisplayName(BASIC.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(MEDIUM.getMat()).setDisplayName(MEDIUM.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(BIG.getMat()).setDisplayName(BIG.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
 
         return items;
     }

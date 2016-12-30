@@ -9,11 +9,11 @@ import java.util.Arrays;
 public class Items extends FEMCmd {
 
     public Items() {
-        super("proBlock", Grupo.Dev, Arrays.asList());
+        super("problock", Grupo.Dev, Arrays.asList());
     }
 
     @Override
     public void run(FEMUser user, String label, String[] args) {
-        user.getPlayer().getInventory().addItem(ProType.getItems());
+        ProType.getItems().forEach(i -> user.getPlayer().getInventory().addItem(i));
     }
 }

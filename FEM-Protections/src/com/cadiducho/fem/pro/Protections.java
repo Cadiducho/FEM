@@ -2,6 +2,7 @@ package com.cadiducho.fem.pro;
 
 import com.cadiducho.fem.core.FEMCommands;
 import com.cadiducho.fem.pro.cmd.Items;
+import com.cadiducho.fem.pro.cmd.Pro;
 import com.cadiducho.fem.pro.events.PlayerEvents;
 import com.cadiducho.fem.pro.events.WorldEvents;
 import com.cadiducho.fem.pro.files.Files;
@@ -22,7 +23,7 @@ public class Protections extends JavaPlugin{
         files.setupFiles();
 
         registerEvents();
-        FEMCommands.registrar(new Items());
+        registerCommands();
     }
 
     private void registerEvents(){
@@ -30,5 +31,10 @@ public class Protections extends JavaPlugin{
 
         pm.registerEvents(new WorldEvents(this), this);
         pm.registerEvents(new PlayerEvents(this), this);
+    }
+
+    private void registerCommands(){
+        FEMCommands.registrar(new Items());
+        FEMCommands.registrar(new Pro());
     }
 }
