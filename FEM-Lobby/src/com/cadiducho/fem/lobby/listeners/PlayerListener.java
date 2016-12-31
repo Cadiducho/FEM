@@ -285,7 +285,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         p.closeInventory();
                         break;
                     case 26:
-                        LobbyMenu.openMenu(u, LobbyMenu.Menu.AJUSTES);
+                        LobbyMenu.openMenu(u, LobbyMenu.Menu.STATS);
                         break;
                 }
                 p.playSound(u.getPlayer().getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
