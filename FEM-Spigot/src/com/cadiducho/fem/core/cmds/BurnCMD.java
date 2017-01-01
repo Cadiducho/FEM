@@ -2,10 +2,11 @@ package com.cadiducho.fem.core.cmds;
 
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class BurnCMD extends FEMCmd {
     
@@ -20,7 +21,7 @@ public class BurnCMD extends FEMCmd {
         switch (args.length) {
             case 2:
                 target = FEMServer.getUser(plugin.getServer().getPlayer(args[0]));
-                if (target.isOnline()) {
+                if (!target.isOnline()) {
                     user.sendMessage("*userDesconectado");
                     return;
                 }

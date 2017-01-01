@@ -125,17 +125,22 @@ public class ItemUtil {
     }
     
     public static ItemStack createBanner(String name, String lore, DyeColor color) {
+        return createBanner(name, Arrays.asList(lore), color);
+    }
+
+    public static ItemStack createBanner(String name, List<String> lore, DyeColor color){
         ItemStack banner = new ItemStack(Material.BANNER);
         BannerMeta itemMeta = (BannerMeta) banner.getItemMeta();
-        itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES, 
+        itemMeta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_ATTRIBUTES,
                 ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
-        ArrayList<String> Lore = new ArrayList<>();
-        Lore.add(Metodos.colorizar(lore));
-        itemMeta.setLore(Lore);
+        ArrayList<String> colorLore = new ArrayList<>();
+        if (lore != null) {
+            lore.forEach(str -> colorLore.add(Metodos.colorizar(str)));
+            itemMeta.setLore(colorLore);
+        }
         itemMeta.setBaseColor(color);
         itemMeta.setDisplayName(name);
         banner.setItemMeta(itemMeta);
         return banner;
     }
-
 }

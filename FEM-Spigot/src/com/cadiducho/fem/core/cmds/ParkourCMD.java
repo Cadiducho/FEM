@@ -1,15 +1,16 @@
 package com.cadiducho.fem.core.cmds;
 
 import com.cadiducho.fem.core.api.FEMUser;
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ParkourCMD extends FEMCmd {
 
     public ParkourCMD() {
-        super("pakour", Grupo.Usuario, Arrays.asList("pk"));
+        super("parkour", Grupo.Usuario, Arrays.asList("pk"));
     }
 
     @Override
