@@ -67,8 +67,8 @@ public class ProArea {
     }
 
     public void generateCuboidRegion(){
-        Block b1 = location.getWorld().getBlockAt((int) location.getX() + proType.getArea(), (int)(location.getY() - 1), (int) location.getZ() + proType.getArea());
-        Block b2 = location.getWorld().getBlockAt((int) location.getX() - proType.getArea(), (int)(location.getY() - 1), (int) location.getZ() - proType.getArea());
+        Block b1 = location.getWorld().getBlockAt((int) location.getX() + (proType.getArea() / 2), (int)(location.getY() - 1), (int) location.getZ() + (proType.getArea() / 2));
+        Block b2 = location.getWorld().getBlockAt((int) location.getX() -(proType.getArea() / 2), (int)(location.getY() - 1), (int) location.getZ() - (proType.getArea() / 2));
 
         this.cuboidRegion = new CuboidRegion(b1, b2, (int) location.getY());
     }

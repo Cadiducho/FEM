@@ -14,19 +14,22 @@ import java.util.List;
 
 public enum ProType {
 
-    BASIC(Protections.getInstance().getFiles().getConfig().getInt("Area.Basico"), Material.LAPIS_ORE, "Protección Básica"),
-    MEDIUM(Protections.getInstance().getFiles().getConfig().getInt("Area.Medio"), Material.IRON_ORE, "Protección Media"),
-    BIG(Protections.getInstance().getFiles().getConfig().getInt("Area.Grande"), Material.REDSTONE_ORE, "Protección Grande");
+    S(Protections.getInstance().getFiles().getConfig().getInt("Area.S"), (short) 0, "Protección Básica"),
+    M(Protections.getInstance().getFiles().getConfig().getInt("Area.M"), (short) 1, "Protección Media"),
+    L(Protections.getInstance().getFiles().getConfig().getInt("Area.L"), (short) 2, "Protección Grande"),
+    XL(Protections.getInstance().getFiles().getConfig().getInt("Area.XL"), (short) 3, "Protección Gigante");
 
     @Getter private int area;
     @Getter private Material mat;
+    @Getter private short data;
     @Getter private String name;
 
     private static ProType type;
 
-    ProType(int area, Material mat, String name){
+    ProType(int area, short data, String name){
         this.area = area;
-        this.mat = mat;
+        this.mat = Material.STRUCTURE_BLOCK;
+        this.data = data;
         this.name = name;
     }
 
@@ -40,9 +43,10 @@ public enum ProType {
     public static List<ItemStack> getItems(){
         List<ItemStack> items = new ArrayList<>();
 
-        items.add(new ItemBuilder().setType(BASIC.getMat()).setDisplayName(BASIC.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
-        items.add(new ItemBuilder().setType(MEDIUM.getMat()).setDisplayName(MEDIUM.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
-        items.add(new ItemBuilder().setType(BIG.getMat()).setDisplayName(BIG.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(S.getMat()).setDisplayName(S.getName()).setAmount(1).setDurability(S.getData()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(M.getMat()).setDisplayName(M.getName()).setAmount(1).setDurability(M.getData()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(L.getMat()).setDisplayName(L.getName()).setAmount(1).setDurability(L.getData()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(XL.getMat()).setDisplayName(XL.getName()).setAmount(1).setDurability(XL.getData()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
 
         return items;
     }
