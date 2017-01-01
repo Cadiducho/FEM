@@ -27,8 +27,10 @@ public class WorldEvents implements Listener {
         Block b = e.getBlock();
         ProPlayer player = new ProPlayer(e.getPlayer().getUniqueId());
 
-        if (plugin.getFiles().getCurrentID() != 0) {
-            for (int x = 0; x < plugin.getFiles().getCurrentID(); x++) {
+        //TODO: Detectar Mundo
+
+        if (plugin.getFiles().getCurrentID("areas") != 0) {
+            for (int x = 0; x < plugin.getFiles().getCurrentID("areas"); x++) {
                 ProArea area = new ProArea(x);
                 if (area.getCuboidRegion().contains(b)) {
                     if (!area.getOwner().equals(player)) {
@@ -44,12 +46,11 @@ public class WorldEvents implements Listener {
                 ProArea newArea = new ProArea(player.getPlayer().getLocation(), ProType.parseMaterial(b.getType()), player);
                 if (newArea.hitOtherArena()) {
                     player.getPlayer().sendMessage(ChatColor.RED + "El nuevo arena esta chocando con otro area. Pon el bloque en otro lugar");
+                    e.setCancelled(true);
                     return;
                 }
-                //TODO: Comprobar si guarda la config de la arenas
-                newArea.generateArea();
-                newArea.showArea();
-                newArea.setBorderMaterial(Material.DOUBLE_STONE_SLAB2);
+                newArea.generateCuboidRegion();
+                newArea.generateArea(Material.DOUBLE_STONE_SLAB2);
             }
         });
     }
@@ -59,13 +60,17 @@ public class WorldEvents implements Listener {
         Block b = e.getBlock();
         ProPlayer player = new ProPlayer(e.getPlayer().getUniqueId());
 
-        for (int x = 0; x < plugin.getFiles().getCurrentID(); x++) {
+        for (int x = 0; x < plugin.getFiles().getCurrentID("areas"); x++) {
             ProArea area = new ProArea(x);
             if (area.getCuboidRegion().contains(b)) {
                 if (!area.getOwner().equals(player)) {
                     e.setCancelled(true);
                     player.getPlayer().sendMessage(ChatColor.RED + "No puedes romper bloques en una zona que no es tuya");
                     return;
+                }
+
+                if (b.getLocation().equals(area.getLocation())){
+                    area.removeArena(Material.AIR);
                 }
             }
         }

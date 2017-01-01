@@ -15,15 +15,23 @@ public class Files {
     private File fileAreas = new File("plugins/Protections/", "areas.yml");
     @Getter private YamlConfiguration areas = YamlConfiguration.loadConfiguration(fileAreas);
 
+    private File fileBlocks = new File("plugins/Protections/", "blocks.yml");
+    @Getter private YamlConfiguration blocks = YamlConfiguration.loadConfiguration(fileBlocks);
+
     private File fileConfig = new File("plugins/Protections/", "config.yml");
     @Getter private YamlConfiguration config = YamlConfiguration.loadConfiguration(fileConfig);
 
     public void setupFiles(){
         if (!fileAreas.exists()){
-            areas.options().copyDefaults(true);
+            fileAreas.mkdir();
+            areas.set("total", 0);
         }
         if (!fileConfig.exists()){
             config.options().copyDefaults(true);
+        }
+        if (!fileBlocks.exists()){
+            fileBlocks.mkdir();
+            blocks.set("total", 0);
         }
         saveFiles();
     }
@@ -34,25 +42,34 @@ public class Files {
             areas.load(fileAreas);
             config.save(fileConfig);
             config.load(fileConfig);
+            blocks.save(fileBlocks);
+            blocks.load(fileBlocks);
         } catch (IOException | InvalidConfigurationException e){
             e.printStackTrace();
         }
     }
 
-    private void nextID(){
-        int id = getCurrentID();
+    public int getID(String file){
+        int previousID = getCurrentID(file);
+        int id = getCurrentID(file);
         id++;
-        areas.set("total", id);
+        parseConfig(file).set("total", id);
         saveFiles();
-    }
-
-    public int getID(){
-        int previousID = getCurrentID();
-        nextID();
         return previousID;
     }
 
-    public int getCurrentID(){
-        return areas.getInt("total");
+    public int getCurrentID(String file){
+        return parseConfig(file).getInt("total");
+    }
+
+    private YamlConfiguration parseConfig(String file){
+        switch (file){
+            case "areas":
+                return areas;
+            case "blocks":
+                return blocks;
+            default:
+                return null;
+        }
     }
 }

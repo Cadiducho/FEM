@@ -21,6 +21,12 @@ public class Pro extends FEMCmd{
             return;
         }
 
+        if (args.length == 1){
+            if (args[0].equalsIgnoreCase("lista")){//Por el momento todas en 1 mensaje, cambiarlo
+                new ProArea().getPlayerAreas(new ProPlayer(user.getUuid())).forEach(a -> user.getPlayer().sendMessage(a + ""));
+            }
+        }
+
         if (args.length == 2){
             if (args[0].equalsIgnoreCase("borrar")){
                 int id = Integer.parseInt(args[1]);

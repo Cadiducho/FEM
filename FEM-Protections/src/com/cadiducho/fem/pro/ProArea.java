@@ -28,7 +28,7 @@ public class ProArea {
     private static final Protections pro = Protections.getInstance();
 
     public ProArea(Location l, ProType proType, ProPlayer proPlayer){
-        this(l, proType, proPlayer, pro.getFiles().getID());
+        this(l, proType, proPlayer,0); //Para crear una nueva parcela
     }
 
     public ProArea(Location l, ProType proType, ProPlayer proPlayer, int id){
@@ -36,6 +36,7 @@ public class ProArea {
         this.proType = proType;
         this.proPlayer = proPlayer;
         this.id = id;
+        //Dejemos el método aquí...
     }
 
     public ProArea(int id){
@@ -48,8 +49,9 @@ public class ProArea {
 
     public ProArea(){}
 
-    public void generateArea(){
-        generateCuboidRegion();
+    //Area Methods
+    public void generateArea(Material m){
+        this.id = pro.getFiles().getID("areas"); //Siguiente ID
         BukkitTask bt = Bukkit.getScheduler().runTaskTimer(pro, ()-> showArea(), 0l, 1l);
 
         pro.getFiles().getAreas().set("area_" + id + ".block", Metodos.locationToString(location));
@@ -58,6 +60,8 @@ public class ProArea {
         pro.getFiles().getAreas().set("area_" + id + ".tipo", proType.toString());
         setDefaultSettings();
         pro.getFiles().saveFiles();
+
+        setBorderMaterial(m);
 
         Bukkit.getScheduler().runTaskLater(pro, ()-> bt.cancel(), 100);
     }
@@ -73,14 +77,23 @@ public class ProArea {
         getSquareLocations().forEach(l -> ParticleEffect.REDSTONE.display(new ParticleEffect.OrdinaryColor(255, 0, 255), l, proPlayer.getPlayer()));
     }
 
-    public void setBorderMaterial(Material m){
-        getSquareLocations().forEach(l -> l.getWorld().getBlockAt(l.subtract(0, 5, 0)).getRelative(BlockFace.UP).setType(m));
-    }
-
     public void removeArena(Material m){
         pro.getFiles().getAreas().set("area_" + id, null);
         pro.getFiles().saveFiles();
         setBorderMaterial(m);
+    }
+
+    private void setBorderMaterial(Material m){
+        getSquareLocations().forEach(l -> l.getWorld().getBlockAt(l.subtract(0, 5, 0)).getRelative(BlockFace.UP).setType(m));
+    }
+
+    //Area Getters
+    public ProPlayer getOwner(){
+        return new ProPlayer(UUID.fromString(pro.getFiles().getAreas().getString("area_" + id + ".dueño")));
+    }
+
+    public ProType getProType(){
+        return ProType.valueOf(pro.getFiles().getAreas().getString("area_" + id + ".tipo"));
     }
 
     public CuboidRegion getCuboidRegion(){
@@ -89,30 +102,21 @@ public class ProArea {
         return new CuboidRegion(b1, b2, b1.getY());
     }
 
-    public ProPlayer getOwner(){
-        return new ProPlayer(UUID.fromString(pro.getFiles().getAreas().getString("area_" + id + ".dueño")));
+    public Location getLocation(){
+        return Metodos.stringToLocation(pro.getFiles().getAreas().getString("area_" + id + ".block"));
     }
 
-    public boolean exist(){
-        return pro.getFiles().getAreas().contains("area_" + id);
-    }
-
-    public ProType getProType(){
-        return ProType.valueOf(pro.getFiles().getAreas().getString("area_" + id + ".tipo"));
-    }
-
-    public boolean isInsideArea(){
-        return getCuboidRegion().contains(proPlayer.getPlayer().getLocation().getBlock());
-    }
-
+    //Utils
     public Location stringCuboidBlockToLocation(String string, int block){
         if (string == null) return null;
         return Metodos.stringToLocation(string.split(";")[block]);
     }
 
-    private boolean hit = false;
+    private boolean hit;
     public boolean hitOtherArena(){
-        generateCuboidRegion();
+        hit = false;
+
+        if (getAllRegions().size() == 0) return false;
 
         getAllRegions().forEach(r -> r.toArray().forEach(b -> {
             if (cuboidRegion.toArray().contains(b)) {
@@ -122,7 +126,15 @@ public class ProArea {
         return hit;
     }
 
-    //Utils
+    public boolean exist(){
+        return pro.getFiles().getAreas().contains("area_" + id);
+    }
+
+    public boolean isInsideArea(){
+        return getCuboidRegion().contains(proPlayer.getPlayer().getLocation().getBlock());
+    }
+
+    //Getters
     private List<Location> getSquareLocations(){
         List<Location> locations = new ArrayList<>();
 
@@ -143,7 +155,7 @@ public class ProArea {
 
     public List<CuboidRegion> getAllRegions(){
         List<CuboidRegion> regions = new ArrayList<>();
-        for (int x = 0; x < pro.getFiles().getCurrentID(); x++){
+        for (int x = 0; x < pro.getFiles().getCurrentID("areas"); x++){
             regions.add(new ProArea(x).getCuboidRegion());
         }
         return regions;
@@ -151,7 +163,7 @@ public class ProArea {
 
     public List<ProArea> getAllAreas(){
         List<ProArea> areas = new ArrayList<>();
-        for (int x = 0; x < pro.getFiles().getCurrentID(); x++){
+        for (int x = 0; x < pro.getFiles().getCurrentID("areas"); x++){
             Location l = Metodos.stringToLocation(pro.getFiles().getAreas().getString("area_" + x + ".block"));
             ProPlayer player = new ProPlayer(UUID.fromString(pro.getFiles().getAreas().getString("area_" + id + ".dueño")));
 
@@ -171,6 +183,8 @@ public class ProArea {
         return areas;
     }
 
+
+    //Area Settings
     public HashMap<String, Boolean> getAllSettings(){
         HashMap<String, Boolean> settings = new HashMap<>();
 
@@ -194,5 +208,6 @@ public class ProArea {
         setSetting("join", true);
         setSetting("pvp", false);
         setSetting("pve", false);
+        setSetting("explosion", false);
     }
 }
