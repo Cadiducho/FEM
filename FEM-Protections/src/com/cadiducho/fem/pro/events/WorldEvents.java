@@ -1,6 +1,7 @@
 package com.cadiducho.fem.pro.events;
 
 import com.cadiducho.fem.pro.ProArea;
+import com.cadiducho.fem.pro.ProBlock;
 import com.cadiducho.fem.pro.ProPlayer;
 import com.cadiducho.fem.pro.Protections;
 import com.cadiducho.fem.pro.utils.ProType;
@@ -26,6 +27,14 @@ public class WorldEvents implements Listener {
     public void onBlockPlace(BlockPlaceEvent e) {
         Block b = e.getBlock();
         ProPlayer player = new ProPlayer(e.getPlayer().getUniqueId());
+
+        switch (b.getType()){
+            case FURNACE:
+            case CHEST:
+                ProBlock block = new ProBlock(b, player);
+                block.protectBlock();
+                break;
+        }
 
         //TODO: Detectar Mundo
 

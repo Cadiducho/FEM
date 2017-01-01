@@ -1,17 +1,16 @@
 package com.cadiducho.fem.pro.events;
 
 import com.cadiducho.fem.core.cmds.FEMCmd;
-import com.cadiducho.fem.pro.ProArea;
-import com.cadiducho.fem.pro.ProMenu;
-import com.cadiducho.fem.pro.ProPlayer;
-import com.cadiducho.fem.pro.Protections;
+import com.cadiducho.fem.pro.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class PlayerEvents implements Listener{
@@ -20,6 +19,24 @@ public class PlayerEvents implements Listener{
 
     public PlayerEvents(Protections Main) {
         this.plugin = Main;
+    }
+
+    @EventHandler
+    public void onInteract(PlayerInteractEvent e){
+        Player p = e.getPlayer();
+        ProPlayer player = new ProPlayer(p.getUniqueId());
+
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            ProBlock block = new ProBlock(e.getClickedBlock());
+            if (block.getAllTypesToProtect().contains(e.getClickedBlock())) {
+                if (block.isProtected()) {
+                    if (!block.getProtectionPlayers().contains(player)) {
+                        e.setCancelled(true);
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     @EventHandler
