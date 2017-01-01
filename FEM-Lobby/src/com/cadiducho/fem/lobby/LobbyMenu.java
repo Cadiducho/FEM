@@ -218,31 +218,24 @@ public class LobbyMenu {
                 lore.clear();
 
                 //Pic
-                FEMCore.getInstance().getMysql().get3Top("picAcertadas").keySet().forEach(k -> {
-                    lore.add("&f" + k.getName() + " &c" + FEMCore.getInstance().getMysql().get3Top("picAcertadas").get(k));
-                });
+                FEMCore.getInstance().getMysql().get10Top("picAcertadas").keySet().forEach(k -> lore.add("&f" + k.getName() + " &c" + FEMCore.getInstance().getMysql().get10Top("picAcertadas").get(k)));
                 lore.add(" ");
                 lore.add("&f" + u.getName() + " &c" + u.getUserData().getPicAcertadas());
                 clon.setItem(0, ItemUtil.createItem(Material.GOLD_NUGGET, "&d&lPuntos Pictograma", lore));
                 lore.clear();
 
                 //LW
-                FEMCore.getInstance().getMysql().get3Top("kills_lg").keySet().forEach(k -> {
-                    lore.add("&f" + k.getName() + " &c" + FEMCore.getInstance().getMysql().get3Top("kills_lg").get(k));
-                });
+                FEMCore.getInstance().getMysql().get10Top("kills_lg").keySet().forEach(k -> lore.add("&f" + k.getName() + " &c" + FEMCore.getInstance().getMysql().get10Top("kills_lg").get(k)));
                 lore.add(" ");
                 lore.add("&f" + u.getName() + " &c" + u.getUserData().getKills().get(6));
                 clon.setItem(0, ItemUtil.createItem(Material.GOLD_NUGGET, "&3&lAsesinatos Lucky Warriors", lore));
                 lore.clear();
 
                 //DyD
-                FEMCore.getInstance().getMysql().get3Top("record_dod").keySet().forEach(k -> {
-                    lore.add("&f" + k.getName() + " &c" + FEMCore.getInstance().getMysql().get3Top("record_dod").get(k));
-                });
+                FEMCore.getInstance().getMysql().get10Top("record_dod").keySet().forEach(k -> lore.add("&f" + k.getName() + " &c" + FEMCore.getInstance().getMysql().get10Top("record_dod").get(k)));
                 lore.add(" ");
                 lore.add("&f" + u.getName() + " &c" + u.getUserData().getRecord_dod());
-                clon.setItem(0, ItemUtil.createItem(Material.GOLD_NUGGET, "&c&lRondas Aguantadas DyD",
-                        Arrays.asList("&f1. " )));
+                clon.setItem(0, ItemUtil.createItem(Material.GOLD_NUGGET, "&c&lRondas Aguantadas DyD", lore));
                 break;
         }
         

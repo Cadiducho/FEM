@@ -325,7 +325,7 @@ public class MySQL {
         });
     }
 
-    public HashMap<FEMUser, Integer> get3Top(String search){
+    public HashMap<FEMUser, Integer> get10Top(String search){
         HashMap<FEMUser, Integer> winners = new HashMap<>();
         HashMap<FEMUser, Integer> top = new HashMap<>();
 
@@ -345,7 +345,7 @@ public class MySQL {
         List<Integer> list = new ArrayList<>(winners.values());
         Collections.sort(list, Collections.reverseOrder());
 
-        winners.keySet().forEach(k -> list.subList(0, 3).forEach(v -> {
+        winners.keySet().forEach(k -> list.subList(0, 10).forEach(v -> {
                 if (winners.get(k).equals(v)){
                     top.put(k, v);
                 }
