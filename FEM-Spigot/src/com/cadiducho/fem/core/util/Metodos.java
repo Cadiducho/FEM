@@ -134,6 +134,17 @@ public class Metodos {
                 Double.parseDouble(s[2]), Double.parseDouble(s[3]), Float.parseFloat(s[4]), Float.parseFloat(s[5]));
 	return loc;
     }
+
+    public static String locationToStringNormal(Location loc) {
+        return loc.getWorld().getName() + "%" + loc.getX() + "%" + loc.getY() + "%" + loc.getZ();
+    }
+
+    public static Location stringToLocationNormal(String string) {
+        if (string == null) return null;
+        String[] s = string.split("%");
+        Location loc = new Location(Bukkit.getWorld(s[0]), Double.parseDouble(s[1]), Double.parseDouble(s[2]), Double.parseDouble(s[3]));
+        return loc;
+    }
     
     public static Location centre(Location loc) {
         Location clon = loc.clone();

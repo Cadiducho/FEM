@@ -54,7 +54,7 @@ public class ProArea {
         this.id = pro.getFiles().getID("areas"); //Siguiente ID
         BukkitTask bt = Bukkit.getScheduler().runTaskTimer(pro, ()-> showArea(), 0l, 1l);
 
-        pro.getFiles().getAreas().set("area_" + id + ".block", Metodos.locationToString(location));
+        pro.getFiles().getAreas().set("area_" + id + ".block", Metodos.locationToStringNormal(location));
         pro.getFiles().getAreas().set("area_" + id + ".loc", cuboidRegion.toString());
         pro.getFiles().getAreas().set("area_" + id + ".dueño", proPlayer.getUuid().toString());
         pro.getFiles().getAreas().set("area_" + id + ".tipo", proType.toString());
@@ -103,13 +103,13 @@ public class ProArea {
     }
 
     public Location getLocation(){
-        return Metodos.stringToLocation(pro.getFiles().getAreas().getString("area_" + id + ".block"));
+        return Metodos.stringToLocationNormal(pro.getFiles().getAreas().getString("area_" + id + ".block"));
     }
 
     //Utils
     public Location stringCuboidBlockToLocation(String string, int block){
         if (string == null) return null;
-        return Metodos.stringToLocation(string.split(";")[block]);
+        return Metodos.stringToLocationNormal(string.split(";")[block]);
     }
 
     private boolean hit;
@@ -164,7 +164,7 @@ public class ProArea {
     public List<ProArea> getAllAreas(){
         List<ProArea> areas = new ArrayList<>();
         for (int x = 0; x < pro.getFiles().getCurrentID("areas"); x++){
-            Location l = Metodos.stringToLocation(pro.getFiles().getAreas().getString("area_" + x + ".block"));
+            Location l = Metodos.stringToLocationNormal(pro.getFiles().getAreas().getString("area_" + x + ".block"));
             ProPlayer player = new ProPlayer(UUID.fromString(pro.getFiles().getAreas().getString("area_" + id + ".dueño")));
 
             areas.add(new ProArea(l, ProType.valueOf(pro.getFiles().getAreas().getString("area_" + id + ".tipo")), player, x));
