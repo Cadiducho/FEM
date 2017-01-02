@@ -5,12 +5,10 @@ import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.pro.utils.CuboidRegion;
 import com.cadiducho.fem.pro.utils.ProType;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,8 +50,6 @@ public class ProArea {
     //Area Methods
     public void generateArea(Material m){
         this.id = pro.getFiles().getID("areas"); //Siguiente ID
-        BukkitTask bt = Bukkit.getScheduler().runTaskTimer(pro, ()-> showArea(), 0l, 1l);
-
         pro.getFiles().getAreas().set("area_" + id + ".block", Metodos.locationToStringNormal(location));
         pro.getFiles().getAreas().set("area_" + id + ".loc", cuboidRegion.toString());
         pro.getFiles().getAreas().set("area_" + id + ".dueño", proPlayer.getUuid().toString());
@@ -62,15 +58,13 @@ public class ProArea {
         pro.getFiles().saveFiles();
 
         setBorderMaterial(m);
-
-        Bukkit.getScheduler().runTaskLater(pro, ()-> bt.cancel(), 100);
     }
 
     public void generateCuboidRegion(){
         Block b1 = location.getWorld().getBlockAt((int) location.getX() + (proType.getArea() / 2), (int)(location.getY() - 1), (int) location.getZ() + (proType.getArea() / 2));
         Block b2 = location.getWorld().getBlockAt((int) location.getX() -(proType.getArea() / 2), (int)(location.getY() - 1), (int) location.getZ() - (proType.getArea() / 2));
 
-        this.cuboidRegion = new CuboidRegion(b1, b2, (int) location.getY());
+        this.cuboidRegion = new CuboidRegion(b1, b2, proType.getArea());
     }
 
     public void showArea(){
@@ -99,7 +93,7 @@ public class ProArea {
     public CuboidRegion getCuboidRegion(){
         Block b1 = stringCuboidBlockToLocation(pro.getFiles().getAreas().getString("area_" + id + ".loc"), 0).getBlock();
         Block b2 = stringCuboidBlockToLocation(pro.getFiles().getAreas().getString("area_" + id + ".loc"), 1).getBlock();
-        return new CuboidRegion(b1, b2, b1.getY());
+        return new CuboidRegion(b1, b2, ProType.valueOf(pro.getFiles().getAreas().getString("area_" + id + ".tipo")).getArea());
     }
 
     public Location getLocation(){

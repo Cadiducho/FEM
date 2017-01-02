@@ -20,7 +20,7 @@ public enum ProType {
     XL(Protections.getInstance().getFiles().getConfig().getInt("Area.XL"), (short) 3, "Protección Gigante");
 
     @Getter private int area;
-    @Getter private Material mat;
+    @Getter private Material mat = Material.STRUCTURE_BLOCK;
     @Getter private short data;
     @Getter private String name;
 
@@ -28,16 +28,19 @@ public enum ProType {
 
     ProType(int area, short data, String name){
         this.area = area;
-        this.mat = Material.STRUCTURE_BLOCK;
         this.data = data;
         this.name = name;
     }
 
-    public static ProType parseMaterial(Material m){
+    public static ProType parseData(short data){
         Arrays.asList(ProType.values()).forEach(t -> {
-            if (t.getMat() == m) type = t;
+            if (t.getData() == data) type = t;
         });
         return type;
+    }
+
+    public static ItemStack generateItemStack(ProType pt){
+        return new ItemBuilder().setType(pt.getMat()).setDisplayName(pt.getName()).setAmount(1).setDurability(pt.getData()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
     }
 
     public static List<ItemStack> getItems(){

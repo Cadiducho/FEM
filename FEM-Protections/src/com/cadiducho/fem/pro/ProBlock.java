@@ -77,7 +77,17 @@ public class ProBlock {
                 pro.getFiles().getBlocks().getStringList("block_" + id + ".users").forEach(ad -> players.add(new ProPlayer(UUID.fromString(ad))));
             }
         }
+        return players;
+    }
 
+    public List<ProPlayer> getProtectionOwners(){
+        List<ProPlayer> players = new ArrayList<>();
+
+        for (int x = 0; x < pro.getFiles().getCurrentID("blocks"); x++){
+            if (new ProBlock(x).getLocation().equals(Metodos.stringToLocation(pro.getFiles().getBlocks().getString("block_" + id + ".loc")))){
+                pro.getFiles().getBlocks().getStringList("block_" + id + ".admins").forEach(ad -> players.add(new ProPlayer(UUID.fromString(ad))));
+            }
+        }
         return players;
     }
 

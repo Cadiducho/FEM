@@ -14,16 +14,16 @@ public class CuboidRegion {
     @Getter private Block corner2;
     @Getter private World world;
 
-    @Getter private int y;
+    @Getter private int rad;
 
-    public CuboidRegion(Block corner1, Block corner2, int y) {
+    public CuboidRegion(Block corner1, Block corner2, int rad) {
         if (corner1.getWorld().equals(corner2.getWorld())) {
             this.corner1 = corner1;
             this.corner2 = corner2;
-            this.y = y;
+            this.rad = rad;
             world = corner1.getWorld();
         } else {
-            throw new IllegalArgumentException("Corners must be in same World");
+            throw new IllegalArgumentException("Error");
         }
     }
 
@@ -36,7 +36,7 @@ public class CuboidRegion {
         int maxZ = Math.max(corner1.getZ(), corner2.getZ());
 
         for (int x = minX; x <= maxX; x++) {
-            for (int y = corner1.getY() - (this.y / 2); y <= corner1.getY() + (this.y / 2); y++) {
+            for (int y = corner1.getY() - this.rad; y <= corner1.getY() + this.rad; y++) {
                 for (int z = minZ; z <= maxZ; z++) {
                     result.add(world.getBlockAt(new Location(world, x, y, z)));
                 }
@@ -55,7 +55,7 @@ public class CuboidRegion {
         int maxX = Math.max(corner1.getX(), corner2.getX());
         int maxZ = Math.max(corner1.getZ(), corner2.getZ());
 
-        return new Location(world, minX + (maxX - minX) / 2, y + 1, minZ + (maxZ - minZ) / 2);
+        return new Location(world, minX + (maxX - minX) / 2, corner1.getY() + 1, minZ + (maxZ - minZ) / 2);
     }
 
     @Override
