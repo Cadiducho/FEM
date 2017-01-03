@@ -16,7 +16,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -147,16 +146,14 @@ public class PlayerListener implements Listener {
 
         if (e.getItem() != null){
             if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (e.getHand() == EquipmentSlot.HAND) {
-                    if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName() && e.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("Vida")) {
-                        e.setCancelled(true);
-                        p.getInventory().getItemInMainHand().setType(Material.AIR);
-                        if (p.getHealth() + (p.getHealth() * 0.5) >= p.getMaxHealth()) {
-                            p.setHealth(p.getMaxHealth());
-                            return;
-                        }
-                        p.setHealth(p.getHealth() + (p.getHealth() * 0.5));
+                if (e.getItem().hasItemMeta() && e.getItem().getItemMeta().hasDisplayName() && e.getItem().getItemMeta().getDisplayName().equalsIgnoreCase("Vida")) {
+                    e.setCancelled(true);
+                    p.getInventory().getItemInHand().setType(Material.AIR);
+                    if (p.getHealth() + (p.getHealth() * 0.5) >= p.getMaxHealth()) {
+                        p.setHealth(p.getMaxHealth());
+                        return;
                     }
+                    p.setHealth(p.getHealth() + (p.getHealth() * 0.5));
                 }
             }
         }

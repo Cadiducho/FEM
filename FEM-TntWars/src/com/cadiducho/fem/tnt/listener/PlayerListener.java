@@ -7,7 +7,6 @@ import com.cadiducho.fem.tnt.TntPlayer;
 import com.cadiducho.fem.tnt.TntWars;
 import com.cadiducho.fem.tnt.manager.GameState;
 import com.cadiducho.fem.tnt.task.RespawnTask;
-import java.util.HashMap;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -20,16 +19,11 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerBedEnterEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
 
 public class PlayerListener implements Listener {
 
@@ -50,7 +44,7 @@ public class PlayerListener implements Listener {
                     inv.setItem(0, ItemUtil.createItem(Material.BRICK_STAIRS, "Construcción"));
                     inv.setItem(1, ItemUtil.createItem(Material.GOLD_SWORD, "Armas"));
                     inv.setItem(2, ItemUtil.createItem(Material.IRON_CHESTPLATE, "Armaduras"));
-                    inv.setItem(3, ItemUtil.createItem(Material.BEETROOT_SOUP, "Comida"));
+                    inv.setItem(3, ItemUtil.createItem(Material.MUSHROOM_SOUP, "Comida"));
                     inv.setItem(4, ItemUtil.createItem(Material.DIAMOND_PICKAXE, "Herramientas"));
                     inv.setItem(5, ItemUtil.createItem(Material.BOW, "Tiro"));
                     inv.setItem(6, ItemUtil.createItem(Material.CHEST, "Misceláneo"));

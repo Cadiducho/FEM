@@ -116,28 +116,28 @@ public class PlayerEvents implements Listener{
                     case 10:
                         area.setSetting("join", !area.getSetting("join"));
                         ProMenu.openMenu(player, ProMenu.MenuType.SETTINGS, ProMenu.getArea());
-                        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ORB_PICKUP, 1F, 1F);
+                        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
                         player.sendMessage("&eAjuste cambiado");
                         break;
                     case 2:
                     case 11:
                         area.setSetting("pvp", !area.getSetting("pvp"));
                         ProMenu.openMenu(player, ProMenu.MenuType.SETTINGS, ProMenu.getArea());
-                        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ORB_PICKUP, 1F, 1F);
+                        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
                         player.sendMessage("&eAjuste cambiado");
                         break;
                     case 3:
                     case 12:
                         area.setSetting("pve", !area.getSetting("pve"));
                         ProMenu.openMenu(player, ProMenu.MenuType.SETTINGS, ProMenu.getArea());
-                        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ORB_PICKUP, 1F, 1F);
+                        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
                         player.sendMessage("&eAjuste cambiado");
                         break;
                     case 4:
                     case 13:
                         area.setSetting("explosion", !area.getSetting("explosion"));
                         ProMenu.openMenu(player, ProMenu.MenuType.SETTINGS, ProMenu.getArea());
-                        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ORB_PICKUP, 1F, 1F);
+                        player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
                         player.sendMessage("&eAjuste cambiado");
                         break;
                 }

@@ -5,25 +5,18 @@ import com.cadiducho.fem.color.DyeOrDie;
 import com.cadiducho.fem.color.DyePlayer;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.Title;
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.logging.Level;
 import lombok.Getter;
-import org.bukkit.ChatColor;
-
-
-import org.bukkit.Difficulty;
-import org.bukkit.DyeColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.logging.Level;
 
 public class ArenaManager {
 
@@ -217,7 +210,7 @@ public class ArenaManager {
             new Title(getColorFromWool(currentcolor) + nombreCastellano(currentcolor), "", 1, 2, 1).send(p);
             p.setLevel(round);
             p.setExp(0.9999F);
-            p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
+            p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1F, 1F);
             
             final DyePlayer dp = DyeOrDie.getPlayer(p);
             dp.getUserData().setRondas_dod(dp.getUserData().getRondas_dod() + 1);

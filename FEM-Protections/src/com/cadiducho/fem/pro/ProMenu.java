@@ -82,7 +82,7 @@ public class ProMenu {
 
         if (clon != null) {
             player.getPlayer().closeInventory();
-            player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.CLICK, 1F, 1F);
+            player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
             player.getPlayer().openInventory(clon);
         }
     }

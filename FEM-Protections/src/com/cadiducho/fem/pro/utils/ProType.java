@@ -14,6 +14,7 @@ import java.util.List;
 
 public enum ProType {
 
+    //Vuelta por si acaso se cambia de versión...
     S(Protections.getInstance().getFiles().getConfig().getInt("Area.S"), Material.COAL_ORE, "Protección Básica"),
     M(Protections.getInstance().getFiles().getConfig().getInt("Area.M"), Material.IRON_ORE, "Protección Media"),
     L(Protections.getInstance().getFiles().getConfig().getInt("Area.L"), Material.LAPIS_ORE, "Protección Grande"),
