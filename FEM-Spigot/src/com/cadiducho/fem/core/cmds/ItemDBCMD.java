@@ -1,8 +1,9 @@
 package com.cadiducho.fem.core.cmds;
 
 import com.cadiducho.fem.core.api.FEMUser;
-import java.util.Arrays;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.Arrays;
 
 public class ItemDBCMD extends FEMCmd {
 
@@ -12,7 +13,7 @@ public class ItemDBCMD extends FEMCmd {
 
     @Override
     public void run(FEMUser user, String lbl, String[] args) {
-        ItemStack item = user.getPlayer().getInventory().getItemInMainHand();
+        ItemStack item = user.getPlayer().getInventory().getItemInHand();
         user.sendMessage("*itemdb.mensaje", item.getTypeId(), item.getType().toString());
     }
 }

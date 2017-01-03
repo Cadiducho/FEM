@@ -1,10 +1,11 @@
 package com.cadiducho.fem.core.cmds;
 
 import com.cadiducho.fem.core.api.FEMUser;
-import java.util.Arrays;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
+
+import java.util.Arrays;
 
 public class BookCMD extends FEMCmd {
 
@@ -14,13 +15,13 @@ public class BookCMD extends FEMCmd {
 
     @Override
     public void run(FEMUser user, String label, String[] args) {
-        final ItemStack item = user.getPlayer().getInventory().getItemInMainHand();
+        final ItemStack item = user.getPlayer().getInventory().getItemInHand();
         switch (item.getType()) {
             case WRITTEN_BOOK:
                 BookMeta bmeta = (BookMeta) item.getItemMeta();
                 ItemStack newItem = new ItemStack(Material.BOOK_AND_QUILL, item.getAmount());
                 newItem.setItemMeta(bmeta);
-                user.getPlayer().getInventory().setItemInMainHand(newItem);
+                user.getPlayer().getInventory().setItemInHand(newItem);
                 user.sendMessage("*book.desbloqueado");
                 break;
             case BOOK_AND_QUILL:
@@ -28,7 +29,7 @@ public class BookCMD extends FEMCmd {
                 bmeta2.setAuthor(user.getName());
                 ItemStack newItem2 = new ItemStack(Material.WRITTEN_BOOK, item.getAmount());
                 newItem2.setItemMeta(bmeta2);
-                user.getPlayer().getInventory().setItemInMainHand(newItem2);
+                user.getPlayer().getInventory().setItemInHand(newItem2);
                 user.sendMessage("*book.bloqueado");
                 break;
             default:
