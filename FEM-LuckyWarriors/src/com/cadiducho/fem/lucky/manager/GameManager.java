@@ -2,17 +2,18 @@ package com.cadiducho.fem.lucky.manager;
 
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.lucky.LuckyPlayer;
-import java.util.ArrayList;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import com.cadiducho.fem.lucky.task.DeathMatchTask;
 import com.cadiducho.fem.lucky.task.LobbyTask;
 import com.cadiducho.fem.lucky.task.ShutdownTask;
-import java.util.HashMap;
-import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class GameManager {
 
@@ -56,7 +57,7 @@ public class GameManager {
                 plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
                 plugin.getServer().getOnlinePlayers().forEach(p -> { 
                     new Title("&a" + winner.getName(), "&aha ganado la partida!", 1, 2, 1).send(p);
-                    p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+                    p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
                 });
                 
                 final LuckyPlayer lp = LuckyWarriors.getPlayer(winner);

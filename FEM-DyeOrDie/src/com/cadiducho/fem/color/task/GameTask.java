@@ -4,20 +4,19 @@ import com.cadiducho.fem.color.DyeOrDie;
 import com.cadiducho.fem.color.DyePlayer;
 import com.cadiducho.fem.color.manager.GameState;
 import com.cadiducho.fem.core.util.Title;
-import java.util.HashMap;
-import java.util.Random;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
+
 public class GameTask extends BukkitRunnable {
 
     private final DyeOrDie plugin;
-    int ticksforround = 200;
-    int tickstilendofround = ticksforround;
-    int status = 1;
-    int colorround = 0;
-    Random rand = new Random();
+    private int ticksforround = 200;
+    private int tickstilendofround = ticksforround;
+    private int status = 1;
+    private int colorround = 0;
     
     public GameTask(DyeOrDie instance) {
         plugin = instance;
@@ -57,15 +56,15 @@ public class GameTask extends BukkitRunnable {
                 
                 switch (colorround) {
                     case 2:
-                        plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F));
+                        plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.CLICK, 1F, 1F));
                         plugin.getMsg().sendBroadcast("&a3");
                         break;
                     case 4:
-                        plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F));
+                        plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.CLICK, 1F, 1F));
                         plugin.getMsg().sendBroadcast("&a2");
                         break;
                     case 6:
-                        plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F));
+                        plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.CLICK, 1F, 1F));
                         plugin.getMsg().sendBroadcast("&a1");
                         break;
                 }
@@ -105,7 +104,7 @@ public class GameTask extends BukkitRunnable {
             new Title("&b&l¡Has ganado!", "Has llegado hasta la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(winner);
             plugin.getGm().getSpectators().forEach(spect -> new Title("&b&l" + winner.getName() + " ha ganado!", "Ha llegado hasta la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(spect));
             plugin.getMsg().sendBroadcast(winner.getName() + " ha ganado llegando hasta la ronda " + plugin.getAm().getRound() + "!");
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F));
+            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F));
             
             final DyePlayer dp = DyeOrDie.getPlayer(winner);
             HashMap<Integer, Integer> wins = dp.getUserData().getWins();

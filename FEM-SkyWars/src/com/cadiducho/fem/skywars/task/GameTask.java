@@ -1,15 +1,15 @@
 package com.cadiducho.fem.skywars.task;
 
 import com.cadiducho.fem.core.util.Title;
-import com.cadiducho.fem.skywars.SkyIsland;
 import com.cadiducho.fem.skywars.SkyPlayer;
 import com.cadiducho.fem.skywars.SkyWars;
 import com.cadiducho.fem.skywars.manager.GameState;
-import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
 
 public class GameTask extends BukkitRunnable {
 
@@ -35,7 +35,7 @@ public class GameTask extends BukkitRunnable {
         if (count == 0) {
             for (final Player p : plugin.getGm().getPlayersInGame()) {
                 new Title("", "&e¡Elimina al resto de enemigos!", 1, 2, 1).send(p);
-                p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+                p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 
                 final SkyPlayer sp = SkyWars.getPlayer(p);
@@ -60,7 +60,7 @@ public class GameTask extends BukkitRunnable {
         if (plugin.getGm().getPlayersInGame().size() <= 1) {
             Player winner = plugin.getGm().getPlayersInGame().get(0);
             plugin.getGm().getPlayersInGame().forEach(p -> {
-                p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+                p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
                 new Title("&a" + p.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner);
             });
             plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");

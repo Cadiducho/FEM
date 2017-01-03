@@ -4,11 +4,12 @@ import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.manager.GameState;
-import java.util.HashMap;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
+
+import java.util.HashMap;
 
 public class GameTask extends BukkitRunnable {
 
@@ -28,7 +29,7 @@ public class GameTask extends BukkitRunnable {
         switch (count) {
             case 300:
                 plugin.getAm().muro(plugin.getServer().getWorlds().get(0));
-                plugin.getGm().getPlayersInGame().stream().forEach(p -> p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f)); 
+                plugin.getGm().getPlayersInGame().stream().forEach(p -> p.playSound(p.getLocation(), Sound.CLICK, 1f, 1f));
                 break;
             case 30:
                 plugin.getMsg().sendBroadcast("&7Sólo quedan 30 segundos!");
@@ -68,7 +69,7 @@ public class GameTask extends BukkitRunnable {
         
         Team loser = plugin.getTm().getOpositeTeam(winner);
         for (Player p : plugin.getTm().getJugadores().get(winner)) {
-            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+            p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
             new Title("&a&lVICTORIA", "¡Tu equipo ha ganado :D!", 1, 2, 1).send(p);
             
             final GemPlayer gp = GemHunters.getPlayer(p);
@@ -78,7 +79,7 @@ public class GameTask extends BukkitRunnable {
             gp.save();
         }
         plugin.getTm().getJugadores().get(loser).forEach(p -> {
-            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+            p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
             new Title("&c&lDERROTA", "¡Tu equipo ha perdido :C!", 1, 2, 1).send(p);
         });
         return winner;

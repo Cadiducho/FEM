@@ -3,12 +3,13 @@ package com.cadiducho.fem.tnt.task;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.tnt.TntPlayer;
 import com.cadiducho.fem.tnt.TntWars;
-import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
 
 public class RespawnTask extends BukkitRunnable {
     
@@ -33,7 +34,7 @@ public class RespawnTask extends BukkitRunnable {
             player.save();
             player.sendMessage("Reaparecerás en 9 segundos");
         } else if (count > 0 && count <= 5) {
-            player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F);
+            player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.NOTE_PLING, 1F, 1F);
         } else if (count == 0) {
             player.spawn();
             player.setCleanPlayer(GameMode.SURVIVAL);

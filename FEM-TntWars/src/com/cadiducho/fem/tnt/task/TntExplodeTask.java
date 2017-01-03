@@ -3,9 +3,10 @@ package com.cadiducho.fem.tnt.task;
 import com.cadiducho.fem.tnt.TntIsland;
 import com.cadiducho.fem.tnt.TntPlayer;
 import com.cadiducho.fem.tnt.TntWars;
-import java.util.UUID;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.UUID;
 
 public class TntExplodeTask extends BukkitRunnable {
     
@@ -30,7 +31,7 @@ public class TntExplodeTask extends BukkitRunnable {
             tpExploder.sendMessage("&aHas puesto la TNT y explotará en 10 segundos");
             tpOwner.sendMessage("&cTu isla explotará en 10 segundos si no lo evitas");
         } else if (count > 0 && count < 4) {
-            TntWars.getInstance().getGm().getPlayersInGame().forEach(p -> p.playSound(isla.getBedrockCore().getLocation(), Sound.BLOCK_ANVIL_PLACE, (9F + count), 1F));
+            TntWars.getInstance().getGm().getPlayersInGame().forEach(p -> p.playSound(isla.getBedrockCore().getLocation(), Sound.ANVIL_LAND, (9F + count), 1F));
             tpOwner.sendMessage("&c¡Tu isla explotará en " + count + " segundo" + (count == 1 ? "" : "s") + " si no lo evitas!");
         } else if (count == 0) {
             isla.explode();

@@ -35,7 +35,7 @@ public class LobbyTask extends BukkitRunnable {
         });
         if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));
+            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
         } else if (count == 0) {
             plugin.getGm().getPlayersInGame().forEach(p -> {
                 plugin.getAm().teleportLucky(p);

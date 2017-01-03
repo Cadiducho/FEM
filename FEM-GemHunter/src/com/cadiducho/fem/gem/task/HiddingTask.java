@@ -60,7 +60,7 @@ public class HiddingTask extends BukkitRunnable {
         
         GameState.state = GameState.GAME;
         plugin.getGm().getPlayersInGame().stream().forEach(p -> {
-            p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+            p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
             p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
             new Title("&b&lBusca y destruye las Gemas del equipo contrario", "", 1, 2, 1).send(p);
             

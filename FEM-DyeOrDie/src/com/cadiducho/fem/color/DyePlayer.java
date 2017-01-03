@@ -3,11 +3,12 @@ package com.cadiducho.fem.color;
 import com.cadiducho.fem.color.util.ScoreboardUtil;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Title;
-import java.util.Random;
-import java.util.UUID;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
+
+import java.util.Random;
+import java.util.UUID;
 
 public class DyePlayer extends FEMUser {
 
@@ -47,7 +48,6 @@ public class DyePlayer extends FEMUser {
         ScoreboardUtil board = plugin.getGameBoard();
         Team tJugadores = board.getScoreboard().getTeam("1DoD") == null ? 
                 board.getScoreboard().registerNewTeam("1DoD") : board.getScoreboard().getTeam("1DoD");
-        tJugadores.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
         tJugadores.addEntry(getPlayer().getName());
         new BukkitRunnable() {
             @Override

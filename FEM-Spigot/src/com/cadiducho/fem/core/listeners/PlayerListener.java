@@ -4,8 +4,8 @@ import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.cmds.FEMCmd;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import com.cadiducho.fem.core.util.BossBarAPI;
+import com.cadiducho.fem.core.util.Metodos;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,13 +15,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerCommandPreprocessEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.*;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class PlayerListener implements Listener {
     
@@ -78,9 +75,8 @@ public class PlayerListener implements Listener {
         }
         
         //Hud
-        if (plugin.isMore18()) {
-            plugin.getHud().addPlayer(e.getPlayer());
-        }
+        BossBarAPI.removeAllStatusBars();
+        BossBarAPI.setAllStatusBars(Metodos.colorizar("&6&lUnder&e&lGames&7 &c- &emc.undergames.es"), 64);
     }
      
     @EventHandler(priority = EventPriority.LOW)

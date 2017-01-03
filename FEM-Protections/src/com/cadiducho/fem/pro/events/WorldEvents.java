@@ -61,9 +61,9 @@ public class WorldEvents implements Listener {
                 }
             }
             Arrays.asList(ProType.values()).forEach(t -> {
-                if (b.getState().getData().getData() == t.getData()) {
+                if (b.getType() == t.getMat()) {
                     if (checking.contains(player)) return;
-                    this.area = new ProArea(player.getPlayer().getLocation(), ProType.parseData(b.getData()), player);
+                    this.area = new ProArea(player.getPlayer().getLocation(), ProType.parseMaterial(b.getType()), player);
                     this.area.generateCuboidRegion();
                     if (this.area.hitOtherArena()) {
                         player.getPlayer().sendMessage(ChatColor.RED + "El nuevo arena esta chocando con otro area. Pon el bloque en otro lugar");

@@ -1,15 +1,22 @@
 package com.cadiducho.fem.core;
 
 import com.cadiducho.fem.core.api.FEMMap;
-import com.cadiducho.fem.core.listeners.PlayerListener;
+import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.listeners.BungeeListener;
 import com.cadiducho.fem.core.listeners.InventoryListener;
-import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.listeners.PlayerListener;
+import com.cadiducho.fem.core.util.BossBarAPI;
 import com.cadiducho.fem.core.util.FEMFileLoader;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.MySQL;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import lombok.Getter;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
@@ -20,14 +27,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lombok.Getter;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class FEMCore extends JavaPlugin {
 
@@ -39,7 +38,6 @@ public class FEMCore extends JavaPlugin {
     static Gson gson = new Gson();
 
     @Getter private final String tag = Metodos.colorizar("&7[&6Under&eGames&7]&r");
-    @Getter private BossBar hud;
     @Getter private boolean isMore18 = true;
 
     @Override
@@ -106,14 +104,7 @@ public class FEMCore extends JavaPlugin {
             /*
              * Hud y saber si es 1.8
              */
-            try {
-                Class.forName("org.bukkit.boss.BossBar");
-                isMore18 = true;
-                hud = getServer().createBossBar(Metodos.colorizar("UnderGames"), BarColor.WHITE, BarStyle.SOLID);
-                hud.setTitle(Metodos.colorizar("&6&lUnder&e&lGames&7 &c- &emc.undergames.es"));
-            } catch(ClassNotFoundException e) {
-                isMore18 = false;
-            }
+            isMore18 = false;
             
             log("FEMCore v" + getDescription().getVersion() + " ha sido cargado completamente!");
         } catch (Throwable t) {
@@ -131,6 +122,7 @@ public class FEMCore extends JavaPlugin {
             } catch (SQLException ex) {
             } //Ignora
         }
+        BossBarAPI.removeAllStatusBars();
         log("FEMCore desactivado");
     }
 

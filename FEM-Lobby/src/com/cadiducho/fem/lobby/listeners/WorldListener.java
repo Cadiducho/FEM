@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
-import org.bukkit.event.block.CauldronLevelChangeEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
@@ -61,11 +60,6 @@ public class WorldListener implements Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onBlockFromToEvent(BlockFromToEvent e) {
-        e.setCancelled(true);
-    }
-    
-    @EventHandler(ignoreCancelled = true)
-    public void onCauldronLevelChangeEvent(CauldronLevelChangeEvent e) {
         e.setCancelled(true);
     }
 }

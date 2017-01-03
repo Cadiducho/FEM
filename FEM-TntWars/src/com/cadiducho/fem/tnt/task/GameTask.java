@@ -5,11 +5,12 @@ import com.cadiducho.fem.tnt.TntIsland;
 import com.cadiducho.fem.tnt.TntPlayer;
 import com.cadiducho.fem.tnt.TntWars;
 import com.cadiducho.fem.tnt.manager.GameState;
-import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
 
 public class GameTask extends BukkitRunnable {
 
@@ -34,12 +35,12 @@ public class GameTask extends BukkitRunnable {
         }
         if (count >= 0 && count < 2) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + (count == 0 ? "2" : "1") + " segundos");
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));  
+            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
         } else if (count == 2) {
             for (Player p : plugin.getGm().getPlayersInGame()) {
                 TntIsland isla = TntIsland.getIsland(p.getUniqueId());
                 new Title("", isla.getColor() + "¡Destruye el resto de islas!", 1, 2, 1).send(p);
-                p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+                p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 
                 final TntPlayer tp = TntWars.getPlayer(p);
@@ -65,7 +66,7 @@ public class GameTask extends BukkitRunnable {
         if (plugin.getGm().getPlayersInGame().size() <= 1) {
             Player winner = plugin.getGm().getPlayersInGame().get(0);
             for (Player p : plugin.getGm().getPlayersInGame()) {
-                p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+                p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
                 new Title("&a" + p.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner);
             }
             plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");

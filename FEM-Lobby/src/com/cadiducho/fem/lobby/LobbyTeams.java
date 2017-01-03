@@ -41,15 +41,6 @@ public class LobbyTeams {
         tVipSuper.setPrefix("§a[SUPER] ");
         tVip.setPrefix("§e[VIP] ");
         tUsuario.setPrefix("§f");
-        
-        tOwner.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-        tAdmin.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-        tDev.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-        tHelper.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-        tVipMega.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-        tVipSuper.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-        tVip.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
-        tUsuario.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
     }
     
     public static void setScoreboardTeam(FEMUser user) {
@@ -74,7 +65,7 @@ public class LobbyTeams {
         }
     }
     
-    public static     void removeScoreboardTeam(FEMUser user) {
+    public static void removeScoreboardTeam(FEMUser user) {
         Team t = board.getEntryTeam(user.getName());
         if (t != null) t.removeEntry(user.getName());
     }

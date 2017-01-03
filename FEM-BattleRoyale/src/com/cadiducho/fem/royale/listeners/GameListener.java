@@ -5,8 +5,6 @@ import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
-import java.util.HashMap;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -19,14 +17,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityChangeBlockEvent;
-import org.bukkit.event.entity.EntityDamageByBlockEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameListener implements Listener {
 
@@ -48,9 +45,9 @@ public class GameListener implements Listener {
                 e.setCancelled(true);
                 Villager v = (Villager) e.getRightClicked();
                 if (v.getName().toLowerCase().contains("compro")) {
-                    e.getPlayer().openMerchant(plugin.getAm().getCompro(), true);
+                    plugin.getAm().getCompro().addCustomer(e.getPlayer());
                 } else if (v.getName().toLowerCase().contains("vendo")) {
-                    e.getPlayer().openMerchant(plugin.getAm().getVendo(), true);
+                    plugin.getAm().getVendo().addCustomer(e.getPlayer());
                 }
             }
         } else {
@@ -172,7 +169,7 @@ public class GameListener implements Listener {
                 e.getBlock().setType(Material.TRAPPED_CHEST);
                 Chest cofre = (Chest)e.getBlock().getState();
                 plugin.getAm().fillChest(cofre.getInventory(), true);
-                plugin.getWorld().playSound(cofre.getLocation(), Sound.ENTITY_BLAZE_DEATH, 100F, 100F);
+                plugin.getWorld().playSound(cofre.getLocation(), Sound.BLAZE_DEATH, 100F, 100F);
                 plugin.getMsg().sendBroadcast("&d¡Ha caido un cofre de abastecimiento en alguna parte del mapa!");
             }
         }

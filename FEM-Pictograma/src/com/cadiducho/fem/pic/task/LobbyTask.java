@@ -31,12 +31,12 @@ public class LobbyTask extends BukkitRunnable {
         if (count == 10) {
             plugin.getMsg().sendBroadcast("10 segundos para comenzar");
             plugin.getGm().getPlayersInGame().forEach((players) -> {
-                players.playSound(players.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
+                players.playSound(players.getLocation(), Sound.CLICK, 1f, 1f);
             });
         } else if (count > 0 && count <= 5) {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> {
                 new Title("&c&l" + count, "", 0, 1, 00).send(p);
-                p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1f, 1f);
+                p.playSound(p.getLocation(), Sound.CLICK, 1f, 1f);
             });
         } else if(count == 0){
             

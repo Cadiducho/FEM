@@ -190,10 +190,10 @@ public class MathsUtils {
             if (t == 6){
                 for (int r = 0; r < 6; r++) {
                     drawCircle(l, pe, color, r);
-                    Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.BLOCK_REDSTONE_TORCH_BURNOUT, 1F, 1F));
+                    Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.FUSE, 1F, 1F));
 
                     if (r == 6)
-                        Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F));
+                        Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.EXPLODE, 1F, 1F));
                 }
             }
         }
@@ -233,10 +233,10 @@ public class MathsUtils {
             if (t == 6){
                 for (int r = 0; r < 6; r++) {
                     drawCircle(l, pe, color, r);
-                    Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.BLOCK_REDSTONE_TORCH_BURNOUT, 1F, 1F));
+                    Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.FUSE, 1F, 1F));
 
                     if (r == 6)
-                        Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F));
+                        Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.EXPLODE, 1F, 1F));
                 }
             }
         }

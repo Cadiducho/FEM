@@ -5,14 +5,15 @@ import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.task.GameTask;
 import com.cadiducho.fem.gem.task.LobbyTask;
-import java.util.ArrayList;
-import java.util.HashMap;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Team;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameManager {
 
@@ -49,7 +50,7 @@ public class GameManager {
         
         Team loser = plugin.getTm().getOpositeTeam(winner);
         for (Player p : plugin.getTm().getJugadores().get(winner)) {
-            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+            p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
             new Title("&a&lVICTORIA", "¡Tu equipo ha ganado :D!", 1, 2, 1).send(p);
             
             final GemPlayer gp = GemHunters.getPlayer(p);
@@ -59,7 +60,7 @@ public class GameManager {
             gp.save();
         }
         plugin.getTm().getJugadores().get(loser).forEach(p -> {
-            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+            p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
             new Title("&c&lDERROTA", "¡Tu equipo ha perdido :C!", 1, 2, 1).send(p);
         });
         
