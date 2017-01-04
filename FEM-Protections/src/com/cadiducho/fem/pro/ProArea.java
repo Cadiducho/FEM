@@ -10,10 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ProArea {
 
@@ -52,7 +49,8 @@ public class ProArea {
         this.id = pro.getFiles().getID("areas"); //Siguiente ID
         pro.getFiles().getAreas().set("area_" + id + ".block", Metodos.locationToStringNormal(location));
         pro.getFiles().getAreas().set("area_" + id + ".loc", cuboidRegion.toString());
-        pro.getFiles().getAreas().set("area_" + id + ".dueño", proPlayer.getUuid().toString());
+        pro.getFiles().getBlocks().set("area_" + id + ".admins", Arrays.asList(proPlayer.getUuid()));
+        pro.getFiles().getBlocks().set("area_" + id + ".users", Arrays.asList(""));
         pro.getFiles().getAreas().set("area_" + id + ".tipo", proType.toString());
         setDefaultSettings();
         pro.getFiles().saveFiles();
@@ -82,8 +80,20 @@ public class ProArea {
     }
 
     //Area Getters
-    public ProPlayer getOwner(){
-        return new ProPlayer(UUID.fromString(pro.getFiles().getAreas().getString("area_" + id + ".dueño")));
+    public List<ProPlayer> getAreaUsers(){
+        List<ProPlayer> players = new ArrayList<>();
+
+        pro.getFiles().getBlocks().getStringList("area_" + id + ".users").forEach(ad -> players.add(new ProPlayer(UUID.fromString(ad))));
+
+        return players;
+    }
+
+    public List<ProPlayer> getAreaOwners(){
+        List<ProPlayer> players = new ArrayList<>();
+
+        pro.getFiles().getBlocks().getStringList("area_" + id + ".admins").forEach(ad -> players.add(new ProPlayer(UUID.fromString(ad))));
+
+        return players;
     }
 
     public ProType getProType(){
@@ -170,13 +180,12 @@ public class ProArea {
         List<Integer> areas = new ArrayList<>();
 
         getAllAreas().forEach(a ->{
-            if (a.getOwner().equals(player)){
+            if (a.getAreaOwners().equals(player)){
                 areas.add(a.getId());
             }
         });
         return areas;
     }
-
 
     //Area Settings
     public HashMap<String, Boolean> getAllSettings(){
