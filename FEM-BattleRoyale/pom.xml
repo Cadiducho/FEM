@@ -39,7 +39,7 @@
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
+            <artifactId>spigot</artifactId>
             <version>1.8.8-R0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -49,17 +49,16 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>com.cadiducho</groupId>
+            <artifactId>MerchantsAPI</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.14.8</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.cadiducho</groupId>
-            <artifactId>MerchantsAPI</artifactId>
-            <version>1.0</version>
-            <scope>jar</scope>
-        </dependency>
+        </dependency> 
     </dependencies>
     <name>FEM-BattleRoyale</name>
 </project>
