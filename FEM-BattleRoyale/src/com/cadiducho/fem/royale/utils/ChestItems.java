@@ -2,11 +2,12 @@ package com.cadiducho.fem.royale.utils;
 
 import com.cadiducho.fem.core.util.ItemBuilder;
 import com.cadiducho.fem.royale.BattleRoyale;
-import java.util.ArrayList;
-import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 //Qué horror de clase...
 public class ChestItems {
@@ -94,7 +95,6 @@ public class ChestItems {
         pocoProbables.add(new ItemBuilder().setType(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true).build());
         pocoProbables.add(new ItemBuilder().setType(Material.BOW).build());
         pocoProbables.add(new ItemBuilder().setType(Material.COOKED_CHICKEN).setAmount(2).build());
-        pocoProbables.add(new ItemBuilder().setType(Material.SPECTRAL_ARROW).build());
         pocoProbables.add(new ItemBuilder().setType(Material.TORCH).setAmount(2).build());
         pocoProbables.add(BattleRoyale.getInstance().getMoneda());
     }

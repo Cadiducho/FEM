@@ -4,10 +4,11 @@ import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.manager.GameState;
-import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
 
 public class CountdownTask extends BukkitRunnable {
 
@@ -28,11 +29,11 @@ public class CountdownTask extends BukkitRunnable {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> GemHunters.getPlayer(p).spawn());  
         } else if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
-            plugin.getGm().getPlayersInGame().stream().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));
+            plugin.getGm().getPlayersInGame().stream().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
         } else if (count == 0) {
             GameState.state = GameState.HIDDING;
             plugin.getGm().getPlayersInGame().stream().forEach(p -> {   
-                p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+                p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
                 new Title("&b&l¡Esconde tu gema!", "", 1, 2, 1).send(p);
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 

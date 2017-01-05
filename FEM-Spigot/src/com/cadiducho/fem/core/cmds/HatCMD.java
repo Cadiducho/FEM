@@ -29,15 +29,15 @@ public class HatCMD extends FEMCmd {
                 inv.addItem(enmano);
             }
         } else {
-            if(user.getPlayer().getInventory().getItemInMainHand().getType() != Material.AIR){
-                ItemStack mano = user.getPlayer().getInventory().getItemInMainHand();
+            if(user.getPlayer().getInventory().getItemInHand().getType() != Material.AIR){
+                ItemStack mano = user.getPlayer().getInventory().getItemInHand();
                 if(mano.getType().getMaxDurability() == 0){
 
                     PlayerInventory inv = user.getPlayer().getInventory();
                     ItemStack casco = inv.getHelmet();
 
                     inv.setHelmet(mano);
-                    inv.setItemInMainHand(casco);
+                    inv.setItemInHand(casco);
                     user.sendMessage("*hat.mensaje");
                 }
                 else {

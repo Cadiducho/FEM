@@ -30,9 +30,13 @@ public class PlayerEvents implements Listener{
             ProBlock block = new ProBlock(e.getClickedBlock());
             if (block.getAllTypesToProtect().contains(e.getClickedBlock())) {
                 if (block.isProtected()) {
-                    if (!block.getProtectionPlayers().contains(player)) {
+                    if (!player.isOnRank(FEMCmd.Grupo.Moderador) && !block.getProtectionPlayers().contains(player)) {
                         e.setCancelled(true);
                         return;
+                    }
+                } else {
+                    if (p.isSneaking()){
+                        block.protectBlock();
                     }
                 }
             }
@@ -48,7 +52,7 @@ public class PlayerEvents implements Listener{
 
         new ProArea().getAllAreas().forEach(a ->{
             if (a.getCuboidRegion().toArray().contains(p.getLocation().getBlock())){
-                if (a.getOwner().equals(player)) return;
+                if (a.getAreaOwners().equals(player) || a.getAreaUsers().contains(player)) return;
                 if (!a.getSetting("join")) p.setVelocity(p.getLocation().getDirection().normalize().multiply(-2));
             }
         });

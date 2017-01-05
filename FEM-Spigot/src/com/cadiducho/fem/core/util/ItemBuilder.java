@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
@@ -92,7 +92,13 @@ public class ItemBuilder {
     
     public ItemBuilder addPotionType(PotionType type, boolean extended, boolean upgraded) {
         PotionMeta itemMeta = (PotionMeta) this.itemStack.getItemMeta();
-        itemMeta.setBasePotionData(new PotionData(type, extended, upgraded));
+        itemMeta.setMainEffect(type.getEffectType());
+        if (upgraded) {
+            itemMeta.addCustomEffect(new PotionEffect(type.getEffectType(), 4, 1), true);
+        } else {
+            itemMeta.addCustomEffect(new PotionEffect(type.getEffectType(), 4, 0), true);
+        }
+        //itemMeta.setBasePotionData(new PotionData(type, extended, upgraded));
         this.itemStack.setItemMeta(itemMeta);
         return this;
     }

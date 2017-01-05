@@ -241,7 +241,7 @@ public class LobbyMenu {
         
         if (clon != null) {
             u.getPlayer().closeInventory();
-            u.getPlayer().playSound(u.getPlayer().getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
+            u.getPlayer().playSound(u.getPlayer().getLocation(), Sound.CLICK, 1F, 1F);
             u.getPlayer().openInventory(clon);
         }
     }

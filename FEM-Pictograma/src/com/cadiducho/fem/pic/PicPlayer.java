@@ -4,13 +4,11 @@ import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
-import java.util.UUID;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.UUID;
 
 public class PicPlayer extends FEMUser {
 
@@ -71,36 +69,17 @@ public class PicPlayer extends FEMUser {
         getPlayer().setFlying(true);
         getPlayer().getInventory().clear();
         getPlayer().getInventory().setArmorContents(null);
-        getPlayer().getInventory().setItem(0, createTool("&ePincel"));
-        getPlayer().getInventory().setItem(1, createTool("&eBrocha"));
-        getPlayer().getInventory().setItem(2, createTool("&aEscoger color"));
-        getPlayer().getInventory().setItem(6, createTool("&eRellenar"));
-        getPlayer().getInventory().setItem(7, createTool("&eBorrador"));
-        getPlayer().getInventory().setItem(8, createTool("&eNueva hoja"));
+        getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.WOOD_SWORD, "&ePincel"));
+        getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.GOLD_SWORD, "&eBrocha"));
+        getPlayer().getInventory().setItem(2, ItemUtil.createItem(Material.COMPASS, "&aEscoger color"));
+        getPlayer().getInventory().setItem(6, ItemUtil.createItem(Material.LAVA_BUCKET, "&eRellenar"));
+        getPlayer().getInventory().setItem(7, ItemUtil.createItem(Material.IRON_SWORD, "&eBorrador"));
+        getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.EMPTY_MAP, "&eNueva hoja"));
         sendMessage("&eSelecciona la herramienta que quieras usar y pulsa click derecho para usarla.");
         plugin.getMsg().sendBroadcast(Metodos.colorizar("&e " + getName() + " &b es el artista esta ronda!"));
     }
 
     public void spawn() {
         getPlayer().teleport(plugin.getAm().getSpawn());
-    }
-    
-    private ItemStack createTool(String name) {
-        short dmg = 0;
-        switch (name) {
-            case "&ePincel": dmg = 4; break;
-            case "&eBrocha": dmg = 1; break;
-            case "&aEscoger color": dmg = 3; break;
-            case "&eRellenar": dmg = 2; break;
-            case "&eBorrador": dmg = 5; break;
-            case "&eNueva hoja": dmg = 6; break;
-        }
-        ItemStack is = new ItemStack(Material.SHIELD, 1, dmg);
-        ItemMeta meta = is.getItemMeta();
-        meta.setUnbreakable(true);
-        meta.setDisplayName(Metodos.colorizar(name));
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE);
-        is.setItemMeta(meta);
-        return is;
     }
 }

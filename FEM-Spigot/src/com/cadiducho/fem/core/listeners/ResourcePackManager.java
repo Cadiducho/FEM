@@ -28,7 +28,7 @@ public class ResourcePackManager implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onResourcePlayer(PlayerResourcePackStatusEvent e){
         Player p = e.getPlayer();
-        
+
         switch (e.getStatus()) {
             case DECLINED:
             case FAILED_DOWNLOAD:

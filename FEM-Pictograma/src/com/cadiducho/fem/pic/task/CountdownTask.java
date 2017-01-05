@@ -3,12 +3,13 @@ package com.cadiducho.fem.pic.task;
 import com.cadiducho.fem.pic.PicPlayer;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.manager.GameState;
-import java.util.ArrayList;
-import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CountdownTask extends BukkitRunnable {
 
@@ -37,7 +38,7 @@ public class CountdownTask extends BukkitRunnable {
         } else if (count == 0) {
             GameState.state = GameState.GAME;
             for (Player p : plugin.getGm().getPlayersInGame()) {
-                p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+                p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
                 Pictograma.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
                 
                 //Ajustar puntuaciones y scoreboard

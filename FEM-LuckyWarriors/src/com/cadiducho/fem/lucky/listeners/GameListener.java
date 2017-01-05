@@ -152,7 +152,7 @@ public class GameListener implements Listener {
                 
                 // Dar un nivel para poder encantar en la fase de crafteo algo
                 p.giveExpLevels(1);
-                p.playSound(loc, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
+                p.playSound(loc, Sound.ORB_PICKUP, 1f, 1f);
 
                 // Actualizar stats
                 final LuckyPlayer lp = LuckyWarriors.getPlayer(p);

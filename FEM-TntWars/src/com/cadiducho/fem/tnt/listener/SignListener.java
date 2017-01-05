@@ -3,8 +3,6 @@ package com.cadiducho.fem.tnt.listener;
 import com.cadiducho.fem.tnt.Generador;
 import com.cadiducho.fem.tnt.TntPlayer;
 import com.cadiducho.fem.tnt.TntWars;
-import java.util.ArrayList;
-import java.util.HashMap;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -19,6 +17,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SignListener implements Listener {
 
@@ -420,25 +421,25 @@ public class SignListener implements Listener {
                 p.closeInventory();
                 switch (e.getSlot()) {
                     case 0:
-                        p.openMerchant(plugin.getAm().getBuildingShop(), true);
+                        plugin.getAm().getBuildingShop().addCustomer(p);
                         break;
                     case 1:
-                        p.openMerchant(plugin.getAm().getWeaponsShop(), true);
+                        plugin.getAm().getWeaponsShop().addCustomer(p);
                         break;
                     case 2:
-                        p.openMerchant(plugin.getAm().getArmourShop(), true);
+                        plugin.getAm().getArmourShop().addCustomer(p);
                         break;
                     case 3:
-                        p.openMerchant(plugin.getAm().getFoodShop(), true);;
+                        plugin.getAm().getFoodShop().addCustomer(p);
                         break;
                     case 4:
-                        p.openMerchant(plugin.getAm().getToolsShop(), true);
+                        plugin.getAm().getToolsShop().addCustomer(p);
                         break;
                     case 5:
-                        p.openMerchant(plugin.getAm().getArcheryShop(), true);
+                        plugin.getAm().getArcheryShop().addCustomer(p);
                         break;
                     case 6:
-                        p.openMerchant(plugin.getAm().getMiscShop(), true);
+                        plugin.getAm().getMiscShop().addCustomer(p);
                         break;         
                 }
             }
@@ -448,7 +449,7 @@ public class SignListener implements Listener {
     private void updateGen(int level, Player p, Material moneda, int cantidad) {
         if (p.getInventory().contains(moneda, cantidad)) {
             p.getInventory().removeItem(new ItemStack[]{new ItemStack(moneda, cantidad)});
-            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 1);
+            p.getLocation().getWorld().playSound(p.getLocation(), Sound.ORB_PICKUP, 1, 1);
             p.closeInventory();
             
             final TntPlayer tp = TntWars.getPlayer(p);

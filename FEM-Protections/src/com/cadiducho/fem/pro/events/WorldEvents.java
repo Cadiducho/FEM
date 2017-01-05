@@ -52,7 +52,7 @@ public class WorldEvents implements Listener {
                 for (int x = 0; x < plugin.getFiles().getCurrentID("areas"); x++) {
                     ProArea area = new ProArea(x);
                     if (area.getCuboidRegion().contains(b)) {
-                        if (!area.getOwner().equals(player)) {
+                        if (!player.isOnRank(FEMCmd.Grupo.Moderador) && !area.getAreaOwners().equals(player) || !area.getAreaUsers().contains(player)) {
                             e.setCancelled(true);
                             player.getPlayer().sendMessage(ChatColor.RED + "No puedes poner bloques en una zona que no es tuya");
                             return;
@@ -61,9 +61,9 @@ public class WorldEvents implements Listener {
                 }
             }
             Arrays.asList(ProType.values()).forEach(t -> {
-                if (b.getState().getData().getData() == t.getData()) {
+                if (b.getType() == t.getMat()) {
                     if (checking.contains(player)) return;
-                    this.area = new ProArea(player.getPlayer().getLocation(), ProType.parseData(b.getData()), player);
+                    this.area = new ProArea(player.getPlayer().getLocation(), ProType.parseMaterial(b.getType()), player);
                     this.area.generateCuboidRegion();
                     if (this.area.hitOtherArena()) {
                         player.getPlayer().sendMessage(ChatColor.RED + "El nuevo arena esta chocando con otro area. Pon el bloque en otro lugar");
@@ -118,7 +118,7 @@ public class WorldEvents implements Listener {
             for (int x = 0; x < plugin.getFiles().getCurrentID("areas"); x++) {
                 ProArea area = new ProArea(x);
                 if (area.getCuboidRegion().contains(b)) {
-                    if (!player.isOnRank(FEMCmd.Grupo.Moderador) && !area.getOwner().equals(player)) {
+                    if (!player.isOnRank(FEMCmd.Grupo.Moderador) && !area.getAreaOwners().equals(player) || !area.getAreaUsers().contains(player)) {
                         e.setCancelled(true);
                         player.getPlayer().sendMessage(ChatColor.RED + "No puedes romper bloques en una zona que no es tuya");
                         return;

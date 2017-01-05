@@ -7,10 +7,6 @@ import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.task.GameTask;
 import com.cadiducho.fem.pic.task.LobbyTask;
 import com.cadiducho.fem.pic.task.ShutdownTask;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.DyeColor;
@@ -20,6 +16,11 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+import java.util.UUID;
 
 public class GameManager {
 
@@ -99,7 +100,7 @@ public class GameManager {
             score.keySet().forEach(p -> plugin.getMsg().sendBroadcast("&b" + p.getName() + ":&e " + score.get(p)));
             plugin.getMsg().sendBroadcast("&6Ganador: " + winner.getName());
             for (Player p : plugin.getGm().getPlayersInGame()) {
-                p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+                p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
                 new Title("&a" + winner.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner); 
             }
             
@@ -145,7 +146,7 @@ public class GameManager {
         }
         if (!hasFound.contains(player.getUniqueId())) {
             hasFound.add(player.getUniqueId());
-            score.keySet().forEach(p -> p.getWorld().playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1.0F, 1.0F));
+            score.keySet().forEach(p -> p.getWorld().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F));
             pp.getUserData().setPicAcertadas(pp.getUserData().getPicAcertadas() + 1);
             pp.save();
             

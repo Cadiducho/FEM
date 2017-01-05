@@ -14,42 +14,43 @@ import java.util.List;
 
 public enum ProType {
 
-    S(Protections.getInstance().getFiles().getConfig().getInt("Area.S"), (short) 0, "Protección Básica"),
-    M(Protections.getInstance().getFiles().getConfig().getInt("Area.M"), (short) 1, "Protección Media"),
-    L(Protections.getInstance().getFiles().getConfig().getInt("Area.L"), (short) 2, "Protección Grande"),
-    XL(Protections.getInstance().getFiles().getConfig().getInt("Area.XL"), (short) 3, "Protección Gigante");
+    //Vuelta por si acaso se cambia de versión...
+    S(Protections.getInstance().getFiles().getConfig().getInt("Area.S"), Material.COAL_ORE, "Protección Básica"),
+    M(Protections.getInstance().getFiles().getConfig().getInt("Area.M"), Material.IRON_ORE, "Protección Media"),
+    L(Protections.getInstance().getFiles().getConfig().getInt("Area.L"), Material.LAPIS_ORE, "Protección Grande"),
+    XL(Protections.getInstance().getFiles().getConfig().getInt("Area.XL"), Material.REDSTONE_ORE, "Protección Gigante"),
+    GRANJAS(Protections.getInstance().getFiles().getConfig().getInt("Area.Granjas"), Material.QUARTZ_ORE, "Protección Granjas");
 
     @Getter private int area;
-    @Getter private Material mat = Material.STRUCTURE_BLOCK;
-    @Getter private short data;
+    @Getter private Material mat;
     @Getter private String name;
 
     private static ProType type;
 
-    ProType(int area, short data, String name){
+    ProType(int area, Material mat, String name){
         this.area = area;
-        this.data = data;
         this.name = name;
     }
 
-    public static ProType parseData(short data){
+    public static ProType parseMaterial(Material m){
         Arrays.asList(ProType.values()).forEach(t -> {
-            if (t.getData() == data) type = t;
+            if (t.getMat() == m) type = t;
         });
         return type;
     }
 
     public static ItemStack generateItemStack(ProType pt){
-        return new ItemBuilder().setType(pt.getMat()).setDisplayName(pt.getName()).setAmount(1).setDurability(pt.getData()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
+        return new ItemBuilder().setType(pt.getMat()).setDisplayName(pt.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
     }
 
     public static List<ItemStack> getItems(){
         List<ItemStack> items = new ArrayList<>();
 
-        items.add(new ItemBuilder().setType(S.getMat()).setDisplayName(S.getName()).setAmount(1).setDurability(S.getData()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
-        items.add(new ItemBuilder().setType(M.getMat()).setDisplayName(M.getName()).setAmount(1).setDurability(M.getData()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
-        items.add(new ItemBuilder().setType(L.getMat()).setDisplayName(L.getName()).setAmount(1).setDurability(L.getData()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
-        items.add(new ItemBuilder().setType(XL.getMat()).setDisplayName(XL.getName()).setAmount(1).setDurability(XL.getData()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(S.getMat()).setDisplayName(S.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(M.getMat()).setDisplayName(M.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(L.getMat()).setDisplayName(L.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(XL.getMat()).setDisplayName(XL.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(GRANJAS.getMat()).setDisplayName(GRANJAS.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
 
         return items;
     }

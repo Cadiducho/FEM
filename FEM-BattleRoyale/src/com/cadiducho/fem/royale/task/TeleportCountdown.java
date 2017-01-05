@@ -4,9 +4,10 @@ import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
-import java.util.HashMap;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
 
 public class TeleportCountdown extends BukkitRunnable {
 
@@ -27,7 +28,7 @@ public class TeleportCountdown extends BukkitRunnable {
             });
         } else if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));
+            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
         } else if (count == 0) {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> {
                 plugin.getAm().fixPlayer(p.getLocation());

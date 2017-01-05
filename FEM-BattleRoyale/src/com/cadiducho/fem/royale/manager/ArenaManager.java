@@ -1,26 +1,25 @@
 package com.cadiducho.fem.royale.manager;
 
 import com.cadiducho.fem.core.util.ItemBuilder;
-import com.cadiducho.fem.core.util.MerchantBuilder;
 import com.cadiducho.fem.core.util.Metodos;
-import java.util.ArrayList;
-import java.util.Random;
+import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.utils.ChestItems;
-import java.util.Arrays;
 import lombok.Getter;
-import org.bukkit.Difficulty;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.WorldBorder;
+import me.cybermaxke.merchants.api.Merchant;
+import me.cybermaxke.merchants.api.MerchantAPI;
+import me.cybermaxke.merchants.api.MerchantOffer;
+import me.cybermaxke.merchants.api.Merchants;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.Merchant;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class ArenaManager {
 
@@ -54,7 +53,7 @@ public class ArenaManager {
     Location areaBorder2;
     public int gameTime;
     public int deathMatchTime;
-    
+
     @Getter private Merchant vendo;
     @Getter private Merchant compro;
     
@@ -193,8 +192,10 @@ public class ArenaManager {
     }
     
     private void setupVillagersTrades() {
-        compro = plugin.getServer().createMerchant(Metodos.colorizar("&a¡Compro!"));
-        vendo = plugin.getServer().createMerchant(Metodos.colorizar("&a¡Vendo!"));
+        MerchantAPI api = Merchants.get();
+
+        compro = api.newMerchant(Metodos.colorizar("&a¡Compro!"));
+        vendo = api.newMerchant(Metodos.colorizar("&a¡Vendo!"));
         
         ItemStack moneda2 = plugin.getMoneda().clone();
         moneda2.setAmount(2);
@@ -217,38 +218,32 @@ public class ArenaManager {
         ItemStack moneda30 = plugin.getMoneda().clone();
         moneda30.setAmount(30);
 
-        compro.setRecipes(Arrays.asList(new MerchantBuilder(plugin.getMoneda()).addIngredient(new ItemStack(Material.WOOD_SWORD, 1)).build(), 
-                new MerchantBuilder(plugin.getMoneda()).addIngredient(new ItemStack(Material.WOOD_AXE, 1)).build(),
-                new MerchantBuilder(moneda2).addIngredient(new ItemStack(Material.STONE_SWORD, 1)).build(),
-                new MerchantBuilder(moneda2).addIngredient(new ItemStack(Material.STONE_AXE, 1)).build(),
-                new MerchantBuilder(moneda2).addIngredient(new ItemStack(Material.ARROW, 5)).build(),
-                new MerchantBuilder(moneda2).addIngredient(new ItemStack(Material.BOW, 1)).build(),
-                new MerchantBuilder(moneda3).addIngredient(new ItemStack(Material.CHAINMAIL_BOOTS, 1)).build(),
-                new MerchantBuilder(moneda3).addIngredient(new ItemStack(Material.CHAINMAIL_HELMET, 1)).build(),
-                new MerchantBuilder(moneda4).addIngredient(new ItemStack(Material.IRON_SWORD, 1)).build(),
-                new MerchantBuilder(moneda4).addIngredient(new ItemStack(Material.IRON_AXE, 1)).build(),
-                new MerchantBuilder(moneda5).addIngredient(new ItemStack(Material.ELYTRA, 1)).build(),
-                new MerchantBuilder(moneda8).addIngredient(new ItemStack(Material.DIAMOND_BLOCK, 1)).build(),
-                new MerchantBuilder(moneda10).addIngredient(new ItemStack(Material.GOLDEN_APPLE, 1)).build()
-        ));
-        
-        vendo.setRecipes(Arrays.asList(new MerchantBuilder(new ItemBuilder().setType(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1, true).build()).addIngredient(moneda15).build(),
-                new MerchantBuilder(new ItemBuilder().setType(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1, true).build()).addIngredient(moneda15).build(),
-                new MerchantBuilder(new ItemBuilder().setType(Material.DIAMOND_SWORD).build()).addIngredient(moneda20).build(),
-                new MerchantBuilder(new ItemBuilder().setType(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1, true).addEnchant(Enchantment.ARROW_INFINITE, 1, true).addEnchant(Enchantment.ARROW_FIRE, 1, true).build()).addIngredient(moneda25).build(),
-                new MerchantBuilder(new ItemBuilder().setType(Material.GOLDEN_APPLE).build()).addIngredient(moneda25).build(),
-                new MerchantBuilder(new ItemBuilder().setType(Material.IRON_SWORD).addEnchant(Enchantment.FIRE_ASPECT, 2, true).build()).addIngredient(moneda25).build(),
-                new MerchantBuilder(new ItemBuilder().setType(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build()).addIngredient(moneda25).build(),
-                new MerchantBuilder(new ItemBuilder().setType(Material.IRON_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build()).addIngredient(moneda25).build(),
-                new MerchantBuilder(new ItemBuilder().setType(Material.IRON_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build()).addIngredient(moneda25).build(),
-                new MerchantBuilder(new ItemBuilder().setType(Material.IRON_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build()).addIngredient(moneda25).build(),
-                new MerchantBuilder(new ItemBuilder().setType(Material.DIAMOND_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 2, true).addEnchant(Enchantment.KNOCKBACK, 1, true).build()).addIngredient(moneda25).build(),
-                new MerchantBuilder(new ItemBuilder().setType(Material.DIAMOND_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build()).addIngredient(moneda25).build(),
-                new MerchantBuilder(new ItemBuilder().setType(Material.DIAMOND_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build()).addIngredient(moneda30).build()
-        ));
-        
-        //Desactivado hasta encontrar MerchantListener
-        /*
+        compro.addOffer(api.newOffer(plugin.getMoneda(), new ItemStack(Material.WOOD_SWORD, 1)));
+        compro.addOffer(api.newOffer(plugin.getMoneda(), new ItemStack(Material.WOOD_AXE, 1)));
+        compro.addOffer(api.newOffer(moneda2, new ItemStack(Material.STONE_SWORD, 1)));
+        compro.addOffer(api.newOffer(moneda2, new ItemStack(Material.STONE_AXE, 1)));
+        compro.addOffer(api.newOffer(moneda2, new ItemStack(Material.ARROW, 5)));
+        compro.addOffer(api.newOffer(moneda2, new ItemStack(Material.BOW, 1)));
+        compro.addOffer(api.newOffer(moneda3, new ItemStack(Material.CHAINMAIL_BOOTS, 1)));
+        compro.addOffer(api.newOffer(moneda3, new ItemStack(Material.CHAINMAIL_HELMET, 1)));
+        compro.addOffer(api.newOffer(moneda4, new ItemStack(Material.IRON_SWORD, 1)));
+        compro.addOffer(api.newOffer(moneda8, new ItemStack(Material.DIAMOND_BLOCK, 1)));
+        compro.addOffer(api.newOffer(moneda10, new ItemStack(Material.GOLDEN_APPLE, 1)));
+
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1, true).build(), moneda15));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.IRON_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 1, true).build(), moneda15));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.DIAMOND_SWORD).build(), moneda20));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.BOW).addEnchant(Enchantment.ARROW_DAMAGE, 1, true).addEnchant(Enchantment.ARROW_INFINITE, 1, true).addEnchant(Enchantment.ARROW_FIRE, 1, true).build(), moneda25));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.GOLDEN_APPLE).build(), moneda25));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.IRON_SWORD).addEnchant(Enchantment.FIRE_ASPECT, 2, true).build(), moneda25));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build(), moneda25));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.IRON_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build(), moneda25));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.IRON_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build(), moneda25));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.IRON_BOOTS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 2, true).build(), moneda25));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.DIAMOND_SWORD).addEnchant(Enchantment.DAMAGE_ALL, 2, true).addEnchant(Enchantment.KNOCKBACK, 1, true).build(), moneda30));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.DIAMOND_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build(), moneda30));
+        vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.DIAMOND_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build(), moneda30));
+
         vendo.addListener((Merchant merchant, MerchantOffer offer, Player customer) -> {
             final BattlePlayer bp = BattleRoyale.getPlayer(customer);
             bp.getUserData().setBrIntercambios(bp.getUserData().getBrIntercambios() + 1);
@@ -256,6 +251,6 @@ public class ArenaManager {
         compro.addListener((Merchant merchant, MerchantOffer offer, Player customer) -> {
             final BattlePlayer bp = BattleRoyale.getPlayer(customer);
             bp.getUserData().setBrIntercambios(bp.getUserData().getBrIntercambios() + 1);
-        });*/
+        });
     }
 }

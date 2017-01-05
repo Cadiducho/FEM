@@ -94,7 +94,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
             e.getItem().remove();
             u.getUserData().setCoins(u.getUserData().getCoins() + 1);
             u.save();
-            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1F, 1F);
+            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.LEVEL_UP, 1F, 1F);
             u.sendMessage("Has obtenido un punto del suelo");
         }
     }
@@ -192,7 +192,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         u.getUserData().setFriendRequest(!u.getUserData().getFriendRequest());
                         u.save();
                         LobbyMenu.openMenu(u, LobbyMenu.Menu.AJUSTES);
-                        u.getPlayer().playSound(u.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
+                        u.getPlayer().playSound(u.getPlayer().getLocation(), Sound.ORB_PICKUP, 1F, 1F);
                         u.sendMessage("&eAjuste cambiado");
                         break;
                     case 4:
@@ -200,7 +200,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         u.getUserData().setEnableTell(!u.getUserData().getEnableTell());
                         u.save();
                         LobbyMenu.openMenu(u, LobbyMenu.Menu.AJUSTES);
-                        u.getPlayer().playSound(u.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
+                        u.getPlayer().playSound(u.getPlayer().getLocation(), Sound.ORB_PICKUP, 1F, 1F);
                         
                         //Mandar a bungee la lista actualizada
                         ByteArrayDataOutput out = ByteStreams.newDataOutput(); 
@@ -216,7 +216,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         u.save();
                         u.tryHidePlayers();
                         LobbyMenu.openMenu(u, LobbyMenu.Menu.AJUSTES);
-                        u.getPlayer().playSound(u.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
+                        u.getPlayer().playSound(u.getPlayer().getLocation(), Sound.ORB_PICKUP, 1F, 1F);
                         u.sendMessage("&eAjuste cambiado");
                         break;
                 }
@@ -288,7 +288,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         LobbyMenu.openMenu(u, LobbyMenu.Menu.STATS);
                         break;
                 }
-                p.playSound(u.getPlayer().getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
+                p.playSound(u.getPlayer().getLocation(), Sound.CLICK, 1F, 1F);
                 break;
             case "&3NVIDIA &0Point":
                 e.setCancelled(true);

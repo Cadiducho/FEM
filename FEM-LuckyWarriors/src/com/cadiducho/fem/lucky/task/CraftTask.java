@@ -3,9 +3,10 @@ package com.cadiducho.fem.lucky.task;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import com.cadiducho.fem.lucky.manager.GameState;
-import java.util.Random;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Random;
 
 public class CraftTask extends BukkitRunnable {
 
@@ -31,7 +32,7 @@ public class CraftTask extends BukkitRunnable {
             });
             plugin.getMsg().sendBroadcast("&7Tienes " + plugin.getAm().craftTime + " segundos para mejorar tu equipo!");
         } else if (plugin.getAm().luckyTime > 0 && plugin.getAm().luckyTime <= 4) {
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));     
+            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
         } else if (plugin.getAm().craftTime == 0) {
             plugin.getGm().dm = true;
             new GameTask(plugin).runTaskTimer(plugin, 20l, 20l);

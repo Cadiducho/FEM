@@ -1,14 +1,15 @@
 package com.cadiducho.fem.color.task;
 
-import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.color.DyeOrDie;
 import com.cadiducho.fem.color.DyePlayer;
 import com.cadiducho.fem.color.manager.GameState;
-import java.util.HashMap;
+import com.cadiducho.fem.core.util.Title;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
 
 public class LobbyTask extends BukkitRunnable {
 
@@ -37,11 +38,11 @@ public class LobbyTask extends BukkitRunnable {
             plugin.getGm().getPlayersInGame().forEach(p -> DyeOrDie.getPlayer(p).spawn());       
         } else if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 1F));
+            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
         } else if (count == 0) {
             GameState.state = GameState.GAME;
             for (Player p : plugin.getGm().getPlayersInGame()) {
-                p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1F, 1F);
+                p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
                 DyeOrDie.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
                 new Title("&b&l¡Comienza a correr!", "", 1, 2, 1).send(p);
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());

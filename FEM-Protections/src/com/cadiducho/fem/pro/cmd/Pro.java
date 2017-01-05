@@ -32,7 +32,7 @@ public class Pro extends FEMCmd{
                 int id = Integer.parseInt(args[1]);
                 ProArea area = new ProArea(id);
 
-                if (area.exist() && area.getOwner().equals(new ProPlayer(user.getUuid()))){
+                if (area.exist() && area.getAreaOwners().contains(new ProPlayer(user.getUuid()))){
                     area.removeArena(Material.AIR);
                 }
             }

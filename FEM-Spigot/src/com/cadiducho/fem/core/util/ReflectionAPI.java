@@ -1,13 +1,13 @@
 package com.cadiducho.fem.core.util;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 
 public class ReflectionAPI {
     private static HashMap<Class<? extends Entity>, Method> handles = new HashMap<Class<? extends Entity>, Method>();
@@ -43,38 +43,72 @@ public class ReflectionAPI {
         return null;
     }
 
-    public static Object getHandle(Entity entity){
+    public static Field getField(Class<?> cl, String field_name) {
         try {
-            if (handles.get(entity.getClass()) != null)
-                return handles.get(entity.getClass()).invoke(entity);
-            else {
-                Method entity_getHandle = entity.getClass().getMethod("getHandle");
-                handles.put(entity.getClass(), entity_getHandle);
-                return entity_getHandle.invoke(entity);
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            return cl.getDeclaredField(field_name);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
 
-    public static void sendPacket(Player p, Object packet) throws IllegalArgumentException{
+    public static Object getHandle(Entity entity) {
         try {
-            if (player_connection == null) {
-                player_connection = ReflectionAPI.getHandle(p).getClass().getField("playerConnection");
-                for (Method m : player_connection.get(ReflectionAPI.getHandle(p)).getClass().getMethods()) {
-                    if (m.getName().equalsIgnoreCase("sendPacket")) {
-                        player_sendPacket = m;
-                    }
-                }
+            return getMethod(entity.getClass(), "getHandle").invoke(entity);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Object getHandle(World world) {
+        try {
+            return getMethod(world.getClass(), "getHandle").invoke(world);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Method getMethod(Class<?> cl, String method, Class<?>... args) {
+        for (Method m : cl.getMethods())
+            if (m.getName().equals(method) && ClassListEqual(args, m.getParameterTypes()))
+                return m;
+        return null;
+    }
+
+    public static Method getMethod(Class<?> cl, String method) {
+        for (Method m : cl.getMethods())
+            if (m.getName().equals(method))
+                return m;
+        return null;
+    }
+
+    public static boolean ClassListEqual(Class<?>[] l1, Class<?>[] l2) {
+        boolean equal = true;
+        if (l1.length != l2.length)
+            return false;
+        for (int i = 0; i < l1.length; i++)
+            if (l1[i] != l2[i]) {
+                equal = false;
+                break;
             }
-            player_sendPacket.invoke(player_connection.get(ReflectionAPI.getHandle(p)), packet);
-        } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
-        } catch (InvocationTargetException ex) {
-            ex.printStackTrace();
-        } catch (NoSuchFieldException ex) {
-            ex.printStackTrace();
+        return equal;
+    }
+
+    public static void sendPacket(Player player, Object packet) {
+        try {
+            Object nmsPlayer = getHandle(player);
+            Field connectionField = nmsPlayer.getClass().getField("playerConnection");
+            Object connection = connectionField.get(nmsPlayer);
+            Method sendPacket = getMethod(connection.getClass(), "sendPacket");
+            sendPacket.invoke(connection, packet);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

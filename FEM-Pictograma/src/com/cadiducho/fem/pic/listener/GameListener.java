@@ -26,66 +26,80 @@ public class GameListener implements Listener {
     private final Pictograma plugin;
     private Location oldBrushLoc = null;
 
-    public GameListener(Pictograma instance) {
+    public GameListener(Pictograma instance){
         plugin = instance;
     }
 
     //EventTick para las brochas (todos sus tipos) y la goma. PlayerInteractEvent para abrir el menu, limpiar hoja o el cubo
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerPaint(EventTick event) {
-        if (!plugin.getGm().isInGame()) return;
-        if (plugin.getGm().builder == null) return;  
-        if (event.getType() != TickType.TICK)return;
-        
+    public void onPlayerPaint(EventTick event){
+        if(!plugin.getGm().isInGame()){
+            return;
+        }
+        if(plugin.getGm().builder == null){
+            return;
+        }
+        if(event.getType() != TickType.TICK){
+            return;
+        }
+
         Player p = plugin.getGm().builder;
-        if (p.isBlocking()) { 
-            if (null != p.getInventory().getItemInMainHand().getType() || p.getInventory().getItemInMainHand().getType() == Material.SHIELD) {
-                
-                //Está intentando pintar o algo de Pictograma 
-                switch (p.getInventory().getItemInMainHand().getDurability()) { //Durabilidad en el texturepack
-                    case 1: // Brush - Brocha
-                        setBrochaBlock(p.getTargetBlock((Set<Material>) null, 100));
-                        break;
-                    case 2: // Bucket - Rellenar area
-                        Block b = p.getTargetBlock((Set<Material>) null, 100);
-                        if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
-                            return;
-                        }
-                        fillArea(b, b.getData(), true); //Rellenar bloques desde b que mantengan su color
-                        break;
-                    case 3: // Pallet - Escoger color
-                        p.openInventory(plugin.colorPicker);
-                        break;
-                    case 4: // Pen - Pincel
+        if(p.isBlocking()){ //Está intentando pintar
+            if(null != p.getInventory().getItemInHand().getType()){
+                switch(p.getInventory().getItemInHand().getType()){
+                    case WOOD_SWORD: //Pincel
                         setPincelBlock(p.getTargetBlock((Set<Material>) null, 100));
                         break;
-                    case 5: //Borrador
+                    case IRON_SWORD: //Borrador
                         eraseBlock(p.getTargetBlock((Set<Material>) null, 100));
                         break;
-                    case 6: // Sheet - Limpiar folio
-                        plugin.getAm().getBuildZone().clear();
-                        plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
-                        Pictograma.getPlayer(p).sendMessage("&eHas limpiado la hoja completamente");
+                    case GOLD_SWORD: //Brocha
+                        setBrochaBlock(p.getTargetBlock((Set<Material>) null, 100));
+                        break;
+                    default:
                         break;
                 }
             }
-        } else {
+        }else{
             oldBrushLoc = null; //Eliminar posición anterior para fluided, si ya ha pasado el tick
         }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onPlayerInteract(PlayerInteractEvent e) {
-        //Clickar sobre el color y escogerlo
-        if ((e.getAction() == Action.LEFT_CLICK_AIR) || (e.getAction() == Action.LEFT_CLICK_BLOCK)) {
-            if (plugin.getGm().builder != null && plugin.getGm().builder.getUniqueId() != null) {
-                if (e.getPlayer().getUniqueId() == plugin.getGm().builder.getUniqueId()) {
+    public void onPlayerInteract(PlayerInteractEvent e){
+        if((e.getAction() == Action.RIGHT_CLICK_AIR) || (e.getAction() == Action.RIGHT_CLICK_BLOCK)){
+            switch(e.getPlayer().getInventory().getItemInHand().getType()){
+                case COMPASS: //Escoger color
+                    e.setCancelled(true);
+                    e.getPlayer().openInventory(plugin.colorPicker);
+                    break;
+                case EMPTY_MAP: //Limpiar folio
+                    e.setCancelled(true);
+                    plugin.getAm().getBuildZone().clear();
+                    plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
+                    Pictograma.getPlayer(e.getPlayer()).sendMessage("&eHas limpiado la hoja completamente");
+                    break;
+                case LAVA_BUCKET: //Rellenar area
+                    e.setCancelled(true);
                     Block b = e.getPlayer().getTargetBlock((Set<Material>) null, 100);
-                    if (b.getType() == Material.WOOL) {
+                    if(b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)){
+                        return;
+                    }
+                    fillArea(b, b.getData(), true); //Rellenar bloques desde b que mantengan su color
+                    break;
+            }
+        }
+
+        //Clickar sobre el color y escogerlo
+        if((e.getAction() == Action.LEFT_CLICK_AIR) || (e.getAction() == Action.LEFT_CLICK_BLOCK)){
+            if(plugin.getGm().builder != null && plugin.getGm().builder.getUniqueId() != null){
+                if(e.getPlayer().getUniqueId() == plugin.getGm().builder.getUniqueId()){
+                    Block b = e.getPlayer().getTargetBlock((Set<Material>) null, 100);
+                    if(b.getType() == Material.WOOL){
                         Wool wool = (Wool) b.getState().getData();
-                        if (!plugin.getAm().getBuildZone().contains(b)) {
+                        if(!plugin.getAm().getBuildZone().contains(b)){
                             setPencilColor(wool.getColor());
-                            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                         }
                     }
                 }
@@ -93,101 +107,105 @@ public class GameListener implements Listener {
         }
     }
 
-    private void setPincelBlock(Block b) {
-        if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
+    private void setPincelBlock(Block b){
+        if(b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)){
             return;
         }
-        b.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getWoolData(), true);
-        if (oldBrushLoc != null) {
-            while (MathUtil.offset(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)) > 0.5D) {
+        b.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+        if(oldBrushLoc != null){
+            while(MathUtil.offset(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)) > 0.5D){
                 oldBrushLoc.add(MathUtil.getTraj(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)).multiply(0.5D));
 
                 Block fixBlock = oldBrushLoc.getBlock();
-                if (plugin.getAm().getBuildZone().contains(fixBlock)) {
-                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getWoolData(), true);
+                if(plugin.getAm().getBuildZone().contains(fixBlock)){
+                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
                 }
             }
         }
         oldBrushLoc = b.getLocation().add(0.5D, 0.5D, 0.5D);
     }
 
-    private void setBrochaBlock(Block b) {
+    private void setBrochaBlock(Block b){
         Block b2 = b.getLocation().clone().add(0.0, 1.0, 0.0).getBlock();
         Block b3 = b.getLocation().clone().add(0.0, -1.0, 0.0).getBlock();
         Block b4 = b.getLocation().clone().add(0.0, 0.0, 1.0).getBlock();
         Block b5 = b.getLocation().clone().add(0.0, 0.0, -1.0).getBlock();
-        if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
+        if(b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)){
             return;
         }
 
-        b.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getWoolData(), true);
-        b2.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getWoolData(), true);
-        b3.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getWoolData(), true);
-        b4.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getWoolData(), true);
-        b5.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getWoolData(), true);
+        b.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+        b2.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+        b3.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+        b4.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+        b5.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
 
-        if (oldBrushLoc != null) {
-            while (MathUtil.offset(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)) > 0.5D) {
+        if(oldBrushLoc != null){
+            while(MathUtil.offset(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)) > 0.5D){
                 oldBrushLoc.add(MathUtil.getTraj(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)).multiply(0.5D));
 
                 Block fixBlock = oldBrushLoc.getBlock();
-                if (plugin.getAm().getBuildZone().contains(fixBlock)) {
+                if(plugin.getAm().getBuildZone().contains(fixBlock)){
                     Block bo2 = fixBlock.getLocation().clone().add(0.0, 1.0, 0.0).getBlock();
                     Block bo3 = fixBlock.getLocation().clone().add(0.0, -1.0, 0.0).getBlock();
                     Block bo4 = fixBlock.getLocation().clone().add(0.0, 0.0, 1.0).getBlock();
                     Block bo5 = fixBlock.getLocation().clone().add(0.0, 0.0, -1.0).getBlock();
 
-                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getWoolData(), true);
-                    bo2.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getWoolData(), true);
-                    bo3.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getWoolData(), true);
-                    bo4.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getWoolData(), true);
-                    bo5.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getWoolData(), true);
+                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                    bo2.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                    bo3.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                    bo4.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
+                    bo5.setTypeIdAndData(Material.WOOL.getId(), plugin.getGm().color.getData(), true);
                 }
             }
         }
         oldBrushLoc = b.getLocation().add(0.5D, 0.5D, 0.5D);
     }
 
-    private void eraseBlock(Block b) {
-        if (b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) {
+    private void eraseBlock(Block b){
+        if(b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)){
             return;
         }
-        b.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getWoolData(), true);
-        if (oldBrushLoc != null) {
-            while (MathUtil.offset(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)) > 0.5D) {
+        b.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getData(), true);
+        if(oldBrushLoc != null){
+            while(MathUtil.offset(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)) > 0.5D){
                 oldBrushLoc.add(MathUtil.getTraj(oldBrushLoc, b.getLocation().add(0.5D, 0.5D, 0.5D)).multiply(0.5D));
 
                 Block fixBlock = oldBrushLoc.getBlock();
-                if (plugin.getAm().getBuildZone().contains(fixBlock)) {
-                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getWoolData(), true);
+                if(plugin.getAm().getBuildZone().contains(fixBlock)){
+                    fixBlock.setTypeIdAndData(Material.WOOL.getId(), DyeColor.WHITE.getData(), true);
                 }
             }
         }
         oldBrushLoc = b.getLocation().add(0.5D, 0.5D, 0.5D);
     }
 
-    public void fillArea(Block block, byte color, boolean first) {
-        if (block.getData() != color) return;
-        if (!plugin.getAm().getBuildZone().contains(block)) return;
+    public void fillArea(Block block, byte color, boolean first){
+        if(block.getData() != color){
+            return;
+        }
+        if(!plugin.getAm().getBuildZone().contains(block)){
+            return;
+        }
 
         //Pintar todos los bloques de un area del color elegido
-        block.setData(plugin.getGm().color.getWoolData());
+        block.setData(plugin.getGm().color.getData());
 
-        try {
+        try{
             getSurroundingBlocks(block).forEach(other -> fillArea(other, color, false));
             // TODO: Crear otro método
-        } catch (StackOverflowError e) {
+        }catch(StackOverflowError e){
             //De momento nada
         }
 
         //Escuchar el cubo solo la primera vez
-        if (first) {
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.ENTITY_SLIME_SQUISH, 0.4F, 1.0F));
+        if(first){
+            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.SPLASH, 0.4F, 1.0F));
         }
     }
 
     //ToDo: Usar este metodo con todos los tipos de pincel
-    public static ArrayList<Block> getSurroundingBlocks(Block block) {
+    public static ArrayList<Block> getSurroundingBlocks(Block block){
         ArrayList<Block> blocks = new ArrayList();
 
         Arrays.asList(BlockFace.values()).forEach(bf -> blocks.add(block.getRelative(bf)));
@@ -196,8 +214,8 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChat(PlayerChatEvent e) {
-        if (plugin.getGm().isInGame()) {
+    public void onPlayerChat(PlayerChatEvent e){
+        if(plugin.getGm().isInGame()){
             String word = plugin.getGm().word.toLowerCase();
             String intento = e.getMessage().toLowerCase();
 
@@ -224,92 +242,93 @@ public class GameListener implements Listener {
             word.replaceAll("ò", "o");
             word.replaceAll("ù", "u");
 
-            if (plugin.getGm().builder != null && (plugin.getGm().builder.getUniqueId() == e.getPlayer().getUniqueId())) {
+            if(plugin.getGm().builder != null && (plugin.getGm().builder.getUniqueId() == e.getPlayer().getUniqueId())){
                 Pictograma.getPlayer(e.getPlayer()).sendMessage("&c¡No puedes chivar la palabra, ni intentarlo!");
                 e.setCancelled(true);
-            } else if (plugin.getGm().getHasFound().contains(e.getPlayer().getUniqueId())) {
-                Pictograma.getPlayer(e.getPlayer()).sendMessage("&aYa has encontrado la palabra y no puedes dar pistas a otros");
-                e.setCancelled(true);
-            } else {
-                if (intento.equals(word)) {
+            }else{
+                if(plugin.getGm().getHasFound().contains(e.getPlayer().getUniqueId())){
+                    Pictograma.getPlayer(e.getPlayer()).sendMessage("&aYa has encontrado la palabra y no puedes dar pistas a otros");
+                    e.setCancelled(true);
+                }else
+                if(intento.equals(word)){
                     plugin.getGm().wordFoundBy(e.getPlayer());
                     e.setCancelled(true);
                 }
             }
         }
-        if (e.getPlayer().getGameMode().equals(GameMode.SPECTATOR)) {
+        if(e.getPlayer().getGameMode().equals(GameMode.SPECTATOR)){
             e.setCancelled(true);
         }
         e.setFormat(ChatColor.GREEN + e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + ChatColor.GRAY + e.getMessage());
     }
 
     @EventHandler
-    public void onInvClick(InventoryClickEvent event) {
+    public void onInvClick(InventoryClickEvent event){
         Player p = (Player) event.getWhoClicked();
-        if (event.getInventory().getName().equals(plugin.colorPicker.getTitle())) {
-            if ((event.getCurrentItem() == null) || (event.getCurrentItem().getType() == Material.AIR)) {
+        if(event.getInventory().getName().equals(plugin.colorPicker.getTitle())){
+            if((event.getCurrentItem() == null) || (event.getCurrentItem().getType() == Material.AIR)){
                 return;
             }
-            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Blanco")) {
+            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Blanco")){
                 setPencilColor(DyeColor.WHITE);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
-            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Negro")) {
+            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Negro")){
                 setPencilColor(DyeColor.BLACK);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
-            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Rojo")) {
+            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Rojo")){
                 setPencilColor(DyeColor.RED);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
-            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Naranja")) {
+            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Naranja")){
                 setPencilColor(DyeColor.ORANGE);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
-            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Amarillo")) {
+            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Amarillo")){
                 setPencilColor(DyeColor.YELLOW);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
-            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Verde")) {
+            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Verde")){
                 setPencilColor(DyeColor.LIME);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
-            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Azul")) {
+            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Azul")){
                 setPencilColor(DyeColor.LIGHT_BLUE);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
-            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Morado")) {
+            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Morado")){
                 setPencilColor(DyeColor.PURPLE);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
                 return;
             }
-            if (event.getCurrentItem().getItemMeta().getDisplayName().contains("Marron")) {
+            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Marron")){
                 setPencilColor(DyeColor.BROWN);
-                p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F, 1.0F);
+                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                 p.closeInventory();
             }
-        } else {
+        }else{
             event.setCancelled(true);
         }
         p.closeInventory();
     }
 
-    public void setPencilColor(DyeColor color) {
+    public void setPencilColor(DyeColor color){
         plugin.getGm().color = color;
     }
 }

@@ -1,10 +1,8 @@
 package com.cadiducho.fem.gem.manager;
 
-import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.GemPlayer;
-import java.util.ArrayList;
-import java.util.HashMap;
 import lombok.Getter;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -12,6 +10,9 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TeamManager {
 
@@ -84,8 +85,8 @@ public class TeamManager {
             hGemas.remove(oppositeTeam);
             hGemas.put(oppositeTeam, array);
             plugin.getMsg().sendBroadcast(p.getName() + " ha roto una gema del equipo " + oppositeTeam.getDisplayName());
-            jugadores.get(getTeam(p.getPlayer())).forEach(ally -> ally.playSound(ally.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F));
-            jugadores.get(oppositeTeam).forEach(ally -> ally.playSound(ally.getLocation(), Sound.ENTITY_LIGHTNING_THUNDER, 1F, 1F));
+            jugadores.get(getTeam(p.getPlayer())).forEach(ally -> ally.playSound(ally.getLocation(), Sound.ORB_PICKUP, 1F, 1F));
+            jugadores.get(oppositeTeam).forEach(ally -> ally.playSound(ally.getLocation(), Sound.AMBIENCE_THUNDER, 1F, 1F));
             
             final GemPlayer gp = GemHunters.getPlayer(p);
             gp.getUserData().setGemDestroyed(gp.getUserData().getGemDestroyed() + 1);

@@ -24,7 +24,7 @@ public enum ParticleType {
     //POLYGON
     P7(7, ItemUtil.createItem(Material.ENCHANTMENT_TABLE, "Magia Arcana"), ParticleEffect.ENCHANTMENT_TABLE, ParticleID.POLYGON, 5),
     //WINGS
-    P8(8, ItemUtil.createItem(Material.ELYTRA, "Alas"), ParticleEffect.REDSTONE, ParticleID.WINGS, new ParticleEffect.OrdinaryColor(6, 200, 100));
+    P8(8, ItemUtil.createItem(Material.FEATHER, "Alas"), ParticleEffect.REDSTONE, ParticleID.WINGS, new ParticleEffect.OrdinaryColor(6, 200, 100));
 
 
     @Getter private int id;

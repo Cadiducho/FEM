@@ -11,7 +11,7 @@ public class RepairCMD extends FEMCmd {
 
     @Override
     public void run(FEMUser user, String lbl, String[] args) {
-        user.getPlayer().getInventory().getItemInMainHand().setDurability((short) 0);
+        user.getPlayer().getInventory().getItemInHand().setDurability((short) 0);
         user.sendMessage("*repair.mensaje");
     }
 
