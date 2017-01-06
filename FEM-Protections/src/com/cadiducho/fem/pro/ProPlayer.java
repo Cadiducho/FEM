@@ -12,7 +12,7 @@ public class ProPlayer extends FEMUser{
         super(id);
     }
 
-    public void teleportArea(){
-        getPlayer().teleport(new ProArea(this).getLocation());
+    public void teleportArea(int id){
+        getPlayer().teleport(new ProArea(id).getLocation());
     }
 }

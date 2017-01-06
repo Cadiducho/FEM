@@ -49,10 +49,11 @@ public class ProArea {
         this.id = pro.getFiles().getID("areas"); //Siguiente ID
         pro.getFiles().getAreas().set("area_" + id + ".block", Metodos.locationToStringNormal(location));
         pro.getFiles().getAreas().set("area_" + id + ".loc", cuboidRegion.toString());
-        pro.getFiles().getBlocks().set("area_" + id + ".admins", Arrays.asList(proPlayer.getUuid()));
-        pro.getFiles().getBlocks().set("area_" + id + ".users", Arrays.asList(""));
+        pro.getFiles().getAreas().set("area_" + id + ".dueño", proPlayer.getUuid());
+        pro.getFiles().getAreas().set("area_" + id + ".admins", Arrays.asList(proPlayer.getUuid()));
+        pro.getFiles().getAreas().set("area_" + id + ".users", Arrays.asList(""));
         pro.getFiles().getAreas().set("area_" + id + ".tipo", proType.toString());
-        setDefaultSettings();
+        setDefaultFlags();
         pro.getFiles().saveFiles();
 
         setBorderMaterial(m);
@@ -83,7 +84,7 @@ public class ProArea {
     public List<ProPlayer> getAreaUsers(){
         List<ProPlayer> players = new ArrayList<>();
 
-        pro.getFiles().getBlocks().getStringList("area_" + id + ".users").forEach(ad -> players.add(new ProPlayer(UUID.fromString(ad))));
+        pro.getFiles().getAreas().getStringList("area_" + id + ".users").forEach(ad -> players.add(new ProPlayer(UUID.fromString(ad))));
 
         return players;
     }
@@ -91,9 +92,13 @@ public class ProArea {
     public List<ProPlayer> getAreaOwners(){
         List<ProPlayer> players = new ArrayList<>();
 
-        pro.getFiles().getBlocks().getStringList("area_" + id + ".admins").forEach(ad -> players.add(new ProPlayer(UUID.fromString(ad))));
+        pro.getFiles().getAreas().getStringList("area_" + id + ".admins").forEach(ad -> players.add(new ProPlayer(UUID.fromString(ad))));
 
         return players;
+    }
+
+    public ProPlayer getDueño(){
+        return new ProPlayer(UUID.fromString(pro.getFiles().getAreas().getString("area_" + id + ".dueño")));
     }
 
     public ProType getProType(){
@@ -180,7 +185,7 @@ public class ProArea {
         List<Integer> areas = new ArrayList<>();
 
         getAllAreas().forEach(a ->{
-            if (a.getAreaOwners().equals(player)){
+            if (a.getDueño().equals(player)){
                 areas.add(a.getId());
             }
         });
@@ -188,29 +193,29 @@ public class ProArea {
     }
 
     //Area Settings
-    public HashMap<String, Boolean> getAllSettings(){
+    public HashMap<String, Boolean> getAllFlags(){
         HashMap<String, Boolean> settings = new HashMap<>();
 
-        pro.getFiles().getAreas().getStringList("area_" + id + "settings").forEach(s -> settings.put(s, pro.getFiles().getAreas().getBoolean("area_" + id + "settings." + s)));
+        pro.getFiles().getAreas().getStringList("area_" + id + "flags").forEach(s -> settings.put(s, getFlags(s)));
 
         return settings;
     }
 
-    public void setSetting(String s, boolean value){
-        String path = "area_" + id + "settings.";
+    public void setFlags(String s, boolean value){
+        String path = "area_" + id + "flags.";
 
         pro.getFiles().getAreas().set(path + s, value);
         pro.getFiles().saveFiles();
     }
 
-    public boolean getSetting(String s){
-        return pro.getFiles().getAreas().getBoolean("area_" + id + "settings." + s);
+    public boolean getFlags(String s){
+        return pro.getFiles().getAreas().getBoolean("area_" + id + "flags." + s);
     }
 
-    private void setDefaultSettings(){
-        setSetting("join", true);
-        setSetting("pvp", false);
-        setSetting("pve", false);
-        setSetting("explosion", false);
+    private void setDefaultFlags(){
+        setFlags("join", true);
+        setFlags("pvp", false);
+        setFlags("pve", false);
+        setFlags("explosion", false);
     }
 }

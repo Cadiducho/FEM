@@ -22,35 +22,36 @@ public enum ProType {
     GRANJAS(Protections.getInstance().getFiles().getConfig().getInt("Area.Granjas"), Material.QUARTZ_ORE, "Protección Granjas");
 
     @Getter private int area;
-    @Getter private Material mat;
+    @Getter private Material material;
     @Getter private String name;
 
     private static ProType type;
 
     ProType(int area, Material mat, String name){
         this.area = area;
+        this.material = mat;
         this.name = name;
     }
 
     public static ProType parseMaterial(Material m){
         Arrays.asList(ProType.values()).forEach(t -> {
-            if (t.getMat() == m) type = t;
+            if (t.getMaterial() == m) type = t;
         });
         return type;
     }
 
     public static ItemStack generateItemStack(ProType pt){
-        return new ItemBuilder().setType(pt.getMat()).setDisplayName(pt.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
+        return new ItemBuilder().setType(pt.getMaterial()).setDisplayName(pt.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build();
     }
 
     public static List<ItemStack> getItems(){
         List<ItemStack> items = new ArrayList<>();
 
-        items.add(new ItemBuilder().setType(S.getMat()).setDisplayName(S.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
-        items.add(new ItemBuilder().setType(M.getMat()).setDisplayName(M.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
-        items.add(new ItemBuilder().setType(L.getMat()).setDisplayName(L.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
-        items.add(new ItemBuilder().setType(XL.getMat()).setDisplayName(XL.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
-        items.add(new ItemBuilder().setType(GRANJAS.getMat()).setDisplayName(GRANJAS.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(S.getMaterial()).setDisplayName(S.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(M.getMaterial()).setDisplayName(M.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(L.getMaterial()).setDisplayName(L.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(XL.getMaterial()).setDisplayName(XL.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
+        items.add(new ItemBuilder().setType(GRANJAS.getMaterial()).setDisplayName(GRANJAS.getName()).addUnsafeEnchant(Enchantment.ARROW_DAMAGE, 1).addItemFlag(ItemFlag.HIDE_ENCHANTS).build());
 
         return items;
     }

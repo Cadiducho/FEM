@@ -34,10 +34,13 @@ public class ProBlock {
         this.block = b;
     }
 
+    public ProBlock(){}
+
     public void protectBlock(){
         this.id = pro.getFiles().getID("blocks");
 
         pro.getFiles().getBlocks().set("block_" + id + ".loc", Metodos.locationToString(block.getLocation()));
+        pro.getFiles().getBlocks().set("block_" + id + ".dueño", proPlayer.getUuid());
         pro.getFiles().getBlocks().set("block_" + id + ".admins", Arrays.asList(proPlayer.getUuid()));
         pro.getFiles().getBlocks().set("block_" + id + ".users", Arrays.asList(""));
         setDefaultFlags();
@@ -67,13 +70,31 @@ public class ProBlock {
         return pro.getFiles().getBlocks().contains("block_" + id);
     }
 
+    public ProPlayer getDueño(){
+        return new ProPlayer(UUID.fromString(pro.getFiles().getAreas().getString("block_" + id + ".dueño")));
+    }
+
+    //Setters
+    public void setOwners(ProPlayer player){
+        List<UUID> players = new ArrayList<>();
+        getProtectionOwners().forEach(p -> players.add(p.getUuid()));
+        players.add(player.getUuid());
+        pro.getFiles().getBlocks().set("block_" + id + ".admins", players);
+    }
+
+    public void setPlayers(ProPlayer player){
+        List<UUID> players = new ArrayList<>();
+        getProtectionPlayers().forEach(p -> players.add(p.getUuid()));
+        players.add(player.getUuid());
+        pro.getFiles().getBlocks().set("block_" + id + ".users", players);
+    }
+
     //Getters
     public List<ProPlayer> getProtectionPlayers(){
         List<ProPlayer> players = new ArrayList<>();
 
         for (int x = 0; x < pro.getFiles().getCurrentID("blocks"); x++){
             if (new ProBlock(x).getLocation().equals(Metodos.stringToLocation(pro.getFiles().getBlocks().getString("block_" + id + ".loc")))){
-                pro.getFiles().getBlocks().getStringList("block_" + id + ".admins").forEach(ad -> players.add(new ProPlayer(UUID.fromString(ad))));
                 pro.getFiles().getBlocks().getStringList("block_" + id + ".users").forEach(ad -> players.add(new ProPlayer(UUID.fromString(ad))));
             }
         }
@@ -91,6 +112,28 @@ public class ProBlock {
         return players;
     }
 
+    public List<ProBlock> getAllBlocks(){
+        List<ProBlock> blocks = new ArrayList<>();
+        for (int x = 0; x < pro.getFiles().getCurrentID("blocks"); x++){
+            Location l = Metodos.stringToLocationNormal(pro.getFiles().getBlocks().getString("block_" + id + ".loc"));
+            ProPlayer player = new ProPlayer(UUID.fromString(pro.getFiles().getBlocks().getString("block_" + id + ".dueño")));
+
+            blocks.add(new ProBlock(l.getWorld().getBlockAt(l), player));
+        }
+        return blocks;
+    }
+
+    public List<Integer> getPlayerBlocks(ProPlayer player){
+        List<Integer> blocks = new ArrayList<>();
+
+        getAllBlocks().forEach(b ->{
+            if (b.getDueño().equals(player)){
+                blocks.add(b.getId());
+            }
+        });
+        return blocks;
+    }
+
     public int getBlockID(){
         for (int x = 0; x < pro.getFiles().getCurrentID("blocks"); x++){
             if (new ProBlock(x).getLocation().equals(block.getLocation())){
@@ -104,7 +147,7 @@ public class ProBlock {
     public HashMap<String, Boolean> getAllFlags(){
         HashMap<String, Boolean> settings = new HashMap<>();
 
-        pro.getFiles().getAreas().getStringList("block_" + id + "flags").forEach(s -> settings.put(s, pro.getFiles().getAreas().getBoolean("block_" + id + "flags." + s)));
+        pro.getFiles().getAreas().getStringList("block_" + id + "flags").forEach(s -> settings.put(s, getFlag(s)));
 
         return settings;
     }
