@@ -39,9 +39,10 @@ public class Bloque extends FEMCmd {
                 int id = Integer.parseInt(args[1]);
                 ProBlock block = new ProBlock(id);
 
-                if (block.exist() && block.getDueño().equals(new ProPlayer(user.getUuid()))){
-                    block.removeProtection();
-                    user.getPlayer().updateInventory();
+                if (block.exist()){
+                    if (block.getDueño().equals(new ProPlayer(user.getUuid())) || new ProPlayer(user.getUuid()).isOnRank(Grupo.Moderador)){
+                        block.removeProtection();
+                    }
                 }
             }
         }
@@ -57,6 +58,11 @@ public class Bloque extends FEMCmd {
                     id = Integer.parseInt(args[2]);
                     ProBlock block = new ProBlock(id);
 
+                    if (!block.getProtectionOwners().contains(new ProPlayer(user.getUuid())) || !new ProPlayer(user.getUuid()).isOnRank(Grupo.Moderador)) {
+                        user.sendMessage("&cNo tienes permiso para poder ver las flags de este bloque");
+                        return;
+                    }
+
                     block.getAllFlags().keySet().forEach(s -> user.sendMessage("&a" + s + ": &c" + block.getFlag(s)));
                     return;
                 }
@@ -68,6 +74,11 @@ public class Bloque extends FEMCmd {
                 }
                 id = Integer.parseInt(args[1]);
                 ProBlock block = new ProBlock(id);
+
+                if (!block.getProtectionOwners().contains(new ProPlayer(user.getUuid())) || !new ProPlayer(user.getUuid()).isOnRank(Grupo.Moderador)) {
+                    user.sendMessage("&cNo tienes permiso para poder ver la flag de este bloque");
+                    return;
+                }
 
                 block.getAllFlags().keySet().forEach(s -> {
                     if (args[2].equalsIgnoreCase(s)) {
@@ -89,6 +100,11 @@ public class Bloque extends FEMCmd {
                 }
                 id = Integer.parseInt(args[1]);
                 ProBlock block = new ProBlock(id);
+
+                if (!block.getProtectionOwners().contains(new ProPlayer(user.getUuid())) || !new ProPlayer(user.getUuid()).isOnRank(Grupo.Moderador)) {
+                    user.sendMessage("&cNo tienes permiso para poder poner flag a este bloque");
+                    return;
+                }
 
                 block.getAllFlags().keySet().forEach(s -> {
                     if (args[2].equalsIgnoreCase(s)) {

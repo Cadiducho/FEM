@@ -41,10 +41,12 @@ public class Pro extends FEMCmd{
                 int id = Integer.parseInt(args[1]);
                 ProArea area = new ProArea(id);
 
-                if (area.exist() && area.getDueño().equals(new ProPlayer(user.getUuid()))){
-                    area.removeArena(Material.AIR);
-                    user.getPlayer().getInventory().addItem(ProType.generateItemStack(area.getProType()));
-                    user.getPlayer().updateInventory();
+                if (area.exist()) {
+                    if (area.getDueño().equals(new ProPlayer(user.getUuid())) || new ProPlayer(user.getUuid()).isOnRank(Grupo.Moderador)) {
+                        area.removeArena(Material.AIR);
+                        user.getPlayer().getInventory().addItem(ProType.generateItemStack(area.getProType()));
+                        user.getPlayer().updateInventory();
+                    }
                 }
             }
 
@@ -54,7 +56,7 @@ public class Pro extends FEMCmd{
                 ProPlayer player = new ProPlayer(user.getUuid());
 
                 if (area.exist()) {
-                    if (area.getAreaUsers().contains(player) || area.getAreaOwners().contains(player)) {
+                    if (area.getAreaUsers().contains(player) || area.getAreaOwners().contains(player) || new ProPlayer(user.getUuid()).isOnRank(Grupo.Moderador)) {
                         player.teleportArea(id);
                         //¿Tp sólo a principal?
                     }
@@ -73,8 +75,8 @@ public class Pro extends FEMCmd{
                     id = Integer.parseInt(args[2]);
                     ProArea area = new ProArea(id);
 
-                    if (!area.getAreaOwners().contains(new ProPlayer(user.getUuid()))) {
-                        user.sendMessage("&cNo tienes permiso para poder ver las flags de este bloque");
+                    if (!area.getAreaOwners().contains(new ProPlayer(user.getUuid())) || !new ProPlayer(user.getUuid()).isOnRank(Grupo.Moderador)) {
+                        user.sendMessage("&cNo tienes permiso para poder ver las flags de este area");
                         return;
                     }
 
@@ -90,8 +92,8 @@ public class Pro extends FEMCmd{
                 id = Integer.parseInt(args[1]);
                 ProArea area = new ProArea(id);
 
-                if (!area.getAreaOwners().contains(new ProPlayer(user.getUuid()))) {
-                    user.sendMessage("&cNo tienes permiso para poder ver la flag de este bloque");
+                if (!area.getAreaOwners().contains(new ProPlayer(user.getUuid())) || !new ProPlayer(user.getUuid()).isOnRank(Grupo.Moderador)) {
+                    user.sendMessage("&cNo tienes permiso para poder ver la flag de este area");
                     return;
                 }
 
@@ -116,8 +118,8 @@ public class Pro extends FEMCmd{
                 id = Integer.parseInt(args[1]);
                 ProArea area = new ProArea(id);
 
-                if (!area.getAreaOwners().contains(new ProPlayer(user.getUuid()))) {
-                    user.sendMessage("&cNo tienes permiso para poder poner flag de este bloque");
+                if (!area.getAreaOwners().contains(new ProPlayer(user.getUuid())) || !new ProPlayer(user.getUuid()).isOnRank(Grupo.Moderador)) {
+                    user.sendMessage("&cNo tienes permiso para poder poner flag a este area");
                     return;
                 }
 
