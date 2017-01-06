@@ -73,6 +73,11 @@ public class Pro extends FEMCmd{
                     id = Integer.parseInt(args[2]);
                     ProArea area = new ProArea(id);
 
+                    if (!area.getAreaOwners().contains(new ProPlayer(user.getUuid()))) {
+                        user.sendMessage("&cNo tienes permiso para poder ver las flags de este bloque");
+                        return;
+                    }
+
                     area.getAllFlags().keySet().forEach(s -> user.sendMessage("&a" + s + ": &c" + area.getFlags(s)));
                     return;
                 }
@@ -84,6 +89,11 @@ public class Pro extends FEMCmd{
                 }
                 id = Integer.parseInt(args[1]);
                 ProArea area = new ProArea(id);
+
+                if (!area.getAreaOwners().contains(new ProPlayer(user.getUuid()))) {
+                    user.sendMessage("&cNo tienes permiso para poder ver la flag de este bloque");
+                    return;
+                }
 
                 area.getAllFlags().keySet().forEach(s -> {
                     if (args[2].equalsIgnoreCase(s)) {
@@ -105,6 +115,11 @@ public class Pro extends FEMCmd{
                 }
                 id = Integer.parseInt(args[1]);
                 ProArea area = new ProArea(id);
+
+                if (!area.getAreaOwners().contains(new ProPlayer(user.getUuid()))) {
+                    user.sendMessage("&cNo tienes permiso para poder poner flag de este bloque");
+                    return;
+                }
 
                 area.getAllFlags().keySet().forEach(s -> {
                     if (args[2].equalsIgnoreCase(s)) {

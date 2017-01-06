@@ -121,7 +121,14 @@ public class Metodos {
         }
     }
     
-    
+    public static boolean isInt(String number){
+        try {
+            Integer.parseInt(number);
+        } catch(NumberFormatException | NullPointerException e) {
+            return false;
+        }
+        return true;
+    }
     
     public static String locationToString(Location loc) {
         return loc.getWorld().getName() + "%" + loc.getX() + "%" + loc.getY() + "%" + loc.getZ() + "%" + loc.getYaw() + "%" + loc.getPitch();

@@ -164,9 +164,7 @@ public class ProArea {
 
     public List<CuboidRegion> getAllRegions(){
         List<CuboidRegion> regions = new ArrayList<>();
-        for (int x = 0; x < pro.getFiles().getCurrentID("areas"); x++){
-            regions.add(new ProArea(x).getCuboidRegion());
-        }
+        getAllAreas().forEach(a -> regions.add(a.getCuboidRegion()));
         return regions;
     }
 

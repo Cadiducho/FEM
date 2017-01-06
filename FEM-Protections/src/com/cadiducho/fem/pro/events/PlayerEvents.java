@@ -118,6 +118,7 @@ public class PlayerEvents implements Listener{
                     if (!a.getFlags("pve")) {
                         e.setCancelled(true);
                         ((Player) damaged).setLastDamage(0);
+                        damager.sendMessage(ChatColor.RED + "Este area es un area no-pve");
                         return;
                     }
                 }

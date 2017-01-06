@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -51,36 +52,51 @@ public class WorldEvents implements Listener {
                 break;
         }
 
-        if (b.getWorld().getName().equalsIgnoreCase(plugin.getFiles().getConfig().getString("Mundo"))) {
-            if (plugin.getFiles().getCurrentID("areas") != 0) {
-                for (int x = 0; x < plugin.getFiles().getCurrentID("areas"); x++) {
-                    ProArea area = new ProArea(x);
-                    if (area.getCuboidRegion().contains(b)) {
-                        if (!player.isOnRank(FEMCmd.Grupo.Moderador) && !area.getAreaOwners().equals(player) || !area.getAreaUsers().contains(player)) {
+        if (b.getType() == Material.HOPPER){
+            Block bUp = b.getRelative(BlockFace.UP);
+            ProBlock block = new ProBlock(bUp);
+
+            if (block.getAllTypesToProtect().contains(bUp)){
+                if (block.isProtected()){
+                    if (block.getFlag("useHoppers")) {
+                        if (!player.isOnRank(FEMCmd.Grupo.Moderador) || !block.getProtectionOwners().equals(player) || !block.getProtectionPlayers().contains(player)) {
+                            player.sendMessage("&cNo se puede poner un hopper debajo de este cofre");
                             e.setCancelled(true);
-                            player.getPlayer().sendMessage(ChatColor.RED + "No puedes poner bloques en una zona que no es tuya");
                             return;
                         }
                     }
                 }
             }
-            Arrays.asList(ProType.values()).forEach(t -> {
-                if (b.getType() == t.getMaterial()) {
-                    if (checking.contains(player)) return;
-                    this.area = new ProArea(player.getPlayer().getLocation(), ProType.parseMaterial(b.getType()), player);
-                    this.area.generateCuboidRegion();
-                    if (this.area.hitOtherArena()) {
-                        player.getPlayer().sendMessage(ChatColor.RED + "El nuevo arena esta chocando con otro area. Pon el bloque en otro lugar");
+        }
+
+        if (b.getWorld().getName().equalsIgnoreCase(plugin.getFiles().getConfig().getString("Mundo"))) {
+            if (new ProArea().getAllAreas().size() == 0) return;
+            new ProArea().getAllAreas().forEach(a -> {
+                if (a.getCuboidRegion().contains(b)) {
+                    if (!player.isOnRank(FEMCmd.Grupo.Moderador) || !a.getAreaOwners().equals(player) || !a.getAreaUsers().contains(player)) {
                         e.setCancelled(true);
+                        player.getPlayer().sendMessage(ChatColor.RED + "No puedes poner bloques en una zona que no es tuya");
                         return;
                     }
-                    checking.add(player);
-                    //Método temporar, no estará así en el futuro (Espero...)
-                    player.sendMessage("&2Si quieres poner el area aquí, escribe &cSI &2en el chat, en el caso contrario escribe &cNO");
-                    this.bt = Bukkit.getScheduler().runTaskTimer(this.plugin, ()-> area.showArea(), 0l, 1l);
                 }
             });
         }
+        Arrays.asList(ProType.values()).forEach(t -> {
+            if (b.getType() == t.getMaterial()) {
+                if (checking.contains(player)) return;
+                this.area = new ProArea(player.getPlayer().getLocation(), ProType.parseMaterial(b.getType()), player);
+                this.area.generateCuboidRegion();
+                if (this.area.hitOtherArena()) {
+                    player.getPlayer().sendMessage(ChatColor.RED + "El nuevo arena esta chocando con otro area. Pon el bloque en otro lugar");
+                    e.setCancelled(true);
+                    return;
+                }
+                checking.add(player);
+                //Método temporar, no estará así en el futuro (Espero...)
+                player.sendMessage("&2Si quieres poner el area aquí, escribe &cSI &2en el chat, en el caso contrario escribe &cNO");
+                this.bt = Bukkit.getScheduler().runTaskTimer(this.plugin, ()-> area.showArea(), 0l, 1l);
+            }
+        });
     }
 
     @EventHandler
@@ -113,7 +129,7 @@ public class WorldEvents implements Listener {
             case FURNACE:
             case CHEST:
                 ProBlock block = new ProBlock(b);
-                if (!player.isOnRank(FEMCmd.Grupo.Moderador) && !block.getProtectionOwners().contains(player)) {
+                if (!player.isOnRank(FEMCmd.Grupo.Moderador) || !block.getDueño().equals(player)) {
                     player.sendMessage("No puedes romper este bloque ya que no es tuyo");
                     return;
                 }
@@ -122,19 +138,19 @@ public class WorldEvents implements Listener {
         }
 
         if (b.getWorld().getName().equalsIgnoreCase(plugin.getFiles().getConfig().getString("Mundo"))) {
-            for (int x = 0; x < plugin.getFiles().getCurrentID("areas"); x++) {
-                ProArea area = new ProArea(x);
-                if (area.getCuboidRegion().contains(b)) {
-                    if (!player.isOnRank(FEMCmd.Grupo.Moderador) && !area.getAreaOwners().equals(player) || !area.getAreaUsers().contains(player)) {
+            if (new ProArea().getAllAreas().size() == 0) return;
+            new ProArea().getAllAreas().forEach(a -> {
+                if (a.getCuboidRegion().contains(b)) {
+                    if (!player.isOnRank(FEMCmd.Grupo.Moderador) || !a.getAreaOwners().equals(player) || !a.getAreaUsers().contains(player)) {
                         e.setCancelled(true);
                         player.getPlayer().sendMessage(ChatColor.RED + "No puedes romper bloques en una zona que no es tuya");
                         return;
                     }
-                    if (area.getDueño().equals(player) || player.isOnRank(FEMCmd.Grupo.Moderador) || b.getLocation().equals(area.getLocation())) {
-                        area.removeArena(Material.AIR);
+                    if (a.getDueño().equals(player) || player.isOnRank(FEMCmd.Grupo.Moderador) || b.getLocation().equals(a.getLocation())) {
+                        a.removeArena(Material.AIR);
                     }
                 }
-            }
+            });
         }
     }
 
