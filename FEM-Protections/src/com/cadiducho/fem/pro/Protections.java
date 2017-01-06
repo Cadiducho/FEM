@@ -12,6 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Level;
+
 public class Protections extends JavaPlugin{
 
     @Getter private static Protections instance;
@@ -25,6 +27,8 @@ public class Protections extends JavaPlugin{
 
         registerEvents();
         registerCommands();
+
+        getLogger().log(Level.INFO, "Protections: Activado correctamente");
     }
 
     private void registerEvents(){
