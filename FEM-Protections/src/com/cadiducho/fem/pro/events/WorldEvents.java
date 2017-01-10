@@ -11,17 +11,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class WorldEvents implements Listener {
@@ -31,11 +28,6 @@ public class WorldEvents implements Listener {
     public WorldEvents(Protections Main) {
         this.plugin = Main;
     }
-
-    private ArrayList<ProPlayer> checking = new ArrayList<>();
-
-    private ProArea area;
-    private BukkitTask bt;
 
     //TODO: Block Flags
 
@@ -83,41 +75,19 @@ public class WorldEvents implements Listener {
         }
         Arrays.asList(ProType.values()).forEach(t -> {
             if (b.getType() == t.getMaterial()) {
-                if (checking.contains(player)) return;
-                this.area = new ProArea(player.getPlayer().getLocation(), ProType.parseMaterial(b.getType()), player);
-                this.area.generateCuboidRegion();
-                if (this.area.hitOtherArena()) {
+                ProArea area = new ProArea(player.getPlayer().getLocation(), ProType.parseMaterial(b.getType()), player);
+                area.generateCuboidRegion();
+                if (area.hitOtherArena()) {
                     player.getPlayer().sendMessage(ChatColor.RED + "El nuevo arena esta chocando con otro area. Pon el bloque en otro lugar");
                     e.setCancelled(true);
                     return;
                 }
-                checking.add(player);
-                //Método temporar, no estará así en el futuro (Espero...)
-                player.sendMessage("&2Si quieres poner el area aquí, escribe &cSI &2en el chat, en el caso contrario escribe &cNO");
-                this.bt = Bukkit.getScheduler().runTaskTimer(this.plugin, ()-> area.showArea(), 0l, 1l);
+                area.generateArea(Material.DOUBLE_STONE_SLAB2);
+                BukkitTask bt = Bukkit.getScheduler().runTaskTimer(this.plugin, ()-> area.showArea(), 0l, 1l);
+
+                Bukkit.getScheduler().runTaskLater(this.plugin, ()-> bt.cancel(), 100);
             }
         });
-    }
-
-    @EventHandler
-    public void onChat(AsyncPlayerChatEvent e){
-        Player p = e.getPlayer();
-        ProPlayer player = new ProPlayer(p.getUniqueId());
-
-        if (checking.contains(player)){
-            switch (e.getMessage().toLowerCase()){
-                case "si":
-                    this.area.generateArea(Material.DOUBLE_STONE_SLAB2);
-                    checking.remove(player);
-                    this.bt.cancel();
-                    break;
-                case "no":
-                    p.getInventory().addItem(ProType.generateItemStack(this.area.getProType()));
-                    checking.remove(player);
-                    this.bt.cancel();
-                    break;
-            }
-        }
     }
 
     @EventHandler
