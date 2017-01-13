@@ -2,10 +2,7 @@ package com.cadiducho.fem.lobby;
 
 import com.cadiducho.fem.core.FEMCommands;
 import com.cadiducho.fem.core.api.FEMServer;
-import com.cadiducho.fem.lobby.cmds.DropPuntosCMD;
-import com.cadiducho.fem.lobby.cmds.FlyCMD;
-import com.cadiducho.fem.lobby.cmds.SetBrujulaCMD;
-import com.cadiducho.fem.lobby.cmds.SpawnCMD;
+import com.cadiducho.fem.lobby.cmds.*;
 import com.cadiducho.fem.lobby.listeners.PlayerListener;
 import com.cadiducho.fem.lobby.listeners.WorldListener;
 import com.google.common.io.ByteArrayDataOutput;
@@ -60,6 +57,7 @@ public class Lobby extends JavaPlugin {
             //Comandos solo para el lobby
             FEMCommands.registrar(new DropPuntosCMD());
             FEMCommands.registrar(new SetBrujulaCMD());
+            FEMCommands.registrar(new SetNvidiaCMD());
             FEMCommands.registrar(new SpawnCMD());
             FEMCommands.registrar(new FlyCMD());
             getLogger().log(Level.INFO, "Lobby: Registrado sus comandos");
