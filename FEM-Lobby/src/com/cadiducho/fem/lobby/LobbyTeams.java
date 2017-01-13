@@ -64,9 +64,12 @@ public class LobbyTeams {
                 tUsuario.addEntry(user.getName()); break;
         }
     }
-    
+
+    private static Team t;
     public static void removeScoreboardTeam(FEMUser user) {
-        Team t = board.getEntryTeam(user.getName());
+        board.getTeams().forEach(team -> {
+            if (team.getEntries().contains(user.getName())) t = team;
+        });
         if (t != null) t.removeEntry(user.getName());
     }
     
