@@ -207,9 +207,9 @@ suicide:
     mensaje: '&6* {0} &cse ha suicidado...'
     cooldown: '&cDebes esperar otros {0} segundos para suicidarte'
 tp:
-    here: '&6Teleportando a &e{0} &6 a tu posición'
+    here: '&6Teleportando a &e{0} &6a tu posición'
     to: '&6Teleportandote hacia &e{0}'
-    toOtro: '&6Teleportando a &e{0} &6 hasta &e{1}'
+    toOtro: '&6Teleportando a &e{0} &6hasta &e{1}'
     all: '&6Teleportando a todo el servidor a {0}'
     uso: '&eUsa: &a/tp <Usuario> [otroUsuario]'
     tpa:
