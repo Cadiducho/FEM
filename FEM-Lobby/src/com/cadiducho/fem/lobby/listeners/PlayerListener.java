@@ -327,7 +327,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 }
                 break;
             case "Eventos":
-                LobbyMenu.openMenu(u, LobbyMenu.Menu.EVENTOS);
+                //LobbyMenu.openMenu(u, LobbyMenu.Menu.EVENTOS);
                 e.setCancelled(true);
                 break;
 
