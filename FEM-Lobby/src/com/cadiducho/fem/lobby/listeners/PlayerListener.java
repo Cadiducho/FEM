@@ -16,6 +16,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -181,7 +182,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
 
         Player p = (Player) e.getWhoClicked();
         FEMUser u = FEMServer.getUser(p);
-        switch (e.getInventory().getTitle()) {
+        switch (ChatColor.stripColor(e.getInventory().getTitle())) {
             case "Ajustes del jugador":
                 e.setCancelled(true);
                 switch (e.getSlot()) {
@@ -288,7 +289,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 }
                 p.playSound(u.getPlayer().getLocation(), Sound.CLICK, 1F, 1F);
                 break;
-            case "&3NVIDIA &0Point":
+            case "NVIDIA Point":
                 e.setCancelled(true);
                 switch (e.getSlot()) {
                     case 11:
@@ -301,7 +302,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         u.sendMessage("Falta Inv");
                         break;
                     case 31:
-                        //TODO: Comprobar si tiene cajas
                         u.sendMessage("Falta Inv");
                         break;
                     default:
