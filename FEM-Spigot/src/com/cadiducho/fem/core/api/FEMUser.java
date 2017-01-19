@@ -2,8 +2,9 @@ package com.cadiducho.fem.core.api;
 
 import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.cmds.FEMCmd.Grupo;
-import com.cadiducho.fem.core.util.FEMFileLoader;
 import com.cadiducho.fem.core.taks.LobbyMessageTask;
+import com.cadiducho.fem.core.util.FEMFileLoader;
+import com.cadiducho.fem.core.util.Messages;
 import com.cadiducho.fem.core.util.Metodos;
 import com.google.common.collect.Lists;
 import com.google.common.io.ByteArrayDataOutput;
@@ -17,7 +18,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -178,16 +178,7 @@ public class FEMUser {
      */
     public void sendActionBar(String msg) {
         if (getPlayer() == null) return;
-        try {
-            Constructor<?> constructor = Metodos.getNMSClass("PacketPlayOutChat").getConstructor(Metodos.getNMSClass("IChatBaseComponent"), byte.class);
-        
-            Object icbc = Metodos.getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", String.class).invoke(null, "{\"text\":\"" + Metodos.colorizar(msg) + "\"}");
-            Object packet = constructor.newInstance(icbc, (byte) 2);
-            Object entityPlayer= getPlayer().getClass().getMethod("getHandle").invoke(getPlayer());
-            Object playerConnection = entityPlayer.getClass().getField("playerConnection").get(entityPlayer);
-
-            playerConnection.getClass().getMethod("sendPacket", Metodos.getNMSClass("Packet")).invoke(playerConnection, packet);
-        } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchFieldException | InstantiationException ex) {}
+        new Messages(FEMCore.getInstance(), "&cCore").sendActionBar(getPlayer(), msg);
     }
 
     public void repeatActionBar(String msg) {
