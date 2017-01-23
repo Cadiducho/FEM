@@ -118,41 +118,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
             if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR) || e.getClickedBlock().getType().equals(Material.FENCE_GATE) || e.getClickedBlock().getType().equals(Material.FIRE) || e.getClickedBlock().getType().equals(Material.CAULDRON) || e.getClickedBlock().getRelative(BlockFace.UP).getType().equals(Material.FIRE) || e.getClickedBlock().getType() == Material.CHEST || e.getClickedBlock().getType() == Material.TRAPPED_CHEST || e.getClickedBlock().getType() == Material.DROPPER || e.getClickedBlock().getType() == Material.DISPENSER || e.getClickedBlock().getType() == Material.BED_BLOCK || e.getClickedBlock().getType() == Material.BED) {
                 e.setCancelled(true);
             }
-
-            if (e.getClickedBlock().getType().equals(Material.ENCHANTMENT_TABLE) && e.getClickedBlock().getLocation().equals(Metodos.stringToLocation(plugin.getConfig().getString("nvidia")))) {
-                e.setCancelled(true);
-                LobbyMenu.openMenu(u, LobbyMenu.Menu.NVIDIA);
-            }
-
-            /*			//Secretos
-			if(e.getClickedBlock().getType() == Material.SIGN_POST){
-				Sign s = (Sign)e.getClickedBlock();
-				int number = Integer.parseInt(s.getLine(0).split(" ")[1].split("/")[0]);
-                FEMUser u = FEMServer.getUser(e.getPlayer());
-
-                //Comprobar si tiene el secreto
-                if(u.getUserData().getSecrets().contains(number)) {
-                    u.sendMessage("&cYa tienes el secreto número &6" + number);
-                    return;
-                }
-
-                //Añadir secreto
-                u.getUserData().setCoins(0); //Cambiar
-                u.save();
-                u.sendActionBar("&2Has encontrado el secreto número &6" + number);
-                u.sendMessage("&3Secreto encontrado: &6" + number);
-                u.sendMessage("&2Has obtenido &c" + "" + " &2de dinero");
-                e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 1F);
-
-
-                //Si tiene los 5, algo especial
-                if(u.getUserData().getSecrets().size() == 5){
-					u.sendActionBar("&3Wow, has encontrado todos los secretos del mapa, ¡FELICIDADES!");
-					u.sendMessage("&3Recibiste: &6 "); //TODO: Paticulas
-					e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 1F, 1F);
-				}
-			}
-			//*/
         }
 
         //Menu
@@ -165,9 +130,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         break;
                     case COMMAND:
                         LobbyMenu.openMenu(u, LobbyMenu.Menu.AJUSTES);
-                        break;
-                    case EMERALD:
-                        LobbyMenu.openMenu(u, LobbyMenu.Menu.EVENTOS);
                         break;
                 }
             }
