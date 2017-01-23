@@ -11,7 +11,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+    </properties> 
     <build>
         <sourceDirectory>src</sourceDirectory>
         <resources>
@@ -41,6 +41,8 @@
                                     <include>com.google.code.gson:gson</include>
                                 </includes>
                             </artifactSet>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>launcher</shadedClassifierName>
                         </configuration>
                     </execution>
                 </executions>
