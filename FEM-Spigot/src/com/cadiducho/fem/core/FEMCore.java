@@ -38,7 +38,6 @@ public class FEMCore extends JavaPlugin {
     static Gson gson = new Gson();
 
     @Getter private final String tag = Metodos.colorizar("&7[&6Under&eGames&7]&r");
-    @Getter private boolean isMore18 = true;
 
     @Override
     public void onLoad() {
@@ -100,11 +99,6 @@ public class FEMCore extends JavaPlugin {
              */
             debugLog("Cargando módulo de comandos...");
             FEMCommands.load();
-            
-            /*
-             * Hud y saber si es 1.8
-             */
-            isMore18 = false;
             
             log("FEMCore v" + getDescription().getVersion() + " ha sido cargado completamente!");
         } catch (Throwable t) {
