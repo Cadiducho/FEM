@@ -61,14 +61,6 @@ public class FEMBungee extends Plugin implements Listener {
     }
 
     @EventHandler
-    public void onProxyPing(ProxyPingEvent e) {
-        ServerPing.Protocol version = e.getResponse().getVersion();
-        version.setName("Undergames.es");
-        version.setProtocol(316);
-        e.getResponse().setVersion(version);
-    }
-    
-    @EventHandler
     public void onPlayerJoin(PostLoginEvent e) {
         ProxiedPlayer p = e.getPlayer();
         p.connect(getOneLobby());
