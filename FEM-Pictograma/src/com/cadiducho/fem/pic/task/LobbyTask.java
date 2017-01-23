@@ -35,7 +35,7 @@ public class LobbyTask extends BukkitRunnable {
             });
         } else if (count > 0 && count <= 5) {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> {
-                new Title("&c&l" + count, "", 0, 1, 00).send(p);
+                new Title("&c&l" + count, "", 0, 1, 0).send(p);
                 p.playSound(p.getLocation(), Sound.CLICK, 1f, 1f);
             });
         } else if(count == 0){

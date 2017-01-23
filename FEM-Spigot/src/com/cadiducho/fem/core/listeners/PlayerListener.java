@@ -127,6 +127,7 @@ public class PlayerListener implements Listener {
         }
 
         FEMServer.users.remove(u);
+        BossBarAPI.removeAllStatusBars();
     }
     
     @EventHandler

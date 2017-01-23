@@ -1,5 +1,7 @@
 package com.cadiducho.fem.pic.listener;
 
+import com.cadiducho.fem.core.util.BossBarAPI;
+import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.task.GameTask;
 import org.bukkit.entity.LivingEntity;
@@ -43,6 +45,8 @@ public class PlayerListener implements Listener {
             plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
             plugin.getMsg().sendHeaderAndFooter(player, "&6Under&eGames&7", "&cmc.undergames.es");
             plugin.getGm().checkStart();
+            BossBarAPI.removeAllStatusBars();
+            BossBarAPI.setAllStatusBars(Metodos.colorizar("&6&lUnder&e&lGames&7 &c- &emc.undergames.es"), 64);
         }
     }
 
