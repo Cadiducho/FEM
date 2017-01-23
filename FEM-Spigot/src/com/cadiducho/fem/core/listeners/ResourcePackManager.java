@@ -33,7 +33,7 @@ public class ResourcePackManager implements Listener {
             case DECLINED:
             case FAILED_DOWNLOAD:
                 new Title(ChatColor.RED + "Debes aceptar el ResourcePack").send(p);
-                plugin.getServer().getScheduler().runTaskLater(plugin, ()-> FEMServer.getUser(p).sendToLobby(), 40L);
+                plugin.getServer().getScheduler().runTaskLater(plugin, ()-> FEMServer.getUser(p).sendToLobby(), 60L);
                 break;
         }
     }
