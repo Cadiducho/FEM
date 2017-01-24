@@ -39,7 +39,7 @@ public class FEMCore extends JavaPlugin {
 
     @Getter private final String tag = Metodos.colorizar("&7[&6Under&eGames&7]&r");
 
-    @Override
+    /*@Override // Desactivar temporalmente carga de mapas
     public void onLoad() {
         try {
             final String content = new Scanner(new File("/home/COMUNITARIO/mapas/mapas.json")).useDelimiter("\\Z").next();
@@ -49,7 +49,7 @@ public class FEMCore extends JavaPlugin {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FEMCore.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }*/
     
     @Override
     public void onEnable() {
