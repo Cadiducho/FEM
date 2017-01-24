@@ -3,9 +3,9 @@ package com.cadiducho.fem.core.util;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class Messages {
     private static String nmsver;
@@ -35,9 +35,11 @@ public class Messages {
 
     public void sendActionBar(Player p, String msg) {
         try {
-            Constructor<?> constructor = Metodos.getNMSClass("PacketPlayOutChat").getConstructor(Metodos.getNMSClass("IChatBaseComponent"), byte.class);
-            Object icbc = Metodos.getNMSClass("IChatBaseComponent").getDeclaredClasses()[0].getMethod("a", String.class).invoke(null, "{\"text\":\"" + Metodos.colorizar(msg) + "\"}");
-            Object packet = constructor.newInstance(icbc, (byte) 2);
+            Class<?> cClass = Metodos.getNMSClass("PacketPlayOutChat");
+
+            Method m = Metodos.getNMSClass("ChatSerializer").getDeclaredMethod("a", String.class);
+            Object chat = Metodos.getNMSClass("IChatBaseComponent").cast(m.invoke(Metodos.getNMSClass("ChatSerializer"), "{\"text\": \"" + Metodos.colorizar(msg) + "\"}"));
+            Object packet = cClass.getConstructor(new Class<?>[]{Metodos.getNMSClass("IChatBaseComponent"), byte.class}).newInstance(chat, (byte) 2);
 
             ReflectionAPI.sendPacket(p, packet);
         } catch (Exception ex) {
@@ -47,7 +49,7 @@ public class Messages {
 
     public void sendHeaderAndFooter(Player p, String headerText, String footerText) {
         try {
-            Class chatSerializer = ReflectionAPI.getNmsClass("ChatSerializer");
+            Class chatSerializer = ReflectionAPI.getNmsClass("IChatBaseComponent$ChatSerializer");
 
             Object tabHeader = chatSerializer.getMethod("a", String.class).invoke(chatSerializer, "{'text': '" + Metodos.colorizar(headerText) + "'}");
             Object tabFooter = chatSerializer.getMethod("a", String.class).invoke(chatSerializer, "{'text': '" + Metodos.colorizar(footerText) + "'}");
