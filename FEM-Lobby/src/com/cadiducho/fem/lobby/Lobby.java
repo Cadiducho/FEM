@@ -79,7 +79,7 @@ public class Lobby extends JavaPlugin {
             });
         }, 20, 20);
         
-        //Solicitar a Bungee la lista de servidores actualizada
+        /*//Solicitar a Bungee la lista de servidores actualizada // Desactivado, solo un lobby
         if (getConfig().getBoolean("threadLobby")) {
             getServer().getScheduler().runTaskTimer(instance, () -> {
                 ByteArrayDataOutput out = ByteStreams.newDataOutput();
@@ -89,7 +89,7 @@ public class Lobby extends JavaPlugin {
                 Player p = (Player) c.toArray()[0];
                 p.sendPluginMessage(plugin, "FEM", out.toByteArray());
             }, 20, 100);
-        }
+        }*/
         
         getServer().getScheduler().runTaskLater(instance, () -> {
             LobbyTeams.initTeams();
