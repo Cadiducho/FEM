@@ -92,7 +92,6 @@ public class LobbyMenu {
 
         //Viajar
         invViajar = plugin.getServer().createInventory(null, 27, "Viajar");
-        invViajar.setItem(18, ItemUtil.createItem(Material.BEACON, "Lobbies"));
         invViajar.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA", "&6Dibuja y adivina"));
         invViajar.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS", "&6Pon TNT y destroza islas"));
         ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE", "&6Salta al color seleccionado");

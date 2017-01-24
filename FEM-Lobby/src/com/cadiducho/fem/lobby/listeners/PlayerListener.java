@@ -182,24 +182,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         break;
                 }
                 break;
-            case "Lobbies":
-                e.setCancelled(true);
-                switch (e.getCurrentItem().getType()) {
-                    case BEACON:
-                        u.sendMessage("Ya estás en ese lobby");
-                        break;
-                    case GLASS:
-                        String name = e.getCurrentItem().getItemMeta().getDisplayName();
-                        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                        out.writeUTF("Connect");
-                        out.writeUTF(name.toLowerCase().replace(" ", ""));
-                        p.sendPluginMessage(plugin, "BungeeCord", out.toByteArray());
-                        break;
-                    default:
-                        break;
-                }
-                p.closeInventory();
-                break;
             case "Viajar":
                 e.setCancelled(true);
                 switch (e.getSlot()) {
@@ -226,21 +208,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
                     case 14: //royale
                         p.teleport(Metodos.stringToLocation(plugin.getConfig().getString("brujula.br")));
                         p.closeInventory();
-                        break;
-                    case 18: //menu lobbies
-                        Inventory invLobbies = plugin.getServer().createInventory(p, 18, "Lobbies");
-                        int i = 0;
-                        if (!plugin.getServers().isEmpty()) {
-                            for (FEMServerInfo server : plugin.getServers()) {
-                                if (server.getName().contains("lobby")) {
-                                    Material mat = server.getUsers().contains(p.getUniqueId().toString()) ? Material.BEACON : Material.GLASS;
-                                    invLobbies.setItem(i, ItemUtil.createItem(mat, normalize(server.getName()), server.getPlayers() + "/500"));
-                                    i++;
-                                }
-                            }
-                        }
-                        p.closeInventory();
-                        p.openInventory(invLobbies);
                         break;
                     case 22: //puntos
                         p.closeInventory();
