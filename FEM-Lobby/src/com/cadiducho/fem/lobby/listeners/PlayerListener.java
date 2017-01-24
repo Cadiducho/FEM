@@ -123,7 +123,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
         //Menu
         if (e.getItem() != null) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                e.setCancelled(false);
+                e.setCancelled(true);
                 switch (e.getItem().getType()) {
                     case COMPASS:
                         LobbyMenu.openMenu(u, LobbyMenu.Menu.VIAJAR);
