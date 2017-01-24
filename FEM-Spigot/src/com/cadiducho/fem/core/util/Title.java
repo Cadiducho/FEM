@@ -362,7 +362,7 @@ public class Title {
             Object connection = playerConnection.get(handle);
             Object[] actions = packetActions.getEnumConstants();
             Object packet = packetTitle.getConstructor(packetActions,
-                    chatBaseComponent).newInstance(actions[5], null);
+                    chatBaseComponent).newInstance(actions[4], null);
             sendPacket.invoke(connection, packet);
         } catch (Exception e) {
             e.printStackTrace();
