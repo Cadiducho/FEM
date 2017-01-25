@@ -64,6 +64,7 @@ public class GameManager {
                 HashMap<Integer, Integer> wins = lp.getUserData().getWins();
                 wins.replace(6, wins.get(6) + 1);
                 lp.getUserData().setWins(wins);
+                lp.getUserData().setCoins(lp.getUserData().getCoins() + 10);
                 lp.save();
                         
                 new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);

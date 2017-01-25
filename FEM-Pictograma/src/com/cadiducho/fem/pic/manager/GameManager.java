@@ -96,6 +96,7 @@ public class GameManager {
             
             final PicPlayer picPlayer = Pictograma.getPlayer(p);
             picPlayer.getUserData().setPicPuntosTotales(picPlayer.getUserData().getPicPuntosTotales() + puntos);
+            picPlayer.getUserData().setCoins(picPlayer.getUserData().getCoins() + 5);
         }
         if (score.containsKey(winner)) {
             plugin.getMsg().sendBroadcast("&aPuntuaciones:");
@@ -181,11 +182,15 @@ public class GameManager {
                     break;
             }
             increaseScore(player, puntos);
+            pp.getUserData().setCoins(pp.getUserData().getCoins() + 1);
             plugin.getMsg().sendBroadcast("&6+" + puntos + " &a" + player.getName() + " ha encontrado la palabra" + sufijo);
+            pp.save();
             
             playerFound += 1;
         }
         if (playerFound == (getPlayersInGame().size() - 1)) {
+            pp.getUserData().setCoins(pp.getUserData().getCoins() + 10);
+            pp.save();
             GameTask.getGameInstance().prepareNextRound();
         }
     }

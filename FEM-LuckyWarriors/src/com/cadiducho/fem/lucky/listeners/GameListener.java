@@ -52,6 +52,7 @@ public class GameListener implements Listener {
                 HashMap<Integer, Integer> kills = lpKiller.getUserData().getKills();
                 kills.replace(6, kills.get(6) + 1);
                 lpKiller.getUserData().setKills(kills);
+                lpKiller.getUserData().setCoins(lpKiller.getUserData().getCoins() + 1);
                 lpKiller.save();
                 HashMap<Integer, Integer> deaths = lpKiller.getUserData().getDeaths();
                 deaths.replace(6, deaths.get(6) + 1);

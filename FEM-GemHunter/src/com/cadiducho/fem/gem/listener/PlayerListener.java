@@ -1,10 +1,9 @@
 package com.cadiducho.fem.gem.listener;
 
-import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.GemHunters;
+import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.task.GameTask;
 import com.cadiducho.fem.gem.task.RespawnTask;
-import java.util.HashMap;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.LivingEntity;
@@ -16,13 +15,9 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
+
+import java.util.HashMap;
 
 public class PlayerListener implements Listener {
 
@@ -130,6 +125,9 @@ public class PlayerListener implements Listener {
                     kills.replace(3, kills.get(3) + 1);
                     gp.getUserData().setKills(kills);
                     gp.save();
+                    final GemPlayer gp2 = GemHunters.getPlayer(damager);
+                    gp2.getUserData().setCoins(gp2.getUserData().getCoins() + 1);
+                    gp2.save();
                     
                     //Limpiar jugador y respawn
                     pl.setCleanPlayer(GameMode.SPECTATOR);

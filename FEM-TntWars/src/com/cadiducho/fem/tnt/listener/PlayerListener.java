@@ -151,6 +151,7 @@ public class PlayerListener implements Listener {
                 Player damager = (Player) e.getDamager();
                 Player p = (Player) e.getEntity();
                 TntPlayer pl = TntWars.getPlayer(p);
+                TntPlayer damag = TntWars.getPlayer(damager);
 
                 //Simular muerte
                 if (p.getHealth() - e.getDamage() < 1) {
@@ -177,6 +178,7 @@ public class PlayerListener implements Listener {
                         new RespawnTask(pl).runTaskTimer(plugin, 20L, 20L);
                     } else {
                         pl.death();
+                        damag.getUserData().setCoins(damag.getUserData().getCoins() + 1);
                     }
                 }
             }

@@ -57,6 +57,7 @@ public class GameManager {
             HashMap<Integer, Integer> wins = gp.getUserData().getWins();
             wins.replace(3, wins.get(3) + 1);
             gp.getUserData().setWins(wins);
+            gp.getUserData().setCoins(gp.getUserData().getCoins() + 10);
             gp.save();
         }
         plugin.getTm().getJugadores().get(loser).forEach(p -> {

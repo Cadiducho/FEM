@@ -31,6 +31,11 @@ public class GameTask extends BukkitRunnable {
                 plugin.getAm().roundEnded();
                 status += 1;
                 colorround = 0;
+                plugin.getGm().getPlayersInGame().forEach(p ->{
+                    DyePlayer dp = new DyePlayer(p.getUniqueId());
+                    dp.getUserData().setCoins(dp.getUserData().getCoins() + 1);
+                    dp.save();
+                });
                 plugin.getServer().getScheduler().scheduleSyncDelayedTask(plugin, this, 15L);
                 break;
             case 1:
@@ -110,6 +115,7 @@ public class GameTask extends BukkitRunnable {
             HashMap<Integer, Integer> wins = dp.getUserData().getWins();
             wins.replace(2, wins.get(2) + 1);
             dp.getUserData().setWins(wins);
+            dp.getUserData().setCoins(dp.getUserData().getCoins() + 10);
             dp.save();
             
             end();
