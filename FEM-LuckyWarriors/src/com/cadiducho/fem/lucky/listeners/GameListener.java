@@ -80,6 +80,7 @@ public class GameListener implements Listener {
     public void onEntityDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             if (GameState.state == GameState.LUCKY || GameState.state == GameState.CRAFT) {
+                e.getEntity().setFireTicks(0);
                 e.setCancelled(true);
                 return;
             }
@@ -92,6 +93,7 @@ public class GameListener implements Listener {
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
         if (!plugin.getGm().isInGame() || GameState.state == GameState.LUCKY || GameState.state == GameState.CRAFT) {
+            e.getEntity().setFireTicks(0);
             e.setCancelled(true);
         }
     }
