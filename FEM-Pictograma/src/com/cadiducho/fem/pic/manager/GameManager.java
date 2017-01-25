@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.DyeColor;
 import org.bukkit.Sound;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -29,6 +30,7 @@ public class GameManager {
     @Getter private final ArrayList<UUID> hasFound = new ArrayList<>();
     private int playerFound = 0;
     @Getter private final HashMap<Player, Integer> score = new HashMap<>();
+    @Getter private ArrayList<Block> blockList = new ArrayList<>();
     @Getter private Scoreboard board;
     @Getter private Objective objective;
     public DyeColor color = DyeColor.BLACK;

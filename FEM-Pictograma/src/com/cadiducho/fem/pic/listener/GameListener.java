@@ -82,10 +82,9 @@ public class GameListener implements Listener {
                 case LAVA_BUCKET: //Rellenar area
                     e.setCancelled(true);
                     Block b = e.getPlayer().getTargetBlock((Set<Material>) null, 100);
-                    if(b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)){
-                        return;
-                    }
+                    if(b.getType() != Material.WOOL || !plugin.getAm().getBuildZone().contains(b)) return;
                     fillArea(b, b.getData(), true); //Rellenar bloques desde b que mantengan su color
+                    plugin.getGm().getBlockList().clear();
                     break;
             }
         }
@@ -181,22 +180,17 @@ public class GameListener implements Listener {
     }
 
     public void fillArea(Block block, byte color, boolean first){
-        if(block.getData() != color){
-            return;
-        }
-        if(!plugin.getAm().getBuildZone().contains(block)){
-            return;
-        }
+        if (block.getData() != color) return;
+        if (!plugin.getAm().getBuildZone().contains(block)) return;
+        if (plugin.getGm().getBlockList().contains(block)) return;
 
         //Pintar todos los bloques de un area del color elegido
         block.setData(plugin.getGm().color.getData());
+        plugin.getGm().getBlockList().add(block);
 
         try{
             getSurroundingBlocks(block).forEach(other -> fillArea(other, color, false));
-            // TODO: Crear otro método
-        }catch(StackOverflowError e){
-            //De momento nada
-        }
+        }catch(StackOverflowError e){}
 
         //Escuchar el cubo solo la primera vez
         if(first){
