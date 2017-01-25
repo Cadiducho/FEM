@@ -32,7 +32,10 @@ public class LobbyTask extends BukkitRunnable {
             return;
         }
         
-        plugin.getGm().getPlayersInGame().forEach(pl -> pl.setLevel(count));
+        plugin.getGm().getPlayersInGame().forEach(pl -> {
+            pl.setLevel(count);
+            pl.setFireTicks(0);
+        });
         if (count == 7) {            
             //Colocar jugadores
             plugin.getGm().getPlayersInGame().forEach(p -> DyeOrDie.getPlayer(p).spawn());       

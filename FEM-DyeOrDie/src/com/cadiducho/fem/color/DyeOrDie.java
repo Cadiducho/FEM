@@ -10,6 +10,7 @@ import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.core.util.Messages;
 import lombok.Getter;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.WorldCreator;
 import org.bukkit.plugin.PluginManager;
@@ -69,12 +70,12 @@ public class DyeOrDie extends JavaPlugin {
         getLogger().log(Level.INFO, "Color: Activado correctamente");
         //Evento para la caida al vacio
         getServer().getScheduler().runTaskTimer(instance, () -> {
-            if (getGm().isInGame()) return;
-                getGm().getPlayersInGame().stream().forEach(p -> {
-                    if (p.getLocation().getBlockY() < 0) {
-                        getPlayer(p).endGame();
-                    }
-                });
+            if (getGm().isInGame()) {
+                getGm().getPlayersInGame().stream()
+                        .filter(player -> (player.getLocation() != null))
+                        .filter(player -> ((player.getLocation().getBlockY() < 0) && (player.getGameMode() != GameMode.SPECTATOR)))
+                        .forEach(player -> getPlayer(player).endGame());
+            }
         }, 20, 20);
     }
 
