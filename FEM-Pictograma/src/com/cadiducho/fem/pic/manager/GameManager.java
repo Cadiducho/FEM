@@ -70,7 +70,7 @@ public class GameManager {
         plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
         color = DyeColor.BLACK;
         
-        new Title("&e&l" + word, "&3Dibuja esta palabra", 1, 2, 1).send(builder);
+        new Title("&e&l" + word, "&3Dibuja esta palabra").send(builder);
         Pictograma.getPlayer(builder).setArtist();
         Pictograma.getPlayer(builder).sendMessage("La palabara es &e" + word);
     
@@ -101,7 +101,7 @@ public class GameManager {
             plugin.getMsg().sendBroadcast("&6Ganador: " + winner.getName());
             for (Player p : plugin.getGm().getPlayersInGame()) {
                 p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
-                new Title("&a" + winner.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner); 
+                new Title("&a" + winner.getName(), "&aha ganado la partida!").send(winner);
             }
             
             final PicPlayer pp = Pictograma.getPlayer(winner);

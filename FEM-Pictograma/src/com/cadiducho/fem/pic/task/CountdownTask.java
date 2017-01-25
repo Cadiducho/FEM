@@ -22,7 +22,8 @@ public class CountdownTask extends BukkitRunnable {
     private int count = 7;
 
     @Override
-    public void run() {       
+    public void run() {
+        plugin.getGm().getPlayersInGame().forEach(pl -> pl.setLevel(count));
         if (count == 7) {            
             //Colocar jugadores
             plugin.getGm().getPlayersInGame().forEach(p -> Pictograma.getPlayer(p).spawn());
@@ -59,6 +60,5 @@ public class CountdownTask extends BukkitRunnable {
         }
 
         --count;
-        plugin.getGm().getPlayersInGame().forEach(pl -> pl.setLevel(count));
     }
 }
