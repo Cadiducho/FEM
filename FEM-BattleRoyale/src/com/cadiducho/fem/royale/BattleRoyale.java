@@ -26,7 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class BattleRoyale extends JavaPlugin {
 
     @Getter private static BattleRoyale instance;
-    private static final String packUrl = "http://picapiedra.es/dowload/Royale.zip"; //TODO: Mantener actualizado
+    private static final String packUrl = "http://undergames.es/dl/Royale.zip"; //TODO: Mantener actualizado
     
     public static ArrayList<BattlePlayer> players = new ArrayList<>();
     
