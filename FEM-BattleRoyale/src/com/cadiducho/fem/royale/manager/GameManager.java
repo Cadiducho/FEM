@@ -56,6 +56,7 @@ public class GameManager {
                     wins.replace(5, wins.get(5) + 1);
                     new Title("&b&l¡Has ganado!", "", 1, 2, 1).send(winner);
                     bp.getUserData().setWins(wins);
+                    bp.getUserData().setCoins(bp.getUserData().getCoins() + 5);
                     bp.save();
                 });
                 new WinnerCountdown(plugin).runTaskTimer(plugin, 20l, 20l);

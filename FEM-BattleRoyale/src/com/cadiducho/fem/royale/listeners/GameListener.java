@@ -62,15 +62,13 @@ public class GameListener implements Listener {
             final BattlePlayer bpDead = BattleRoyale.getPlayer(e.getEntity());
             
             if (e.getEntity().getKiller() instanceof Player) {
+
+                //Si lo asesinan, mostrar asesino y dar stats al asesino
                 final BattlePlayer bpKiller = BattleRoyale.getPlayer(e.getEntity().getKiller());
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                 plugin.getMsg().sendMessage(e.getEntity(), "Te ha matado " + e.getEntity().getKiller().getDisplayName());
-                plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
-                plugin.getGm().getPlayersInGame().remove(e.getEntity());
-                bpDead.setSpectator();
-                bpDead.addKillToPlayer();
-                bpDead.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
-                bpDead.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
+                new Title("&b&l¡" + e.getEntity().getKiller().getDisplayName() + " te ha asesinado!", "Puedes volver al Lobby cuando quieras", 1, 3, 1).send(e.getEntity());
+                bpKiller.addKillToPlayer();
                 bpKiller.sendMessage("Has recibido una moneda por matar a &e" + e.getEntity().getName());
                 bpKiller.getPlayer().getInventory().addItem(plugin.getMoneda());
                 
@@ -78,25 +76,25 @@ public class GameListener implements Listener {
                 HashMap<Integer, Integer> kills = bpKiller.getUserData().getKills();
                 kills.replace(5, kills.get(5) + 1);
                 bpKiller.getUserData().setKills(kills);
+                bpKiller.getUserData().setCoins(bpKiller.getUserData().getCoins() + 1);
                 bpKiller.save();
-                HashMap<Integer, Integer> deaths = bpDead.getUserData().getDeaths();
-                deaths.replace(5, deaths.get(5) + 1);
-                bpDead.getUserData().setDeaths(deaths);
-                bpDead.save();
             } else {
-                plugin.getMsg().sendMessage(e.getEntity(), "Has muerto");
+                plugin.getMsg().sendMessage(e.getEntity(), "¡Has muerto!");
                 new Title("&b&l¡Has muerto!", "Puedes volver al Lobby cuando quieras", 1, 3, 1).send(e.getEntity());
-                e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
-                plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
-                plugin.getGm().getPlayersInGame().remove(e.getEntity());
-                bpDead.setSpectator();
-                bpDead.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
-                bpDead.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-                HashMap<Integer, Integer> deaths = bpDead.getUserData().getDeaths();
-                deaths.replace(5, deaths.get(5) + 1);
-                bpDead.getUserData().setDeaths(deaths);
-                bpDead.save();
             }
+
+            //Stats del muerto
+            e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
+            plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
+            plugin.getGm().getPlayersInGame().remove(e.getEntity());
+            bpDead.setSpectator();
+            bpDead.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
+            bpDead.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
+            HashMap<Integer, Integer> deaths = bpDead.getUserData().getDeaths();
+            deaths.replace(5, deaths.get(5) + 1);
+            bpDead.getUserData().setDeaths(deaths);
+            bpDead.save();
+
             if (!plugin.getGm().checkWinner()) {
                 plugin.getGm().checkDm();
             }

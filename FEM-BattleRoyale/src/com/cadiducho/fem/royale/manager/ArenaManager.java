@@ -6,10 +6,7 @@ import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.utils.ChestItems;
 import lombok.Getter;
-import me.cybermaxke.merchants.api.Merchant;
-import me.cybermaxke.merchants.api.MerchantAPI;
-import me.cybermaxke.merchants.api.MerchantOffer;
-import me.cybermaxke.merchants.api.Merchants;
+import me.cybermaxke.merchants.api.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -248,13 +245,17 @@ public class ArenaManager {
         vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.DIAMOND_CHESTPLATE).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build(), moneda30));
         vendo.addOffer(api.newOffer(new ItemBuilder().setType(Material.DIAMOND_LEGGINGS).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 3, true).addEnchant(Enchantment.DURABILITY, 1, true).build(), moneda30));
 
-        vendo.addListener((Merchant merchant, MerchantOffer offer, Player customer) -> {
-            final BattlePlayer bp = BattleRoyale.getPlayer(customer);
-            bp.getUserData().setBrIntercambios(bp.getUserData().getBrIntercambios() + 1);
-        }); 
-        compro.addListener((Merchant merchant, MerchantOffer offer, Player customer) -> {
-            final BattlePlayer bp = BattleRoyale.getPlayer(customer);
-            bp.getUserData().setBrIntercambios(bp.getUserData().getBrIntercambios() + 1);
-        });
+        vendo.addListener(merchantTradeListener);
+        compro.addListener(merchantTradeListener);
     }
+
+    MerchantTradeListener merchantTradeListener = new MerchantTradeListener() {
+        @Override
+        public void onTrade(Merchant merchant, MerchantOffer offer, Player customer) {
+            final BattlePlayer bp = BattleRoyale.getPlayer(customer);
+            bp.getUserData().setBrIntercambios(bp.getUserData().getBrIntercambios() + 1);
+            bp.getUserData().setCoins(bp.getUserData().getCoins() + 10);
+            bp.save();
+        }
+    };
 }
