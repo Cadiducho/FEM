@@ -66,8 +66,8 @@ public class GameListener implements Listener {
                 //Si lo asesinan, mostrar asesino y dar stats al asesino
                 final BattlePlayer bpKiller = BattleRoyale.getPlayer(e.getEntity().getKiller());
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
-                plugin.getMsg().sendMessage(e.getEntity(), "Te ha matado " + e.getEntity().getKiller().getDisplayName());
-                new Title("&b&l¡" + e.getEntity().getKiller().getDisplayName() + " te ha asesinado!", "Puedes volver al Lobby cuando quieras", 1, 3, 1).send(e.getEntity());
+                plugin.getMsg().sendMessage(e.getEntity(), "Te ha matado &e" + e.getEntity().getKiller().getDisplayName());
+                new Title("&b&l¡" + e.getEntity().getKiller().getDisplayName() + "&a te ha asesinado!", "Puedes volver al Lobby cuando quieras", 1, 3, 1).send(e.getEntity());
                 bpKiller.addKillToPlayer();
                 bpKiller.sendMessage("Has recibido una moneda por matar a &e" + e.getEntity().getName());
                 bpKiller.getPlayer().getInventory().addItem(plugin.getMoneda());
@@ -85,7 +85,7 @@ public class GameListener implements Listener {
 
             //Stats del muerto
             e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
-            plugin.getMsg().sendBroadcast(e.getEntity().getDisplayName() + " ha sido eliminado de la partida");
+            plugin.getMsg().sendBroadcast("&c&l" + e.getEntity().getDisplayName() + "&a ha sido eliminado de la partida");
             plugin.getGm().getPlayersInGame().remove(e.getEntity());
             bpDead.setSpectator();
             bpDead.sendMessage("Escribe &e/lobby &fpara volver al Lobby");

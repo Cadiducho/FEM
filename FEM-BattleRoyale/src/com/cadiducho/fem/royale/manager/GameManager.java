@@ -2,16 +2,17 @@ package com.cadiducho.fem.royale.manager;
 
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.royale.BattlePlayer;
-import java.util.ArrayList;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.task.DeathMatchCountdown;
 import com.cadiducho.fem.royale.task.LobbyTask;
 import com.cadiducho.fem.royale.task.WinnerCountdown;
-import java.util.HashMap;
-import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class GameManager {
 
@@ -49,7 +50,7 @@ public class GameManager {
         if (isInGame()) {
             if (playersInGame.size() < 2) {
                 playersInGame.stream().forEach((winner) -> {
-                    plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
+                    plugin.getMsg().sendBroadcast("&a&l" + winner.getDisplayName() + "&2 ha ganado la partida!");
                     
                     final BattlePlayer bp = BattleRoyale.getPlayer(winner);
                     HashMap<Integer, Integer> wins = bp.getUserData().getWins();

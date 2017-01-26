@@ -4,6 +4,7 @@ import com.cadiducho.fem.color.util.ScoreboardUtil;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Title;
 import org.bukkit.GameMode;
+import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
@@ -105,10 +106,11 @@ public class DyePlayer extends FEMUser {
         setSpectator();
         getPlayer().teleport(getPlayer().getLocation().add(0, 50, 0));
         plugin.getGm().removePlayerFromGame(getPlayer());
-        new Title("&b&l¡Has sido eliminado!", "Has caído en la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(getPlayer());
+        new Title("&b&l¡Has sido eliminado!", "Has caído en la ronda " + plugin.getAm().getRound(), 1, 4, 1).send(getPlayer());
         sendMessage("Escribe &e/lobby &fpara volver al Lobby");
         repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
         plugin.getMsg().sendBroadcast("&e&l" + getName() + " &aha caido en la ronda &e" + plugin.getAm().getRound() + "&a!");
         sendMessage("¡Enhorabuena! Has llegado hasta la ronda " + plugin.getAm().getRound());
+        getPlayer().playSound(getPlayer().getLocation(), Sound.ANVIL_LAND, 1, 1);
     }
 }

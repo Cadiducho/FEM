@@ -1,12 +1,9 @@
 package com.cadiducho.fem.royale;
 
 import com.cadiducho.fem.core.listeners.ResourcePackManager;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import lombok.Getter;
 import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.core.util.ItemUtil;
+import com.cadiducho.fem.core.util.Messages;
 import com.cadiducho.fem.royale.listeners.GameListener;
 import com.cadiducho.fem.royale.listeners.PlayerListener;
 import com.cadiducho.fem.royale.listeners.ServerListener;
@@ -14,7 +11,7 @@ import com.cadiducho.fem.royale.manager.ArenaManager;
 import com.cadiducho.fem.royale.manager.GameManager;
 import com.cadiducho.fem.royale.manager.GameState;
 import com.cadiducho.fem.royale.utils.ChestItems;
-import com.cadiducho.fem.core.util.Messages;
+import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -22,6 +19,10 @@ import org.bukkit.WorldCreator;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.logging.Level;
 
 public class BattleRoyale extends JavaPlugin {
 
@@ -53,7 +54,7 @@ public class BattleRoyale extends JavaPlugin {
         ChestItems.initItems();
         am = new ArenaManager(instance);
         gm = new GameManager(instance);
-        msg = new Messages(instance, "&aBattleRoyale");
+        msg = new Messages(instance, "&6BattleRoyale");
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         
         PluginManager pm = getServer().getPluginManager();

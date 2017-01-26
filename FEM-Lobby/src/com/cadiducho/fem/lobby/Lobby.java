@@ -5,23 +5,16 @@ import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.lobby.cmds.*;
 import com.cadiducho.fem.lobby.listeners.PlayerListener;
 import com.cadiducho.fem.lobby.listeners.WorldListener;
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.logging.Level;
-
-import static com.cadiducho.fem.core.util.Metodos.plugin;
 
 public class Lobby extends JavaPlugin {
 
@@ -73,6 +66,7 @@ public class Lobby extends JavaPlugin {
         //Mini task para que los usuarios no caigan al vacío
         getServer().getScheduler().runTaskTimer(instance, () -> {
             getServer().getOnlinePlayers().stream().forEach(p -> {
+                if (p.getFireTicks() != 0) p.setFireTicks(0);
                 if (p.getLocation().getBlockY() < 0) {
                     p.teleport(p.getWorld().getSpawnLocation());
                 }
