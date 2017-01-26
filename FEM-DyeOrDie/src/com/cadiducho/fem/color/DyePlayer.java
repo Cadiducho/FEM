@@ -108,7 +108,7 @@ public class DyePlayer extends FEMUser {
         new Title("&b&l¡Has sido eliminado!", "Has caído en la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(getPlayer());
         sendMessage("Escribe &e/lobby &fpara volver al Lobby");
         repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-        plugin.getMsg().sendBroadcast(getName() + " ha caido en la ronda " + plugin.getAm().getRound() + "!");
+        plugin.getMsg().sendBroadcast("&e&l" + getName() + " &aha caido en la ronda &e" + plugin.getAm().getRound() + "&a!");
         sendMessage("¡Enhorabuena! Has llegado hasta la ronda " + plugin.getAm().getRound());
     }
 }
