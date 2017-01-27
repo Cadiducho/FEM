@@ -22,7 +22,7 @@ public class ShutdownTask extends BukkitRunnable {
                 TntWars.getPlayer(p).sendToLobby();
             });
             plugin.getServer().unloadWorld(plugin.getServer().getWorlds().get(0), false);
-            plugin.getServer().spigot().restart();
+            plugin.getServer().shutdown();
             cancel();
         }
         --count;
