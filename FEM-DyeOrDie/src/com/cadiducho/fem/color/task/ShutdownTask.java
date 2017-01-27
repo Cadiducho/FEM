@@ -23,7 +23,7 @@ public class ShutdownTask extends BukkitRunnable {
             });
         }
         if (count == 0) {
-            plugin.getServer().spigot().restart();
+            plugin.getServer().shutdown();
             cancel();
         }
         --count;

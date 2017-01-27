@@ -28,7 +28,7 @@ public class ShutdownTask extends BukkitRunnable {
                 p.sendMessage("Servidor desconectado");
                 GemHunters.getPlayer(p).sendToLobby();
             });
-            plugin.getServer().spigot().restart();
+            plugin.getServer().shutdown();
             cancel();
         }
         --count;
