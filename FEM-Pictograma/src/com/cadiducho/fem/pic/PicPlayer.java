@@ -71,7 +71,7 @@ public class PicPlayer extends FEMUser {
         getPlayer().getInventory().setArmorContents(null);
         getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.WOOD_SWORD, "&ePincel"));
         getPlayer().getInventory().setItem(1, ItemUtil.createItem(Material.GOLD_SWORD, "&eBrocha"));
-        getPlayer().getInventory().setItem(2, ItemUtil.createItem(Material.COMPASS, "&aEscoger color"));
+        getPlayer().getInventory().setItem(2, ItemUtil.createItem(Material.BOWL, "&aEscoger color"));
         getPlayer().getInventory().setItem(6, ItemUtil.createItem(Material.LAVA_BUCKET, "&eRellenar"));
         getPlayer().getInventory().setItem(7, ItemUtil.createItem(Material.IRON_SWORD, "&eBorrador"));
         getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.EMPTY_MAP, "&eNueva hoja"));

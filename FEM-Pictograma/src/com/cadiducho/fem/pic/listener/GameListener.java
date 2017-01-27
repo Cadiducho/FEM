@@ -69,7 +69,7 @@ public class GameListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent e){
         if((e.getAction() == Action.RIGHT_CLICK_AIR) || (e.getAction() == Action.RIGHT_CLICK_BLOCK)){
             switch(e.getPlayer().getInventory().getItemInHand().getType()){
-                case COMPASS: //Escoger color
+                case BOWL: //Escoger color
                     e.setCancelled(true);
                     e.getPlayer().openInventory(plugin.colorPicker);
                     break;
@@ -97,7 +97,7 @@ public class GameListener implements Listener {
                     if(b.getType() == Material.WOOL){
                         Wool wool = (Wool) b.getState().getData();
                         if(!plugin.getAm().getBuildZone().contains(b)){
-                            setPencilColor(wool.getColor());
+                            setCurrentColor(wool.getColor());
                             e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
                         }
                     }
@@ -263,66 +263,17 @@ public class GameListener implements Listener {
             if((event.getCurrentItem() == null) || (event.getCurrentItem().getType() == Material.AIR)){
                 return;
             }
-            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Blanco")){
-                setPencilColor(DyeColor.WHITE);
-                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
-                p.closeInventory();
-                return;
-            }
-            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Negro")){
-                setPencilColor(DyeColor.BLACK);
-                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
-                p.closeInventory();
-                return;
-            }
-            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Rojo")){
-                setPencilColor(DyeColor.RED);
-                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
-                p.closeInventory();
-                return;
-            }
-            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Naranja")){
-                setPencilColor(DyeColor.ORANGE);
-                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
-                p.closeInventory();
-                return;
-            }
-            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Amarillo")){
-                setPencilColor(DyeColor.YELLOW);
-                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
-                p.closeInventory();
-                return;
-            }
-            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Verde")){
-                setPencilColor(DyeColor.LIME);
-                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
-                p.closeInventory();
-                return;
-            }
-            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Azul")){
-                setPencilColor(DyeColor.LIGHT_BLUE);
-                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
-                p.closeInventory();
-                return;
-            }
-            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Morado")){
-                setPencilColor(DyeColor.PURPLE);
-                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
-                p.closeInventory();
-                return;
-            }
-            if(event.getCurrentItem().getItemMeta().getDisplayName().contains("Marron")){
-                setPencilColor(DyeColor.BROWN);
-                p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
-                p.closeInventory();
-            }
-        }else{
+            Wool wool = (Wool) event.getCurrentItem().getData();
+
+            setCurrentColor(wool.getColor());
+            p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1.0F, 1.0F);
+        } else {
             event.setCancelled(true);
         }
         p.closeInventory();
     }
 
-    public void setPencilColor(DyeColor color){
+    public void setCurrentColor(DyeColor color){
         plugin.getGm().color = color;
     }
 }
