@@ -61,8 +61,6 @@ public class Lobby extends JavaPlugin {
             getLogger().log(Level.INFO, "Lobby: No se han podido cargar sus comandos");
         }
 
-        LobbyMenu lobbyMenu = new LobbyMenu(instance);
-
         FEMServer.setEnableParkour(false); //Activar parkour siempre -> JAJA not yet
 
         //TODO: Mover a otras clases

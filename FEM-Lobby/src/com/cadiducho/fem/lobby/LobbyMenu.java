@@ -1,10 +1,8 @@
 package com.cadiducho.fem.lobby;
 
-import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
-import com.cadiducho.fem.lobby.utils.ParticleType;
 import lombok.Getter;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -16,82 +14,33 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class LobbyMenu {
 
-    private static Lobby plugin;
     public enum Menu {
-        AJUSTES, VIAJAR, STATS, NVIDIA, PARTICULAS, PETS, CAJAS, EVENTOS;
+        AJUSTES, VIAJAR, STATS, NVIDIA, PARTICULAS //PETS, CAJAS, EVENTOS;
     }
 
-    @Getter private static ItemStack libro;
+    @Getter private static HashMap<FEMUser, List<Inventory>> invs = new HashMap<>();
 
-    @Getter private static Inventory invAjustes;
-    @Getter private static Inventory invViajar;
-    @Getter private static Inventory invStats;
-    @Getter private static Inventory invNvidia;
-    @Getter private static Inventory invParticulas;
-    @Getter private static Inventory invPets;
-    @Getter private static Inventory invCajas;
-    @Getter private static Inventory invEventos;
+    @Getter private static ItemStack libro;
 
     @Getter private static final List<String> loreAmistades = Arrays.asList("Informar de nuevos seguimientos de amistad", "- Informar (Verde)", "- No informar (Rojo)");
     @Getter private static final List<String> loreMsgPrivados = Arrays.asList("Acepta o rechaza los mensajes privados en el chat", "- Aceptar (Verde)", "- Rechaza (Rojo)");
     @Getter private static final List<String> loreVisibilidad = Arrays.asList("Selecciona que tipo de jugadores quieres ver", "- Todos (Verde)", "- Amigos (Amarillo)", "- Nadie (Rojo)");
 
-    public LobbyMenu(Lobby instance) {
-        plugin = instance;
-
-        //Libro
-        libro = new ItemStack(Material.WRITTEN_BOOK);
-        BookMeta meta = (BookMeta) libro.getItemMeta();
-        meta.setDisplayName(Metodos.colorizar("Guía del novato"));
-        meta.setAuthor(Metodos.colorizar("&6Staff"));
-        meta.addPage(Metodos.colorizar("§7§l■ ¡BIENVENIDO/A! ■§0\n\n"
-                + "§lUnderGames§r es un servidor apoyado por §a§lNVIDIA§0, en el cual puedes disfrutar de muchos minijuegos con tus amigos."
-                + "Para saber más sobre estos minijuegos, primero lee las normas.§0"));
-        meta.addPage(Metodos.colorizar("§7§l■ NORMAS: ■ §0\n\n"
-                + "❶ No insultes.\n"
-                + "❷ No hagas spam.\n"
-                + "❸ No escribas abusivamente en el chat.\n"
-                + "❹ No uses hacks/mods §o(excepto Optifine).§r\n"
-                + "❺ No uses bugs, repórtalos!§0"));
-        meta.addPage(Metodos.colorizar("§3§l▶ PICTOGRAMA:§0\n\n"
-                + "En cada ronda será seleccionado un artista, el cual intentará representar la palabra oculta, mientras los demás usuarios intentan adivinarla. "
-                + "El jugador con más puntos, ¡gana!§0"));
-        meta.addPage(Metodos.colorizar("§1§l▶ TNT WARS:§0\n\n"
-                + "Compite contra el resto de jugadores comprando armas, defensas y bloques."
-                + "Pero ten cuidado, si un jugador hace estallar tu isla colocando la TNT, no podrás revivir. ¡Ganará el último jugador vivo!"));
-        meta.addPage(Metodos.colorizar("§5§l▶ DYE or DIE:§0\n\n"
-                + "Sitúate sobre el color que haya sido seleccionado en la ronda, tras unos segundos toda la pista caerá excepto el color correcto. "
-                + "Sobrevive todas las rondas posibles. ¡Si caes al vacío perderás!§0"));
-        meta.addPage(Metodos.colorizar("§4§l▶ LUCKY WARRIOR:§0\n\n"
-                + "Rompe los §oluckyblocks.§r Pasado un tiempo, podrás cocinar, craftear, encantar y equiparte con lo obtenido. "
-                + "Una vez listos, apareceréis en la arena, donde solo uno de vosotros vencerá.§0"));
-        meta.addPage(Metodos.colorizar("§a§l▶ GEM HUNTERS:§0\n\n"
-                + "Dos equipos deberán esconder sus gemas por el mapa. "
-                + "Tras ese tiempo, el muro divisorio se abrirá y tu objetivo será encontrar las gemas enemigas y defender las propias, atacando al equipo contrario.§0"));
-        meta.addPage(Metodos.colorizar("§6§l▶ BATTLE ROYALE:§0\n\n"
-                + "Busca los cofres por el mapa, equípate, compra o vende lo que necesites en las tiendas y se el último jugador con vida. "
-                + "Recuerda que los limites del mapa disminuyen y te pueden eliminar.§0"));
-        meta.addPage(Metodos.colorizar("Síguenos en Twitter:\n"
-                + "&8&l@UnderGames_info\n"
-                + " \n"
-                + " \n"
-                + "¡Bienvenido al servidor y disfruta! ;)"));
-        libro.setItemMeta(meta);
-
+    public LobbyMenu(Lobby plugin, FEMUser u) {
         //Ajustes
-        invAjustes = plugin.getServer().createInventory(null, 18, "Ajustes del jugador");
+        Inventory invAjustes = plugin.getServer().createInventory(null, 18, "Ajustes del jugador");
         invAjustes.setItem(1, ItemUtil.createHeadPlayer("NUEVAS AMISTADES", "steve", loreAmistades));
         invAjustes.setItem(4, ItemUtil.createItem(Material.BOOK_AND_QUILL, "MENSAJES PRIVADOS", loreMsgPrivados));
         invAjustes.setItem(7, ItemUtil.createItem(Material.ENDER_PEARL, "VISIBILIDAD DE JUGADORES", loreVisibilidad));
 
         //Viajar
-        invViajar = plugin.getServer().createInventory(null, 27, "Viajar");
+        Inventory invViajar = plugin.getServer().createInventory(null, 27, "Viajar");
         invViajar.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA", "&6Dibuja y adivina"));
         invViajar.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS", "&6Pon TNT y destroza islas"));
         ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE", "&6Salta al color seleccionado");
@@ -106,25 +55,11 @@ public class LobbyMenu {
         invViajar.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6&lBATTLE ROYALE", "&6Equípate y lucha por la victoria"));
         
         //Stats
-        invStats = plugin.getServer().createInventory(null, 18, "Estadisticas del jugador");
+        Inventory invStats = plugin.getServer().createInventory(null, 18, "Estadisticas del jugador");
 
-        //TODO: Añadir Lore
-
-        //Nvidia
-        invNvidia = plugin.getServer().createInventory(null, 36, Metodos.colorizar("&3NVIDIA &0Point"));
-        invNvidia.setItem(11, ItemUtil.createItem(Material.INK_SACK, 1, (short)3, "Partículas", new ArrayList<>()));
-        invNvidia.setItem(13, ItemUtil.createItem(Material.BONE, "Animales", new ArrayList<>()));
-        invNvidia.setItem(15, ItemUtil.createItem(Material.IRON_SWORD, "Comprar Mejoras", new ArrayList<>()));
-        invNvidia.setItem(31, ItemUtil.createItem(Material.ENCHANTMENT_TABLE, "Abrir Cajas", new ArrayList<>()));
-
-        //Particulas
-        invParticulas = plugin.getServer().createInventory(null, 36, "Particulas");
-        invParticulas.setItem(30, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 1, (short)6, "❮ Atrás", new ArrayList<>()));
-        invParticulas.setItem(32, ItemUtil.createItem(Material.BARRIER, "✖ Quitar Partículas", new ArrayList<>()));
-        Arrays.asList(ParticleType.values()).forEach(pt -> invParticulas.setItem(pt.getId() ,pt.getItem())); //Todos los items creados
-
-        //Eventos
-        invEventos = plugin.getServer().createInventory(null, 9, "Eventos");
+        if (invs.containsKey(u)) invs.remove(u);
+        invs.put(u, Arrays.asList(invAjustes, invViajar, invStats));
+        loadBook();
     }
 
     public static void openMenu(FEMUser u, Menu type) {
@@ -132,7 +67,7 @@ public class LobbyMenu {
         Inventory clon = null;
         switch (type) {
             case AJUSTES:
-                clon = invAjustes;
+                clon = invs.get(u).get(0);
 
                 //Amistades
                 DyeColor amistadesColor = u.getUserData().getFriendRequest() ? DyeColor.LIME : DyeColor.RED;
@@ -147,7 +82,7 @@ public class LobbyMenu {
                 clon.setItem(16, ItemUtil.createClay("VISIBILIDAD DE JUGADORES", loreVisibilidad, visibilidadColor));
                 break;
             case VIAJAR:
-                clon = invViajar;
+                clon = invs.get(u).get(1);
 
                 //Viajar - Stats
                 String amistades = u.getUserData().getFriendRequest() ? "Aceptas" : "No aceptas";
@@ -164,7 +99,7 @@ public class LobbyMenu {
 
                 break;
             case STATS:
-                clon = invStats;
+                clon = invs.get(u).get(2);
 
                 clon.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA",
                         Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(4),
@@ -205,37 +140,6 @@ public class LobbyMenu {
                         "&6---{*}---",
                         "&fIntercambios realizados: &l" + u.getUserData().getBrIntercambios())));
                 break;
-            case NVIDIA:
-                clon = invNvidia;
-                break;
-            case PARTICULAS:
-                clon = invParticulas;
-                break;
-            case EVENTOS:
-                clon = invEventos;
-                List<String> lore = new ArrayList<>();
-                lore.clear();
-
-                //Pic
-                FEMCore.getInstance().getMysql().get10Top("picAcertadas").keySet().forEach(k -> lore.add("&f" + k.getName() + " &c" + FEMCore.getInstance().getMysql().get10Top("picAcertadas").get(k)));
-                lore.add(" ");
-                lore.add("&f" + u.getName() + " &c" + u.getUserData().getPicAcertadas());
-                clon.setItem(0, ItemUtil.createItem(Material.GOLD_NUGGET, "&d&lPuntos Pictograma", lore));
-                lore.clear();
-
-                //LW
-                FEMCore.getInstance().getMysql().get10Top("kills_lg").keySet().forEach(k -> lore.add("&f" + k.getName() + " &c" + FEMCore.getInstance().getMysql().get10Top("kills_lg").get(k)));
-                lore.add(" ");
-                lore.add("&f" + u.getName() + " &c" + u.getUserData().getKills().get(6));
-                clon.setItem(0, ItemUtil.createItem(Material.GOLD_NUGGET, "&3&lAsesinatos Lucky Warriors", lore));
-                lore.clear();
-
-                //DyD
-                FEMCore.getInstance().getMysql().get10Top("record_dod").keySet().forEach(k -> lore.add("&f" + k.getName() + " &c" + FEMCore.getInstance().getMysql().get10Top("record_dod").get(k)));
-                lore.add(" ");
-                lore.add("&f" + u.getName() + " &c" + u.getUserData().getRecord_dod());
-                clon.setItem(0, ItemUtil.createItem(Material.GOLD_NUGGET, "&c&lRondas Aguantadas DyD", lore));
-                break;
         }
         
         if (clon != null) {
@@ -243,5 +147,45 @@ public class LobbyMenu {
             u.getPlayer().playSound(u.getPlayer().getLocation(), Sound.CLICK, 1F, 1F);
             u.getPlayer().openInventory(clon);
         }
+    }
+
+    private void loadBook() {
+        libro = new ItemStack(Material.WRITTEN_BOOK);
+        BookMeta meta = (BookMeta) libro.getItemMeta();
+        meta.setDisplayName(Metodos.colorizar("Guía del novato"));
+        meta.setAuthor(Metodos.colorizar("&6Staff"));
+        meta.addPage(Metodos.colorizar("§7§l■ ¡BIENVENIDO/A! ■§0\n\n"
+                + "§lUnderGames§r es un servidor apoyado por §a§lNVIDIA§0, en el cual puedes disfrutar de muchos minijuegos con tus amigos."
+                + "Para saber más sobre estos minijuegos, primero lee las normas.§0"));
+        meta.addPage(Metodos.colorizar("§7§l■ NORMAS: ■ §0\n\n"
+                + "❶ No insultes.\n"
+                + "❷ No hagas spam.\n"
+                + "❸ No escribas abusivamente en el chat.\n"
+                + "❹ No uses hacks/mods §o(excepto Optifine).§r\n"
+                + "❺ No uses bugs, repórtalos!§0"));
+        meta.addPage(Metodos.colorizar("§3§l▶ PICTOGRAMA:§0\n\n"
+                + "En cada ronda será seleccionado un artista, el cual intentará representar la palabra oculta, mientras los demás usuarios intentan adivinarla. "
+                + "El jugador con más puntos, ¡gana!§0"));
+        meta.addPage(Metodos.colorizar("§1§l▶ TNT WARS:§0\n\n"
+                + "Compite contra el resto de jugadores comprando armas, defensas y bloques."
+                + "Pero ten cuidado, si un jugador hace estallar tu isla colocando la TNT, no podrás revivir. ¡Ganará el último jugador vivo!"));
+        meta.addPage(Metodos.colorizar("§5§l▶ DYE or DIE:§0\n\n"
+                + "Sitúate sobre el color que haya sido seleccionado en la ronda, tras unos segundos toda la pista caerá excepto el color correcto. "
+                + "Sobrevive todas las rondas posibles. ¡Si caes al vacío perderás!§0"));
+        meta.addPage(Metodos.colorizar("§4§l▶ LUCKY WARRIOR:§0\n\n"
+                + "Rompe los §oluckyblocks.§r Pasado un tiempo, podrás cocinar, craftear, encantar y equiparte con lo obtenido. "
+                + "Una vez listos, apareceréis en la arena, donde solo uno de vosotros vencerá.§0"));
+        meta.addPage(Metodos.colorizar("§a§l▶ GEM HUNTERS:§0\n\n"
+                + "Dos equipos deberán esconder sus gemas por el mapa. "
+                + "Tras ese tiempo, el muro divisorio se abrirá y tu objetivo será encontrar las gemas enemigas y defender las propias, atacando al equipo contrario.§0"));
+        meta.addPage(Metodos.colorizar("§6§l▶ BATTLE ROYALE:§0\n\n"
+                + "Busca los cofres por el mapa, equípate, compra o vende lo que necesites en las tiendas y se el último jugador con vida. "
+                + "Recuerda que los limites del mapa disminuyen y te pueden eliminar.§0"));
+        meta.addPage(Metodos.colorizar("Síguenos en Twitter:\n"
+                + "&8&l@UnderGames_info\n"
+                + " \n"
+                + " \n"
+                + "¡Bienvenido al servidor y disfruta! ;)"));
+        libro.setItemMeta(meta);
     }
 }

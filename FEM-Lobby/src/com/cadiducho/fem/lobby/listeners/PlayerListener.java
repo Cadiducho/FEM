@@ -9,8 +9,6 @@ import com.cadiducho.fem.lobby.Lobby;
 import com.cadiducho.fem.lobby.Lobby.FEMServerInfo;
 import com.cadiducho.fem.lobby.LobbyMenu;
 import com.cadiducho.fem.lobby.LobbyTeams;
-import com.cadiducho.fem.lobby.task.TaskParticles;
-import com.cadiducho.fem.lobby.utils.ParticleType;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -64,6 +62,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
 
         e.getPlayer().setHealth(e.getPlayer().getMaxHealth());
         e.getPlayer().setFoodLevel(20);
+        new LobbyMenu(plugin, u);
         e.getPlayer().getInventory().clear();
         e.getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&lJuegos", "Desplázate entre los juegos del servidor"));
         e.getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.COMMAND, "&lAjustes", "Cambia alguno de tus ajustes de usuario"));
@@ -131,6 +130,10 @@ public class PlayerListener implements Listener, PluginMessageListener {
         //Menu
         if (e.getItem() != null) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (e.getItem().getType() == Material.WRITTEN_BOOK){
+                    e.setCancelled(false);
+                    return;
+                }
                 e.setCancelled(true);
                 switch (e.getItem().getType()) {
                     case COMPASS:
@@ -146,13 +149,11 @@ public class PlayerListener implements Listener, PluginMessageListener {
 
     @EventHandler
     public void inventoryClick(InventoryClickEvent e) {
-        if (!(e.getWhoClicked() instanceof Player)) {
-            return;
-        }
+        if (!(e.getWhoClicked() instanceof Player)) return;
 
         Player p = (Player) e.getWhoClicked();
         FEMUser u = FEMServer.getUser(p);
-        switch (e.getInventory().getTitle()) {
+        switch (e.getClickedInventory().getTitle()) {
             case "Ajustes del jugador":
                 e.setCancelled(true);
                 switch (e.getSlot()) {
@@ -226,63 +227,10 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 }
                 p.playSound(u.getPlayer().getLocation(), Sound.CLICK, 1F, 1F);
                 break;
-            case "NVIDIA Point":
-                e.setCancelled(true);
-                switch (e.getSlot()) {
-                    case 11:
-                        LobbyMenu.openMenu(u, LobbyMenu.Menu.PARTICULAS);
-                        break;
-                    case 13:
-                        u.sendMessage("Falta Inv");
-                        break;
-                    case 15:
-                        u.sendMessage("Falta Inv");
-                        break;
-                    case 31:
-                        u.sendMessage("Falta Inv");
-                        break;
-                    default:
-                        break;
-                }
-                p.closeInventory();
-                break;
-            case "Particulas":
-                e.setCancelled(true);
-                switch (e.getSlot()){
-                    case 30: //Cambiar botón atrás
-                        LobbyMenu.openMenu(u, LobbyMenu.Menu.NVIDIA);
-                         break;
-                    case 32: //Cambiar botón parar
-                        if (particles.containsKey(u)) particles.get(u).cancel();
-                        break;
-                    default:
-                        if (particles.containsKey(u)) particles.get(u).cancel(); particles.remove(u);
-
-                        BukkitRunnable b = new TaskParticles(p, ParticleType.values()[e.getSlot()]);
-                        particles.put(u, b);
-                        break;
-                }
-                break;
-            case "Eventos":
-                //LobbyMenu.openMenu(u, LobbyMenu.Menu.EVENTOS);
-                e.setCancelled(true);
-                break;
-
             default:
                 break;
         }
-
-        if (u.isOnRank(FEMCmd.Grupo.Moderador)) { //Staff poder usar inventarios
-            e.setCancelled(false);
-            return;
-        }
         e.setCancelled(true); //Prevenir que muevan / oculten / tiren objetos de la interfaz del Lobby
-    }
-
-    String normalize(String str) {
-        String[] a = str.split("y");
-        String i = a[1];
-        return a[0].replace('l', 'L') + "y " + i;
     }
 
     @Override
@@ -356,5 +304,11 @@ public class PlayerListener implements Listener, PluginMessageListener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(PlayerDeathEvent e) {
         e.setDeathMessage("");
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e){
+        FEMUser u = new FEMUser(e.getPlayer().getUniqueId());
+        if (LobbyMenu.getInvs().containsKey(u)) LobbyMenu.getInvs().remove(u);
     }
 }
