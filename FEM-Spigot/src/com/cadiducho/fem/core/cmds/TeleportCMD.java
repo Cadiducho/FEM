@@ -2,12 +2,13 @@ package com.cadiducho.fem.core.cmds;
 
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
-import java.util.Arrays;
-import java.util.List;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.player.PlayerTeleportEvent;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class TeleportCMD extends FEMCmd {
     
@@ -20,7 +21,7 @@ public class TeleportCMD extends FEMCmd {
         switch (args.length) {
             case 1: //del sender a otra persona
                 FEMUser target = FEMServer.getUser(plugin.getServer().getPlayer(args[0]));
-                if (!target.isOnline()) {
+                if (!target.isOnline() || target == null) {
                     user.sendMessage("*userDesconectado");
                     return;
                 }
@@ -30,6 +31,11 @@ public class TeleportCMD extends FEMCmd {
             case 2: //tp de un user a otro
                 FEMUser from = FEMServer.getUser(plugin.getServer().getPlayer(args[0]));
                 FEMUser to = FEMServer.getUser(plugin.getServer().getPlayer(args[1]));
+
+                if (!from.isOnline() || from == null || !to.isOnline() || to == null) {
+                    user.sendMessage("*userDesconectado");
+                    return;
+                }
 
                 from.getPlayer().teleport(to.getPlayer().getLocation(), PlayerTeleportEvent.TeleportCause.COMMAND);
                 from.sendMessage("*tp.to", to.getName());
