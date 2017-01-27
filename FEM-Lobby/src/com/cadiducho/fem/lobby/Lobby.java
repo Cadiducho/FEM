@@ -2,6 +2,7 @@ package com.cadiducho.fem.lobby;
 
 import com.cadiducho.fem.core.FEMCommands;
 import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.listeners.ResourcePackManager;
 import com.cadiducho.fem.lobby.cmds.*;
 import com.cadiducho.fem.lobby.listeners.PlayerListener;
 import com.cadiducho.fem.lobby.listeners.WorldListener;
@@ -19,6 +20,7 @@ import java.util.logging.Level;
 public class Lobby extends JavaPlugin {
 
     @Getter private static Lobby instance;
+    private static final String packUrl = "http://undergames.es/dl/nada.zip"; //TODO: Mantener actualizado
 
     @Getter @Setter private ArrayList<FEMServerInfo> servers;
 
@@ -40,12 +42,13 @@ public class Lobby extends JavaPlugin {
         PlayerListener pl = new PlayerListener(instance);
         pluginManager.registerEvents(pl, instance);
         pluginManager.registerEvents(new WorldListener(instance), instance);
-        
+        pluginManager.registerEvents(new ResourcePackManager(instance, packUrl), instance);
+
         getServer().getMessenger().registerOutgoingPluginChannel(instance, "BungeeCord");
         getServer().getMessenger().registerOutgoingPluginChannel(instance, "FEM");
         getServer().getMessenger().registerOutgoingPluginChannel(instance, "FEMChat");
         getServer().getMessenger().registerIncomingPluginChannel(instance, "FEM", pl);
-        
+
         try {
             //Comandos solo para el lobby
             FEMCommands.registrar(new DropPuntosCMD());
@@ -57,11 +60,11 @@ public class Lobby extends JavaPlugin {
         } catch (Exception ex) {
             getLogger().log(Level.INFO, "Lobby: No se han podido cargar sus comandos");
         }
-        
+
         LobbyMenu lobbyMenu = new LobbyMenu(instance);
-        
+
         FEMServer.setEnableParkour(false); //Activar parkour siempre -> JAJA not yet
-        
+
         //TODO: Mover a otras clases
         //Mini task para que los usuarios no caigan al vacío
         getServer().getScheduler().runTaskTimer(instance, () -> {
@@ -84,7 +87,7 @@ public class Lobby extends JavaPlugin {
                 p.sendPluginMessage(plugin, "FEM", out.toByteArray());
             }, 20, 100);
         }*/
-        
+
         getServer().getScheduler().runTaskLater(instance, () -> {
             LobbyTeams.initTeams();
         }, 1);
