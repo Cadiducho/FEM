@@ -54,9 +54,9 @@ public class GameManager {
             if (playersInGame.size() < 2) {
                 Player winner = playersInGame.get(0);
 
-                plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
+                plugin.getMsg().sendBroadcast("&e"+winner.getDisplayName() + " &aha ganado la partida!");
                 plugin.getServer().getOnlinePlayers().forEach(p -> { 
-                    new Title("&a" + winner.getName(), "&aha ganado la partida!", 1, 2, 1).send(p);
+                    new Title("&a" + winner.getName(), "&aha ganado la partida!").send(p);
                     p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
                 });
                 
