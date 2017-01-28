@@ -230,7 +230,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
             default:
                 break;
         }
-        e.setCancelled(true); //Prevenir que muevan / oculten / tiren objetos de la interfaz del Lobby
+        if (!u.isOnRank(FEMCmd.Grupo.Admin)) e.setCancelled(true); //Prevenir que muevan / oculten / tiren objetos de la interfaz del Lobby
     }
 
     @Override
