@@ -73,7 +73,7 @@ public class GameListener implements Listener {
                     e.setCancelled(true);
                     e.getPlayer().openInventory(plugin.colorPicker);
                     break;
-                case EMPTY_MAP: //Limpiar folio
+                case CLAY_BALL: //Limpiar folio
                     e.setCancelled(true);
                     plugin.getAm().getBuildZone().clear();
                     plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
