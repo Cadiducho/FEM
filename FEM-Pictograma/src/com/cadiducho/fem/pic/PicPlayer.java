@@ -74,7 +74,7 @@ public class PicPlayer extends FEMUser {
         getPlayer().getInventory().setItem(2, ItemUtil.createItem(Material.BOWL, "&aEscoger color"));
         getPlayer().getInventory().setItem(6, ItemUtil.createItem(Material.LAVA_BUCKET, "&eRellenar"));
         getPlayer().getInventory().setItem(7, ItemUtil.createItem(Material.IRON_SWORD, "&eBorrador"));
-        getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.EMPTY_MAP, "&eNueva hoja"));
+        getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.CLAY_BALL, "&eNueva hoja"));
         sendMessage("&eSelecciona la herramienta que quieras usar y pulsa click derecho para usarla.");
         plugin.getMsg().sendBroadcast(Metodos.colorizar("&e " + getName() + " &b es el artista esta ronda!"));
     }

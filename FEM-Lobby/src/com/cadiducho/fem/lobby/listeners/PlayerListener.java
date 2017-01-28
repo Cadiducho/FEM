@@ -120,10 +120,11 @@ public class PlayerListener implements Listener, PluginMessageListener {
                     || e.getClickedBlock().getType() == Material.BED_BLOCK || e.getClickedBlock().getType() == Material.BED
                     || e.getClickedBlock().getType() == Material.WORKBENCH || e.getClickedBlock().getType() == Material.BREWING_STAND
                     || e.getClickedBlock().getType() == Material.ANVIL || e.getClickedBlock().getType() == Material.DARK_OAK_FENCE_GATE
-                    || e.getClickedBlock().getType() == Material.SPRUCE_FENCE_GATE) {
-                if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)) {
-                    e.setCancelled(true);
-                }
+                    || e.getClickedBlock().getType() == Material.SPRUCE_FENCE_GATE || e.getClickedBlock().getType() == Material.FURNACE
+                    || e.getClickedBlock().getType() == Material.BURNING_FURNACE || e.getClickedBlock().getType() == Material.HOPPER
+                    || e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE) {
+
+                e.setCancelled(true);
             }
         }
 
@@ -150,6 +151,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
     @EventHandler
     public void inventoryClick(InventoryClickEvent e) {
         if (!(e.getWhoClicked() instanceof Player)) return;
+        if (e.getClickedInventory().getTitle() == null) return;
 
         Player p = (Player) e.getWhoClicked();
         FEMUser u = FEMServer.getUser(p);

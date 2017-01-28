@@ -110,15 +110,20 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
-        if(GameState.state == GameState.CRAFT ||GameState.state == GameState.LUCKY) {
-            if (e.getBlock().getType() == Material.CAKE_BLOCK || e.getBlock().getType() == Material.CAKE || e.getBlock().getType() == Material.WEB) {
-                e.setCancelled(true);
-            }
+        if (GameState.state == GameState.DEATHMATCH || GameState.state == GameState.GAME || GameState.state == GameState.CRAFT) {
+            plugin.getAm().getBlocksPlaced().put(e.getBlock().getLocation(), e.getBlock());
+            e.setCancelled(false);
+        } else {
+            e.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent e) {
+        if ((GameState.state == GameState.CRAFT || GameState.state == GameState.GAME || GameState.state == GameState.DEATHMATCH) && plugin.getAm().getBlocksPlaced().containsKey(e.getBlock().getLocation())) {
+            e.setCancelled(false);
+            return;
+        }
         
         //Ejecutar sistemas de luckies si es esa fase y se rompe la esponja
         if (GameState.state == GameState.LUCKY) {
@@ -126,7 +131,6 @@ public class GameListener implements Listener {
             block.getDrops();
             Player p = e.getPlayer();
             Location loc = block.getLocation();
-            World w = p.getWorld();
             if (block.getType() == Material.SPONGE) {
                 
                 //Sustituimos por aire y calculamos probabilidad

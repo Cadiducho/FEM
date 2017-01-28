@@ -9,6 +9,7 @@ import lombok.Getter;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 public class ArenaManager {
@@ -35,6 +36,7 @@ public class ArenaManager {
     @Getter private final ArrayList<Location> dungeonSpawnList = new ArrayList<>();
     @Getter private final ArrayList<Location> arenaSpawnList = new ArrayList<>();
     private final HashMap<Player, Location> assignedLuckySpawn = new HashMap<>();
+    @Getter private final HashMap<Location, Block> blocksPlaced = new HashMap<>();
     @Getter private final Location lobby;
     public int luckyTime;
     public int craftTime;
