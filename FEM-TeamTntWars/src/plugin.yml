@@ -1,0 +1,9 @@
+name: TeamTntWars
+description: TeamTntWars
+version: ${project.version}
+main: com.cadiducho.fem.teamtnt.TeamTntWarsWars
+depend: [FEMCore, Merchants]
+author: Cadiducho
+commands:
+    game:
+        description: a

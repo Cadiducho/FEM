@@ -24,6 +24,7 @@
         <module>FEM-BattleRoyale</module>
         <module>FEM-LuckyWarriors</module>
         <module>FEM-SkyWars</module>
+        <module>FEM-TeamTntWars</module>
         
         <!-- Survival -->
         <module>FEM-Protections</module>
