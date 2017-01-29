@@ -1,0 +1,6 @@
+name: Dropper
+description: Dropper
+version: ${project.version}
+main: com.cadiducho.fem.dropper.Dropper
+depend: [FEMCore]
+author: Cadiducho

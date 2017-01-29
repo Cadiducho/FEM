@@ -131,7 +131,7 @@ public class MySQL {
                         + "`gemDestroyed`=?,`gemPlanted`=?,`record_dod`=?,`rondas_dod`=?,`picAcertadas`=?,`picDibujadas`=?,`picPuntosTotales`=?,`ganadas_pic`=?,`jugadas_pic`=?,"
                         + "`jugadas_br`=?,`ganadas_br`=?,`kills_br`=?,`deaths_br`=?,`brIntercambios`=?,`jugadas_lg`=?,`ganadas_lg`=?,`kills_lg`=?,`deaths_lg`=?,`luckyRotos`=?,`timePlayed`=? "
                         + "WHERE `uuid`=?");
-                
+
                 statementStats.setInt(1, data.getKills().get(1));
                 statementStats.setInt(2, data.getKills().get(3));
                 statementStats.setInt(3, data.getDeaths().get(1));
@@ -168,6 +168,29 @@ public class MySQL {
                 statementStats.setLong(34, data.getTimePlayed());
                 statementStats.setString(35, u.getUuid().toString());
                 statementStats.executeUpdate();
+
+                for (Map.Entry<String, Integer> entry : data.getDropper().entrySet()) {
+                    PreparedStatement statement = openConnection().prepareStatement("SELECT `times` FROM `fem_dropper` WHERE `uuid` =? AND `mapa`=?");
+                    statement.setString(1, u.getUuid().toString());
+                    statement.setString(2, entry.getKey());
+                    System.out.println("Where de " +u.getUuid().toString() + " y " + entry.getKey());
+                    ResultSet rs = statement.executeQuery();
+                    if (!rs.next()) { //No hay filas encontradas, insertar nuevos datos
+                        PreparedStatement statementDropper = openConnection().prepareStatement("INSERT INTO `fem_dropper` (`mapa`,`times`,`uuid`) VALUES (?,?,?)");
+                        statementDropper.setString(1, entry.getKey());
+                        statementDropper.setInt(2, entry.getValue());
+                        statementDropper.setString(3, u.getUuid().toString());
+                        System.out.println("insert " + entry.getKey() + ", " + entry.getValue() + ", " + u.getUuid());
+                        statementDropper.executeUpdate();
+                    } else {
+                        PreparedStatement statementDropper = openConnection().prepareStatement("UPDATE `fem_dropper` SET `mapa`=?,`times`=? WHERE `uuid`=?");
+                        statementDropper.setString(1, entry.getKey());
+                        statementDropper.setInt(2, entry.getValue());
+                        statementDropper.setString(3, u.getUuid().toString());
+                        System.out.println("UPDATE " + entry.getKey() + ", " + entry.getValue() + ", " + u.getUuid());
+                        statementDropper.executeUpdate();
+                    }
+                }
 
                 //Settings
                 PreparedStatement statementSett = openConnection().prepareStatement("UPDATE `fem_settings` SET `friendRequest`=?,`hideMode`=?,`lang`=?,`enableTell`=? WHERE `uuid`=?");
@@ -271,7 +294,18 @@ public class MySQL {
                 data.setLang(rsSett.getInt("lang"));
                 data.setEnableTell(rsSett.getBoolean("enableTell"));
             }
-            
+
+            //Dropper
+            PreparedStatement statementDropper = openConnection().prepareStatement("SELECT `mapa`,`times` FROM `fem_dropper` WHERE `uuid` = ?");
+            statementDropper.setString(1, id.toString());
+            ResultSet rsDropper = statementDropper.executeQuery();
+
+            HashMap<String, Integer> dropper = new HashMap<>();
+            while (rsDropper.next()) {
+                dropper.put(rsDropper.getString("mapa"), rsDropper.getInt("times"));
+            }
+            data.setDropper(dropper);
+
             //Amigos
             PreparedStatement statementAmigos = openConnection().prepareStatement("SELECT `to` FROM `fem_amigos` WHERE `uuid` = ?");
             statementAmigos.setString(1, id.toString());
