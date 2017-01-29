@@ -163,7 +163,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
     @EventHandler
     public void inventoryClick(InventoryClickEvent e) {
         if (!(e.getWhoClicked() instanceof Player)) return;
-        if (e.getClickedInventory().getTitle() == null) return;
 
         Player p = (Player) e.getWhoClicked();
         FEMUser u = FEMServer.getUser(p);
