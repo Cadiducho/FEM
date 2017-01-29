@@ -37,7 +37,7 @@ public class TeamManager {
         azul = board.getTeam("2byd_azul") == null ? board.registerNewTeam("2byd_azul") : board.getTeam("2byd_azul");
 
         rojo.setPrefix("§c");
-        azul.setPrefix("§1");
+        azul.setPrefix("§3");
 
         rojo.setDisplayName("Rojo");
         azul.setDisplayName("Azul");
@@ -84,7 +84,7 @@ public class TeamManager {
             array.remove(loc);
             hGemas.remove(oppositeTeam);
             hGemas.put(oppositeTeam, array);
-            plugin.getMsg().sendBroadcast(p.getName() + " ha roto una gema del equipo " + oppositeTeam.getDisplayName());
+            plugin.getMsg().sendBroadcast("&2" + p.getName() + "&e ha roto una gema del equipo " + oppositeTeam.getPrefix() +  oppositeTeam.getDisplayName());
             jugadores.get(getTeam(p.getPlayer())).forEach(ally -> ally.playSound(ally.getLocation(), Sound.ORB_PICKUP, 1F, 1F));
             jugadores.get(oppositeTeam).forEach(ally -> ally.playSound(ally.getLocation(), Sound.AMBIENCE_THUNDER, 1F, 1F));
             
@@ -136,7 +136,7 @@ public class TeamManager {
                 Player pl = clon.get(clon.size() - 1);
                 clon.remove(pl);
                 t.addEntry(pl.getName());
-                GemHunters.getPlayer(pl).sendMessage(t.getPrefix() + "Has sido asignado al equipo " + t.getDisplayName());
+                GemHunters.getPlayer(pl).sendMessage( "Has sido asignado al equipo " + t.getPrefix() + t.getDisplayName());
   
                 ArrayList<Player> lista = jugadores.get(t);
                 lista.add(pl);

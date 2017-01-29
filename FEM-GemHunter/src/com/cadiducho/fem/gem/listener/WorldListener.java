@@ -4,7 +4,6 @@ import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.manager.GameState;
 import org.bukkit.block.Block;
-import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -31,7 +30,7 @@ public class WorldListener implements Listener {
         if (b.getType() == plugin.getAm().getTypeGema()) {
             if (plugin.getGm().isHidding()) {
                 e.getPlayer().sendMessage("Has puesto tu gema");
-                plugin.getMsg().sendBroadcast(e.getPlayer().getName() + " ha puesto su gema");
+                plugin.getMsg().sendBroadcast("&c" + e.getPlayer().getName() + " &eha puesto su gema");
                 
                 final GemPlayer gp = GemHunters.getPlayer(e.getPlayer());
                 gp.getUserData().setGemPlanted(gp.getUserData().getGemPlanted() + 1);

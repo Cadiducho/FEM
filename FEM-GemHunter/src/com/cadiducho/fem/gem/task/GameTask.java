@@ -34,7 +34,7 @@ public class GameTask extends BukkitRunnable {
             case 30:
                 plugin.getMsg().sendBroadcast("&7Sólo quedan 30 segundos!");
                 plugin.getGm().getPlayersInGame().stream().forEach(p -> {
-                    new Title("&b&lSólo quedan 30 segundos", "¡Dáte prisa!", 1, 2, 1).send(p);
+                    new Title("&b&lSólo quedan 30 segundos", "¡Dáte prisa!").send(p);
                 });
                 break;
             case 0:
@@ -66,12 +66,12 @@ public class GameTask extends BukkitRunnable {
         if (winner == null) return null;
         
         //Hay un ganador
-        plugin.getMsg().sendBroadcast("Ha ganado el equipo " + winner.getDisplayName());
+        plugin.getMsg().sendBroadcast("Ha ganado el equipo " + winner.getPrefix() + winner.getDisplayName());
         
         Team loser = plugin.getTm().getOpositeTeam(winner);
         for (Player p : plugin.getTm().getJugadores().get(winner)) {
             p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
-            new Title("&a&lVICTORIA", "¡Tu equipo ha ganado :D!", 1, 2, 1).send(p);
+            new Title("&a&lVICTORIA", "¡Tu equipo ha ganado :D!").send(p);
             
             final GemPlayer gp = GemHunters.getPlayer(p);
             HashMap<Integer, Integer> wins = gp.getUserData().getWins();
@@ -81,7 +81,7 @@ public class GameTask extends BukkitRunnable {
         }
         plugin.getTm().getJugadores().get(loser).forEach(p -> {
             p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
-            new Title("&c&lDERROTA", "¡Tu equipo ha perdido :C!", 1, 2, 1).send(p);
+            new Title("&c&lDERROTA", "¡Tu equipo ha perdido :C!").send(p);
         });
         return winner;
     }
