@@ -115,13 +115,13 @@ public class PlayerListener implements Listener, PluginMessageListener {
         FEMUser u = FEMServer.getUser(e.getPlayer());
         //Sin interacción
 
-        if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE){
+/*        if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE){
             if (e.getClickedBlock().getLocation().equals(Metodos.stringToLocation(plugin.getConfig().getString("nvidia")))){
                 if (!u.isOnRank(FEMCmd.Grupo.Moderador)) return;
                 LobbyMenu.openMenu(u, LobbyMenu.Menu.PARTICULAS); //test
                 return;
             }
-        }
+        }*/
 
         if (e.getClickedBlock() != null) {
             if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR)
@@ -209,7 +209,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 e.setCancelled(true);
                 switch (e.getSlot()) {
                     case 2: //Droper
-
+                        p.teleport(Metodos.stringToLocation(plugin.getConfig().getString("brujula.dr")));
                         p.closeInventory();
                         break;
                     case 3: //pictograma

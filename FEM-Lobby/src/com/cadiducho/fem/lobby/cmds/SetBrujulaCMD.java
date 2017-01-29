@@ -14,7 +14,7 @@ public class SetBrujulaCMD extends FEMCmd {
     @Override
     public void run(FEMUser user, String lbl, String[] args) {
         if (args.length == 0) {
-            user.sendMessage("&aUsa: &e/setbrujula <pic/tnt/dod/lg/gem/br/ttnw>");
+            user.sendMessage("&aUsa: &e/setbrujula <pic/tnt/dod/lg/gem/br/dr>");
             return;
         }
         switch (args[0].toLowerCase()) {
@@ -48,13 +48,13 @@ public class SetBrujulaCMD extends FEMCmd {
                 plugin.saveConfig();
                 System.out.println(Metodos.locationToString(user.getPlayer().getLocation()));
                 break;
-            case "ttnw":
-                plugin.getConfig().set("brujula.ttnw", Metodos.locationToString(user.getPlayer().getLocation()));
+            case "dr":
+                plugin.getConfig().set("brujula.dr", Metodos.locationToString(user.getPlayer().getLocation()));
                 plugin.saveConfig();
                 System.out.println(Metodos.locationToString(user.getPlayer().getLocation()));
                 break;
             default:
-                user.sendMessage("&aUsa: &e/setbrujula <pic/tnt/dod/lg/gem/br/ttnw>");
+                user.sendMessage("&aUsa: &e/setbrujula <pic/tnt/dod/lg/gem/br/dr>");
                 break;
         }  
     }
