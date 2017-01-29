@@ -9,6 +9,8 @@ import com.cadiducho.fem.lobby.Lobby;
 import com.cadiducho.fem.lobby.Lobby.FEMServerInfo;
 import com.cadiducho.fem.lobby.LobbyMenu;
 import com.cadiducho.fem.lobby.LobbyTeams;
+import com.cadiducho.fem.lobby.task.TaskParticles;
+import com.cadiducho.fem.lobby.utils.ParticleType;
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -35,22 +37,23 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.awt.*;
 import java.lang.reflect.Type;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 
 public class PlayerListener implements Listener, PluginMessageListener {
 
-    private HashMap<FEMUser, BukkitRunnable> particles = new HashMap<>();
-
     private final Lobby plugin;
+    private HashMap<FEMUser, BukkitRunnable> particles = new HashMap<>();
 
     public PlayerListener(Lobby instance) {
         plugin = instance;
     }
 
     /*
-	 * Acciones que realiza el lobby al entrar un jugador
+     * Acciones que realiza el lobby al entrar un jugador
      */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
@@ -111,6 +114,15 @@ public class PlayerListener implements Listener, PluginMessageListener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         FEMUser u = FEMServer.getUser(e.getPlayer());
         //Sin interacción
+
+        if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE){
+            if (e.getClickedBlock().getLocation().equals(Metodos.stringToLocation(plugin.getConfig().getString("nvidia")))){
+                if (!u.isOnRank(FEMCmd.Grupo.Moderador)) return;
+                LobbyMenu.openMenu(u, LobbyMenu.Menu.PARTICULAS); //test
+                return;
+            }
+        }
+
         if (e.getClickedBlock() != null) {
             if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR)
                     || e.getClickedBlock().getType().equals(Material.FENCE_GATE) || e.getClickedBlock().getType().equals(Material.FIRE)
@@ -131,7 +143,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
         //Menu
         if (e.getItem() != null) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (e.getItem().getType() == Material.WRITTEN_BOOK){
+                if (e.getItem().getType() == Material.WRITTEN_BOOK) {
                     e.setCancelled(false);
                     return;
                 }
@@ -173,13 +185,13 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         u.save();
                         LobbyMenu.openMenu(u, LobbyMenu.Menu.AJUSTES);
                         u.getPlayer().playSound(u.getPlayer().getLocation(), Sound.ORB_PICKUP, 1F, 1F);
-                        
+
                         //Mandar a bungee la lista actualizada
-                        ByteArrayDataOutput out = ByteStreams.newDataOutput(); 
+                        ByteArrayDataOutput out = ByteStreams.newDataOutput();
                         out.writeUTF("FEMChat");
-                        out.writeUTF("update"); 
+                        out.writeUTF("update");
                         p.sendPluginMessage(plugin, "FEM", out.toByteArray());
-                        
+
                         u.sendMessage("&eAjuste cambiado");
                         break;
                     case 7:
@@ -196,11 +208,16 @@ public class PlayerListener implements Listener, PluginMessageListener {
             case "Viajar":
                 e.setCancelled(true);
                 switch (e.getSlot()) {
+                    case 2: //Droper
+
+                        p.closeInventory();
+                        break;
                     case 3: //pictograma
                         p.teleport(Metodos.stringToLocation(plugin.getConfig().getString("brujula.pic")));
                         p.closeInventory();
                         break;
                     case 4: //tnt
+                    case 6: //TeamTnT
                         p.teleport(Metodos.stringToLocation(plugin.getConfig().getString("brujula.tnt")));
                         p.closeInventory();
                         break;
@@ -229,10 +246,29 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 }
                 p.playSound(u.getPlayer().getLocation(), Sound.CLICK, 1F, 1F);
                 break;
+            case "Particulas":
+                e.setCancelled(true);
+                switch (e.getSlot()) {
+                    case 30:
+                        try {
+                            Desktop.getDesktop().browse(new URI("http://www.nvidia.es/page/home.html"));
+                        } catch (Exception ex){}
+                        break;
+                    case 32:
+                        if (particles.containsKey(u)) particles.get(u).cancel();
+                        break;
+                    default:
+                        if (particles.containsKey(u)) particles.get(u).cancel();
+                        particles.remove(u);
+                        BukkitRunnable b = new TaskParticles(p, ParticleType.values()[e.getSlot()]);
+                        particles.put(u, b);
+                        break;
+                }
             default:
                 break;
         }
-        if (!u.isOnRank(FEMCmd.Grupo.Admin)) e.setCancelled(true); //Prevenir que muevan / oculten / tiren objetos de la interfaz del Lobby
+        if (!u.isOnRank(FEMCmd.Grupo.Admin))
+            e.setCancelled(true); //Prevenir que muevan / oculten / tiren objetos de la interfaz del Lobby
     }
 
     @Override
@@ -309,7 +345,7 @@ public class PlayerListener implements Listener, PluginMessageListener {
     }
 
     @EventHandler
-    public void onQuit(PlayerQuitEvent e){
+    public void onQuit(PlayerQuitEvent e) {
         FEMUser u = new FEMUser(e.getPlayer().getUniqueId());
         if (LobbyMenu.getInvs().containsKey(u)) LobbyMenu.getInvs().remove(u);
     }

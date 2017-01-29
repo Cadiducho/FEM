@@ -3,6 +3,7 @@ package com.cadiducho.fem.lobby;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.lobby.utils.ParticleType;
 import lombok.Getter;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
@@ -14,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +43,7 @@ public class LobbyMenu {
 
         //Viajar
         Inventory invViajar = plugin.getServer().createInventory(null, 27, "Viajar");
+        invViajar.setItem(2, ItemUtil.createItem(Material.DROPPER, "&7&lDROPPER", "&6Sobrevive a la caida"));
         invViajar.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA", "&6Dibuja y adivina"));
         invViajar.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS", "&6Pon TNT y destroza islas"));
         ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE", "&6Salta al color seleccionado");
@@ -50,15 +53,22 @@ public class LobbyMenu {
                 ItemFlag.HIDE_DESTROYS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_PLACED_ON, ItemFlag.HIDE_UNBREAKABLE);
         letherBoots.setItemMeta(lam);
         invViajar.setItem(5, letherBoots);
+        invViajar.setItem(6, ItemUtil.createItem(Material.EXPLOSIVE_MINECART, "&2&lTEAM TNTWARS", "&6Pon TNT y destroza islas, pero con amigos"));
         invViajar.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR", "&6Que la suerte este contigo..."));
-        invViajar.setItem(13, ItemUtil.createItem(Material.EMERALD, "&a&lGEM HUNTERS", "&6A todos nos gusta buscar gemas"));
+        invViajar.setItem(13, ItemUtil.createItem(Material.EMERALD, "&a&lGEM HUNTERS", "&6A todos nos gusta buscar gemas..."));
         invViajar.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6&lBATTLE ROYALE", "&6Equípate y lucha por la victoria"));
         
         //Stats
         Inventory invStats = plugin.getServer().createInventory(null, 18, "Estadisticas del jugador");
 
+        //Particulas
+        Inventory invParticulas = plugin.getServer().createInventory(null, 36, "Particulas");
+        invParticulas.setItem(30, ItemUtil.createItem(Material.STAINED_GLASS_PANE, 1, (short)5, "NVIDIA", new ArrayList<>()));
+        invParticulas.setItem(32, ItemUtil.createItem(Material.BARRIER, "✖ Quitar Partículas", new ArrayList<>()));
+        Arrays.asList(ParticleType.values()).forEach(pt -> invParticulas.setItem(pt.getId() ,pt.getItem())); //Todos los items creados
+
         if (invs.containsKey(u)) invs.remove(u);
-        invs.put(u, Arrays.asList(invAjustes, invViajar, invStats));
+        invs.put(u, Arrays.asList(invAjustes, invViajar, invStats, invParticulas));
         loadBook();
     }
 
@@ -140,6 +150,8 @@ public class LobbyMenu {
                         "&6---{*}---",
                         "&fIntercambios realizados: &l" + u.getUserData().getBrIntercambios())));
                 break;
+            case PARTICULAS:
+                clon = invs.get(u).get(3);
         }
         
         if (clon != null) {
