@@ -17,6 +17,6 @@ public class SetSpawnCMD extends FEMCmd {
         plugin.saveConfig();
         user.getPlayer().getWorld().setSpawnLocation(nueva.getBlockX(), nueva.getBlockY(), nueva.getBlockZ());
         
-        user.sendMessage("*spawn.set", +nueva.getX(), nueva.getY(), nueva.getZ(), nueva.getYaw(), nueva.getPitch());
+        user.sendMessage("*spawn.set", + nueva.getX(), nueva.getY(), nueva.getZ(), nueva.getYaw(), nueva.getPitch());
     }
 }

@@ -7,6 +7,7 @@ import com.cadiducho.fem.core.util.FEMFileLoader;
 import com.cadiducho.fem.core.util.Messages;
 import com.cadiducho.fem.core.util.Metodos;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import lombok.Data;
@@ -251,6 +252,7 @@ public class FEMUser {
         Integer picPuntosTotales = 0;
         Integer brIntercambios = 0;
         Integer luckyRotos = 0;
+        HashMap<String, Integer> dropper = new HashMap<>();
         
         //Settings
         Boolean friendRequest = false;
@@ -268,24 +270,28 @@ public class FEMUser {
             kills.put(4, 0);
             kills.put(5, 0);
             kills.put(6, 0);
+            kills.put(7, 0);
             deaths.put(1, 0);
             deaths.put(2, 0);
             deaths.put(3, 0);
             deaths.put(4, 0);
             deaths.put(5, 0);
             deaths.put(6, 0);
+            deaths.put(7, 0);
             wins.put(1, 0);
             wins.put(2, 0);
             wins.put(3, 0);
             wins.put(4, 0);
             wins.put(5, 0);
             wins.put(6, 0);
+            wins.put(7, 0);
             plays.put(1, 0);
             plays.put(2, 0);
             plays.put(3, 0);
             plays.put(4, 0);
             plays.put(5, 0);
             plays.put(6, 0);
+            plays.put(7, 0);
         }
     }
     //-----

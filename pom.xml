@@ -28,7 +28,8 @@
         
         <!-- Survival -->
         <module>FEM-Protections</module>
-        
+        <module>FEM-Dropper</module>
+
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
