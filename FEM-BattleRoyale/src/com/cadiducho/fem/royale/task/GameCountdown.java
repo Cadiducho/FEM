@@ -2,8 +2,9 @@ package com.cadiducho.fem.royale.task;
 
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
-import java.util.Random;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.Random;
 
 public class GameCountdown extends BukkitRunnable {
 
@@ -47,5 +48,12 @@ public class GameCountdown extends BukkitRunnable {
             cancel();
         }
         -- plugin.getAm().gameTime;
+        noPlayers();
+    }
+
+    private void noPlayers(){
+        if (plugin.getGm().getPlayersInGame().isEmpty()){
+            plugin.getServer().shutdown();
+        }
     }
 }

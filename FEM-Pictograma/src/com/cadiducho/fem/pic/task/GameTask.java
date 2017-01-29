@@ -14,7 +14,7 @@ public class GameTask extends BukkitRunnable {
         plugin = instance;
     }
 
-    private int count = 75;
+    private int count = 100;
 
     @Override
     public void run() {
@@ -50,7 +50,14 @@ public class GameTask extends BukkitRunnable {
                 prepareNextRound();
                 break;
         }
+        noPlayers();
         --count;
+    }
+
+    private void noPlayers(){
+        if (plugin.getGm().getPlayersInGame().isEmpty()){
+            plugin.getServer().shutdown();
+        }
     }
     
     public void prepareNextRound() {

@@ -45,7 +45,6 @@ public class ChestItems {
         muyProbables.add(new ItemBuilder().setType(Material.LEATHER_HELMET).build());
         muyProbables.add(new ItemBuilder().setType(Material.LEATHER_LEGGINGS).build());
         muyProbables.add(new ItemBuilder().setType(Material.COOKIE).setAmount(2).build());
-        muyProbables.add(new ItemBuilder().setType(Material.TORCH).setAmount(4).build());
         muyProbables.add(new ItemBuilder().setType(Material.MELON).setAmount(2).build());
         muyProbables.add(new ItemBuilder().setType(Material.GOLD_NUGGET).setAmount(2).build());
         ItemStack moneda4 = BattleRoyale.getInstance().getMoneda().clone();
@@ -81,7 +80,6 @@ public class ChestItems {
         pocoProbables.add(new ItemBuilder().setType(Material.GOLD_PICKAXE).addEnchant(Enchantment.DAMAGE_ALL, 1, true).build());
         pocoProbables.add(new ItemBuilder().setType(Material.DIAMOND).build());
         pocoProbables.add(new ItemBuilder().setType(Material.IRON_INGOT).build());
-        pocoProbables.add(new ItemBuilder().setType(Material.TNT).build());
         pocoProbables.add(new ItemBuilder().setType(Material.FLINT_AND_STEEL).build());
         pocoProbables.add(new ItemBuilder().setType(Material.CHAINMAIL_HELMET).addEnchant(Enchantment.THORNS, 1, true).build());
         pocoProbables.add(new ItemBuilder().setType(Material.CHAINMAIL_BOOTS).addEnchant(Enchantment.PROTECTION_FALL, 1, true).build());
@@ -95,7 +93,6 @@ public class ChestItems {
         pocoProbables.add(new ItemBuilder().setType(Material.IRON_HELMET).addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1, true).build());
         pocoProbables.add(new ItemBuilder().setType(Material.BOW).build());
         pocoProbables.add(new ItemBuilder().setType(Material.COOKED_CHICKEN).setAmount(2).build());
-        pocoProbables.add(new ItemBuilder().setType(Material.TORCH).setAmount(2).build());
         pocoProbables.add(BattleRoyale.getInstance().getMoneda());
     }
   
@@ -126,7 +123,7 @@ public class ChestItems {
         ItemStack[] items = new ItemStack[ran];
         for (int i = 0; i < ran; i++) {
             int id = random.nextInt(muyProbables.size() - 1);
-            items[i] = ((ItemStack) muyProbables.get(id));
+            items[i] = muyProbables.get(id);
         }
         return items;
     }

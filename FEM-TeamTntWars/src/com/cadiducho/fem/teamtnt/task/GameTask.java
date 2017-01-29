@@ -28,6 +28,7 @@ public class GameTask extends BukkitRunnable {
     public void run() {
         instance = this;
         checkWinner();
+        noPlayers();
         if (timePlayed) {
             plugin.getGm().getPlayersInGame().stream().forEach(players -> {
                 plugin.getMsg().sendActionBar(players, "&a&lTiempo jugado: " + (count - 3));
@@ -62,7 +63,7 @@ public class GameTask extends BukkitRunnable {
         ++count;
     }
     
-    public void checkWinner() {
+    public void checkWinner() { //ToDo: Change
         if (plugin.getGm().getPlayersInGame().size() <= 1) {
             Player winner = plugin.getGm().getPlayersInGame().get(0);
             for (Player p : plugin.getGm().getPlayersInGame()) {
@@ -79,7 +80,13 @@ public class GameTask extends BukkitRunnable {
             cancel();
         }
     }
-    
+
+    private void noPlayers(){
+        if (plugin.getGm().getPlayersInGame().isEmpty()){
+            plugin.getServer().shutdown();
+        }
+    }
+
     public void end() {
         GameState.state = GameState.ENDING;
 

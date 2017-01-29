@@ -25,6 +25,7 @@ public class GameTask extends BukkitRunnable {
     @Override
     public void run() {
         checkWinner();
+        noPlayers();
         switch (status) {
             case 0:
                 //Terminar ronda y recomenzar el bucle si quedan jugadores
@@ -129,5 +130,12 @@ public class GameTask extends BukkitRunnable {
         //Cuenta atrás para envio a los lobbies y cierre del server
         //Iniciar hilo del juego
         new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
+    }
+
+
+    private void noPlayers(){
+        if (plugin.getGm().getPlayersInGame().isEmpty()){
+            plugin.getServer().shutdown();
+        }
     }
 }

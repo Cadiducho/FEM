@@ -5,8 +5,6 @@ import com.cadiducho.fem.lucky.LuckyWarriors;
 import com.cadiducho.fem.lucky.manager.GameState;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Random;
-
 public class GameTask extends BukkitRunnable {
 
     private final LuckyWarriors plugin;
@@ -14,8 +12,6 @@ public class GameTask extends BukkitRunnable {
     public GameTask(LuckyWarriors instance) {
         plugin = instance;
     }
-    
-    Random r = new Random();
 
     @Override
     public void run() {
@@ -37,5 +33,13 @@ public class GameTask extends BukkitRunnable {
             cancel();
         }        
         -- plugin.getAm().gameTime;
+        noPlayers();
+    }
+
+
+    private void noPlayers(){
+        if (plugin.getGm().getPlayersInGame().isEmpty()){
+            plugin.getServer().shutdown();
+        }
     }
 }

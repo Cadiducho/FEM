@@ -1,7 +1,6 @@
 package com.cadiducho.fem.pic.task;
 
 import com.cadiducho.fem.pic.Pictograma;
-import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ShutdownTask extends BukkitRunnable {
@@ -22,7 +21,7 @@ public class ShutdownTask extends BukkitRunnable {
                 p.sendMessage("Servidor desconectado");
                 Pictograma.getPlayer(p).sendToLobby();
             });
-            Bukkit.shutdown();
+            plugin.getServer().shutdown();
             cancel();
         }
         --count;

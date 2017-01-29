@@ -27,6 +27,7 @@ public class GameTask extends BukkitRunnable {
     public void run() {
         instance = this;
         checkWinner();
+        noPlayers();
         if (timePlayed) {
             plugin.getGm().getPlayersInGame().stream().forEach(players -> {
                 plugin.getMsg().sendActionBar(players, "&a&lTiempo jugado: " + count);
@@ -85,5 +86,11 @@ public class GameTask extends BukkitRunnable {
 
     public static int getTimeLeft() {
         return count;
+    }
+
+    private void noPlayers(){
+        if (plugin.getGm().getPlayersInGame().isEmpty()){
+            plugin.getServer().shutdown();
+        }
     }
 }

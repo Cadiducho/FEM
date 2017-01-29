@@ -52,6 +52,7 @@ public class GameTask extends BukkitRunnable {
 
         --count;
         plugin.getGm().getPlayersInGame().stream().forEach(pl -> pl.setLevel(count));
+        noPlayers();
     }
     
     public Team checkMinWinner() {
@@ -94,8 +95,13 @@ public class GameTask extends BukkitRunnable {
         if (GameTask.instance != null) GameTask.instance.cancel();
     }
 
-
     public static int getTimeLeft() {
         return count;
+    }
+
+    private void noPlayers(){
+        if (plugin.getGm().getPlayersInGame().isEmpty()){
+            plugin.getServer().shutdown();
+        }
     }
 }
