@@ -5,10 +5,12 @@ import com.cadiducho.fem.teamtnt.TeamTntWars;
 import com.cadiducho.fem.teamtnt.TntIsland;
 import com.cadiducho.fem.teamtnt.TntPlayer;
 import com.cadiducho.fem.teamtnt.manager.GameState;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Team;
 
 import java.util.HashMap;
 
@@ -63,19 +65,27 @@ public class GameTask extends BukkitRunnable {
         ++count;
     }
     
-    public void checkWinner() { //ToDo: Change
+    public void checkWinner() {
         if (plugin.getGm().getPlayersInGame().size() <= 1) {
             Player winner = plugin.getGm().getPlayersInGame().get(0);
+            Team team = plugin.getTm().getTeam(winner);
+
             for (Player p : plugin.getGm().getPlayersInGame()) {
                 p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
                 new Title("&a" + p.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner);
             }
-            plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
-            TeamTntWars.getPlayer(winner).getUserData().setCoins(TeamTntWars.getPlayer(winner).getUserData().getCoins() + 5);
-            HashMap<Integer, Integer> wins = TeamTntWars.getPlayer(winner).getUserData().getWins();
-            wins.replace(1, wins.get(1) + 1);
-            TeamTntWars.getPlayer(winner).getUserData().setWins(wins);
-            TeamTntWars.getPlayer(winner).save();
+            plugin.getMsg().sendBroadcast("El equipo" + team.getPrefix() + team.getName() + "&r ha ganado la partida!");
+
+            team.getEntries().forEach(s -> {
+                Player p = Bukkit.getPlayerExact(s);
+
+                TeamTntWars.getPlayer(p).getUserData().setCoins(TeamTntWars.getPlayer(p).getUserData().getCoins() + 5);
+
+                HashMap<Integer, Integer> wins = TeamTntWars.getPlayer(p).getUserData().getWins();
+                wins.replace(1, wins.get(1) + 1);
+                TeamTntWars.getPlayer(p).getUserData().setWins(wins);
+                TeamTntWars.getPlayer(p).save();
+            });
             end();
             cancel();
         }

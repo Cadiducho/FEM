@@ -8,6 +8,7 @@ import com.cadiducho.fem.teamtnt.TntPlayer;
 import com.cadiducho.fem.teamtnt.manager.GameState;
 import com.cadiducho.fem.teamtnt.manager.TeamManager;
 import com.cadiducho.fem.teamtnt.task.RespawnTask;
+import com.cadiducho.fem.teamtnt.util.TeamSelector;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -58,7 +59,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
-        TntPlayer u = TeamTntWars.getPlayer(e.getPlayer());
+        Player p = e.getPlayer();
 
         //Menu
         if (GameState.state == GameState.LOBBY) {
@@ -67,6 +68,7 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     switch (e.getItem().getType()) {
                         case NETHER_STAR:
+                            new TeamSelector().teams(p);
                             break;
                     }
                 }
