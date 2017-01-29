@@ -364,10 +364,20 @@ public class Title {
             Object packet = packetTitle.getConstructor(packetActions,
                     chatBaseComponent).newInstance(actions[4], null);
             sendPacket.invoke(connection, packet);
+            resetTitle();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    private void resetTitle(){
+        this.title = "";
+        this.subtitle = "";
+        this.fadeInTime = -1;
+        this.stayTime = -1;
+        this.fadeOutTime = -1;
+    }
+
+
     private Class<?> getPrimitiveType(Class<?> clazz) {
         return CORRESPONDING_TYPES.containsKey(clazz) ? CORRESPONDING_TYPES
                 .get(clazz) : clazz;
