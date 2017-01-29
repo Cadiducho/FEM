@@ -2,7 +2,6 @@ package com.cadiducho.fem.gem.task;
 
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.manager.GameState;
-import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.gem.GemPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;

@@ -4,10 +4,11 @@ import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.skywars.manager.GameState;
-import java.util.HashMap;
-import java.util.UUID;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public class SkyPlayer extends FEMUser {
 
@@ -93,7 +94,7 @@ public class SkyPlayer extends FEMUser {
         getPlayer().getInventory().clear();
         setSpectator();
         plugin.getGm().removePlayerFromGame(getPlayer());
-        new Title("&b&l¡Has muerto!", "Puedes volver al lobby cuando desees, o ver la partida", 1, 2, 1).send(getPlayer()); 
+        Title.sendTitle(getPlayer(), 1, 7, 1, "&b&l¡Has muerto!", "Puedes volver al lobby cuando desees, o ver la partida");
         sendMessage("Escribe &e/lobby &fpara volver al Lobby");
         repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
         HashMap<Integer, Integer> deaths = getUserData().getDeaths();

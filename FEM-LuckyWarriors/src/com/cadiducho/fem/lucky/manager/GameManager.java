@@ -55,8 +55,8 @@ public class GameManager {
                 Player winner = playersInGame.get(0);
 
                 plugin.getMsg().sendBroadcast("&e"+winner.getDisplayName() + " &aha ganado la partida!");
-                plugin.getServer().getOnlinePlayers().forEach(p -> { 
-                    new Title("&a" + winner.getName(), "&aha ganado la partida!").send(p);
+                plugin.getServer().getOnlinePlayers().forEach(p -> {
+                    Title.sendTitle(p, 1, 7, 1, "&a" + winner.getName(), "&aha ganado la partida!");
                     p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
                 });
                 

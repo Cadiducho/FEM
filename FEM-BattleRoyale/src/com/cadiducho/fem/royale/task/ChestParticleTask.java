@@ -26,7 +26,7 @@ public class ChestParticleTask extends BukkitRunnable {
             double x = radio * Math.cos(y);
             double z = radio * Math.sin(y);
 
-            ParticleEffect.REDSTONE.display(new ParticleEffect.OrdinaryColor(0,0,255), new Location(loc.getWorld(), x, y, z), Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
+            ParticleEffect.REDSTONE.display(new ParticleEffect.OrdinaryColor(0, 0, 255), new Location(loc.getWorld(), x, y, z), Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
         }
         if (count == 0) {
             cancel();

@@ -107,8 +107,8 @@ public class GameTask extends BukkitRunnable {
     public void checkWinner() {
         if (plugin.getGm().getPlayersInGame().size() <= 1) {
             Player winner = plugin.getGm().getPlayersInGame().get(0);
-            new Title("&b&l¡Has ganado!", "Has llegado hasta la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(winner);
-            plugin.getGm().getSpectators().forEach(spect -> new Title("&b&l" + winner.getName() + " ha ganado!", "Ha llegado hasta la ronda " + plugin.getAm().getRound(), 1, 2, 1).send(spect));
+            Title.sendTitle(winner, 1, 7, 1, "&b&l¡Has ganado!", "Has llegado hasta la ronda " + plugin.getAm().getRound());
+            plugin.getGm().getSpectators().forEach(spect -> Title.sendTitle(spect, 1, 7, 1, "&b&l" + winner.getName() + " ha ganado!", "Ha llegado hasta la ronda " + plugin.getAm().getRound()));
             plugin.getMsg().sendBroadcast("&e&l" + winner.getName() + "&a ha ganado llegando hasta la ronda &e" + plugin.getAm().getRound() + "&a!");
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F));
             

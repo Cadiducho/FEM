@@ -42,7 +42,7 @@ public class GameTask extends BukkitRunnable {
         } else if (count == 2) {
             for (Player p : plugin.getGm().getPlayersInGame()) {
                 TntIsland  isla = TntIsland.getIsland(plugin.getTm().getBoard().getEntryTeam(p.getName()));
-                new Title("", isla.getColor() + "¡Destruye el resto de islas!", 1, 2, 1).send(p);
+                Title.sendTitle(p, 1, 7, 1, "", isla.getColor() + "¡Destruye el resto de islas!");
                 p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 
@@ -72,7 +72,7 @@ public class GameTask extends BukkitRunnable {
 
             for (Player p : plugin.getGm().getPlayersInGame()) {
                 p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
-                new Title("&a" + p.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner);
+                Title.sendTitle(winner, 1, 7, 1, "&a" + p.getName(), "&aha ganado la partida!");
             }
             plugin.getMsg().sendBroadcast("El equipo" + team.getPrefix() + team.getName() + "&r ha ganado la partida!");
 

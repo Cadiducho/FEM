@@ -67,7 +67,7 @@ public class GameListener implements Listener {
                 final BattlePlayer bpKiller = BattleRoyale.getPlayer(e.getEntity().getKiller());
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                 plugin.getMsg().sendMessage(e.getEntity(), "Te ha matado &e" + e.getEntity().getKiller().getDisplayName());
-                new Title("&b&l¡" + e.getEntity().getKiller().getDisplayName() + "&a te ha asesinado!", "Puedes volver al Lobby cuando quieras", 1, 3, 1).send(e.getEntity());
+                Title.sendTitle(e.getEntity(), 1, 7, 1, "&b&l¡" + e.getEntity().getKiller().getDisplayName() + "&a te ha asesinado!", "Puedes volver al Lobby cuando quieras");
                 bpKiller.addKillToPlayer();
                 bpKiller.sendMessage("Has recibido una moneda por matar a &e" + e.getEntity().getName());
                 bpKiller.getPlayer().getInventory().addItem(plugin.getMoneda());
@@ -80,7 +80,7 @@ public class GameListener implements Listener {
                 bpKiller.save();
             } else {
                 plugin.getMsg().sendMessage(e.getEntity(), "¡Has muerto!");
-                new Title("&b&l¡Has muerto!", "Puedes volver al Lobby cuando quieras", 1, 3, 1).send(e.getEntity());
+                Title.sendTitle(e.getEntity(), 1, 7, 1,"&b&l¡Has muerto!", "Puedes volver al Lobby cuando quieras");
             }
 
             //Stats del muerto

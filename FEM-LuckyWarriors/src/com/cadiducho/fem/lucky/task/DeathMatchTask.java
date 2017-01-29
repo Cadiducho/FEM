@@ -41,7 +41,7 @@ public class DeathMatchTask extends BukkitRunnable {
         } else if (plugin.getAm().deathMatchTime == 0) {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> {
                 p.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, Integer.MAX_VALUE, 1));
-                new Title("&b&lHas sido envenenado", "", 1, 2, 1).send(p);
+                Title.sendTitle(p, 1, 7, 1, "&b&lHas sido envenenado", "");
             });
         }
         --plugin.getAm().deathMatchTime;

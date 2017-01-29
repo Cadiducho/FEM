@@ -26,7 +26,7 @@ public class CraftTask extends BukkitRunnable {
         if (plugin.getAm().craftTime == plugin.getConfig().getInt("craftTime")) {
             plugin.getGm().getPlayersInGame().forEach(p -> {
                 plugin.getAm().teleportDungeon(p);
-                new Title("&b&l¡Mejora tu equipo!", "", 1, 2, 1).send(p);
+                Title.sendTitle(p, 1,2, 1, "&b&l¡Mejora tu equipo!", "");
                 p.setHealth(p.getMaxHealth());
                 p.setFoodLevel(20);
             });

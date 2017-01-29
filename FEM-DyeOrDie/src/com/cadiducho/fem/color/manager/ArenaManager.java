@@ -207,7 +207,7 @@ public class ArenaManager {
         currentcolor = spinColors(true);
         plugin.getMsg().sendBroadcast("El color actual es " + getColorFromWool(currentcolor) + nombreCastellano(currentcolor) + "! " + ChatColor.DARK_GREEN + "¡Ya!");
         for (Player p : plugin.getGm().getPlayersInGame()) {
-            new Title(getColorFromWool(currentcolor) + nombreCastellano(currentcolor), "", 1, 2, 1).send(p);
+            Title.sendTitle(p, 1, 7, 1, getColorFromWool(currentcolor) + nombreCastellano(currentcolor), "");
             p.setLevel(round);
             p.setExp(0.9999F);
             p.playSound(p.getLocation(), Sound.ORB_PICKUP, 1F, 1F);

@@ -35,7 +35,7 @@ public class GameTask extends BukkitRunnable {
         }
         if (count == 0) {
             for (final Player p : plugin.getGm().getPlayersInGame()) {
-                new Title("", "&e¡Elimina al resto de enemigos!", 1, 2, 1).send(p);
+                Title.sendTitle(p, 1, 7, 1, "", "&e¡Elimina al resto de enemigos!");
                 p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 
@@ -62,7 +62,7 @@ public class GameTask extends BukkitRunnable {
             Player winner = plugin.getGm().getPlayersInGame().get(0);
             plugin.getGm().getPlayersInGame().forEach(p -> {
                 p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
-                new Title("&a" + p.getName(), "&aha ganado la partida!", 1, 2, 1).send(winner);
+                Title.sendTitle(winner, 1, 7, 1, "&a" + p.getName(), "&aha ganado la partida!");
             });
             plugin.getMsg().sendBroadcast(winner.getDisplayName() + " ha ganado la partida!");
             

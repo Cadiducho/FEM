@@ -119,7 +119,7 @@ public class TntPlayer extends FEMUser {
         getPlayer().getInventory().clear();
         setSpectator();
         plugin.getGm().removePlayerFromGame(getPlayer());
-        new Title("&b&l¡Has muerto!", "Puedes volver al lobby cuando desees, o ver la partida", 1, 2, 1).send(getPlayer()); 
+        Title.sendTitle(getPlayer(), 1, 7, 1, "&b&l¡Has muerto!", "Puedes volver al lobby cuando desees, o ver la partida");
         sendMessage("Escribe &e/lobby &fpara volver al Lobby");
         repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
         HashMap<Integer, Integer> deaths = getUserData().getDeaths();

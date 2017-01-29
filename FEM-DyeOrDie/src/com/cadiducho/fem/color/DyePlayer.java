@@ -106,7 +106,7 @@ public class DyePlayer extends FEMUser {
         setSpectator();
         getPlayer().teleport(getPlayer().getLocation().add(0, 50, 0));
         plugin.getGm().removePlayerFromGame(getPlayer());
-        new Title("&b&l¡Has sido eliminado!", "Has caído en la ronda " + plugin.getAm().getRound(), 1, 4, 1).send(getPlayer());
+        Title.sendTitle(getPlayer(), 1, 7, 1 ,"&b&l¡Has sido eliminado!", "Has caído en la ronda " + plugin.getAm().getRound());
         sendMessage("Escribe &e/lobby &fpara volver al Lobby");
         repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
         plugin.getMsg().sendBroadcast("&e&l" + getName() + " &aha caido en la ronda &e" + plugin.getAm().getRound() + "&a!");

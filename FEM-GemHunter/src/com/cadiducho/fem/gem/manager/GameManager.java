@@ -51,7 +51,7 @@ public class GameManager {
         Team loser = plugin.getTm().getOpositeTeam(winner);
         for (Player p : plugin.getTm().getJugadores().get(winner)) {
             p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
-            new Title("&a&lVICTORIA", "¡Tu equipo ha ganado :D!", 1, 2, 1).send(p);
+            Title.sendTitle(p, 1, 7, 1, "&a&lVICTORIA", "¡Tu equipo ha ganado :D!");
             
             final GemPlayer gp = GemHunters.getPlayer(p);
             HashMap<Integer, Integer> wins = gp.getUserData().getWins();
@@ -62,7 +62,7 @@ public class GameManager {
         }
         plugin.getTm().getJugadores().get(loser).forEach(p -> {
             p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
-            new Title("&c&lDERROTA", "¡Tu equipo ha perdido :C!", 1, 2, 1).send(p);
+            Title.sendTitle(p, 1, 7, 1, "&c&lDERROTA", "¡Tu equipo ha perdido :C!");
         });
         
         GameTask.end();

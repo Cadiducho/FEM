@@ -47,7 +47,7 @@ public class LobbyTask extends BukkitRunnable {
             for (Player p : plugin.getGm().getPlayersInGame()) {
                 p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
                 DyeOrDie.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
-                new Title("&b&l¡Comienza a correr!", "", 1, 2, 1).send(p);
+                Title.sendTitle(p, 1, 7, 1,"&b&l¡Comienza a correr!", "");
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 
                 final DyePlayer dp = DyeOrDie.getPlayer(p);

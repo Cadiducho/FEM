@@ -32,7 +32,7 @@ public class ResourcePackManager implements Listener {
         switch (e.getStatus()) {
             case DECLINED:
             case FAILED_DOWNLOAD:
-                new Title(ChatColor.RED + "Debes aceptar el ResourcePack").send(p);
+                Title.sendTitle(p, 1, 7, 1, ChatColor.RED + "Debes aceptar el ResourcePack", "");
                 plugin.getServer().getScheduler().runTaskLater(plugin, ()-> FEMServer.getUser(p).sendToLobby(), 60L);
                 break;
         }
