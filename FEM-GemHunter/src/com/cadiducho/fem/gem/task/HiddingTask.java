@@ -1,8 +1,9 @@
 package com.cadiducho.fem.gem.task;
 
+import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.gem.GemHunters;
-import com.cadiducho.fem.gem.manager.GameState;
 import com.cadiducho.fem.gem.GemPlayer;
+import com.cadiducho.fem.gem.manager.GameState;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -61,7 +62,7 @@ public class HiddingTask extends BukkitRunnable {
         plugin.getGm().getPlayersInGame().stream().forEach(p -> {
             p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
             p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
-            new Title("&b&lBusca y destruye las Gemas del equipo contrario", "", 1, 2, 1).send(p);
+            Title.sendTitle(p, 1, 7, 1, "&b&lBusca y destruye las Gemas del equipo contrario", "");
             
             final GemPlayer gp = GemHunters.getPlayer(p);
             gp.setCleanPlayer(GameMode.SURVIVAL);

@@ -104,7 +104,7 @@ public class GameManager {
             plugin.getMsg().sendBroadcast("&6Ganador: " + winner.getName());
             for (Player p : plugin.getGm().getPlayersInGame()) {
                 p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
-                Title.sendTitle(p, 0, 5, 0, "&c" + winner.getName(), "&aha ganado la partida!");
+                Title.sendTitle(p, 1, 7, 1, "&c" + winner.getName(), "&aha ganado la partida!");
             }
             
             final PicPlayer pp = Pictograma.getPlayer(winner);

@@ -1,5 +1,6 @@
 package com.cadiducho.fem.gem.task;
 
+import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.manager.GameState;
@@ -33,15 +34,13 @@ public class GameTask extends BukkitRunnable {
             case 30:
                 plugin.getMsg().sendBroadcast("&7Sólo quedan 30 segundos!");
                 plugin.getGm().getPlayersInGame().stream().forEach(p -> {
-                    new Title("&b&lSólo quedan 30 segundos", "¡Dáte prisa!").send(p);
+                    Title.sendTitle(p, 1, 7, 1, "&b&lSólo quedan 30 segundos", "¡Dáte prisa!");
                 });
                 break;
             case 0:
                 if (checkMinWinner() == null) {
                     plugin.getMsg().sendBroadcast("¡Empate! ¡No hay ningún ganador!");
-                    plugin.getGm().getPlayersInGame().stream().forEach(p -> {
-                        new Title("&b&lEMPATE", "", 1, 2, 1).send(p);
-                    });
+                    plugin.getGm().getPlayersInGame().stream().forEach(p -> Title.sendTitle(p, 1, 7, 1, "&b&lEMPATE", ""));
                 }
                 end();
                 break;
@@ -70,7 +69,7 @@ public class GameTask extends BukkitRunnable {
         Team loser = plugin.getTm().getOpositeTeam(winner);
         for (Player p : plugin.getTm().getJugadores().get(winner)) {
             p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
-            new Title("&a&lVICTORIA", "¡Tu equipo ha ganado :D!").send(p);
+            Title.sendTitle(p, 1, 7, 1, "&a&lVICTORIA", "¡Tu equipo ha ganado :D!");
             
             final GemPlayer gp = GemHunters.getPlayer(p);
             HashMap<Integer, Integer> wins = gp.getUserData().getWins();
@@ -80,7 +79,7 @@ public class GameTask extends BukkitRunnable {
         }
         plugin.getTm().getJugadores().get(loser).forEach(p -> {
             p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
-            new Title("&c&lDERROTA", "¡Tu equipo ha perdido :C!").send(p);
+            Title.sendTitle(p, 1, 7,1, "&c&lDERROTA", "¡Tu equipo ha perdido :C!");
         });
         return winner;
     }

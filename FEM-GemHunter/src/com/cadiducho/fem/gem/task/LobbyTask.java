@@ -1,5 +1,6 @@
 package com.cadiducho.fem.gem.task;
 
+import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.manager.GameState;
 import org.bukkit.Sound;
@@ -33,7 +34,7 @@ public class LobbyTask extends BukkitRunnable {
             });
         } else if (count > 0 && count <= 5) {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> {
-                new Title("&c&l" + count, "", 0, 1, 00).send(p);
+                Title.sendTitle(p, 1, 7, 1, "&c&l" + count, "");
                 p.playSound(p.getLocation(), Sound.CLICK, 1f, 1f);
             });
         } else if(count == 0) {

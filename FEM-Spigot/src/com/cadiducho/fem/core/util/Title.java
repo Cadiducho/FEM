@@ -8,7 +8,10 @@ import java.lang.reflect.Constructor;
 public class Title {
 
     public static void sendTitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String title, String subtitle) {
-        clearTitle(player);
+        fadeIn = fadeIn * 20; //Porque los ticks son caca :c
+        stay = stay * 20;
+        fadeOut = fadeOut * 20;
+
         try {
             Object e;
             Object chatTitle;
