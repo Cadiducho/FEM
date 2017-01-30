@@ -4,8 +4,6 @@ import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Random;
-
 public class GameCountdown extends BukkitRunnable {
 
     private final BattleRoyale plugin;
@@ -13,8 +11,6 @@ public class GameCountdown extends BukkitRunnable {
     public GameCountdown(BattleRoyale instance) {
         plugin = instance;
     }
-    
-    Random r = new Random();
 
     @Override
     public void run() {

@@ -24,7 +24,7 @@ public class TeleportCountdown extends BukkitRunnable {
         if (count == 6) {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> {
                 plugin.getAm().teleport(p);
-                Title.sendTitle(p, 1, 7, 1, "&b&l¡Ármate para la batalla!", "Recuerda que puedes comerciar con aldeanos");
+                Title.sendTitle(p, 1, 4, 1, "&b&l¡Ármate para la batalla!", "Recuerda que puedes comerciar con aldeanos");
             });
         } else if (count > 0 && count <= 5) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
