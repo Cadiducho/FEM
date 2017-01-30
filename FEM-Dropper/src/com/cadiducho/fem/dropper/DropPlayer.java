@@ -1,9 +1,12 @@
 package com.cadiducho.fem.dropper;
 
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.util.ItemUtil;
+import java.util.Map;
 import org.bukkit.GameMode;
 
 import java.util.UUID;
+import org.bukkit.Material;
 
 public class DropPlayer extends FEMUser {
 
@@ -26,6 +29,14 @@ public class DropPlayer extends FEMUser {
         getPlayer().getActivePotionEffects().forEach(ef -> getPlayer().removePotionEffect(ef.getType()));
     }
 
+    public void setLobbyInventory() {
+        setCleanPlayer(GameMode.SURVIVAL);
+
+        getUserData().getDropper().forEach((m, v) -> { 
+            getPlayer().getInventory().addItem(ItemUtil.createItem(Material.DIAMOND, v, "&d" + m, "&a" + v + " &eveces superado"));
+        });
+    }
+
     public void sendToDropper(String id) {
         System.out.println("Teleportando a " +id);
         getPlayer().teleport(plugin.getServer().getWorld(id).getSpawnLocation());
@@ -36,14 +47,12 @@ public class DropPlayer extends FEMUser {
     public void endMap() {
         String map = getPlayer().getWorld().getName();
         sendMessage("&aHas ganado en el mapa &e" + map + "&a!");
-        setCleanPlayer(GameMode.SURVIVAL);
         getPlayer().teleport(Dropper.getInstance().getAm().getLobby());
+        setLobbyInventory();
 
         if (getUserData().getDropper().get(map) != null) {
-            System.out.println("Reemplazando " + map + " a " + (getUserData().getDropper().get(map) + 1));
             getUserData().getDropper().replace(map, getUserData().getDropper().get(map) + 1);
         } else {
-            System.out.println("Poniendo " + map + " a uno");
             getUserData().getDropper().put(map, 1);
         }
         save();

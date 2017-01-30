@@ -169,6 +169,7 @@ public class MySQL {
                 statementStats.setString(35, u.getUuid().toString());
                 statementStats.executeUpdate();
 
+                System.out.println(data.getDropper().toString());
                 for (Map.Entry<String, Integer> entry : data.getDropper().entrySet()) {
                     PreparedStatement statement = openConnection().prepareStatement("SELECT `times` FROM `fem_dropper` WHERE `uuid` =? AND `mapa`=?");
                     statement.setString(1, u.getUuid().toString());
@@ -183,10 +184,10 @@ public class MySQL {
                         System.out.println("insert " + entry.getKey() + ", " + entry.getValue() + ", " + u.getUuid());
                         statementDropper.executeUpdate();
                     } else {
-                        PreparedStatement statementDropper = openConnection().prepareStatement("UPDATE `fem_dropper` SET `mapa`=?,`times`=? WHERE `uuid`=?");
-                        statementDropper.setString(1, entry.getKey());
-                        statementDropper.setInt(2, entry.getValue());
-                        statementDropper.setString(3, u.getUuid().toString());
+                        PreparedStatement statementDropper = openConnection().prepareStatement("UPDATE `fem_dropper` SET `times`=? WHERE `uuid`=? AND `mapa`=?");
+                        statementDropper.setInt(1, entry.getValue());
+                        statementDropper.setString(2, u.getUuid().toString());
+                        statementDropper.setString(3, entry.getKey());
                         System.out.println("UPDATE " + entry.getKey() + ", " + entry.getValue() + ", " + u.getUuid());
                         statementDropper.executeUpdate();
                     }

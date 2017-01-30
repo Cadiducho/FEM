@@ -26,26 +26,10 @@ public class PlayerListener implements Listener {
         plugin = instance;
     }
 
-    /*@EventHandler
-    public void onPlayerLogin(PlayerLoginEvent e) {
-        if (plugin.getGm().acceptPlayers() && plugin.getGm().getPlayersInGame().size() < plugin.getAm().getMaxPlayers()) {
-            e.allow();
-        } else {
-            e.setResult(PlayerLoginEvent.Result.KICK_OTHER);
-            e.setKickMessage("No tienes acceso a entrar aquí.");
-        }
-    }
-
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        Player player = e.getPlayer();
         e.setJoinMessage(null);
-        if (plugin.getGm().acceptPlayers()) {
-            player.teleport(plugin.getAm().getLobby());
-            GemHunters.getPlayer(player).setLobbyPlayer();
-            plugin.getMsg().sendBroadcast("&7Ha entrado al juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
-            plugin.getGm().checkStart();
-        }
+        Dropper.getPlayer(e.getPlayer()).setLobbyInventory();
     }
 
     @EventHandler
@@ -53,15 +37,8 @@ public class PlayerListener implements Listener {
         Player player = e.getPlayer();
         e.setQuitMessage(null);
 
-        plugin.getGm().removePlayerFromGame(player);
-        plugin.getMsg().sendBroadcast("&7abandonó el juego &e" + player.getDisplayName() + " &3(&b" + plugin.getGm().getPlayersInGame().size() + "&d/&b" + plugin.getAm().getMaxPlayers() + "&3)");
-
-        GemHunters.players.remove(GemHunters.getPlayer(player));
-
-        if (plugin.getGm().getPlayersInGame().isEmpty()) {
-            GameTask.end();
-        }
-    }*/
+        Dropper.players.remove(Dropper.getPlayer(player));
+    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
