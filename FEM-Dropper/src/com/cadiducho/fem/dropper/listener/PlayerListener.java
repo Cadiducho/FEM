@@ -1,6 +1,7 @@
 package com.cadiducho.fem.dropper.listener;
 
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.dropper.DropMenu;
 import com.cadiducho.fem.dropper.DropPlayer;
 import com.cadiducho.fem.dropper.Dropper;
 import org.bukkit.ChatColor;
@@ -17,6 +18,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 
 public class PlayerListener implements Listener {
@@ -72,11 +74,23 @@ public class PlayerListener implements Listener {
         
         if (e.getItem() != null) {
             if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (e.getItem().getType() == Material.BED) {
-                    e.setCancelled(false);
-                    dp.getPlayer().teleport(Dropper.getInstance().getAm().getLobby());
-                    dp.setLobbyInventory();
-                    return;
+                e.setCancelled(false);
+                switch (e.getItem().getType()){
+                    case BED:
+                        dp.getPlayer().teleport(Dropper.getInstance().getAm().getLobby());
+                        dp.setLobbyInventory();
+                        break;
+                    case COMPASS:
+                        dp.sendToLobby();
+                        break;
+                    case DIAMOND:
+                        DropMenu.openMapsInv(dp);
+                        break;
+                    case EMERALD:
+                        DropMenu.openIngInv(dp);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -85,6 +99,12 @@ public class PlayerListener implements Listener {
             dp.endMap();
             e.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent e){
+        if (!(e.getWhoClicked() instanceof Player)) return;
+        e.setCancelled(true);
     }
 
     @EventHandler

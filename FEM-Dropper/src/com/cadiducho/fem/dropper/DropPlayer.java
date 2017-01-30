@@ -6,10 +6,10 @@ import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.Title;
 import org.bukkit.GameMode;
-
-import java.util.UUID;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+
+import java.util.UUID;
 
 public class DropPlayer extends FEMUser {
 
@@ -33,18 +33,14 @@ public class DropPlayer extends FEMUser {
     }
 
     public void setLobbyInventory() {
-        setCleanPlayer(GameMode.SURVIVAL);
-
-        getUserData().getDropperInsignias().forEach(m -> { 
-            getPlayer().getInventory().addItem(ItemUtil.createItem(Material.EMERALD, "&aInsignia oculta del mapa &e" + m));
-        });
-        getUserData().getDropper().forEach((m, v) -> { 
-            getPlayer().getInventory().addItem(ItemUtil.createItem(Material.DIAMOND, v, "&d" + m, "&a" + v + " &eveces superado"));
-        });
+        setCleanPlayer(GameMode.ADVENTURE);
+        getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&aVuelve al Lobby", "Te lleva al lobby principal"));
+        getPlayer().getInventory().setItem(7, ItemUtil.createItem(Material.DIAMOND, "&aMapas superados"));
+        getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.EMERALD, "&aTus insignias"));
     }
     
     public void setMapInventory() {
-        setCleanPlayer(GameMode.SURVIVAL);
+        setCleanPlayer(GameMode.ADVENTURE);
         
         String world = getPlayer().getWorld().getName();
         getPlayer().getInventory().addItem(ItemUtil.createItem(Material.BED, "&aVuelve al Lobby de Dropper", "&aMapa actual: &e" + world));
