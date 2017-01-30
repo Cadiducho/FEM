@@ -1,10 +1,9 @@
 package com.cadiducho.fem.royale.task;
 
-import com.cadiducho.fem.core.particles.ParticleEffect;
 import com.cadiducho.fem.royale.BattleRoyale;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ChestParticleTask extends BukkitRunnable {
@@ -26,7 +25,8 @@ public class ChestParticleTask extends BukkitRunnable {
             double x = radio * Math.cos(y);
             double z = radio * Math.sin(y);
 
-            ParticleEffect.REDSTONE.display(new ParticleEffect.OrdinaryColor(0, 0, 255), new Location(loc.getWorld(), x, y, z), Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
+            org.inventivetalent.particle.ParticleEffect.REDSTONE.sendColor(Bukkit.getOnlinePlayers(), new Location(loc.getWorld(), x, y, z), Color.fromBGR(0, 0, 255));
+            //ParticleEffect.REDSTONE.display(new ParticleEffect.OrdinaryColor(), , Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()]));
         }
         if (count == 0) {
             cancel();
