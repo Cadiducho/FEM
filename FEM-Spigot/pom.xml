@@ -55,7 +55,7 @@
         </repository>
         <repository>
             <id>cadiducho-repo</id>
-            <url>http://repo.cadiducho.com/</url>
+            <url>http://repo.cadiduchsz.cluster005.ovh.net/</url>
         </repository>
     </repositories>
     <dependencies>

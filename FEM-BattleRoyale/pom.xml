@@ -33,7 +33,7 @@
         </repository>
         <repository>
             <id>cadi-repo</id>
-            <url>http://cadiducho.com/repo/</url>
+            <url>http://cadiduchsz.cluster005.ovh.net/repo/</url>
         </repository>  
     </repositories>
     <dependencies>
