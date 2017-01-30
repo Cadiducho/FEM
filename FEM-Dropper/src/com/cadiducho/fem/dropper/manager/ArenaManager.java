@@ -19,12 +19,12 @@ public class ArenaManager {
 
         lobby = Metodos.stringToLocation(plugin.getConfig().getString("Dropper.lobby"));
         prepareWorld(plugin.getConfig().getString("Dropper.lobby").split("%")[0]);
-        for (String str : plugin.getConfig().getStringList("Dropper.mapas")) {
+        plugin.getConfig().getStringList("Dropper.mapas").forEach(str -> {
             prepareWorld(str);
-        }
+        });
     }
 
-    public void prepareWorld(String str) {
+    public final void prepareWorld(String str) {
         new WorldCreator(str).createWorld();
         World w = plugin.getServer().getWorld(str);
         w.setPVP(false);
@@ -35,6 +35,5 @@ public class ArenaManager {
         w.getLivingEntities().stream()
                 .filter(e -> !e.getType().equals(EntityType.PLAYER))
                 .forEach(e -> e.damage(e.getMaxHealth()));
-        w.setAutoSave(false);
     }
 }

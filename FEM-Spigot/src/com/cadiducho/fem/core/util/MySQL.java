@@ -169,26 +169,22 @@ public class MySQL {
                 statementStats.setString(35, u.getUuid().toString());
                 statementStats.executeUpdate();
 
-                System.out.println(data.getDropper().toString());
                 for (Map.Entry<String, Integer> entry : data.getDropper().entrySet()) {
                     PreparedStatement statement = openConnection().prepareStatement("SELECT `times` FROM `fem_dropper` WHERE `uuid` =? AND `mapa`=?");
                     statement.setString(1, u.getUuid().toString());
                     statement.setString(2, entry.getKey());
-                    System.out.println("Where de " +u.getUuid().toString() + " y " + entry.getKey());
                     ResultSet rs = statement.executeQuery();
                     if (!rs.next()) { //No hay filas encontradas, insertar nuevos datos
                         PreparedStatement statementDropper = openConnection().prepareStatement("INSERT INTO `fem_dropper` (`mapa`,`times`,`uuid`) VALUES (?,?,?)");
                         statementDropper.setString(1, entry.getKey());
                         statementDropper.setInt(2, entry.getValue());
                         statementDropper.setString(3, u.getUuid().toString());
-                        System.out.println("insert " + entry.getKey() + ", " + entry.getValue() + ", " + u.getUuid());
                         statementDropper.executeUpdate();
                     } else {
                         PreparedStatement statementDropper = openConnection().prepareStatement("UPDATE `fem_dropper` SET `times`=? WHERE `uuid`=? AND `mapa`=?");
                         statementDropper.setInt(1, entry.getValue());
                         statementDropper.setString(2, u.getUuid().toString());
                         statementDropper.setString(3, entry.getKey());
-                        System.out.println("UPDATE " + entry.getKey() + ", " + entry.getValue() + ", " + u.getUuid());
                         statementDropper.executeUpdate();
                     }
                 }
@@ -306,7 +302,15 @@ public class MySQL {
                 dropper.put(rsDropper.getString("mapa"), rsDropper.getInt("times"));
             }
             data.setDropper(dropper);
-
+            PreparedStatement statementDropperInsignias = openConnection().prepareStatement("SELECT `mapa` FROM `fem_dropperInsignias` WHERE `uuid` = ?");
+            statementDropperInsignias.setString(1, id.toString());
+            ResultSet rsDropInsignias = statementDropperInsignias.executeQuery();
+            ArrayList<String> insignias = new ArrayList<>();
+            while (rsDropInsignias.next()) {
+                insignias.add(rsDropInsignias.getString("mapa"));        
+            }
+            data.setDropperInsignias(insignias);
+            
             //Amigos
             PreparedStatement statementAmigos = openConnection().prepareStatement("SELECT `to` FROM `fem_amigos` WHERE `uuid` = ?");
             statementAmigos.setString(1, id.toString());
@@ -358,6 +362,27 @@ public class MySQL {
                 Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+    }
+    
+    public boolean checkInsignea(FEMUser u, String mapa, boolean insert) {
+        try {
+            PreparedStatement statement = openConnection().prepareStatement("SELECT * FROM `fem_dropperInsignias` WHERE `uuid` =? AND `mapa`=?");
+            statement.setString(1, u.getUuid().toString());
+            statement.setString(2, mapa);
+            ResultSet rs = statement.executeQuery();
+            if (!rs.next()) { //No hay filas encontradas, insertar nuevos datos
+                if (insert) {
+                    PreparedStatement statementAmigos = openConnection().prepareStatement("INSERT INTO `fem_dropperInsignias` (`uuid`, `mapa`) VALUES (?, ?)");
+                    statementAmigos.setString(1, u.getUuid().toString());
+                    statementAmigos.setString(2, mapa);
+                    statementAmigos.executeUpdate();
+                }
+                return false;
+            }
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
     }
 
     public HashMap<FEMUser, Integer> get10Top(String search){

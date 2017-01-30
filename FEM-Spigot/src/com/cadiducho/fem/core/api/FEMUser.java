@@ -253,6 +253,7 @@ public class FEMUser {
         Integer brIntercambios = 0;
         Integer luckyRotos = 0;
         HashMap<String, Integer> dropper = new HashMap<>();
+        ArrayList<String> dropperInsignias = new ArrayList<>();
         
         //Settings
         Boolean friendRequest = false;
@@ -260,7 +261,7 @@ public class FEMUser {
         Integer lang = 0; //0 castellano, 1 frances, 2 italiano
         Boolean enableTell = true;
         
-        ArrayList<UUID> amigos = Lists.newArrayList();
+        ArrayList<UUID> amigos = new ArrayList<>();
         
         //Establecer valores de 0 en los hashmap al crear instancia, evitar nulls
         public UserData() {

@@ -1,8 +1,8 @@
 package com.cadiducho.fem.dropper.listener;
 
+import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.dropper.DropPlayer;
 import com.cadiducho.fem.dropper.Dropper;
-import com.cadiducho.fem.dropper.task.RespawnTask;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -10,6 +10,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -26,10 +27,12 @@ public class PlayerListener implements Listener {
         plugin = instance;
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoin(PlayerJoinEvent e) {
         e.setJoinMessage(null);
-        Dropper.getPlayer(e.getPlayer()).setLobbyInventory();
+        DropPlayer dp = Dropper.getPlayer(e.getPlayer());
+        dp.getPlayer().teleport(plugin.getAm().getLobby());
+        dp.setLobbyInventory();
     }
 
     @EventHandler
@@ -42,19 +45,46 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
-        if (e.getClickedBlock() != null && (e.getClickedBlock().getType() == Material.WALL_SIGN || e.getClickedBlock().getType() == Material.SIGN_POST)) {
-            Sign sign = (Sign) e.getClickedBlock().getState();
+        DropPlayer dp = Dropper.getPlayer(e.getPlayer());
+        if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK) {
+            if (e.getClickedBlock() == null) return;
+            
+            if (e.getClickedBlock().getType() == Material.WALL_SIGN || e.getClickedBlock().getType() == Material.SIGN_POST) {
+                Sign sign = (Sign) e.getClickedBlock().getState();
 
-            if (ChatColor.stripColor(sign.getLine(0)).equalsIgnoreCase("[dropper]")) {
-                String mapa = sign.getLine(1);
-                Dropper.getPlayer(e.getPlayer()).sendToDropper(mapa);
+                if (ChatColor.stripColor(sign.getLine(0)).equalsIgnoreCase("[dropper]")) {
+                    String mapa = sign.getLine(1);
+                    dp.sendToDropper(mapa);
+                    dp.setMapInventory();
+                    e.setCancelled(true);
+                }
+            }
+            
+            if (e.getClickedBlock().getType() == Material.SKULL) {
+                if (dp.getPlayer().getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) {
+                    e.setCancelled(true);
+                    return;
+                }
+                dp.checkInsignea();
+                e.setCancelled(true);
+            }
+        }
+        
+        if (e.getItem() != null) {
+            if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (e.getItem().getType() == Material.BED) {
+                    e.setCancelled(false);
+                    dp.getPlayer().teleport(Dropper.getInstance().getAm().getLobby());
+                    dp.setLobbyInventory();
+                    return;
+                }
             }
         }
 
         if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.GOLD_PLATE) {
-            Dropper.getPlayer(e.getPlayer()).endMap();
+            dp.endMap();
+            e.setCancelled(true);
         }
-        e.setCancelled(true);
     }
 
     @EventHandler
@@ -72,13 +102,22 @@ public class PlayerListener implements Listener {
         }
 
         if (e.getEntity() instanceof Player) {
-            if (e.getDamage() > 1) {
+            if (e.getDamage() > 3) {
                 Player p = (Player) e.getEntity();
+                
+                if (p.getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) {
+                    e.setCancelled(true);
+                    return;
+                }
+                
                 final DropPlayer pl = Dropper.getPlayer(p);
 
                 //Limpiar jugador y respawn
                 pl.setCleanPlayer(GameMode.SPECTATOR);
-                new RespawnTask(pl).runTaskTimer(plugin, 1L, 20L);
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                    pl.setMapInventory();
+                    p.teleport(Metodos.stringToLocation(Dropper.getInstance().getConfig().getString("Dropper.spawns." + p.getWorld().getName())));
+                }, 20L);
                 e.setCancelled(true);
                 return;
             }
