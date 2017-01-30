@@ -19,7 +19,7 @@ public class WorldListener implements Listener {
     public void onEntitySpawn(EntitySpawnEvent e) {
         e.setCancelled(true);
     }
-/*
+
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent e) {
         e.setCancelled(true);
@@ -28,5 +28,5 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
         e.setCancelled(true);
-    }*/
+    }
 }
