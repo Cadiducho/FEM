@@ -34,7 +34,7 @@ public class CountdownTask extends BukkitRunnable {
             GameState.state = GameState.HIDDING;
             plugin.getGm().getPlayersInGame().stream().forEach(p -> {   
                 p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
-                Title.sendTitle(p, 1, 7, 1, "&b&l¡Esconde tu gema!", "");
+                Title.sendTitle(p, 1, 3, 1, "&b&l¡Esconde tu gema!", "");
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 
                 final GemPlayer gp = GemHunters.getPlayer(p);
