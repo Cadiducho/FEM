@@ -77,7 +77,7 @@ public class WorldListener implements Listener {
                 
                 if (isla.getOwner().equals(e.getPlayer().getUniqueId())) {
                     plugin.getServer().getScheduler().cancelTask(isla.getDestroyTaskId());
-                    plugin.getMsg().sendBroadcast(pl.getDisplayName() + " ha evitado la explosión de su isla!");
+                    plugin.getMsg().sendBroadcast("&c" + pl.getDisplayName() + "&7 ha evitado la explosión de su isla!");
                     for (Player p : plugin.getGm().getPlayersInGame()) {
                         p.playSound(isla.getBedrockCore().getLocation(), Sound.ANVIL_USE, 10F, 1F);
                     }

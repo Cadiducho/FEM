@@ -29,15 +29,15 @@ public class TntExplodeTask extends BukkitRunnable {
             tpExploder.getUserData().setTntPuestas(tpExploder.getUserData().getTntPuestas() + 1);
             tpExploder.save();
             tpExploder.sendMessage("&aHas puesto la TNT y explotará en 10 segundos");
-            tpOwner.sendMessage("&cTu isla explotará en 10 segundos si no lo evitas");
+            tpOwner.sendMessage("&cTu isla explotará en &b10 segundos &csi no lo evitas");
         } else if (count > 0 && count < 4) {
             TntWars.getInstance().getGm().getPlayersInGame().forEach(p -> p.playSound(isla.getBedrockCore().getLocation(), Sound.ANVIL_LAND, (9F + count), 1F));
-            tpOwner.sendMessage("&c¡Tu isla explotará en " + count + " segundo" + (count == 1 ? "" : "s") + " si no lo evitas!");
+            tpOwner.sendMessage("&c¡Tu isla explotará en &b" + count + " segundo" + (count == 1 ? "" : "s") + " &csi no lo evitas!");
         } else if (count == 0) {
             isla.explode();
             tpExploder.getUserData().setTntExplotadas(tpExploder.getUserData().getTntExplotadas() + 1);
             tpExploder.save();
-            TntWars.getInstance().getMsg().sendBroadcast("&eLa isla de " + tpOwner.getName() + " ha sido destruida por " + tpExploder.getName());
+            TntWars.getInstance().getMsg().sendBroadcast("&eLa isla de &c" + tpOwner.getName() + " &eha sido destruida por &b" + tpExploder.getName());
             tpExploder.getUserData().setCoins(tpExploder.getUserData().getCoins() + 1);
             tpExploder.save();
             cancel();
