@@ -16,6 +16,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -42,6 +43,8 @@ import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public class PlayerListener implements Listener, PluginMessageListener {
 
@@ -55,6 +58,23 @@ public class PlayerListener implements Listener, PluginMessageListener {
     /*
      * Acciones que realiza el lobby al entrar un jugador
      */
+
+    @EventHandler
+    public void onPlayerLoggin(PlayerLoginEvent e){
+        FEMUser u = new FEMUser(e.getPlayer().getUniqueId());
+        if (u.isOnRank(FEMCmd.Grupo.YT) && Bukkit.getOnlinePlayers().size() == Bukkit.getMaxPlayers()) {
+            getRandomUser().getPlayer().kickPlayer("Un jugador con rango YT o más ha entrado y el servidor estaba lleno. Puedes volver a entrar cuando haya espacio");
+            //Echar a gente si esta lleno
+        }
+    }
+
+    private FEMUser getRandomUser(){
+        UUID uuid = Bukkit.getOnlinePlayers().toArray(new Player[Bukkit.getOnlinePlayers().size()])[new Random().nextInt(Bukkit.getOnlinePlayers().size())].getUniqueId();
+        FEMUser d = new FEMUser(uuid);
+        if (d.isOnRank(FEMCmd.Grupo.YT)) getRandomUser();
+        return d;
+    }
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
         e.setJoinMessage(null);
