@@ -23,12 +23,12 @@
         <module>FEM-Pictograma</module>
         <module>FEM-BattleRoyale</module>
         <module>FEM-LuckyWarriors</module>
-        <module>FEM-SkyWars</module>
+        <!--<module>FEM-SkyWars</module>-->
         <module>FEM-TeamTntWars</module>
+        <module>FEM-Dropper</module>
         
         <!-- Survival -->
-        <module>FEM-Protections</module>
-        <module>FEM-Dropper</module>
+        <!--<module>FEM-Protections</module>-->
 
     </modules>
     <properties>
