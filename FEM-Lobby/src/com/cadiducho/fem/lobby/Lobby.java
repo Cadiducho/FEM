@@ -56,6 +56,7 @@ public class Lobby extends JavaPlugin {
             FEMCommands.registrar(new SetNvidiaCMD());
             FEMCommands.registrar(new SpawnCMD());
             FEMCommands.registrar(new FlyCMD());
+            FEMCommands.registrar(new PruebasCMD());
             getLogger().log(Level.INFO, "Lobby: Registrado sus comandos");
         } catch (Exception ex) {
             getLogger().log(Level.INFO, "Lobby: No se han podido cargar sus comandos");

@@ -277,8 +277,6 @@ public class PlayerListener implements Listener, PluginMessageListener {
                         if (particles.containsKey(u)) particles.get(u).cancel();
                         break;
                     default:
-                        if (particles.containsKey(u)) particles.get(u).cancel();
-                        particles.remove(u);
                         BukkitRunnable b = new TaskParticles(p, ParticleType.values()[e.getSlot()]);
                         particles.put(u, b);
                         break;
