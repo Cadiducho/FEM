@@ -57,10 +57,10 @@ public class BukkitConfiguration implements ConfigurationAdapter {
 	}
 
 	private GameServer serverFromConfigurationSection(ConfigurationSection cs, String servername) throws NumberFormatException {
-		String displayname = cs.getString("displayname");
+		String displayname = cs.getString("worldName");
 		String[] addre = cs.getString("address").split(":");
 		InetSocketAddress address = new InetSocketAddress(addre[0], Integer.parseInt(addre[1]));
-		return new GameServer().setName(servername).setAddress(address).setDisplayname(displayname);
+		return new GameServer().setName(servername).setAddress(address).setWorldName(displayname);
 	}
 
 	@Override
