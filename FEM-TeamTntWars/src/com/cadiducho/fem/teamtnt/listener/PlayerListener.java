@@ -128,6 +128,13 @@ public class PlayerListener implements Listener {
                         }
                         tm.asingTeam(tm.morado, p);
                         break;
+                    case 7:
+                    if (tm.isFilled(tm.gris)){
+                        p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                        return;
+                    }
+                    tm.asingTeam(tm.gris, p);
+                    break;
                     default:
                         break;
                 }

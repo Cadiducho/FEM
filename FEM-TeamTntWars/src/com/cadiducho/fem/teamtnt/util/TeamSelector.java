@@ -1,9 +1,9 @@
 package com.cadiducho.fem.teamtnt.util;
 
-import com.cadiducho.fem.core.util.ItemBuilder;
+import com.cadiducho.fem.core.util.ItemUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -18,15 +18,22 @@ public class TeamSelector {
     public void teams(Player p){
         Inventory inv = Bukkit.createInventory(null, 9, "Equipos");
         int players = Bukkit.getOnlinePlayers().size();
-/*        if (players % 5 == 0){
 
-        }*/
+        if (players <= 5){
+            inv.setItem(2, ItemUtil.createGlass("Equipo &cRojo", "", DyeColor.RED));
+            inv.setItem(3, ItemUtil.createGlass("Equipo &bAzul", "", DyeColor.BLUE));
+            inv.setItem(4, ItemUtil.createGlass("Equipo &aVerde", "", DyeColor.GREEN));
+            inv.setItem(5, ItemUtil.createGlass("Equipo &eAmarillo", "", DyeColor.YELLOW));
+            inv.setItem(6, ItemUtil.createGlass("Equipo &dMorado", "", DyeColor.PURPLE));
+        } else {
+            inv.setItem(1, ItemUtil.createGlass("Equipo &cRojo", "", DyeColor.RED));
+            inv.setItem(2, ItemUtil.createGlass("Equipo &bAzul", "", DyeColor.BLUE));
+            inv.setItem(3, ItemUtil.createGlass("Equipo &aVerde", "", DyeColor.GREEN));
+            inv.setItem(5, ItemUtil.createGlass("Equipo &eAmarillo", "", DyeColor.YELLOW));
+            inv.setItem(6, ItemUtil.createGlass("Equipo &dMorado", "", DyeColor.PURPLE));
+            inv.setItem(7, ItemUtil.createGlass("Equipo &7Gris", "", DyeColor.GRAY));
+        }
 
-        inv.setItem(2, new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability((short)14).setDisplayName("Equipo &cRojo").build());
-        inv.setItem(3, new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability((short)11).setDisplayName("Equipo &bAzul").build());
-        inv.setItem(4, new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability((short)13).setDisplayName("Equipo &aVerde").build());
-        inv.setItem(5, new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability((short)4).setDisplayName("Equipo &eAmarillo").build());
-        inv.setItem(6, new ItemBuilder(Material.STAINED_GLASS_PANE).setDurability((short)2).setDisplayName("Equipo &dMorado").build());
 
         p.openInventory(inv);
         invs.add(inv);

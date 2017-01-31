@@ -30,8 +30,8 @@ public class ArenaManager {
     private final TeamTntWars plugin;
     private final Random r = new Random();
 
-    @Getter private int minPlayers = 2;
-    @Getter private int maxPlayers = 16;
+    @Getter private int minPlayers = 5;
+    @Getter private int maxPlayers = 20;
     @Getter private final ArrayList<TntIsland> islas = new ArrayList<>();
     @Getter private final ArrayList<Generador> generadores = new ArrayList<>();
     @Getter @Setter private ArrayList<TntIsland> unAssignedIslas = new ArrayList<>();
