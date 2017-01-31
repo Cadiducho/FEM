@@ -84,6 +84,7 @@ public class LuckyPlayer extends FEMUser {
 
 
     public void setSpectator() {
+        getPlayer().teleport(getPlayer().getLocation().add(0, 3, 0)); //No item
         setCleanPlayer(GameMode.SPECTATOR);
         plugin.getGm().getSpectators().add(getPlayer());
         plugin.getGm().getPlayersInGame().stream().forEach(ig -> ig.hidePlayer(getPlayer()));

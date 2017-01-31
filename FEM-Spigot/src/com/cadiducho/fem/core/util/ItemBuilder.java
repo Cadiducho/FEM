@@ -89,16 +89,18 @@ public class ItemBuilder {
         this.itemStack.addUnsafeEnchantment(ench, level);
         return this;
     }
-    
-    public ItemBuilder addPotionType(PotionType type, boolean extended, boolean upgraded) {
+
+    public ItemBuilder addPotionType(PotionType type, int time){
+        addPotionType(type, time, 0);
+        return this;
+    }
+
+    public ItemBuilder addPotionType(PotionType type, int time, int amplifier) {
         PotionMeta itemMeta = (PotionMeta) this.itemStack.getItemMeta();
         itemMeta.setMainEffect(type.getEffectType());
-        if (upgraded) {
-            itemMeta.addCustomEffect(new PotionEffect(type.getEffectType(), 4, 1), true);
-        } else {
-            itemMeta.addCustomEffect(new PotionEffect(type.getEffectType(), 4, 0), true);
-        }
-        //itemMeta.setBasePotionData(new PotionData(type, extended, upgraded));
+
+        itemMeta.addCustomEffect(new PotionEffect(type.getEffectType(), time * 20, amplifier), true);
+
         this.itemStack.setItemMeta(itemMeta);
         return this;
     }

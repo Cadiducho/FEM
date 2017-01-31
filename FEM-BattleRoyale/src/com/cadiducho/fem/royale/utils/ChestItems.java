@@ -44,7 +44,7 @@ public class ChestItems {
         muyProbables.add(new ItemBuilder().setType(Material.COOKIE).setAmount(2).build());
         muyProbables.add(new ItemBuilder().setType(Material.MELON).setAmount(2).build());
         muyProbables.add(new ItemBuilder().setType(Material.ROTTEN_FLESH).setAmount(2).build());
-        muyProbables.add(new ItemBuilder().setType(Material.POTION).addPotionType(PotionType.SPEED, false, false).build());
+        muyProbables.add(new ItemBuilder().setType(Material.POTION).addPotionType(PotionType.SPEED, 180, 0).build());
         muyProbables.add(new ItemBuilder().setType(Material.IRON_SWORD).build());
         ItemStack moneda4 = BattleRoyale.getInstance().getMoneda().clone();
         moneda4.setAmount(4);      
@@ -64,7 +64,7 @@ public class ChestItems {
         probables.add(new ItemBuilder().setType(Material.COOKED_RABBIT).build());
         probables.add(new ItemBuilder().setType(Material.WHEAT).setAmount(2).build());
         probables.add(new ItemBuilder().setType(Material.ARROW).setAmount(2).build());
-        muyProbables.add(new ItemBuilder().setType(Material.POTION).addPotionType(PotionType.REGEN, false, false).build());
+        muyProbables.add(new ItemBuilder().setType(Material.POTION).addPotionType(PotionType.REGEN, 5, 0).build());
         ItemStack moneda2 = BattleRoyale.getInstance().getMoneda().clone();
         moneda2.setAmount(2);      
         muyProbables.add(moneda2);
