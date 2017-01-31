@@ -4,10 +4,13 @@ import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.core.util.Title;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
@@ -37,6 +40,7 @@ public class DropPlayer extends FEMUser {
         getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&aVuelve al Lobby", "Te lleva al lobby principal"));
         getPlayer().getInventory().setItem(7, ItemUtil.createItem(Material.DIAMOND, "&aMapas superados"));
         getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.EMERALD, "&aTus insignias"));
+        getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
     }
     
     public void setMapInventory() {
@@ -53,8 +57,24 @@ public class DropPlayer extends FEMUser {
         getPlayer().teleport(Metodos.stringToLocation(plugin.getConfig().getString("Dropper.spawns." + id)));
         sendMessage("Estás en el mapa " + id);
         sendMessage("&a¡Suerte!");
+        setGameScoreboard(id);
     }
-    
+
+    private void setGameScoreboard(String id) {
+        ScoreboardUtil board = new ScoreboardUtil("§aDropper", "game");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (getPlayer() == null) cancel();
+
+                board.text(2, "Mapa: §b" + id);
+                board.text(0, "§cmc.undergames.es");
+
+                if (getPlayer() != null) board.build(getPlayer());
+            }
+        }.runTaskTimer(plugin, 20l, 20l);
+    }
+
     public void checkInsignea() {
         String world = getPlayer().getWorld().getName();
         if (FEMCore.getInstance().getMysql().checkInsignea(this, world, true)) {

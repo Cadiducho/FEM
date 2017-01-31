@@ -2,9 +2,10 @@ package com.cadiducho.fem.royale;
 
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
-import java.util.UUID;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.UUID;
 
 public class BattlePlayer extends FEMUser {
 
@@ -49,7 +50,8 @@ public class BattlePlayer extends FEMUser {
                 board.text(8, "§f" + plugin.getGm().getPlayersInGame().size() + "/" + plugin.getAm().getMaxPlayers()); 
                 board.text(7, "§3 "); 
                 board.text(6, "Asesinatos"); 
-                board.text(5, "§f" + getKillsToString()); 
+                board.text(5, "§f" + getKillsToString());
+                board.text(3, "§cmc.undergames.es");
  
                 if (getPlayer() != null) board.build(getPlayer()); 
             } 

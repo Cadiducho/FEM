@@ -41,7 +41,23 @@ public class PicPlayer extends FEMUser {
             }
         }.runTaskTimer(plugin, 20l, 20l);
     }
-    
+
+    private void setGameScoreboard() {
+        ScoreboardUtil board = new ScoreboardUtil("§d§aPictograma", "game");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (getPlayer() == null) cancel();
+
+                board.text(4, "Artista: §b" + plugin.getGm().builder);
+                board.text(2, "Puntos: §a" + plugin.getGm().getScore().get(getPlayer()));
+                board.text(0, "§cmc.undergames.es");
+
+                if (getPlayer() != null) board.build(getPlayer());
+            }
+        }.runTaskTimer(plugin, 20l, 20l);
+    }
+
     public void setLobbyPlayer() {
         setWaitScoreboard();
         plugin.getGm().addPlayerToGame(getPlayer());
@@ -60,6 +76,7 @@ public class PicPlayer extends FEMUser {
         getPlayer().setGameMode(gameMode);
         if (gameMode != GameMode.CREATIVE) getPlayer().setFlying(false);
         getPlayer().getActivePotionEffects().forEach(ef -> getPlayer().removePotionEffect(ef.getType()));
+        setGameScoreboard();
     }
     
     public void setArtist() {
@@ -77,6 +94,7 @@ public class PicPlayer extends FEMUser {
         getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.CLAY_BALL, "&eNueva hoja"));
         sendMessage("&eSelecciona la herramienta que quieras usar y pulsa click derecho para usarla.");
         plugin.getMsg().sendBroadcast(Metodos.colorizar("&e " + getName() + " &b es el artista esta ronda!"));
+        setGameScoreboard();
     }
 
     public void spawn() {
