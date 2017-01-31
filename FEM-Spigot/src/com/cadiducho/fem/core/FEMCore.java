@@ -5,7 +5,6 @@ import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.listeners.BungeeListener;
 import com.cadiducho.fem.core.listeners.InventoryListener;
 import com.cadiducho.fem.core.listeners.PlayerListener;
-import com.cadiducho.fem.core.util.BossBarAPI;
 import com.cadiducho.fem.core.util.FEMFileLoader;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.MySQL;
@@ -27,6 +26,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bukkit.event.EventPriority;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 public class FEMCore extends JavaPlugin {
 
@@ -87,6 +88,7 @@ public class FEMCore extends JavaPlugin {
 
             pluginManager.registerEvents(new PlayerListener(instance), instance);
             pluginManager.registerEvents(new InventoryListener(instance), instance);
+            pluginManager.registerEvents(new BossBarAPI(), instance);
 
             //Bungee
             getServer().getMessenger().registerOutgoingPluginChannel(instance, "BungeeCord");
@@ -116,7 +118,6 @@ public class FEMCore extends JavaPlugin {
             } catch (SQLException ex) {
             } //Ignora
         }
-        BossBarAPI.removeAllStatusBars();
         log("FEMCore desactivado");
     }
 

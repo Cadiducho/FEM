@@ -4,7 +4,6 @@ import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.cmds.FEMCmd;
-import com.cadiducho.fem.core.util.BossBarAPI;
 import com.cadiducho.fem.core.util.Metodos;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -19,6 +18,8 @@ import org.bukkit.event.player.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import net.md_5.bungee.api.chat.TextComponent;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 public class PlayerListener implements Listener {
     
@@ -75,8 +76,8 @@ public class PlayerListener implements Listener {
         }
         
         //Hud
-        BossBarAPI.removeAllStatusBars();
-        BossBarAPI.setAllStatusBars(Metodos.colorizar("&6&lUnder&e&lGames&7 &c- &emc.undergames.es"), 64);
+        BossBarAPI.removeAllBars(e.getPlayer());
+        BossBarAPI.addBar(e.getPlayer(), new TextComponent(Metodos.colorizar("&6&lUnder&e&lGames&7 &c- &emc.undergames.es")), BossBarAPI.Color.BLUE, BossBarAPI.Style.PROGRESS, 1.0f);
     }
      
     @EventHandler(priority = EventPriority.LOW)
@@ -127,7 +128,7 @@ public class PlayerListener implements Listener {
         }
 
         FEMServer.users.remove(u);
-        BossBarAPI.removeAllStatusBars();
+        BossBarAPI.removeAllBars(e.getPlayer());
     }
     
     @EventHandler
