@@ -3,6 +3,7 @@ package com.cadiducho.fem.teamtnt.manager;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.teamtnt.TeamTntWars;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
@@ -101,10 +102,16 @@ public class TeamManager {
 
     public void asingTeam(Team team, Player p){
         team.addEntry(p.getName());
+        p.setScoreboard(board);
     }
 
     public boolean isFilled(Team team){
-        return team != dead && team.getEntries().size() == 4;
+        int players = Bukkit.getOnlinePlayers().size();
+        int pl = 4;
+
+        if (players >= 5) pl = 5;
+
+        return team != dead && team.getEntries().size() == pl;
     }
 
     public void cleanTeams() {
@@ -113,24 +120,5 @@ public class TeamManager {
                 t.removeEntry(str);
             }
         }  
-    }
-    
-    public void drawTeams(ArrayList<Player> pls) {
-        ArrayList<Player> clon = (ArrayList<Player>) pls.clone();
-        
-        while (clon.size() > 0) {
-            for (Team t : teams.keySet()) {
-                if (clon.size() <= 0) break;
-                Player pl = clon.get(clon.size() - 1);
-                clon.remove(pl);
-                t.addEntry(pl.getName());
-                TeamTntWars.getPlayer(pl).sendMessage(t.getPrefix() + "Has sido asignado al equipo " + t.getDisplayName());
-  
-                ArrayList<Player> lista = jugadores.get(t);
-                lista.add(pl);
-                jugadores.replace(t, lista);
-                pl.setScoreboard(board);
-            }
-        }
     }
 }

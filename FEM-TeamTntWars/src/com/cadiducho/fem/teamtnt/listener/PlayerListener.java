@@ -244,6 +244,8 @@ public class PlayerListener implements Listener {
                 TntPlayer pl = TeamTntWars.getPlayer(p);
                 TntPlayer damag = TeamTntWars.getPlayer(damager);
 
+                if (plugin.getTm().getTeam(damager).getEntries().contains(p.getName())) return;
+
                 //Simular muerte
                 if (p.getHealth() - e.getDamage() < 1) {
                     for (ItemStack i : pl.getPlayer().getInventory().getContents()) {

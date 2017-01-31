@@ -13,13 +13,11 @@ public class TeamSelector {
 
     @Getter public ArrayList<Inventory> invs = new ArrayList<>();
 
-    int equipos = 5; //(de 4) De momento, cambiar por 6 (de 3)
-
     public void teams(Player p){
         Inventory inv = Bukkit.createInventory(null, 9, "Equipos");
         int players = Bukkit.getOnlinePlayers().size();
 
-        if (players <= 5){
+        if (players <= 4){
             inv.setItem(2, ItemUtil.createGlass("Equipo &cRojo", "", DyeColor.RED));
             inv.setItem(3, ItemUtil.createGlass("Equipo &bAzul", "", DyeColor.BLUE));
             inv.setItem(4, ItemUtil.createGlass("Equipo &aVerde", "", DyeColor.GREEN));
@@ -33,7 +31,6 @@ public class TeamSelector {
             inv.setItem(6, ItemUtil.createGlass("Equipo &dMorado", "", DyeColor.PURPLE));
             inv.setItem(7, ItemUtil.createGlass("Equipo &7Gris", "", DyeColor.GRAY));
         }
-
 
         p.openInventory(inv);
         invs.add(inv);
