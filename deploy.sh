@@ -13,5 +13,7 @@ if [ "$branch" == "$BRANCH_A_DEPLOY" ]; then
         done
     done
     echo Todos los archivos han sido subidos
+else
+    echo "El branch $branch no está preparado para ser subido al servidor"
 fi
 echo Deploy terminado
