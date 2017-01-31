@@ -15,17 +15,17 @@ debug: false
 servers:
   pvp:
     address: '127.0.0.1:25566'
-    worldName: '&cPVP'
+    displayname: '&cPVP'
   survival:
     address: '127.0.0.1:25565'
-    worldName: '&aSurvival'
+    displayname: '&aSurvival'
 
 
 #placeholders:
 #%numpl% = online players
 #%maxpl% = max players
 #%motd% = motd
-#%worldName% = worldName
+#%displayname% = displayname
 #%isonline% whether the server is online or offline
 layouts:
   #you can change the default layout but don't delete it!
@@ -42,7 +42,7 @@ layouts:
   info:
     teleport: false
     layout:
-      - '%worldName%'
+      - '%displayname%'
       - '&c%numpl%&a/&c%maxpl%'
       - '&6&fInfosign'
       - ''

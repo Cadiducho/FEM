@@ -30,6 +30,7 @@ public class TeleportSignLayout implements SignLayout {
 		String[] splitMotd = tempMotd.split("(?<=\\G.{15})");
 		for (int i = 0; i < layout.length; i++) {
 			String line = layout[i];
+			line = line.replace("%displayname%", sinfo.getDisplayname());
 			if (sinfo.isOnline()) {
 				line = line.replace("%isonline%", online);
 				line = line.replace("%numpl%", String.valueOf(sinfo.getPlayersOnline()));
@@ -51,7 +52,6 @@ public class TeleportSignLayout implements SignLayout {
 				line = line.replace("%maxpl%", numberPlaceHolder);
 				line = line.replace("%motd%", "");
 			}
-			line = line.replace("%worldName%", sinfo.getWorldName());
 			laa[i] = ChatColor.translateAlternateColorCodes('&', line);
 		}
 		return laa;

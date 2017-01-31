@@ -19,7 +19,7 @@ public class GameServer implements Cloneable {
 	private String motd;
 	private boolean online = false;
 	private InetSocketAddress address;
-	private String worldName;
+	private String displayname;
 
 	@Override
 	public GameServer clone() {
