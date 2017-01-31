@@ -7,8 +7,5 @@ notifications:
 cache:
   directories:
   - $HOME/.m2
-deploy:
-  provider: script
-  script: deploy.sh
-  on:
-    branch: develop
+after_success: 
+    "./deploy.sh"
