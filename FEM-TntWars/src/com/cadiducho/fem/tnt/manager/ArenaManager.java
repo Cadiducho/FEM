@@ -1,6 +1,7 @@
 package com.cadiducho.fem.tnt.manager;
 
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.core.util.NoAI;
 import com.cadiducho.fem.tnt.Generador;
 import com.cadiducho.fem.tnt.Generador.GenType;
 import com.cadiducho.fem.tnt.TntIsland;
@@ -134,6 +135,7 @@ public class ArenaManager {
                 isla.setColor(ChatColor.valueOf(cfg.getString("color")));
                 Villager v = (Villager) loc1.getWorld().spawnEntity(Metodos.centre(Metodos.stringToLocation(cfg.getString("aldeano"))), EntityType.VILLAGER);
                 v.setCustomName(Metodos.colorizar("&6Tienda TNTWars"));
+                NoAI.setAiEnabled(v, false);
 
             }
             islas.add(isla);
