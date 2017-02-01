@@ -1,5 +1,6 @@
 package com.cadiducho.fem.lobby;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
@@ -112,20 +113,20 @@ public class LobbyMenu {
                 clon = invs.get(u).get(2);
 
                 clon.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA",
-                        Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(4),
-                                "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(4),
+                        Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays(GameID.PICTOGRAMA),
+                                "&fPartidas Ganadas: &l" + u.getUserData().getWins(GameID.PICTOGRAMA),
                                 "&e---{*}---",
                                 "&fPalabras acertadas: &l" + u.getUserData().getPicAcertadas(),
                                 "&fPalabras bien dibujadas: &l" + u.getUserData().getPicDibujadas())));
                 clon.setItem(4, ItemUtil.createItem(Material.TNT, "&1&lTNT WARS",
-                        Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(1),
-                                "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(1),
-                                "&fBajas: &l" + u.getUserData().getKills().get(1), "&fMuertes: &l" + u.getUserData().getDeaths().get(1),
+                        Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays(GameID.TNTWARS),
+                                "&fPartidas Ganadas: &l" + u.getUserData().getWins(GameID.TNTWARS),
+                                "&fBajas: &l" + u.getUserData().getKills(GameID.TNTWARS), "&fMuertes: &l" + u.getUserData().getDeaths(GameID.TNTWARS),
                                 "&1---{*}---",
                                 "&fTNT Activadas: &l" + u.getUserData().getTntPuestas(), "&fTNT Desactivadas: &l" + u.getUserData().getTntQuitadas(),
                                 "&fTNT Explotadas: &f" + u.getUserData().getTntExplotadas(), "&fGeneradores mejorados: &l" + u.getUserData().getGenUpgraded())));
-                ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(1),
-                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(1),
+                ItemStack letherBoots = ItemUtil.createItem(Material.LEATHER_BOOTS, "&5&lDYE OR DIE", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays(GameID.DYEORDIE),
+                        "&fPartidas Ganadas: &l" + u.getUserData().getWins(GameID.DYEORDIE),
                         "&5---{*}---",
                         "&fRecord de ronda: &l" + u.getUserData().getRecord_dod(),
                         "&fRondas jugadas: &l" + u.getUserData().getRondas_dod()));
@@ -133,20 +134,20 @@ public class LobbyMenu {
                 lam.setColor(Color.BLUE);
                 letherBoots.setItemMeta(lam);
                 clon.setItem(5, letherBoots);
-                clon.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(6),
-                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(6),
-                        "&fBajas: &l" + u.getUserData().getKills().get(6), "&fMuertes: &l" + u.getUserData().getDeaths().get(6),
+                clon.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays(GameID.LUCKYGLADIATORS),
+                        "&fPartidas Ganadas: &l" + u.getUserData().getWins(GameID.LUCKYGLADIATORS),
+                        "&fBajas: &l" + u.getUserData().getKills(GameID.LUCKYGLADIATORS), "&fMuertes: &l" + u.getUserData().getDeaths(GameID.LUCKYGLADIATORS),
                         "&4---{*}---",
                         "&fLuckies rotos: &l" + u.getUserData().getLuckyRotos())));
                 clon.setItem(13, ItemUtil.createItem(Material.EMERALD, "&a&lGEM HUNTERS",
-                        Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(3),
-                                "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(3),
-                                "&fBajas: &l" + u.getUserData().getKills().get(3), "&fMuertes: &l" + u.getUserData().getDeaths().get(3),
+                        Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays(GameID.GEMHUNTERS),
+                                "&fPartidas Ganadas: &l" + u.getUserData().getWins(GameID.GEMHUNTERS),
+                                "&fBajas: &l" + u.getUserData().getKills(GameID.GEMHUNTERS), "&fMuertes: &l" + u.getUserData().getDeaths(GameID.GEMHUNTERS),
                                 "&a---{*}---",
                                 "&fGemas escondidas: &l" + u.getUserData().getGemPlanted(), "&fGemas destruidas: &l" + u.getUserData().getGemDestroyed())));
-                clon.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6&lBATTLE ROYALE", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays().get(5),
-                        "&fPartidas Ganadas: &l" + u.getUserData().getWins().get(5),
-                        "&fBajas: &l" + u.getUserData().getKills().get(5), "&fMuertes: &l" + u.getUserData().getDeaths().get(5),
+                clon.setItem(14, ItemUtil.createItem(Material.GOLD_SWORD, "&6&lBATTLE ROYALE", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays(GameID.BATTLEROYALE),
+                        "&fPartidas Ganadas: &l" + u.getUserData().getWins(GameID.BATTLEROYALE),
+                        "&fBajas: &l" + u.getUserData().getKills(GameID.BATTLEROYALE), "&fMuertes: &l" + u.getUserData().getDeaths(GameID.BATTLEROYALE),
                         "&6---{*}---",
                         "&fIntercambios realizados: &l" + u.getUserData().getBrIntercambios())));
                 break;
