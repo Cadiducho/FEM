@@ -109,7 +109,7 @@ public class GameManager {
             }
             
             final PicPlayer pp = Pictograma.getPlayer(winner);
-            pp.getUserData().addWins(GameID.PICTOGRAMA);
+            pp.getUserData().addWin(GameID.PICTOGRAMA);
             pp.save();
         }
         new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);

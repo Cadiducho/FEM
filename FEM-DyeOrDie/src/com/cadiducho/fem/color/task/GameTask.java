@@ -115,7 +115,7 @@ public class GameTask extends BukkitRunnable {
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F));
 
             final DyePlayer dp = DyeOrDie.getPlayer(winner);
-            dp.getUserData().addWins(GameID.DYEORDIE);
+            dp.getUserData().addWin(GameID.DYEORDIE);
             dp.getUserData().setCoins(dp.getUserData().getCoins() + 10);
             dp.save();
 

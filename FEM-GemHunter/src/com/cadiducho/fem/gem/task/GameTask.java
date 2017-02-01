@@ -71,7 +71,7 @@ public class GameTask extends BukkitRunnable {
             Title.sendTitle(p, 1, 7, 1, "&a&lVICTORIA", "¡Tu equipo ha ganado :D!");
             
             final GemPlayer gp = GemHunters.getPlayer(p);
-            gp.getUserData().addWins(GameID.GEMHUNTERS);
+            gp.getUserData().addWin(GameID.GEMHUNTERS);
             gp.save();
         }
         plugin.getTm().getJugadores().get(loser).forEach(p -> {

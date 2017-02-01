@@ -76,7 +76,7 @@ public class GameTask extends BukkitRunnable {
                 TntPlayer tp = TeamTntWars.getPlayer(plugin.getServer().getPlayerExact(s));
                 
                 tp.getUserData().setCoins(tp.getUserData().getCoins() + 5);
-                tp.getUserData().addWins(GameID.TNTWARS);
+                tp.getUserData().addWin(GameID.TNTWARS);
                 tp.save();
             });
             end();

@@ -1,5 +1,6 @@
 package com.cadiducho.fem.dropper.listener;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.dropper.DropMenu;
 import com.cadiducho.fem.dropper.DropPlayer;
@@ -133,7 +134,10 @@ public class PlayerListener implements Listener {
                 final DropPlayer pl = Dropper.getPlayer(p);
 
                 //Limpiar jugador y respawn
-                pl.setCleanPlayer(GameMode.SPECTATOR);
+                pl.setCleanPlayer(GameMode.SPECTATOR);          
+                pl.getUserData().addDeath(GameID.DROPPER);
+                pl.save();
+                
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                     pl.setMapInventory();
                     p.teleport(Metodos.stringToLocation(Dropper.getInstance().getConfig().getString("Dropper.spawns." + p.getWorld().getName())));

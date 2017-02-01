@@ -1,6 +1,7 @@
 package com.cadiducho.fem.dropper;
 
 import com.cadiducho.fem.core.FEMCore;
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.FireworkAPI;
 import com.cadiducho.fem.core.util.ItemUtil;
@@ -64,6 +65,7 @@ public class DropPlayer extends FEMUser {
         sendMessage("Estás en el mapa " + id);
         sendMessage("&a¡Suerte!");
         setGameScoreboard(id);
+        getUserData().addPlay(GameID.DROPPER);
     }
 
     private void setGameScoreboard(String id) {
@@ -108,6 +110,7 @@ public class DropPlayer extends FEMUser {
         } else {
             getUserData().getDropper().put(map, 1);
         }
+        getUserData().addWin(GameID.DROPPER);
         save();
         getPlayer().teleport(Dropper.getInstance().getAm().getLobby());
         setLobbyInventory();

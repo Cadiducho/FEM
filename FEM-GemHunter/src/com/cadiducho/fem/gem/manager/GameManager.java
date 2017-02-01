@@ -55,7 +55,7 @@ public class GameManager {
             Title.sendTitle(p, 1, 7, 1, "&a&lVICTORIA", "¡Tu equipo ha ganado :D!");
             
             final GemPlayer gp = GemHunters.getPlayer(p);
-            gp.getUserData().addWins(GameID.GEMHUNTERS);
+            gp.getUserData().addWin(GameID.GEMHUNTERS);
             gp.getUserData().setCoins(gp.getUserData().getCoins() + 10);
             gp.save();
         }

@@ -62,7 +62,7 @@ public class GameManager {
                 });
                 
                 final LuckyPlayer lp = LuckyWarriors.getPlayer(winner);
-                lp.getUserData().addWins(GameID.LUCKYGLADIATORS);
+                lp.getUserData().addWin(GameID.LUCKYGLADIATORS);
                 lp.getUserData().setCoins(lp.getUserData().getCoins() + 10);
                 lp.save();
                         

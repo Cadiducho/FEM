@@ -55,7 +55,7 @@ public class GameManager {
                     
                     final BattlePlayer bp = BattleRoyale.getPlayer(winner);
                     Title.sendTitle(winner, 1, 7, 1, "&b&l¡Has ganado!", "");
-                    bp.getUserData().addWins(GameID.BATTLEROYALE);
+                    bp.getUserData().addWin(GameID.BATTLEROYALE);
                     bp.getUserData().setCoins(bp.getUserData().getCoins() + 5);
                     bp.save();
                 });

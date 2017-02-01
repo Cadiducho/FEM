@@ -288,7 +288,7 @@ public class FEMUser {
             deaths.replace(gameMode.getId(), getDeaths(gameMode) + 1);
         }
         
-        public void addWins(GameID gameMode) {
+        public void addWin(GameID gameMode) {
             wins.replace(gameMode.getId(), getWins(gameMode) + 1);
         }
         
