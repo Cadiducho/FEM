@@ -19,7 +19,10 @@ public class GameTask extends BukkitRunnable {
     @Override
     public void run() {
         //Mostrar tiempo restante
-        plugin.getGm().getPlayersInGame().forEach(pl ->  pl.setLevel(count));
+        plugin.getGm().getPlayersInGame().forEach(pl -> {
+            pl.setLevel(count);
+            Pictograma.getPlayer(pl).setGameScoreboard();
+        });
         
         //Mostrar la palabra a los jugadores. Entera a quien acerto y contructor, en proceso al resto
         plugin.getGm().getPlayersInGame().stream().forEach(p -> {
