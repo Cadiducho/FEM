@@ -48,6 +48,7 @@ public class CountdownTask extends BukkitRunnable {
                 p.setScoreboard(plugin.getGm().getBoard());
                 
                 final PicPlayer pp = Pictograma.getPlayer(p);
+                pp.setGameScoreboard();
                 pp.getUserData().addPlay(GameID.PICTOGRAMA);
                 pp.save();
             }
