@@ -67,7 +67,7 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
-                dp.checkInsignea();
+                dp.checkInsignia();
                 e.setCancelled(true);
             }
         }

@@ -364,7 +364,7 @@ public class MySQL {
         });
     }
     
-    public boolean checkInsignea(FEMUser u, String mapa, boolean insert) {
+    public boolean checkInsignia(FEMUser u, String mapa, boolean insert) {
         try {
             PreparedStatement statement = openConnection().prepareStatement("SELECT * FROM `fem_dropperInsignias` WHERE `uuid` =? AND `mapa`=?");
             statement.setString(1, u.getUuid().toString());

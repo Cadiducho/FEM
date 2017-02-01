@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.server.ServerListPingEvent;
 
 public class WorldListener implements Listener {
 
@@ -28,5 +29,10 @@ public class WorldListener implements Listener {
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
         e.setCancelled(true);
+    }
+    
+    @EventHandler
+    public void onMotdChange(ServerListPingEvent e){
+        e.setMotd("WAITING_FOR_PLAYERS");
     }
 }

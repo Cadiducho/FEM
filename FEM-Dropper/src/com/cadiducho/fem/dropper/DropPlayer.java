@@ -2,6 +2,7 @@ package com.cadiducho.fem.dropper;
 
 import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.util.FireworkAPI;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
@@ -13,6 +14,8 @@ import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 
 public class DropPlayer extends FEMUser {
 
@@ -48,7 +51,10 @@ public class DropPlayer extends FEMUser {
         
         String world = getPlayer().getWorld().getName();
         getPlayer().getInventory().addItem(ItemUtil.createItem(Material.BED, "&aVuelve al Lobby de Dropper", "&aMapa actual: &e" + world));
-        if (FEMCore.getInstance().getMysql().checkInsignea(this, world, false)) {
+        if (FEMCore.getInstance().getMysql().checkInsignia(this, world, false)) {
+            if (plugin.getConfig().getString("Dropper.mapas").length() == getUserData().getDropperInsignias().size()) {
+                getPlayer().getInventory().addItem(ItemUtil.createItem(Material.NETHER_STAR, "&l&6Trofeo de Todos los mapas"));
+            }
             getPlayer().getInventory().addItem(ItemUtil.createItem(Material.EMERALD, "&aInsignia oculta del mapa &e" + world));
         }
     }
@@ -75,15 +81,20 @@ public class DropPlayer extends FEMUser {
         }.runTaskTimer(plugin, 20l, 20l);
     }
 
-    public void checkInsignea() {
+    public void checkInsignia() {
         String world = getPlayer().getWorld().getName();
-        if (FEMCore.getInstance().getMysql().checkInsignea(this, world, true)) {
-            sendMessage("&a¡Ya tienes esa insignea!");
+        if (FEMCore.getInstance().getMysql().checkInsignia(this, world, true)) {
+            sendMessage("&a¡Ya tienes esa insignia!");
         } else {
-            sendMessage("&a¡Has obtenido la insignea del mapa &e" + world + "&a!");
+            sendMessage("&a¡Has obtenido la insignia del mapa &e" + world + "&a!");
             getPlayer().playSound(getPlayer().getLocation(), Sound.LEVEL_UP, 1F, 1F);
             getPlayer().getInventory().addItem(ItemUtil.createItem(Material.EMERALD, "&aInsignia oculta del mapa &e" + world));
             save();
+            if (plugin.getConfig().getString("Dropper.mapas").length() == getUserData().getDropperInsignias().size()) {
+                sendMessage("&e¡Has conseguido las insignias secretas de todos los mapas!");
+                FireworkAPI.spawnFirework(getPlayer().getLocation(), FireworkEffect.Type.STAR, Color.AQUA, Color.PURPLE, 2);
+                getPlayer().getInventory().addItem(ItemUtil.createItem(Material.NETHER_STAR, "&l&6Trofeo de Todos los mapas"));
+            }
         }
     }
 
