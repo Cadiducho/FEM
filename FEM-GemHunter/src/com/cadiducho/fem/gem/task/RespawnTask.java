@@ -1,7 +1,7 @@
 package com.cadiducho.fem.gem.task;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.gem.GemPlayer;
-import java.util.HashMap;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -22,9 +22,7 @@ public class RespawnTask extends BukkitRunnable {
         if (count == 5) {
             player.sendMessage("Respawnearás en 5 segundos");
             player.sendMessage("En 5 segundos serás enviado al Lobby");
-            HashMap<Integer, Integer> deaths = player.getUserData().getDeaths();
-            deaths.replace(3, deaths.get(3) + 1);
-            player.getUserData().setDeaths(deaths);
+            player.getUserData().addDeath(GameID.GEMHUNTERS);
             player.save();
         } else if (count == 0) {
             player.spawn();

@@ -1,5 +1,6 @@
 package com.cadiducho.fem.tnt.task;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.tnt.TntIsland;
 import com.cadiducho.fem.tnt.TntPlayer;
@@ -9,8 +10,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.HashMap;
 
 public class GameTask extends BukkitRunnable {
 
@@ -47,9 +46,7 @@ public class GameTask extends BukkitRunnable {
                 final TntPlayer tp = TntWars.getPlayer(p);
                 tp.setCleanPlayer(GameMode.SURVIVAL);
                 tp.setGameScoreboard();
-                HashMap<Integer, Integer> plays = tp.getUserData().getPlays();
-                plays.replace(1, plays.get(1) + 1);
-                tp.getUserData().setPlays(plays);
+                tp.getUserData().addPlay(GameID.TNTWARS);
                 tp.save();
             }
             plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
@@ -71,11 +68,11 @@ public class GameTask extends BukkitRunnable {
                 Title.sendTitle(winner, 1, 7, 1,"&b" + p.getName(), "&aha ganado la partida!");
             }
             plugin.getMsg().sendBroadcast("&b" + winner.getDisplayName() + " &aha ganado la partida!");
-            TntWars.getPlayer(winner).getUserData().setCoins(TntWars.getPlayer(winner).getUserData().getCoins() + 5);
-            HashMap<Integer, Integer> wins = TntWars.getPlayer(winner).getUserData().getWins();
-            wins.replace(1, wins.get(1) + 1);
-            TntWars.getPlayer(winner).getUserData().setWins(wins);
-            TntWars.getPlayer(winner).save();
+            TntPlayer tp = TntWars.getPlayer(winner);
+            tp.getUserData().setCoins(TntWars.getPlayer(winner).getUserData().getCoins() + 5);
+            tp.getUserData().addWins(GameID.TNTWARS);
+            tp.save();
+            
             end();
             cancel();
         }

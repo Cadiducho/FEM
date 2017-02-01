@@ -1,5 +1,6 @@
 package com.cadiducho.fem.pic.task;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.pic.PicPlayer;
 import com.cadiducho.fem.pic.Pictograma;
 import com.cadiducho.fem.pic.manager.GameState;
@@ -9,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class CountdownTask extends BukkitRunnable {
 
@@ -48,9 +48,7 @@ public class CountdownTask extends BukkitRunnable {
                 p.setScoreboard(plugin.getGm().getBoard());
                 
                 final PicPlayer pp = Pictograma.getPlayer(p);
-                HashMap<Integer, Integer> plays = pp.getUserData().getPlays();
-                plays.replace(4, plays.get(4) + 1);
-                pp.getUserData().setPlays(plays);
+                pp.getUserData().addPlay(GameID.PICTOGRAMA);
                 pp.save();
             }
             

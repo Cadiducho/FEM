@@ -35,8 +35,8 @@ public class FEMServer {
     public static ArrayList<FEMUser> afkMode = new ArrayList<>();
     @Getter @Setter private static ArrayList<FEMMap> mapas = new ArrayList<>();
 
-    private static HashMap<UUID, UUID> tp = new HashMap<>();
-    private static HashMap<UUID, UUID> tph = new HashMap<>();
+    private static final HashMap<UUID, UUID> tp = new HashMap<>();
+    private static final HashMap<UUID, UUID> tph = new HashMap<>();
     private static ArrayList<Warp> warps = null;
     
     @Getter @Setter private static Boolean enableParkour = false;
@@ -49,6 +49,15 @@ public class FEMServer {
     public static Team tModeradores;
     public static Team tAdmins;
     public static Team tVanished;
+    
+    @Getter
+    @AllArgsConstructor
+    public enum GameID {
+
+        TNTWARS(1), DYEORDIE(2), GEMHUNTERS(3), PICTOGRAMA(4), BATTLEROYALE(5), LUCKYGLADIATORS(6), DROPPER(7);
+        
+        private final int id;
+    }
 
     public static FEMUser getUser(UUID id) {
         for (FEMUser u : users) {
@@ -213,5 +222,5 @@ public class FEMServer {
 
     public static void clearWarps() {
         setWarps(new ArrayList<>());
-    } 
+    }
 }

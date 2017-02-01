@@ -1,5 +1,6 @@
 package com.cadiducho.fem.tnt;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
@@ -8,7 +9,6 @@ import com.cadiducho.fem.tnt.manager.GameState;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
 import java.util.UUID;
 
 public class TntPlayer extends FEMUser {
@@ -119,9 +119,7 @@ public class TntPlayer extends FEMUser {
         Title.sendTitle(getPlayer(), 1, 7, 1, "&b&l¡Has muerto!", "Puedes volver al lobby cuando desees, o ver la partida");
         sendMessage("Escribe &e/lobby &fpara volver al Lobby");
         repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-        HashMap<Integer, Integer> deaths = getUserData().getDeaths();
-        deaths.replace(1, deaths.get(1) + 1);
-        getUserData().setDeaths(deaths);
+        getUserData().addDeath(GameID.TNTWARS);
         save();
     }
 

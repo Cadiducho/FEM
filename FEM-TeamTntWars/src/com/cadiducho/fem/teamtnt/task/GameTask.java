@@ -1,18 +1,16 @@
 package com.cadiducho.fem.teamtnt.task;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.teamtnt.TeamTntWars;
 import com.cadiducho.fem.teamtnt.TntIsland;
 import com.cadiducho.fem.teamtnt.TntPlayer;
 import com.cadiducho.fem.teamtnt.manager.GameState;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
-
-import java.util.HashMap;
 
 public class GameTask extends BukkitRunnable {
 
@@ -49,9 +47,7 @@ public class GameTask extends BukkitRunnable {
                 final TntPlayer tp = TeamTntWars.getPlayer(p);
                 tp.setCleanPlayer(GameMode.SURVIVAL);
                 tp.setGameScoreboard();
-                HashMap<Integer, Integer> plays = tp.getUserData().getPlays();
-                plays.replace(1, plays.get(1) + 1);
-                tp.getUserData().setPlays(plays);
+                tp.getUserData().addPlay(GameID.TNTWARS);
                 tp.save();
             }
             plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
@@ -77,14 +73,11 @@ public class GameTask extends BukkitRunnable {
             plugin.getMsg().sendBroadcast("El equipo" + team.getPrefix() + team.getName() + "&r ha ganado la partida!");
 
             team.getEntries().forEach(s -> {
-                Player p = Bukkit.getPlayerExact(s);
-
-                TeamTntWars.getPlayer(p).getUserData().setCoins(TeamTntWars.getPlayer(p).getUserData().getCoins() + 5);
-
-                HashMap<Integer, Integer> wins = TeamTntWars.getPlayer(p).getUserData().getWins();
-                wins.replace(1, wins.get(1) + 1);
-                TeamTntWars.getPlayer(p).getUserData().setWins(wins);
-                TeamTntWars.getPlayer(p).save();
+                TntPlayer tp = TeamTntWars.getPlayer(plugin.getServer().getPlayerExact(s));
+                
+                tp.getUserData().setCoins(tp.getUserData().getCoins() + 5);
+                tp.getUserData().addWins(GameID.TNTWARS);
+                tp.save();
             });
             end();
             cancel();

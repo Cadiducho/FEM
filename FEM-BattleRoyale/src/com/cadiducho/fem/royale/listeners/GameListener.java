@@ -1,5 +1,6 @@
 package com.cadiducho.fem.royale.listeners;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
@@ -23,7 +24,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GameListener implements Listener {
 
@@ -73,9 +73,7 @@ public class GameListener implements Listener {
                 bpKiller.getPlayer().getInventory().addItem(plugin.getMoneda());
                 
                 //Stats
-                HashMap<Integer, Integer> kills = bpKiller.getUserData().getKills();
-                kills.replace(5, kills.get(5) + 1);
-                bpKiller.getUserData().setKills(kills);
+                bpKiller.getUserData().addKill(GameID.BATTLEROYALE);
                 bpKiller.getUserData().setCoins(bpKiller.getUserData().getCoins() + 1);
                 bpKiller.save();
             } else {
@@ -90,9 +88,7 @@ public class GameListener implements Listener {
             bpDead.setSpectator();
             bpDead.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
             bpDead.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-            HashMap<Integer, Integer> deaths = bpDead.getUserData().getDeaths();
-            deaths.replace(5, deaths.get(5) + 1);
-            bpDead.getUserData().setDeaths(deaths);
+            bpDead.getUserData().addDeath(GameID.BATTLEROYALE);
             bpDead.save();
 
             if (!plugin.getGm().checkWinner()) {

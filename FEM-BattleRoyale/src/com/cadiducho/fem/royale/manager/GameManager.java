@@ -1,5 +1,6 @@
 package com.cadiducho.fem.royale.manager;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
@@ -53,10 +54,8 @@ public class GameManager {
                     plugin.getMsg().sendBroadcast("&a&l" + winner.getDisplayName() + "&2 ha ganado la partida!");
                     
                     final BattlePlayer bp = BattleRoyale.getPlayer(winner);
-                    HashMap<Integer, Integer> wins = bp.getUserData().getWins();
-                    wins.replace(5, wins.get(5) + 1);
                     Title.sendTitle(winner, 1, 7, 1, "&b&l¡Has ganado!", "");
-                    bp.getUserData().setWins(wins);
+                    bp.getUserData().addWins(GameID.BATTLEROYALE);
                     bp.getUserData().setCoins(bp.getUserData().getCoins() + 5);
                     bp.save();
                 });

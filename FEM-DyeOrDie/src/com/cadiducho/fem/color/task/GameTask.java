@@ -3,6 +3,7 @@ package com.cadiducho.fem.color.task;
 import com.cadiducho.fem.color.DyeOrDie;
 import com.cadiducho.fem.color.DyePlayer;
 import com.cadiducho.fem.color.manager.GameState;
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.FireworkAPI;
 import com.cadiducho.fem.core.util.Title;
 import org.bukkit.Color;
@@ -10,8 +11,6 @@ import org.bukkit.FireworkEffect;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.HashMap;
 
 public class GameTask extends BukkitRunnable {
 
@@ -116,9 +115,7 @@ public class GameTask extends BukkitRunnable {
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F));
 
             final DyePlayer dp = DyeOrDie.getPlayer(winner);
-            HashMap<Integer, Integer> wins = dp.getUserData().getWins();
-            wins.replace(2, wins.get(2) + 1);
-            dp.getUserData().setWins(wins);
+            dp.getUserData().addWins(GameID.DYEORDIE);
             dp.getUserData().setCoins(dp.getUserData().getCoins() + 10);
             dp.save();
 

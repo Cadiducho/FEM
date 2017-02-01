@@ -1,5 +1,6 @@
 package com.cadiducho.fem.gem.task;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.GemPlayer;
@@ -8,8 +9,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
-
-import java.util.HashMap;
 
 public class GameTask extends BukkitRunnable {
 
@@ -72,9 +71,7 @@ public class GameTask extends BukkitRunnable {
             Title.sendTitle(p, 1, 7, 1, "&a&lVICTORIA", "¡Tu equipo ha ganado :D!");
             
             final GemPlayer gp = GemHunters.getPlayer(p);
-            HashMap<Integer, Integer> wins = gp.getUserData().getWins();
-            wins.replace(3, wins.get(3) + 1);
-            gp.getUserData().setWins(wins);
+            gp.getUserData().addWins(GameID.GEMHUNTERS);
             gp.save();
         }
         plugin.getTm().getJugadores().get(loser).forEach(p -> {

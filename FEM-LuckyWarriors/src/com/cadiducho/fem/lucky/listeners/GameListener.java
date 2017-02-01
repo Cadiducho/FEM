@@ -1,5 +1,6 @@
 package com.cadiducho.fem.lucky.listeners;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.lucky.LuckyPlayer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import com.cadiducho.fem.lucky.manager.GameState;
@@ -7,7 +8,6 @@ import com.cadiducho.fem.lucky.utils.LuckyPacks;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,7 +19,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-import java.util.HashMap;
 import java.util.Random;
 
 public class GameListener implements Listener {
@@ -49,14 +48,10 @@ public class GameListener implements Listener {
                 lpDead.addKillToPlayer();
                 
                 //Stats
-                HashMap<Integer, Integer> kills = lpKiller.getUserData().getKills();
-                kills.replace(6, kills.get(6) + 1);
-                lpKiller.getUserData().setKills(kills);
+                lpKiller.getUserData().addKill(GameID.LUCKYGLADIATORS);
                 lpKiller.getUserData().setCoins(lpKiller.getUserData().getCoins() + 1);
                 lpKiller.save();
-                HashMap<Integer, Integer> deaths = lpKiller.getUserData().getDeaths();
-                deaths.replace(6, deaths.get(6) + 1);
-                lpDead.getUserData().setDeaths(deaths);
+                lpDead.getUserData().addDeath(GameID.LUCKYGLADIATORS);
                 lpDead.save();
             } else {
                 plugin.getMsg().sendMessage(e.getEntity(), "Has muerto");
@@ -66,9 +61,7 @@ public class GameListener implements Listener {
                 lpDead.setSpectator();
                 lpDead.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
                 lpDead.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-                HashMap<Integer, Integer> deaths = lpDead.getUserData().getDeaths();
-                deaths.replace(6, deaths.get(6) + 1);
-                lpDead.getUserData().setDeaths(deaths);
+                lpDead.getUserData().addDeath(GameID.LUCKYGLADIATORS);
                 lpDead.save();
             }
             if (!plugin.getGm().checkWinner()) {

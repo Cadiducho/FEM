@@ -1,5 +1,6 @@
 package com.cadiducho.fem.gem.manager;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.GemPlayer;
@@ -54,9 +55,7 @@ public class GameManager {
             Title.sendTitle(p, 1, 7, 1, "&a&lVICTORIA", "¡Tu equipo ha ganado :D!");
             
             final GemPlayer gp = GemHunters.getPlayer(p);
-            HashMap<Integer, Integer> wins = gp.getUserData().getWins();
-            wins.replace(3, wins.get(3) + 1);
-            gp.getUserData().setWins(wins);
+            gp.getUserData().addWins(GameID.GEMHUNTERS);
             gp.getUserData().setCoins(gp.getUserData().getCoins() + 10);
             gp.save();
         }

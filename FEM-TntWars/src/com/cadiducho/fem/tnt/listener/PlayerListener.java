@@ -1,5 +1,6 @@
 package com.cadiducho.fem.tnt.listener;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.tnt.TntIsland;
@@ -22,8 +23,6 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.HashMap;
 
 public class PlayerListener implements Listener {
 
@@ -169,9 +168,7 @@ public class PlayerListener implements Listener {
                     plugin.getMsg().sendBroadcast("&e" + p.getDisplayName() + " &7ha muerto a manos de &e" + damager.getDisplayName());
                     
                     final TntPlayer tp = TntWars.getPlayer(p);
-                    HashMap<Integer, Integer> kills = tp.getUserData().getKills();
-                    kills.replace(1, kills.get(1) + 1);
-                    tp.getUserData().setKills(kills);
+                    tp.getUserData().addKill(GameID.TNTWARS);
                     tp.save();
                     
                     if (!TntIsland.getIsland(p.getUniqueId()).getDestroyed()) {

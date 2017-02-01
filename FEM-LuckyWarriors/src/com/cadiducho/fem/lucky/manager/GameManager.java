@@ -1,5 +1,6 @@
 package com.cadiducho.fem.lucky.manager;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.lucky.LuckyPlayer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
@@ -61,9 +62,7 @@ public class GameManager {
                 });
                 
                 final LuckyPlayer lp = LuckyWarriors.getPlayer(winner);
-                HashMap<Integer, Integer> wins = lp.getUserData().getWins();
-                wins.replace(6, wins.get(6) + 1);
-                lp.getUserData().setWins(wins);
+                lp.getUserData().addWins(GameID.LUCKYGLADIATORS);
                 lp.getUserData().setCoins(lp.getUserData().getCoins() + 10);
                 lp.save();
                         

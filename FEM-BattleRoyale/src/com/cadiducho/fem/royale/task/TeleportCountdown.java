@@ -1,13 +1,12 @@
 package com.cadiducho.fem.royale.task;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.HashMap;
 
 public class TeleportCountdown extends BukkitRunnable {
 
@@ -35,9 +34,7 @@ public class TeleportCountdown extends BukkitRunnable {
                 
                 final BattlePlayer bp = BattleRoyale.getPlayer(p);
                 bp.loadKit();
-                HashMap<Integer, Integer> plays = bp.getUserData().getPlays();
-                plays.replace(5, plays.get(5) + 1);
-                bp.getUserData().setPlays(plays);
+                bp.getUserData().addPlay(GameID.BATTLEROYALE);
                 bp.save();
             });
             GameState.state = GameState.PVE;

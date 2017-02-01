@@ -1,5 +1,6 @@
 package com.cadiducho.fem.gem.listener;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.task.GameTask;
@@ -17,7 +18,6 @@ import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.*;
 
-import java.util.HashMap;
 
 public class PlayerListener implements Listener {
 
@@ -121,9 +121,7 @@ public class PlayerListener implements Listener {
                     
                     //Stats
                     final GemPlayer gp = GemHunters.getPlayer(p);
-                    HashMap<Integer, Integer> kills = gp.getUserData().getKills();
-                    kills.replace(3, kills.get(3) + 1);
-                    gp.getUserData().setKills(kills);
+                    gp.getUserData().addKill(GameID.GEMHUNTERS);
                     gp.save();
                     final GemPlayer gp2 = GemHunters.getPlayer(damager);
                     gp2.getUserData().setCoins(gp2.getUserData().getCoins() + 1);

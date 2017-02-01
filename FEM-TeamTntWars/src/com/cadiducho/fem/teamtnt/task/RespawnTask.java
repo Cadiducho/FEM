@@ -1,5 +1,6 @@
 package com.cadiducho.fem.teamtnt.task;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.teamtnt.TeamTntWars;
 import com.cadiducho.fem.teamtnt.TntPlayer;
@@ -8,8 +9,6 @@ import org.bukkit.Sound;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.HashMap;
 
 public class RespawnTask extends BukkitRunnable {
     
@@ -28,9 +27,7 @@ public class RespawnTask extends BukkitRunnable {
         TeamTntWars.getInstance().getMsg().sendActionBar(player.getPlayer(), "&a&lReaparecerás en: " + count);
         if (count == 9) {
             Title.sendTitle(player.getPlayer(), 1, 7, 1, "&b&l¡Has muerto!", "Reaparecerás al estar tu isla intacta");
-            HashMap<Integer, Integer> deaths = player.getUserData().getDeaths();
-            deaths.replace(1, deaths.get(1) + 1);
-            player.getUserData().setDeaths(deaths);
+            player.getUserData().addDeath(GameID.TNTWARS);
             player.save();
             player.sendMessage("Reaparecerás en 9 segundos");
         } else if (count > 0 && count <= 5) {

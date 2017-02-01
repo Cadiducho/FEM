@@ -3,13 +3,12 @@ package com.cadiducho.fem.color.task;
 import com.cadiducho.fem.color.DyeOrDie;
 import com.cadiducho.fem.color.DyePlayer;
 import com.cadiducho.fem.color.manager.GameState;
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.Title;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.HashMap;
 
 public class LobbyTask extends BukkitRunnable {
 
@@ -51,9 +50,7 @@ public class LobbyTask extends BukkitRunnable {
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 
                 final DyePlayer dp = DyeOrDie.getPlayer(p);
-                HashMap<Integer, Integer> plays = dp.getUserData().getPlays();
-                plays.replace(2, plays.get(2) + 1);
-                dp.getUserData().setPlays(plays);
+                dp.getUserData().addPlay(GameID.DYEORDIE);
                 dp.save();
             }
             

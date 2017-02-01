@@ -1,5 +1,6 @@
 package com.cadiducho.fem.pic.manager;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.pic.PicPlayer;
@@ -30,7 +31,7 @@ public class GameManager {
     @Getter private final ArrayList<UUID> hasFound = new ArrayList<>();
     private int playerFound = 0;
     @Getter private final HashMap<Player, Integer> score = new HashMap<>();
-    @Getter private ArrayList<Block> blockList = new ArrayList<>();
+    @Getter private final ArrayList<Block> blockList = new ArrayList<>();
     @Getter private Scoreboard board;
     @Getter private Objective objective;
     public DyeColor color = DyeColor.BLACK;
@@ -108,9 +109,7 @@ public class GameManager {
             }
             
             final PicPlayer pp = Pictograma.getPlayer(winner);
-            HashMap<Integer, Integer> wins = pp.getUserData().getWins();
-            wins.replace(4, wins.get(4) + 1);
-            pp.getUserData().setWins(wins);
+            pp.getUserData().addWins(GameID.PICTOGRAMA);
             pp.save();
         }
         new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);

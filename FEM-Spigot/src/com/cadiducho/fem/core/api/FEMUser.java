@@ -1,13 +1,12 @@
 package com.cadiducho.fem.core.api;
 
 import com.cadiducho.fem.core.FEMCore;
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.cmds.FEMCmd.Grupo;
 import com.cadiducho.fem.core.taks.LobbyMessageTask;
 import com.cadiducho.fem.core.util.FEMFileLoader;
 import com.cadiducho.fem.core.util.Messages;
 import com.cadiducho.fem.core.util.Metodos;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import lombok.Data;
@@ -226,14 +225,6 @@ public class FEMUser {
         Location parkourCheckpoint = FEMCore.getInstance().getServer().getWorlds().get(0).getSpawnLocation();
         
         //Stats
-        /* IDs de juegos:
-            * 1: TntWars
-            * 2: DyeOrDie
-            * 3: GemHunters
-            * 4: Pictograma
-            * 5: BattleRoyale
-            * 6: Lucky Gladiators
-        */
         HashMap<Integer, Integer> kills = new HashMap<>(); //id Juego, cantidad
         HashMap<Integer, Integer> deaths = new HashMap<>();
         HashMap<Integer, Integer> wins = new HashMap<>();
@@ -265,40 +256,51 @@ public class FEMUser {
         
         //Establecer valores de 0 en los hashmap al crear instancia, evitar nulls
         public UserData() {
-            kills.put(1, 0);
-            kills.put(2, 0);
-            kills.put(3, 0);
-            kills.put(4, 0);
-            kills.put(5, 0);
-            kills.put(6, 0);
-            kills.put(7, 0);
-            deaths.put(1, 0);
-            deaths.put(2, 0);
-            deaths.put(3, 0);
-            deaths.put(4, 0);
-            deaths.put(5, 0);
-            deaths.put(6, 0);
-            deaths.put(7, 0);
-            wins.put(1, 0);
-            wins.put(2, 0);
-            wins.put(3, 0);
-            wins.put(4, 0);
-            wins.put(5, 0);
-            wins.put(6, 0);
-            wins.put(7, 0);
-            plays.put(1, 0);
-            plays.put(2, 0);
-            plays.put(3, 0);
-            plays.put(4, 0);
-            plays.put(5, 0);
-            plays.put(6, 0);
-            plays.put(7, 0);
+            for (int i = 1; i <= GameID.values().length; i++) {
+                kills.put(i, 0);
+                deaths.put(i, 0);
+                wins.put(i, 0);
+                plays.put(i, 0);
+            }
         }
+        
+        public int getKills(GameID gameMode) {
+            return kills.get(gameMode.getId());
+        }
+        
+        public int getDeaths(GameID gameMode) {
+            return deaths.get(gameMode.getId());
+        }
+        
+        public int getWins(GameID gameMode) {
+            return wins.get(gameMode.getId());
+        }
+        
+        public int getPlays(GameID gameMode) {
+            return plays.get(gameMode.getId());
+        }
+        
+        public void addKill(GameID gameMode) {
+            kills.replace(gameMode.getId(), getKills(gameMode) + 1);
+        }
+        
+        public void addDeath(GameID gameMode) {
+            deaths.replace(gameMode.getId(), getDeaths(gameMode) + 1);
+        }
+        
+        public void addWins(GameID gameMode) {
+            wins.replace(gameMode.getId(), getWins(gameMode) + 1);
+        }
+        
+        public void addPlay(GameID gameMode) {
+            plays.replace(gameMode.getId(), getPlays(gameMode) + 1);
+        }
+        
     }
     //-----
     
     @Override
     public String toString() {
-        return "FEMUser{" + getName() + "}";
+        return "FEMUser{name: " + getName() + ", uuid: " + getUuid() + "}";
     }
  }

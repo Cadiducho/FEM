@@ -1,5 +1,6 @@
 package com.cadiducho.fem.lucky.task;
 
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.lucky.LuckyPlayer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import com.cadiducho.fem.lucky.manager.GameState;
@@ -7,7 +8,6 @@ import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
 
 public class LobbyTask extends BukkitRunnable {
 
@@ -45,9 +45,7 @@ public class LobbyTask extends BukkitRunnable {
 
                 final LuckyPlayer lp = LuckyWarriors.getPlayer(p);
                 lp.setCleanPlayer(GameMode.SURVIVAL);
-                HashMap<Integer, Integer> plays = lp.getUserData().getPlays();
-                plays.replace(6, plays.get(6) + 1);
-                lp.getUserData().setPlays(plays);
+                lp.getUserData().addPlay(GameID.LUCKYGLADIATORS);
                 lp.save();
             });
             new BreakLuckyTask(plugin).runTaskTimer(plugin, 1l, 20l);
