@@ -1,7 +1,7 @@
 name: TeamTntWars
 description: TeamTntWars
 version: ${project.version}
-main: com.cadiducho.fem.teamtnt.TeamTntWarsWars
+main: com.cadiducho.fem.teamtnt.TeamTntWars
 depend: [FEMCore, Merchants]
 author: Cadiducho
 commands:
