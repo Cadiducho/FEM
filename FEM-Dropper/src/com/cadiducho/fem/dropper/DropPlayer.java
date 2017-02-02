@@ -39,7 +39,7 @@ public class DropPlayer extends FEMUser {
     }
     
     public void setMapInventory() {
-        setCleanPlayer(GameMode.ADVENTURE);
+        setCleanPlayer(GameMode.SURVIVAL);
         
         String world = getPlayer().getWorld().getName();
         getPlayer().getInventory().addItem(ItemUtil.createItem(Material.BED, "&aVuelve al Lobby de Dropper", "&aMapa actual: &e" + world));

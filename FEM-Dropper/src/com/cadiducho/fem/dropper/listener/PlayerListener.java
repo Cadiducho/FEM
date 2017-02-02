@@ -1,12 +1,12 @@
 package com.cadiducho.fem.dropper.listener;
 
 import com.cadiducho.fem.core.api.FEMServer.GameID;
+import com.cadiducho.fem.core.cmds.FEMCmd;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.dropper.DropMenu;
 import com.cadiducho.fem.dropper.DropPlayer;
 import com.cadiducho.fem.dropper.Dropper;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.LivingEntity;
@@ -15,6 +15,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
@@ -130,17 +132,15 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
+                e.setCancelled(true);
 
                 final DropPlayer pl = Dropper.getPlayer(p);
 
                 //Limpiar jugador y respawn
-                pl.setCleanPlayer(GameMode.SPECTATOR);
                 pl.getUserData().addDeath(GameID.DROPPER);
                 pl.save();
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                    pl.setMapInventory();
-                    p.teleport(Metodos.stringToLocation(Dropper.getInstance().getConfig().getString("Dropper.spawns." + p.getWorld().getName())));
-                }, 5L);
+                pl.setMapInventory();
+                p.teleport(Metodos.stringToLocation(Dropper.getInstance().getConfig().getString("Dropper.spawns." + p.getWorld().getName())));
                 e.setCancelled(true);
                 return;
             }
@@ -171,5 +171,19 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent e) {
         e.setFormat(ChatColor.GREEN + e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + ChatColor.GRAY + e.getMessage());
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent e){
+        if (!Dropper.getPlayer(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)){
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlaceBreak(BlockPlaceEvent e){
+        if (!Dropper.getPlayer(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)){
+            e.setCancelled(true);
+        }
     }
 }

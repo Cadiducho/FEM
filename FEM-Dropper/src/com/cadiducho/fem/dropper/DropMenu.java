@@ -15,8 +15,9 @@ public class DropMenu {
         Inventory inv = Bukkit.createInventory(null, 36, Metodos.colorizar("&6Under&eGames &a- &l&eInsignias"));
 
         if (plugin.getConfig().getString("Dropper.mapas").length() == u.getUserData().getDropperInsignias().size()) {
-            u.getPlayer().getInventory().addItem(ItemUtil.createItem(Material.NETHER_STAR, "&l&6Insignia de Todos los mapas"));
+            inv.addItem(ItemUtil.createItem(Material.NETHER_STAR, "&l&6Insignia de Todos los mapas"));
         }
+
         u.getUserData().getDropperInsignias().forEach(m -> {
             inv.addItem(ItemUtil.createItem(Material.EMERALD, "&aInsignia oculta del mapa &e" + m));
         });
