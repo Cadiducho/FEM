@@ -19,29 +19,28 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class GameManager {
 
     private final Pictograma plugin;
     @Getter private final ArrayList<Player> playersInGame = new ArrayList<>();
     @Getter private final ArrayList<UUID> hasFound = new ArrayList<>();
-    private int playerFound = 0;
     @Getter private final HashMap<Player, Integer> score = new HashMap<>();
     @Getter private final ArrayList<Block> blockList = new ArrayList<>();
+    public DyeColor color = DyeColor.BLACK;
+    public String word = "";
+    public StringBuilder wordf;
+    public Boolean acceptWords = true;
+    public Player builder = null;
+    private int playerFound = 0;
     @Getter private Scoreboard board;
     @Getter private Objective objective;
-    public DyeColor color = DyeColor.BLACK;
-    
+    //¿Ha de comprobar el inicio del juego?
+    @Getter @Setter private boolean checkStart = true;
     public GameManager(Pictograma instance) {
         plugin = instance;
     }
-
-    //¿Ha de comprobar el inicio del juego?
-    @Getter @Setter private boolean checkStart = true;
 
     public void checkStart() {
         if (checkStart == true && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
@@ -55,12 +54,7 @@ public class GameManager {
             plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
         }
     }
-    
-    public String word = "";
-    public StringBuilder wordf;
-    public Boolean acceptWords = true;
-    public Player builder = null;
-    
+
     //ToDo: Mejorar esto por completo
     public void startRound() {
         searchBuilder();
@@ -76,13 +70,13 @@ public class GameManager {
         Title.sendTitle(builder, 0, 5, 0, "&e&l" + word, "&3Dibuja esta palabra");
         Pictograma.getPlayer(builder).setArtist();
         Pictograma.getPlayer(builder).sendMessage("La palabara es &e" + word);
-    
-        new GameTask(plugin).runTaskTimer(plugin, 2l, 20l);    
+
+        new GameTask(plugin).runTaskTimer(plugin, 2l, 20l);
     }
-    
+
     public void endGame() {
         plugin.getMsg().sendBroadcast("¡El juego ha acabado!");
-        
+
         //Checkwinner          
         Player winner = null;
         for (Player p : score.keySet()) {
@@ -94,7 +88,7 @@ public class GameManager {
             } else {
                 winner = p;
             }
-            
+
             final PicPlayer picPlayer = Pictograma.getPlayer(p);
             picPlayer.getUserData().setPicPuntosTotales(picPlayer.getUserData().getPicPuntosTotales() + puntos);
             picPlayer.getUserData().setCoins(picPlayer.getUserData().getCoins() + 5);
@@ -107,14 +101,14 @@ public class GameManager {
                 p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
                 Title.sendTitle(p, 1, 7, 1, "&c" + winner.getName(), "&aha ganado la partida!");
             }
-            
+
             final PicPlayer pp = Pictograma.getPlayer(winner);
             pp.getUserData().addWin(GameID.PICTOGRAMA);
             pp.save();
         }
         new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
     }
-    
+
     public void searchBuilder() {
         for (Player p : plugin.getAm().getColaPintar()) {
             builder = p;
@@ -122,14 +116,14 @@ public class GameManager {
             break;
         }
     }
-    
+
     public void addRandomLetter() {
         Random r = new Random();
         int randomLetter = r.nextInt(word.length());
         wordf.setCharAt(randomLetter, word.charAt(randomLetter));
         plugin.getMsg().sendBroadcast("&aLa palabra es &e" + wordf);
     }
-   
+
     public void increaseScore(Player p, int value) {
         if (score.containsKey(p)) {
             score.put(p, (score.get(p)) + value);
@@ -137,11 +131,26 @@ public class GameManager {
             scoreBoard.setScore((score.get(p)));
         }
     }
-    
+
+    public List<Player> get3() {
+        List<Player> top = new ArrayList<>();
+
+        List<Integer> list = new ArrayList<>(getScore().values());
+        Collections.sort(list, Collections.reverseOrder());
+
+        getScore().keySet().forEach(k -> list.subList(0, 3).forEach(v -> {
+            if (getScore().get(k).equals(v)) {
+                top.add(k);
+            }
+        }));
+
+        return top;
+    }
+
     public void wordFoundBy(Player player) {
         final PicPlayer pp = Pictograma.getPlayer(player);
         final PicPlayer ppBuilder = Pictograma.getPlayer(builder);
-        
+
         if (!acceptWords) {
             pp.sendMessage("&e'No puedes escribir una palabra fuera de tiempo!");
             return;
@@ -151,7 +160,7 @@ public class GameManager {
             score.keySet().forEach(p -> p.getWorld().playSound(p.getLocation(), Sound.NOTE_PLING, 1.0F, 1.0F));
             pp.getUserData().setPicAcertadas(pp.getUserData().getPicAcertadas() + 1);
             pp.save();
-            
+
             int puntos;
             String sufijo = "!";
             switch (playerFound) {
@@ -160,7 +169,7 @@ public class GameManager {
                     sufijo = ", y ha sido el más rápido!";
                     plugin.getMsg().sendMessage(builder, "&6+2 &aalguien ha adivinado tu palabra!");
                     increaseScore(builder, 2);
-                    
+
                     ppBuilder.getUserData().setPicDibujadas(ppBuilder.getUserData().getPicDibujadas() + 1);
                     ppBuilder.save();
                     break;
@@ -184,7 +193,7 @@ public class GameManager {
             pp.getUserData().setCoins(pp.getUserData().getCoins() + 1);
             plugin.getMsg().sendBroadcast("&6+" + puntos + " &a" + player.getName() + " ha encontrado la palabra" + sufijo);
             pp.save();
-            
+
             playerFound += 1;
         }
         if (playerFound == (getPlayersInGame().size() - 1)) {
@@ -193,7 +202,7 @@ public class GameManager {
             GameTask.getGameInstance().prepareNextRound();
         }
     }
-    
+
     public void addPlayerToGame(Player player) {
         if (playersInGame.contains(player)) {
             playersInGame.remove(player);
@@ -205,28 +214,28 @@ public class GameManager {
 
     public void removePlayerFromGame(Player player) {
         playersInGame.remove(player);
-        
+
         if (builder != null && (player.getUniqueId() == builder.getUniqueId())) {
             GameTask.getGameInstance().prepareNextRound();
         }
         //Elminar de la cola
-        for (Player p : plugin.getAm().getColaPintar()) { 
-            if (p.getUniqueId() == player.getUniqueId()) { 
+        for (Player p : plugin.getAm().getColaPintar()) {
+            if (p.getUniqueId() == player.getUniqueId()) {
                 if (plugin.getAm().getColaPintar().contains(p)) {
-                    plugin.getAm().getColaPintar().remove(p); 
+                    plugin.getAm().getColaPintar().remove(p);
                 }
-            } 
+            }
         }
-        
+
         //Eliminar sus puntos
         if (score != null) score.remove(player);
         if (board != null) board.resetScores(player.getName());
     }
-    
+
     public boolean acceptPlayers() {
         return (GameState.state == GameState.PREPARING || GameState.state == GameState.LOBBY);
     }
-    
+
     public boolean isInGame() {
         return GameState.state == GameState.GAME;
     }
