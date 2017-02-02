@@ -51,12 +51,12 @@ public class ArenaManager {
     
     public ArenaManager(TeamTntWars instance) {
         plugin = instance;
-        minPlayers = plugin.getConfig().getInt("Tnt.Arena.usersMin");
-        maxPlayers = plugin.getConfig().getInt("Tnt.Arena.usersMax");
+        minPlayers = plugin.getConfig().getInt("TeamTntWars.Arena.usersMin");
+        maxPlayers = plugin.getConfig().getInt("TeamTntWars.Arena.usersMax");
         
-        areaBorder1 = Metodos.stringToLocation(plugin.getConfig().getString("Tnt.Arena.areaBorder1"));
-        areaBorder2 = Metodos.stringToLocation(plugin.getConfig().getString("Tnt.Arena.areaBorder2"));
-        lobby = Metodos.stringToLocation(plugin.getConfig().getString("Tnt.Arena.lobby"));
+        areaBorder1 = Metodos.stringToLocation(plugin.getConfig().getString("TeamTntWars.Arena.areaBorder1"));
+        areaBorder2 = Metodos.stringToLocation(plugin.getConfig().getString("TeamTntWars.Arena.areaBorder2"));
+        lobby = Metodos.stringToLocation(plugin.getConfig().getString("TeamTntWars.Arena.lobby"));
     }
 
     public void prepareWorld(World w) {
@@ -77,9 +77,9 @@ public class ArenaManager {
     }
     
     public void initArena() {
-        for (String str : plugin.getConfig().getConfigurationSection("Tnt.Arena.islas").getKeys(false)) {
+        for (String str : plugin.getConfig().getConfigurationSection("TeamTntWars.Arena.islas").getKeys(false)) {
             plugin.getLogger().log(Level.INFO, "Intentando cargar isla {0}", str);
-            ConfigurationSection cfg = plugin.getConfig().getConfigurationSection("Tnt.Arena.islas." + str);
+            ConfigurationSection cfg = plugin.getConfig().getConfigurationSection("TeamTntWars.Arena.islas." + str);
             Location loc1 = Metodos.stringToLocation(cfg.getString("borderPos1"));
             Location loc2 = Metodos.stringToLocation(cfg.getString("borderPos2"));
             
