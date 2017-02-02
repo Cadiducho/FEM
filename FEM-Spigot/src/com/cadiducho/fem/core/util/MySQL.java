@@ -373,19 +373,18 @@ public class MySQL {
         });
     }
     
-    public boolean checkInsignia(FEMUser u, String mapa, boolean insert) {
+    public boolean checkInsignia(FEMUser u, String mapa) {
         try {
             PreparedStatement statement = openConnection().prepareStatement("SELECT * FROM `fem_dropperInsignias` WHERE `uuid` =? AND `mapa`=?");
             statement.setString(1, u.getUuid().toString());
             statement.setString(2, mapa);
             ResultSet rs = statement.executeQuery();
             if (!rs.next()) { //No hay filas encontradas, insertar nuevos datos
-                if (insert) {
-                    PreparedStatement statementAmigos = openConnection().prepareStatement("INSERT INTO `fem_dropperInsignias` (`uuid`, `mapa`) VALUES (?, ?)");
-                    statementAmigos.setString(1, u.getUuid().toString());
-                    statementAmigos.setString(2, mapa);
-                    statementAmigos.executeUpdate();
-                }
+                PreparedStatement statementAmigos = openConnection().prepareStatement("INSERT INTO `fem_dropperInsignias` (`uuid`, `mapa`) VALUES (?, ?)");
+                statementAmigos.setString(1, u.getUuid().toString());
+                statementAmigos.setString(2, mapa);
+                statementAmigos.executeUpdate();
+                u.getUserData().getDropperInsignias().add(mapa);
                 return false;
             }
         } catch (SQLException | ClassNotFoundException ex) {

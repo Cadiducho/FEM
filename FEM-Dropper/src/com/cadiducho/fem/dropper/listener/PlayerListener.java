@@ -90,7 +90,9 @@ public class PlayerListener implements Listener {
                         DropMenu.openMapsInv(dp);
                         break;
                     case EMERALD:
-                        DropMenu.openIngInv(dp);
+                        if (dp.getPlayer().getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) {
+                            DropMenu.openIngInv(dp);
+                        }
                         break;
                     default:
                         break;
@@ -132,7 +134,6 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
-                e.setCancelled(true);
 
                 final DropPlayer pl = Dropper.getPlayer(p);
 
@@ -141,6 +142,7 @@ public class PlayerListener implements Listener {
                 pl.save();
                 pl.setMapInventory();
                 p.teleport(Metodos.stringToLocation(Dropper.getInstance().getConfig().getString("Dropper.spawns." + p.getWorld().getName())));
+                e.setDamage(0f);
                 e.setCancelled(true);
                 return;
             }

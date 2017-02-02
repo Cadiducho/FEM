@@ -12,7 +12,7 @@ public class DropMenu {
     private static final Dropper plugin = Dropper.getInstance();
 
     public static void openIngInv(DropPlayer u){
-        Inventory inv = Bukkit.createInventory(null, 36, Metodos.colorizar("&6Under&eGames &a- &l&eInsignias"));
+        Inventory inv = Bukkit.createInventory(null, 36, Metodos.colorizar("&6Under&eGames &2- &l&2Insignias"));
 
         if (plugin.getConfig().getString("Dropper.mapas").length() == u.getUserData().getDropperInsignias().size()) {
             inv.addItem(ItemUtil.createItem(Material.NETHER_STAR, "&l&6Insignia de Todos los mapas"));
@@ -26,7 +26,7 @@ public class DropMenu {
     }
 
     public static void openMapsInv(DropPlayer u){
-        Inventory inv = Bukkit.createInventory(null, 36, Metodos.colorizar("&6Under&eGames &a- &l&aMapas superados"));
+        Inventory inv = Bukkit.createInventory(null, 36, Metodos.colorizar("&6Under&eGames &2- &l&2Mapas superados"));
 
         u.getUserData().getDropper().forEach((m, v) -> {
             inv.addItem(ItemUtil.createItem(Material.DIAMOND, v, "&d" + m, "&a" + v + " &eveces superado"));

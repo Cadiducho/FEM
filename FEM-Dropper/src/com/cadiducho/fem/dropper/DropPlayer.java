@@ -35,7 +35,7 @@ public class DropPlayer extends FEMUser {
         getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&aVuelve al Lobby", "Te lleva al lobby principal"));
         getPlayer().getInventory().setItem(7, ItemUtil.createItem(Material.DIAMOND, "&aMapas superados"));
         getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.EMERALD, "&aTus insignias"));
-        getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> getPlayer().setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard()), 21L);
     }
     
     public void setMapInventory() {
@@ -43,7 +43,7 @@ public class DropPlayer extends FEMUser {
         
         String world = getPlayer().getWorld().getName();
         getPlayer().getInventory().addItem(ItemUtil.createItem(Material.BED, "&aVuelve al Lobby de Dropper", "&aMapa actual: &e" + world));
-        if (FEMCore.getInstance().getMysql().checkInsignia(this, world, false)) {
+        if (getUserData().getDropperInsignias().contains(world)) {
             if (plugin.getConfig().getString("Dropper.mapas").length() == getUserData().getDropperInsignias().size()) {
                 getPlayer().getInventory().addItem(ItemUtil.createItem(Material.NETHER_STAR, "&l&6Trofeo de Todos los mapas"));
             }
@@ -65,24 +65,29 @@ public class DropPlayer extends FEMUser {
             @Override
             public void run() {
                 if (getPlayer() == null) cancel();
-
-                board.text(2, "Mapa: §b" + id);
+                if (getPlayer().getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) cancel(); //No ejecutar en el lobby
+    
+                String map = getPlayer().getWorld().getName();
+                int comple = (getUserData().getDropper().get(map) != null) ? getUserData().getDropper().get(map) : 0;
+ 
+                board.text(3, "§dMapa: §b" + id);
+                board.text(2, (comple > 0) ? "§a✔ Mapa completado (§e" + comple + "§a)" : "§c✘ Mapa no completado");
+                board.text(1, (getUserData().getDropperInsignias().contains(map)) ? "§a✔ Insignia conseguida" : "§c✘ No tienes la insignia");
                 board.text(0, "§cmc.undergames.es");
 
-                if (getPlayer() != null) board.build(getPlayer());
+                if (getPlayer() != null && !getPlayer().getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) board.build(getPlayer());
             }
         }.runTaskTimer(plugin, 20l, 20l);
     }
 
     public void checkInsignia() {
         String world = getPlayer().getWorld().getName();
-        if (FEMCore.getInstance().getMysql().checkInsignia(this, world, true)) {
+        if (FEMCore.getInstance().getMysql().checkInsignia(this, world)) {
             sendMessage("&a¡Ya tienes esa insignia!");
         } else {
             sendMessage("&a¡Has obtenido la insignia del mapa &e" + world + "&a!");
             getPlayer().playSound(getPlayer().getLocation(), Sound.LEVEL_UP, 1F, 1F);
             getPlayer().getInventory().addItem(ItemUtil.createItem(Material.EMERALD, "&aInsignia oculta del mapa &e" + world));
-            save();
             if (plugin.getConfig().getString("Dropper.mapas").length() == getUserData().getDropperInsignias().size()) {
                 sendMessage("&e¡Has conseguido las insignias secretas de todos los mapas!");
                 FireworkAPI.spawnFirework(getPlayer().getLocation(), FireworkEffect.Type.STAR, Color.AQUA, Color.PURPLE, 2);
