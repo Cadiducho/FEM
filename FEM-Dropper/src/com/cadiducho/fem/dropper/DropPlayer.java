@@ -3,20 +3,11 @@ package com.cadiducho.fem.dropper;
 import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.api.FEMUser;
-import com.cadiducho.fem.core.util.FireworkAPI;
-import com.cadiducho.fem.core.util.ItemUtil;
-import com.cadiducho.fem.core.util.Metodos;
-import com.cadiducho.fem.core.util.ScoreboardUtil;
-import com.cadiducho.fem.core.util.Title;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import com.cadiducho.fem.core.util.*;
+import org.bukkit.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
 
 public class DropPlayer extends FEMUser {
 
@@ -101,6 +92,7 @@ public class DropPlayer extends FEMUser {
     }
 
     public void endMap() {
+        getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         String map = getPlayer().getWorld().getName();
         sendMessage("&aHas ganado en el mapa &e" + map + "&a!");
         Title.sendTitle(getPlayer(), 1, 5, 1, "&a" + map, "&e¡Mapa completado!");

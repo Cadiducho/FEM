@@ -6,7 +6,6 @@ import com.cadiducho.fem.dropper.DropMenu;
 import com.cadiducho.fem.dropper.DropPlayer;
 import com.cadiducho.fem.dropper.Dropper;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.LivingEntity;
@@ -62,7 +61,7 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                 }
             }
-            
+
             if (e.getClickedBlock().getType() == Material.SKULL) {
                 if (dp.getPlayer().getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) {
                     e.setCancelled(true);
@@ -130,18 +129,15 @@ public class PlayerListener implements Listener {
                     e.setCancelled(true);
                     return;
                 }
-                
+                e.setCancelled(true);
+
                 final DropPlayer pl = Dropper.getPlayer(p);
 
                 //Limpiar jugador y respawn
-                pl.setCleanPlayer(GameMode.SPECTATOR);          
                 pl.getUserData().addDeath(GameID.DROPPER);
                 pl.save();
-                
-                plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                    pl.setMapInventory();
-                    p.teleport(Metodos.stringToLocation(Dropper.getInstance().getConfig().getString("Dropper.spawns." + p.getWorld().getName())));
-                }, 20L);
+                pl.setMapInventory();
+                p.teleport(Metodos.stringToLocation(Dropper.getInstance().getConfig().getString("Dropper.spawns." + p.getWorld().getName())));
                 e.setCancelled(true);
                 return;
             }
