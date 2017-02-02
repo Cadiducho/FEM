@@ -49,6 +49,7 @@ public class GemHunters extends JavaPlugin {
         new WorldCreator("espera").createWorld();
         gm = new GameManager(instance);
         tm = new TeamManager(instance);
+        getServer().getScheduler().runTaskLater(instance, () -> tm.initTeams(), 1);
         am = new ArenaManager(instance);
         am.prepareWorld(getServer().getWorld(getConfig().getString("GemHunters.Arena.mundo")));
         msg = new Messages(instance, "&dGem&eHunters");
@@ -64,12 +65,7 @@ public class GemHunters extends JavaPlugin {
         
         GameState.state = GameState.LOBBY;
         getLogger().log(Level.INFO, "GH: Activado correctamente");
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                tm.initTeams();
-            }
-        }.runTaskLater(this, 1);
+        
     }
 
     @Override

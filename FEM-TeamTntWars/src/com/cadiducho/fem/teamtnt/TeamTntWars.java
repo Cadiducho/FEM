@@ -20,6 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Level;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class TeamTntWars extends JavaPlugin {
 
@@ -55,8 +56,7 @@ public class TeamTntWars extends JavaPlugin {
         gm = new GameManager(instance);
 
         tm = new TeamManager(instance);
-        tm.initTeams();
-
+        getServer().getScheduler().runTaskLater(instance, () -> tm.initTeams(), 1);
         chestItems = new ChestItems(instance);
 
         am = new ArenaManager(instance);
@@ -74,7 +74,7 @@ public class TeamTntWars extends JavaPlugin {
         pm.registerEvents(new TeleportFix(instance), instance);
         
         GameState.state = GameState.LOBBY;
-        getLogger().log(Level.INFO, "TeamTntWars: Activado correctamente");
+        getLogger().log(Level.INFO, "TeamTntWars: Activado correctamente");    
     }
 
     @Override
