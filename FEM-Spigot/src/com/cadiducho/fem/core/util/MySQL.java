@@ -1,6 +1,7 @@
 package com.cadiducho.fem.core.util;
 
 import com.cadiducho.fem.core.FEMCore;
+import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.api.FEMUser.UserData;
 import com.cadiducho.fem.core.cmds.FEMCmd;
@@ -129,9 +130,11 @@ public class MySQL {
                 PreparedStatement statementStats = openConnection().prepareStatement("UPDATE `fem_stats` SET `kills_tnt`=?,`kills_gh`=?,`deaths_tnt`=?,`deaths_gh`=?,`jugadas_tnt`=?,"
                         + "`jugadas_dod`=?,`jugadas_gh`=?,`ganadas_tnt`=?,`ganadas_dod`=?,`ganadas_gh`=?,`tntPuestas`=?,`tntQuitadas`=?,`tntExplotadas`=?,`genUpgraded`=?,"
                         + "`gemDestroyed`=?,`gemPlanted`=?,`record_dod`=?,`rondas_dod`=?,`picAcertadas`=?,`picDibujadas`=?,`picPuntosTotales`=?,`ganadas_pic`=?,`jugadas_pic`=?,"
-                        + "`jugadas_br`=?,`ganadas_br`=?,`kills_br`=?,`deaths_br`=?,`brIntercambios`=?,`jugadas_lg`=?,`ganadas_lg`=?,`kills_lg`=?,`deaths_lg`=?,`luckyRotos`=?,`timePlayed`=? "
+                        + "`jugadas_br`=?,`ganadas_br`=?,`kills_br`=?,`deaths_br`=?,`brIntercambios`=?,`jugadas_lg`=?,`ganadas_lg`=?,`kills_lg`=?,`deaths_lg`=?,`luckyRotos`=?,"
+                        + "`ganadas_dro`=?, `deaths_dro`=?, `jugadas_dro`=?, `timePlayed`=? "
                         + "WHERE `uuid`=?");
 
+                //TODO Reorganizar query y usar nuevos metodos de stats
                 statementStats.setInt(1, data.getKills().get(1));
                 statementStats.setInt(2, data.getKills().get(3));
                 statementStats.setInt(3, data.getDeaths().get(1));
@@ -165,8 +168,11 @@ public class MySQL {
                 statementStats.setInt(31, data.getKills().get(6));
                 statementStats.setInt(32, data.getDeaths().get(6));
                 statementStats.setInt(33, data.getLuckyRotos());
-                statementStats.setLong(34, data.getTimePlayed());
-                statementStats.setString(35, u.getUuid().toString());
+                statementStats.setInt(34, data.getWins(GameID.DROPPER));
+                statementStats.setInt(35, data.getDeaths(GameID.DROPPER));
+                statementStats.setInt(36, data.getPlays(GameID.DROPPER));
+                statementStats.setLong(37, data.getTimePlayed());
+                statementStats.setString(38, u.getUuid().toString());
                 statementStats.executeUpdate();
 
                 for (Map.Entry<String, Integer> entry : data.getDropper().entrySet()) {
@@ -243,6 +249,7 @@ public class MySQL {
                 deaths.put(3, rsStats.getInt("deaths_gh"));
                 deaths.put(5, rsStats.getInt("deaths_br"));
                 deaths.put(6, rsStats.getInt("deaths_lg"));
+                deaths.put(GameID.DROPPER.getId(), rsStats.getInt("deaths_dro"));
                 
                 wins.put(1, rsStats.getInt("ganadas_tnt"));
                 wins.put(2, rsStats.getInt("ganadas_dod"));
@@ -250,6 +257,7 @@ public class MySQL {
                 wins.put(4, rsStats.getInt("ganadas_pic"));
                 wins.put(5, rsStats.getInt("ganadas_br"));
                 wins.put(6, rsStats.getInt("ganadas_lg"));
+                wins.put(GameID.DROPPER.getId(), rsStats.getInt("ganadas_dro"));
                 
                 plays.put(1, rsStats.getInt("jugadas_tnt"));
                 plays.put(2, rsStats.getInt("jugadas_dod"));
@@ -257,6 +265,7 @@ public class MySQL {
                 plays.put(4, rsStats.getInt("jugadas_pic"));
                 plays.put(5, rsStats.getInt("jugadas_br"));
                 plays.put(6, rsStats.getInt("jugadas_lg"));
+                plays.put(GameID.DROPPER.getId(), rsStats.getInt("jugadas_dro"));
                 
                 data.setKills(kills);
                 data.setDeaths(deaths);
