@@ -5,6 +5,7 @@ import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.core.api.FEMUser;
 import com.cadiducho.fem.core.cmds.FEMCmd;
 import com.cadiducho.fem.core.util.Metodos;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,11 +16,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.weather.WeatherChangeEvent;
+import org.inventivetalent.bossbar.BossBarAPI;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.inventivetalent.bossbar.BossBarAPI;
 
 public class PlayerListener implements Listener {
     
@@ -197,6 +198,13 @@ public class PlayerListener implements Listener {
                     u.save();
                 }
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onWeatherChange(WeatherChangeEvent e) {
+        if (e.toWeatherState()) {
+            e.setCancelled(true);
         }
     }
 }
