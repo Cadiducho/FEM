@@ -33,7 +33,7 @@ public class TeamTntWars extends JavaPlugin {
     @Getter private Messages msg;
     @Getter private ChestItems chestItems;
 
-    @Getter private static String prefix = "§c§lTnt§r§lWars";
+    @Getter private static String prefix = "§c§lTeamTnT§r§lWars";
 
     @Getter private ScoreboardUtil lobbyBoard;
     @Getter private ScoreboardUtil gameBoard;
@@ -60,9 +60,9 @@ public class TeamTntWars extends JavaPlugin {
         chestItems = new ChestItems(instance);
 
         am = new ArenaManager(instance);
-        am.prepareWorld(getServer().getWorld(getConfig().getString("Tnt.Arena.mundo")));
+        am.prepareWorld(getServer().getWorld(getConfig().getString("TeamTntWars.Arena.mundo")));
 
-        msg = new Messages(instance, "&cTnt&rWars");
+        msg = new Messages(instance, getPrefix());
 
         lobbyBoard = new ScoreboardUtil(prefix, "lobby");
         gameBoard = new ScoreboardUtil(prefix, "game");
@@ -74,12 +74,12 @@ public class TeamTntWars extends JavaPlugin {
         pm.registerEvents(new TeleportFix(instance), instance);
         
         GameState.state = GameState.LOBBY;
-        getLogger().log(Level.INFO, "Tnt: Activado correctamente");
+        getLogger().log(Level.INFO, "TeamTntWars: Activado correctamente");
     }
 
     @Override
     public void onDisable() {
-        getLogger().log(Level.INFO, "Tnt: Desativado correctamente");
+        getLogger().log(Level.INFO, "TeamTntWars: Desativado correctamente");
     }
 
     public static TntPlayer getPlayer(OfflinePlayer p) {

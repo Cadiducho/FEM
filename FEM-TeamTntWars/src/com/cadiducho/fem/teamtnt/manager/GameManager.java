@@ -32,19 +32,16 @@ public class GameManager {
     }
 
     public void addPlayerToGame(Player player) {
-        if (playersInGame.contains(player)) {
-            playersInGame.remove(player);
-            playersInGame.add(player);
-        } else {
-            playersInGame.add(player);
-        }
+        if (playersInGame.contains(player)) playersInGame.remove(player);
+        playersInGame.add(player);
     }
 
     public void removePlayerFromGame(Player p) {
         TntIsland isla = TntIsland.getIsland(plugin.getTm().getBoard().getEntryTeam(p.getName()));
-        if (isla != null) plugin.getAm().getUnAssignedIslas().add(isla);
+        if (isla != null && plugin.getTm().getTeam(p).getEntries().isEmpty()) plugin.getAm().getUnAssignedIslas().add(isla);
         playersInGame.remove(p);
         plugin.getTm().deadPlayer(p);
+        plugin.getTm().removeTeam(p);
     }
 
     public boolean acceptPlayers() {
