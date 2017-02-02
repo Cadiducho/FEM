@@ -27,7 +27,7 @@ public class BreakLuckyTask extends BukkitRunnable {
         if (plugin.getAm().luckyTime == plugin.getConfig().getInt("luckyTime")) {
             GameState.state = GameState.LUCKY;
             plugin.getGm().getPlayersInGame().forEach(p -> {
-                Title.sendTitle(p, 1, 7, 1, "&b&l¡Rompe todos los LuckyBlocks que puedas!", "");
+                Title.sendTitle(p, 1, 7, 1, "", "&b&l¡Rompe todos los LuckyBlocks que puedas!");
             });
             plugin.getMsg().sendBroadcast("&7Ya puedes romper Lucky Blocks!");
         } else if (plugin.getAm().luckyTime == 5) {
