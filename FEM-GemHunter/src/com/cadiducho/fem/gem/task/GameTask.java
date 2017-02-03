@@ -25,6 +25,9 @@ public class GameTask extends BukkitRunnable {
     public void run() {
         instance = this;
         
+        plugin.getGm().getPlayersInGame().stream().forEach(players -> {
+            plugin.getMsg().sendActionBar(players, "&a&lTiempo restante: " + count);
+        });
         switch (count) {
             case 300:
                 plugin.getAm().muro(plugin.getServer().getWorlds().get(0));
@@ -48,7 +51,6 @@ public class GameTask extends BukkitRunnable {
         }
 
         --count;
-        plugin.getGm().getPlayersInGame().stream().forEach(pl -> pl.setLevel(count));
         noPlayers();
     }
     

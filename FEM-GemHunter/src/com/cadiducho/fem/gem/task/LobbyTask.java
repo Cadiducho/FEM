@@ -3,6 +3,7 @@ package com.cadiducho.fem.gem.task;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.manager.GameState;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -33,11 +34,12 @@ public class LobbyTask extends BukkitRunnable {
                 players.playSound(players.getLocation(), Sound.CLICK, 1f, 1f);
             });
         } else if (count > 0 && count <= 5) {
-            plugin.getGm().getPlayersInGame().stream().forEach(p -> {
+            plugin.getGm().getPlayersInGame().forEach(p -> {
                 Title.sendTitle(p, 1, 3, 1, "&c&l" + count, "");
                 p.playSound(p.getLocation(), Sound.CLICK, 1f, 1f);
             });
         } else if(count == 0) {
+            plugin.getGm().getPlayersInGame().forEach(p -> GemHunters.getPlayer(p).setCleanPlayer(GameMode.ADVENTURE));
             new CountdownTask(plugin).runTaskTimer(plugin, 1l, 20l);
             GameState.state = GameState.COUNTDOWN;
             cancel();

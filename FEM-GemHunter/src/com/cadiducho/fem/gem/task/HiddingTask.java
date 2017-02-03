@@ -21,13 +21,17 @@ public class HiddingTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        plugin.getGm().getPlayersInGame().stream().forEach(players -> {
+            plugin.getMsg().sendActionBar(players, "&a&lTiempo para esconder: " + count);
+        });
+        
         //Por tiempos
         switch (count) {
             case 30:
                 plugin.getMsg().sendBroadcast("&7Solo quedan 30 segundos para esconder tu gema!");
                 break;
             case 0:
-                end();
+                endHiding();
                 break;
             default:
                 break;
@@ -38,14 +42,13 @@ public class HiddingTask extends BukkitRunnable {
         if (plugin.getTm().getPuntos(t) == plugin.getTm().getJugadores().get(t).size()) { //Amarillos totales
             t = plugin.getTm().rojo;
             if (plugin.getTm().getPuntos(t) == plugin.getTm().getJugadores().get(t).size()) { //Morado tambien
-                end();
+                endHiding();
             }
         }
-        --count;
-        plugin.getGm().getPlayersInGame().stream().forEach(pl -> pl.setLevel(count));
+        --count; 
     }
     
-    public void end() {
+    public void endHiding() {
         
         //Si alguno no ha puesto gemas, terminar aquí
         if (plugin.getTm().getPuntos(plugin.getTm().azul) == 0) {

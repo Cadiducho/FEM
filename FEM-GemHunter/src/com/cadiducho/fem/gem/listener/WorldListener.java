@@ -30,7 +30,7 @@ public class WorldListener implements Listener {
         if (b.getType() == plugin.getAm().getTypeGema()) {
             if (plugin.getGm().isHidding()) {
                 e.getPlayer().sendMessage("Has puesto tu gema");
-                plugin.getMsg().sendBroadcast("&c" + e.getPlayer().getName() + " &eha puesto su gema");
+                plugin.getMsg().sendBroadcast(plugin.getTm().getTeam(e.getPlayer()).getPrefix() + e.getPlayer().getName() + " &eha puesto su gema");
                 
                 final GemPlayer gp = GemHunters.getPlayer(e.getPlayer());
                 gp.getUserData().setGemPlanted(gp.getUserData().getGemPlanted() + 1);

@@ -53,13 +53,13 @@ public class GemPlayer extends FEMUser {
                 
                 if (plugin.getGm().isHidding()) {
                     board.setName("§2§lGemHunters");
-                    board.text(12, "§7Gemas restantes:");
-                    board.text(11, "§cRojo: §f" + plugin.getTm().getPuntos(plugin.getTm().rojo));
-                    board.text(10, "§3Azul: §f" + plugin.getTm().getPuntos(plugin.getTm().azul));
-                    board.text(7, "§f☺ ");
-                    board.text(6, "§7Tiempo restante:");
-                    board.text(5, "§e" + HiddingTask.getTimeLeft() + " segundos");
-                    board.text(4, "§f¡Esconde tu gema! ");
+                    board.text(7, "§7Gemas restantes:");
+                    board.text(6, "§cRojo: §f" + plugin.getTm().getPuntos(plugin.getTm().rojo));
+                    board.text(5, "§3Azul: §f" + plugin.getTm().getPuntos(plugin.getTm().azul));
+                    board.text(4, "§f ");
+                    board.text(3, "§7Tiempo restante:");
+                    board.text(2, "§e" + HiddingTask.getTimeLeft() + " segundos");
+                    board.text(1, "§f¡Esconde tu gema! ");
                     board.text(0, "§emc.undergames.es");
                 } else {
                     board.reset();
@@ -79,13 +79,13 @@ public class GemPlayer extends FEMUser {
                 
                 if (plugin.getGm().isInGame()) {
                     board.setName("§2§lGemHunters");
-                    board.text(12, "§7Equipos:");
-                    board.text(11, "§cRojo: §f" + plugin.getTm().getPuntos(plugin.getTm().rojo));
-                    board.text(10, "§1Azul: §f" + plugin.getTm().getPuntos(plugin.getTm().azul));
-                    board.text(7, "§f☺ ");
-                    board.text(6, "§7Tiempo restante:");
-                    board.text(5, "§e" + GameTask.getTimeLeft() + " segundos");
-                    board.text(4, "§f☺ ");
+                    board.text(7, "§7Equipos:");
+                    board.text(6, "§cRojo: §f" + plugin.getTm().getPuntos(plugin.getTm().rojo));
+                    board.text(5, "§1Azul: §f" + plugin.getTm().getPuntos(plugin.getTm().azul));
+                    board.text(4, "§f ");
+                    board.text(3, "§7Tiempo restante:");
+                    board.text(2, "§e" + GameTask.getTimeLeft() + " segundos");
+                    board.text(1, "§f ");
                     board.text(0, "§emc.undergames.es");
                 } else {
                     board.reset();

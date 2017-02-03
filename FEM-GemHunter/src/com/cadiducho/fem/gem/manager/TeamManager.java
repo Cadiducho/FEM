@@ -84,7 +84,7 @@ public class TeamManager {
             array.remove(loc);
             hGemas.remove(oppositeTeam);
             hGemas.put(oppositeTeam, array);
-            plugin.getMsg().sendBroadcast("&2" + p.getName() + "&e ha roto una gema del equipo " + oppositeTeam.getPrefix() +  oppositeTeam.getDisplayName());
+            plugin.getMsg().sendBroadcast(plugin.getTm().getTeam(p.getPlayer()).getPrefix() + p.getName() + "&e ha roto una gema del equipo " + oppositeTeam.getPrefix() +  oppositeTeam.getDisplayName());
             jugadores.get(getTeam(p.getPlayer())).forEach(ally -> ally.playSound(ally.getLocation(), Sound.ORB_PICKUP, 1F, 1F));
             jugadores.get(oppositeTeam).forEach(ally -> ally.playSound(ally.getLocation(), Sound.AMBIENCE_THUNDER, 1F, 1F));
             

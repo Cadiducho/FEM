@@ -17,6 +17,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.*;
 
 
@@ -144,6 +146,14 @@ public class PlayerListener implements Listener {
             }
         }
     }
+    
+    @EventHandler
+    public void inventoryClickEvent(InventoryClickEvent e){
+        //Cancelar quitarse armadura
+         if (e.getSlotType().equals(SlotType.ARMOR)) {
+             e.setCancelled(true);
+         }
+    }
 
     @EventHandler
     public void onPlayerDrop(PlayerDropItemEvent e) {
@@ -165,6 +175,6 @@ public class PlayerListener implements Listener {
         if (e.getPlayer().getGameMode().equals(GameMode.SPECTATOR)) {
             e.setCancelled(true);
         }
-        e.setFormat(ChatColor.GREEN + e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + ChatColor.GRAY + e.getMessage());
+        e.setFormat(plugin.getTm().getTeam(e.getPlayer()).getPrefix() + e.getPlayer().getDisplayName() + ChatColor.WHITE + ": " + ChatColor.GRAY + e.getMessage());
     }
 }
