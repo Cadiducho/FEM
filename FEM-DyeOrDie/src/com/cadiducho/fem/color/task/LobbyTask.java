@@ -35,30 +35,36 @@ public class LobbyTask extends BukkitRunnable {
             pl.setLevel(count);
             pl.setFireTicks(0);
         });
-        if (count == 7) {            
-            //Colocar jugadores
-            plugin.getGm().getPlayersInGame().forEach(p -> DyeOrDie.getPlayer(p).spawn());       
-        } else if (count > 0 && count <= 5) {
-            plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
-        } else if (count == 0) {
-            GameState.state = GameState.GAME;
-            for (Player p : plugin.getGm().getPlayersInGame()) {
-                p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
-                DyeOrDie.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
-                Title.sendTitle(p, 1, 7, 1,"&b&l¡Comienza a correr!", "");
-                p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
-                
-                final DyePlayer dp = DyeOrDie.getPlayer(p);
-                dp.getUserData().addPlay(GameID.DYEORDIE);
-                dp.save();
-            }
+        
+        switch (count) {
+            case 6:
+                GameState.state = GameState.GAME;
+                break;
+            case 5:
+            case 4:
+            case 3:
+            case 2:    
+            case 1:
+                plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
+                plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
+                break;
+            case 0:
+                for (Player p : plugin.getGm().getPlayersInGame()) {
+                    final DyePlayer dp = DyeOrDie.getPlayer(p);
+                    dp.spawn();    
+                    p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
+                    dp.setCleanPlayer(GameMode.SURVIVAL);
+                    Title.sendTitle(p, 1, 7, 1,"&b&l¡Comienza a correr!", "");
+                    p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
+                    dp.getUserData().addPlay(GameID.DYEORDIE);
+                    dp.save();
+                }
             
-            //Iniciar hilo de la fase de esconder
-            plugin.getGm().startGame();
-            cancel();
+                //Iniciar hilo de la fase de esconder
+                plugin.getGm().startGame();
+                cancel();
+                break;
         }
-
         --count; 
     }
 }
