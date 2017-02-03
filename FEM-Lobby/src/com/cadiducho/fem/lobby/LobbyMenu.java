@@ -134,9 +134,9 @@ public class LobbyMenu {
                 lam.setColor(Color.BLUE);
                 letherBoots.setItemMeta(lam);
                 clon.setItem(5, letherBoots);
-                clon.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays(GameID.LUCKYGLADIATORS),
-                        "&fPartidas Ganadas: &l" + u.getUserData().getWins(GameID.LUCKYGLADIATORS),
-                        "&fBajas: &l" + u.getUserData().getKills(GameID.LUCKYGLADIATORS), "&fMuertes: &l" + u.getUserData().getDeaths(GameID.LUCKYGLADIATORS),
+                clon.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays(GameID.LUCKYWARRIORS),
+                        "&fPartidas Ganadas: &l" + u.getUserData().getWins(GameID.LUCKYWARRIORS),
+                        "&fBajas: &l" + u.getUserData().getKills(GameID.LUCKYWARRIORS), "&fMuertes: &l" + u.getUserData().getDeaths(GameID.LUCKYWARRIORS),
                         "&4---{*}---",
                         "&fLuckies rotos: &l" + u.getUserData().getLuckyRotos())));
                 clon.setItem(13, ItemUtil.createItem(Material.EMERALD, "&a&lGEM HUNTERS",

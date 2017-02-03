@@ -48,10 +48,10 @@ public class GameListener implements Listener {
                 lpDead.addKillToPlayer();
                 
                 //Stats
-                lpKiller.getUserData().addKill(GameID.LUCKYGLADIATORS);
+                lpKiller.getUserData().addKill(GameID.LUCKYWARRIORS);
                 lpKiller.getUserData().setCoins(lpKiller.getUserData().getCoins() + 1);
                 lpKiller.save();
-                lpDead.getUserData().addDeath(GameID.LUCKYGLADIATORS);
+                lpDead.getUserData().addDeath(GameID.LUCKYWARRIORS);
                 lpDead.save();
             } else {
                 plugin.getMsg().sendMessage(e.getEntity(), "Has muerto");
@@ -61,7 +61,7 @@ public class GameListener implements Listener {
                 lpDead.setSpectator();
                 lpDead.sendMessage("Escribe &e/lobby &fpara volver al Lobby");
                 lpDead.repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-                lpDead.getUserData().addDeath(GameID.LUCKYGLADIATORS);
+                lpDead.getUserData().addDeath(GameID.LUCKYWARRIORS);
                 lpDead.save();
             }
             if (!plugin.getGm().checkWinner()) {

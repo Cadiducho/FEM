@@ -45,7 +45,7 @@ public class LobbyTask extends BukkitRunnable {
 
                 final LuckyPlayer lp = LuckyWarriors.getPlayer(p);
                 lp.setCleanPlayer(GameMode.SURVIVAL);
-                lp.getUserData().addPlay(GameID.LUCKYGLADIATORS);
+                lp.getUserData().addPlay(GameID.LUCKYWARRIORS);
                 lp.save();
             });
             new BreakLuckyTask(plugin).runTaskTimer(plugin, 1l, 20l);
