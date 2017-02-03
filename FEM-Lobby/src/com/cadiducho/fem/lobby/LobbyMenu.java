@@ -194,6 +194,9 @@ public class LobbyMenu {
         meta.addPage(Metodos.colorizar("§6§l▶ BATTLE ROYALE:§0\n\n"
                 + "Busca los cofres por el mapa, equípate, compra o vende lo que necesites en las tiendas y se el último jugador con vida. "
                 + "Recuerda que los limites del mapa disminuyen y te pueden eliminar.§0"));
+        meta.addPage(Metodos.colorizar("§7§l▶ DROPPER:§0\n\n"
+                + "Escoge uno de nuestros mapas y lánzate para conseguir llegar abajo sano y salvo, si aterrizas en un bloque antes de llegar al suelo del mapa volverás arriba."
+                + "Cada mapa posee una insignia escondida que deberás encontrar.§0"));
         meta.addPage(Metodos.colorizar("Síguenos en Twitter:\n"
                 + "&8&l@UnderGames_info\n"
                 + " \n"
