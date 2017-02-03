@@ -128,12 +128,12 @@ public class MySQL {
                 statementDatos.executeUpdate();
 
                 //Stats
-                PreparedStatement statementStats = openConnection().prepareStatement("UPDATE `fem_stats` SET `kills_tnt`=?, `kills_gh`=?, `kills_br`=?, `kills_lg`=?, `deaths_tnt`=?,"
-                        + "`deaths_gh`=?, `deaths_br`=?, `deaths_lg`=?, `deaths_dro`=?, `jugadas_tnt`=?, `jugadas_dod`=?, `jugadas_gh`=?, `jugadas_pic`=?, `jugadas_br`=?, `jugadas_lg`=?, "
-                        + "`jugadas_dro`=?, `ganadas_tnt`=?, `ganadas_dod`=?, `ganadas_gh`=?, `ganadas_pic`=?, `ganadas_br`=?, `ganadas_lg`=?, `ganadas_dro`=?, `tntPuestas`=?,"
-                        + "`tntQuitadas`=?, `tntExplotadas`=?, `genUpgraded`=?, `record_dod`=?, `rondas_dod`=?, `gemDestroyed`=?, `gemPlanted`=?, `picAcertadas`=?, `picDibujadas`=?,"
-                        + "`picPuntosTotales`=?, `brIntercambios`=?, `luckyRotos`=?, `timePlayed`=?"
-                        + "WHERE  `uuid`=?");
+                PreparedStatement statementStats = openConnection().prepareStatement("UPDATE `fem_stats` SET `kills_tnt`=?,`kills_gh`=?,`kills_br`=?,`kills_lg`=?,`deaths_tnt`=?,"
+                        + "`deaths_gh`=?,`deaths_br`=?,`deaths_lg`=?,`deaths_dro`=?,`jugadas_tnt`=?,`jugadas_dod`=?,`jugadas_gh`=?,`jugadas_pic`=?,`jugadas_br`=?,`jugadas_lg`=?,"
+                        + "`jugadas_dro`=?,`ganadas_tnt`=?,`ganadas_dod`=?,`ganadas_gh`=?,`ganadas_pic`=?,`ganadas_br`=?,`ganadas_lg`=?,`ganadas_dro`=?,`tntPuestas`=?,"
+                        + "`tntQuitadas`=?,`tntExplotadas`=?,`genUpgraded`=?,`record_dod`=?,`rondas_dod`=?,`gemDestroyed`=?,`gemPlanted`=?,`picAcertadas`=?,`picDibujadas`=?,"
+                        + "`picPuntosTotales`=?,`brIntercambios`=?,`luckyRotos`=?,`timePlayed`=? "
+                        + "WHERE `uuid`=?");
                 
                 statementStats.setInt(1, data.getKills(GameID.TNTWARS));
                 statementStats.setInt(2, data.getKills(GameID.GEMHUNTERS));
