@@ -103,8 +103,10 @@ public class PlayerListener implements Listener {
         }
 
         if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.GOLD_PLATE) {
-            dp.endMap();
-            e.setCancelled(true);
+            if (!dp.getPlayer().getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) {
+                dp.endMap();
+                e.setCancelled(true);
+            }
         }
     }
 
