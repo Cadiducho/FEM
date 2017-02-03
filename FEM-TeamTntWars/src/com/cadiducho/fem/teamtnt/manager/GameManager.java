@@ -37,7 +37,7 @@ public class GameManager {
     }
 
     public void removePlayerFromGame(Player p) {
-        TntIsland isla = TntIsland.getIsland(plugin.getTm().getBoard().getEntryTeam(p.getName()));
+        TntIsland isla = TntIsland.getIsland(plugin.getTm().getTeam(p));
         if (isla != null && plugin.getTm().getTeam(p).getEntries().isEmpty()) plugin.getAm().getUnAssignedIslas().add(isla);
         playersInGame.remove(p);
         plugin.getTm().deadPlayer(p);

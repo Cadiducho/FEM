@@ -63,7 +63,7 @@ public class TntPlayer extends FEMUser {
                     for (TntIsland isla : plugin.getAm().getIslas()) {
                         if (!"centro".equals(isla.getId()) && isla.getTeam().getEntries() != null) { //Solo islas con jugadores en juego
                             String prefijo = "&a✔  ";
-                            String interfijo = isla.getTeam().getName().equalsIgnoreCase(plugin.getTm().getBoard().getEntryTeam(getName()).getName()) ? "&o" : "";
+                            String interfijo = isla.getTeam().getName().equalsIgnoreCase(plugin.getTm().getTeam(getPlayer()).getName()) ? "&o" : "";
                             if (isla.getDestroyed()) {
                                 //Tachar si ha sido eliminado, si no solo mostrar la cruz roja
                                 if (isla.getTeam().getEntries() != null) {
@@ -128,6 +128,6 @@ public class TntPlayer extends FEMUser {
     }
 
     public void spawn() {
-        getPlayer().teleport(TntIsland.getIsland(plugin.getTm().getBoard().getEntryTeam(getName())).getSpawn());
+        getPlayer().teleport(TntIsland.getIsland(plugin.getTm().getTeam(getPlayer())).getSpawn());
     }
 }

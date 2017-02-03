@@ -136,7 +136,6 @@ public class ArenaManager {
                 Villager v = (Villager) loc1.getWorld().spawnEntity(Metodos.centre(Metodos.stringToLocation(cfg.getString("aldeano"))), EntityType.VILLAGER);
                 v.setCustomName(Metodos.colorizar("&6Tienda TNTWars"));
                 NoAI.setAiEnabled(v, false);
-
             }
             islas.add(isla);
         }
