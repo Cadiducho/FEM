@@ -16,7 +16,7 @@ else
         done
         echo "Todos los archivos han sido subidos"
     else
-        echo "El branch $branch no está preparado para ser subido al servidor"
+        echo "El branch $TRAVIS_BRANCH no está preparado para ser subido al servidor"
     fi
     echo "Deploy al servidor terminado"
 fi

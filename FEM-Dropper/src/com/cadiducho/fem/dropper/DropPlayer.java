@@ -44,7 +44,7 @@ public class DropPlayer extends FEMUser {
         String world = getPlayer().getWorld().getName();
         getPlayer().getInventory().addItem(ItemUtil.createItem(Material.BED, "&aVuelve al Lobby de Dropper", "&aMapa actual: &e" + world));
         if (getUserData().getDropperInsignias().contains(world)) {
-            if (plugin.getConfig().getString("Dropper.mapas").length() == getUserData().getDropperInsignias().size()) {
+            if (plugin.getConfig().getStringList("Dropper.mapas").size() == getUserData().getDropperInsignias().size()) {
                 getPlayer().getInventory().addItem(ItemUtil.createItem(Material.NETHER_STAR, "&l&6Trofeo de Todos los mapas"));
             }
             getPlayer().getInventory().addItem(ItemUtil.createItem(Material.EMERALD, "&aInsignia oculta del mapa &e" + world));
@@ -88,7 +88,7 @@ public class DropPlayer extends FEMUser {
             sendMessage("&a¡Has obtenido la insignia del mapa &e" + world + "&a!");
             getPlayer().playSound(getPlayer().getLocation(), Sound.LEVEL_UP, 1F, 1F);
             getPlayer().getInventory().addItem(ItemUtil.createItem(Material.EMERALD, "&aInsignia oculta del mapa &e" + world));
-            if (plugin.getConfig().getString("Dropper.mapas").length() == getUserData().getDropperInsignias().size()) {
+            if (plugin.getConfig().getStringList("Dropper.mapas").size() == getUserData().getDropperInsignias().size()) {
                 sendMessage("&e¡Has conseguido las insignias secretas de todos los mapas!");
                 FireworkAPI.spawnFirework(getPlayer().getLocation(), FireworkEffect.Type.STAR, Color.AQUA, Color.PURPLE, 2);
                 getPlayer().getInventory().addItem(ItemUtil.createItem(Material.NETHER_STAR, "&l&6Trofeo de Todos los mapas"));

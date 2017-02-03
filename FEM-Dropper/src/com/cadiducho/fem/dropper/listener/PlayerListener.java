@@ -1,5 +1,6 @@
 package com.cadiducho.fem.dropper.listener;
 
+import com.cadiducho.fem.core.FEMCore;
 import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.cmds.FEMCmd;
 import com.cadiducho.fem.core.util.Metodos;
@@ -8,6 +9,7 @@ import com.cadiducho.fem.dropper.DropPlayer;
 import com.cadiducho.fem.dropper.Dropper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -109,6 +111,30 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e){
         if (!(e.getWhoClicked() instanceof Player)) return;
+        if (e.getClickedInventory().getTitle() == null) return;
+        
+        DropPlayer dp = Dropper.getPlayer((Player) e.getWhoClicked());
+        
+        switch (ChatColor.stripColor(e.getClickedInventory().getTitle())) {
+            case "UnderGames - Insignias":
+                if (e.getSlot() == 35) {
+                    dp.getPlayer().closeInventory();
+                    DropMenu.openBorarInsig(dp);
+                    dp.getPlayer().playSound(dp.getPlayer().getLocation(), Sound.CLICK, 1f, 1f);
+                }
+                break;
+            case "Borrar Insignias":
+                if (!e.getCurrentItem().hasItemMeta()) break;
+                
+                String mapa = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).replace("Insignia oculta del mapa ", "");
+                dp.sendMessage("&aHas eliminado la insignia del mapa &e" + mapa);
+                dp.getUserData().getDropperInsignias().remove(mapa);
+                FEMCore.getInstance().getMysql().removeInsignia(dp, mapa);
+                dp.getPlayer().playSound(dp.getPlayer().getLocation(), Sound.CLICK, 1f, 1f);
+                dp.getPlayer().closeInventory();
+                dp.save();
+                break;
+        }
         e.setCancelled(true);
     }
 
