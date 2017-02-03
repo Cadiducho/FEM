@@ -17,7 +17,7 @@ public class TeamSelector {
         Inventory inv = Bukkit.createInventory(null, 9, "Equipos");
         int players = Bukkit.getOnlinePlayers().size();
 
-        if (players <= 4){
+        if (players <= 5){
             inv.setItem(2, ItemUtil.createGlass("Equipo &cRojo", "", DyeColor.RED));
             inv.setItem(3, ItemUtil.createGlass("Equipo &bAzul", "", DyeColor.BLUE));
             inv.setItem(4, ItemUtil.createGlass("Equipo &aVerde", "", DyeColor.GREEN));

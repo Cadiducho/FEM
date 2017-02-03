@@ -93,7 +93,7 @@ public class ItemUtil {
     public static ItemStack createGlass(String displayname, List<String> lore, DyeColor dye) {
         ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE, 1, dye.getWoolData());
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(displayname);
+        meta.setDisplayName(Metodos.colorizar(displayname));
         
         ArrayList<String> colorLore = new ArrayList<>();
         if (lore != null) {

@@ -61,7 +61,7 @@ public class LobbyTask extends BukkitRunnable {
 
 
     private void randomTeam(Player p){
-        if (plugin.getTm().getTeam(p) != null) return;
+        if (plugin.getTm().hasTeam(p)) return;
 
         List<Team> teams = new ArrayList<>(plugin.getTm().getTeams().keySet());
         Team t = teams.get(new Random().nextInt(teams.size()));

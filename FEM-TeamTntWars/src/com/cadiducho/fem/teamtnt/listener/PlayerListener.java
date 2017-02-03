@@ -141,6 +141,7 @@ public class PlayerListener implements Listener {
                 }
                 p.closeInventory();
                 p.playSound(u.getPlayer().getLocation(), Sound.CLICK, 1F, 1F);
+                p.sendMessage("Has sido asignado a un equipo");
                 break;
             default:
                 break;

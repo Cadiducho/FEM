@@ -105,6 +105,15 @@ public class TeamManager {
         p.setScoreboard(board);
     }
 
+    public boolean hasTeam(Player p){
+        for (Team t : teams.keySet()) {
+            if (t.getEntries().contains(p.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isFilled(Team team){
         int players = Bukkit.getOnlinePlayers().size();
         int pl = 4;
