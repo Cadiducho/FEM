@@ -2,6 +2,7 @@ package com.cadiducho.fem.tnt;
 
 import com.cadiducho.fem.core.api.FEMServer.GameID;
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.core.util.Title;
@@ -10,6 +11,7 @@ import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
+import org.bukkit.Material;
 
 public class TntPlayer extends FEMUser {
 
@@ -91,6 +93,7 @@ public class TntPlayer extends FEMUser {
         setWaitScoreboard();
         plugin.getGm().addPlayerToGame(getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);
+        getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&aVuelve al Lobby", "Pulsa para volver al lobby principal de Undergames"));
     }
     
     public void setSpectator() {

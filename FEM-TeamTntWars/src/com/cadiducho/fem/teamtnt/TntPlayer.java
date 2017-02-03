@@ -93,7 +93,8 @@ public class TntPlayer extends FEMUser {
         setWaitScoreboard();
         plugin.getGm().addPlayerToGame(getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);
-        getPlayer().getInventory().setItem(4, ItemUtil.createItem(Material.NETHER_STAR, "&cSelección de Equipo"));
+        getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&aVuelve al Lobby", "Pulsa para volver al lobby principal de Undergames"));
+        getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.NETHER_STAR, "&cSelección de Equipo"));
     }
     
     public void setSpectator() {

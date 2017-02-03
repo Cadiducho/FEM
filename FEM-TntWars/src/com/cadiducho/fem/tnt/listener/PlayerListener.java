@@ -15,7 +15,9 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
@@ -93,6 +95,22 @@ public class PlayerListener implements Listener {
         }
         
         TntWars.players.remove(TntWars.getPlayer(player));
+    }
+    
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerInteract(PlayerInteractEvent e) {
+        if (plugin.getGm().isInLobby()) {
+            e.setCancelled(true);
+            if (e.getItem() != null) {
+                if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    switch (e.getItem().getType()){
+                        case COMPASS:
+                            TntWars.getPlayer(e.getPlayer()).sendToLobby();
+                            break;
+                    }
+                }
+            }
+        }
     }
     
     @EventHandler

@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
@@ -72,6 +73,15 @@ public class PlayerListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (plugin.getGm().acceptPlayers()) {
             e.setCancelled(true);
+            if (e.getItem() != null) {
+                if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    switch (e.getItem().getType()){
+                        case COMPASS:
+                            Pictograma.getPlayer(e.getPlayer()).sendToLobby();
+                            break;
+                    }
+                }
+            }
         }
     }
 

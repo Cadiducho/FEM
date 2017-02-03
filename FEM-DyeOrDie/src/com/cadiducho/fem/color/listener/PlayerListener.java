@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -70,6 +71,15 @@ public class PlayerListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (plugin.getGm().isInLobby()) {
             e.setCancelled(true);
+            if (e.getItem() != null) {
+                if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    switch (e.getItem().getType()){
+                        case COMPASS:
+                            DyeOrDie.getPlayer(e.getPlayer()).sendToLobby();
+                            break;
+                    }
+                }
+            }
         }
     }
 

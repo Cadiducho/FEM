@@ -7,8 +7,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -56,6 +59,22 @@ public class PlayerListener implements Listener {
             plugin.getGm().removePlayerFromGame(player);
             plugin.getGm().checkWinner();
             plugin.getGm().checkDm();
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerInteract(PlayerInteractEvent e) {
+        if (plugin.getGm().acceptPlayers()) {
+            e.setCancelled(true);
+            if (e.getItem() != null) {
+                if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    switch (e.getItem().getType()){
+                        case COMPASS:
+                            BattleRoyale.getPlayer(e.getPlayer()).sendToLobby();
+                            break;
+                    }
+                }
+            }
         }
     }
 

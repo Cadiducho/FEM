@@ -32,7 +32,7 @@ public class DropPlayer extends FEMUser {
 
     public void setLobbyInventory() {
         setCleanPlayer(GameMode.ADVENTURE);
-        getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&aVuelve al Lobby", "Te lleva al lobby principal"));
+        getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&aVuelve al Lobby", "Pulsa para volver al lobby principal de Undergames"));
         getPlayer().getInventory().setItem(7, ItemUtil.createItem(Material.DIAMOND, "&aMapas superados"));
         getPlayer().getInventory().setItem(8, ItemUtil.createItem(Material.EMERALD, "&aTus insignias"));
         plugin.getServer().getScheduler().runTaskLater(plugin, () -> getPlayer().setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard()), 21L);

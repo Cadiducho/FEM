@@ -60,12 +60,14 @@ public class PlayerListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         Player p = e.getPlayer();
 
-        //Menu
-        if (GameState.state == GameState.LOBBY) {
+        if (plugin.getGm().acceptPlayers()) {
+            e.setCancelled(true);
             if (e.getItem() != null) {
                 if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                    e.setCancelled(true);
-                    switch (e.getItem().getType()) {
+                    switch (e.getItem().getType()){
+                        case COMPASS:
+                            TeamTntWars.getPlayer(e.getPlayer()).sendToLobby();
+                            break;
                         case NETHER_STAR:
                             new TeamSelector().teams(p);
                             break;

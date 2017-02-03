@@ -2,6 +2,7 @@ package com.cadiducho.fem.color;
 
 import com.cadiducho.fem.color.util.ScoreboardUtil;
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.Title;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;
@@ -10,6 +11,7 @@ import org.bukkit.scoreboard.Team;
 
 import java.util.Random;
 import java.util.UUID;
+import org.bukkit.Material;
 
 public class DyePlayer extends FEMUser {
 
@@ -76,6 +78,7 @@ public class DyePlayer extends FEMUser {
         setWaitScoreboard();
         plugin.getGm().addPlayerToGame(getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);
+        getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&aVuelve al Lobby", "Pulsa para volver al lobby principal de Undergames"));
     }
     
     public void setSpectator() {

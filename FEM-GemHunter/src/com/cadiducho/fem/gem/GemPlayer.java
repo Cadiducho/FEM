@@ -1,6 +1,7 @@
 package com.cadiducho.fem.gem;
 
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.gem.task.GameTask;
 import com.cadiducho.fem.gem.task.HiddingTask;
@@ -100,6 +101,7 @@ public class GemPlayer extends FEMUser {
         setWaitScoreboard();
         plugin.getGm().addPlayerToGame(getPlayer());
         setCleanPlayer(GameMode.ADVENTURE);
+        getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&aVuelve al Lobby", "Pulsa para volver al lobby principal de Undergames"));
     }
    
     public void setCleanPlayer(GameMode gameMode) {

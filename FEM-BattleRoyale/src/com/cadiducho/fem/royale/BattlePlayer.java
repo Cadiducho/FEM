@@ -1,11 +1,13 @@
 package com.cadiducho.fem.royale;
 
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.core.util.ItemUtil;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
 import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
+import org.bukkit.Material;
 
 public class BattlePlayer extends FEMUser {
 
@@ -81,6 +83,7 @@ public class BattlePlayer extends FEMUser {
         plugin.getGm().addPlayerToGame(getPlayer());
         setCleanPlayer( GameMode.ADVENTURE);
         setWaitScoreboard();
+        getPlayer().getInventory().setItem(0, ItemUtil.createItem(Material.COMPASS, "&aVuelve al Lobby", "Pulsa para volver al lobby principal de Undergames"));
     }
 
     public void setSpectator() {
