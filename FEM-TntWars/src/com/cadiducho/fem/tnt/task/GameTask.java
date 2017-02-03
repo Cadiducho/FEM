@@ -29,9 +29,10 @@ public class GameTask extends BukkitRunnable {
         checkWinner();
         noPlayers();
         if (timePlayed) {
-            plugin.getGm().getPlayersInGame().stream().forEach(players -> {
-                plugin.getMsg().sendActionBar(players, "&a&lTiempo jugado: " + (count - 3));
-            });
+            plugin.getGm().getPlayersInGame().stream()
+                    .filter(p -> !TntWars.getPlayer(p).isRespawning())
+                    .forEach(p -> plugin.getMsg().sendActionBar(p, "&a&lTiempo jugado: " + (count - 3))
+            );
         }
         if (count >= 0 && count < 2) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en " + (count == 0 ? "2" : "1") + " segundos");

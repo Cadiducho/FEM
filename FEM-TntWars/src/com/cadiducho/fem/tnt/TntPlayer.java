@@ -11,12 +11,15 @@ import org.bukkit.GameMode;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Material;
 
 public class TntPlayer extends FEMUser {
 
     private final TntWars plugin = TntWars.getInstance();
-
+    @Getter @Setter private boolean respawning = false;
+    
     public TntPlayer(UUID id) {
         super(id);
     }
@@ -115,7 +118,7 @@ public class TntPlayer extends FEMUser {
         getPlayer().getActivePotionEffects().forEach(ef -> getPlayer().removePotionEffect(ef.getType())); 
     }
     
-    public void death() {
+    public void fullDeath() {
         getPlayer().getInventory().clear();
         setSpectator();
         plugin.getGm().removePlayerFromGame(getPlayer());
