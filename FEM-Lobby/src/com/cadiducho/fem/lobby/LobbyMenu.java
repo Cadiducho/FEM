@@ -111,7 +111,11 @@ public class LobbyMenu {
                 break;
             case STATS:
                 clon = invs.get(u).get(2);
-
+                
+                clon.setItem(2, ItemUtil.createItem(Material.DROPPER, "&7&lDROPPER",
+                        Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays(GameID.DROPPER),
+                                "&fPartidas Ganadas: &l" + u.getUserData().getWins(GameID.DROPPER),
+                                "&fMuertes: &l" + u.getUserData().getDeaths(GameID.DROPPER))));
                 clon.setItem(3, ItemUtil.createItem(Material.PAINTING, "&3&lPICTOGRAMA",
                         Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays(GameID.PICTOGRAMA),
                                 "&fPartidas Ganadas: &l" + u.getUserData().getWins(GameID.PICTOGRAMA),
@@ -134,6 +138,13 @@ public class LobbyMenu {
                 lam.setColor(Color.BLUE);
                 letherBoots.setItemMeta(lam);
                 clon.setItem(5, letherBoots);
+                clon.setItem(6, ItemUtil.createItem(Material.EXPLOSIVE_MINECART, "&2&lTEAM TNTWARS",
+                        Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays(GameID.TEAMTNT),
+                                "&fPartidas Ganadas: &l" + u.getUserData().getWins(GameID.TEAMTNT),
+                                "&fBajas: &l" + u.getUserData().getKills(GameID.TEAMTNT), "&fMuertes: &l" + u.getUserData().getDeaths(GameID.TEAMTNT),
+                                "&1---{*}---",
+                                "&fTNT Activadas: &l" + u.getUserData().getTeamTntPuestas(), "&fTNT Desactivadas: &l" + u.getUserData().getTeamTntQuitadas(),
+                                "&fTNT Explotadas: &f" + u.getUserData().getTeamTntExplotadas(), "&fGeneradores mejorados: &l" + u.getUserData().getTeamGenUpgraded())));
                 clon.setItem(12, ItemUtil.createItem(Material.SKULL_ITEM, "&4&lLUCKY WARRIOR", Arrays.asList("&fPartidas Jugadas: &l" + u.getUserData().getPlays(GameID.LUCKYWARRIORS),
                         "&fPartidas Ganadas: &l" + u.getUserData().getWins(GameID.LUCKYWARRIORS),
                         "&fBajas: &l" + u.getUserData().getKills(GameID.LUCKYWARRIORS), "&fMuertes: &l" + u.getUserData().getDeaths(GameID.LUCKYWARRIORS),
@@ -195,7 +206,7 @@ public class LobbyMenu {
                 + "Busca los cofres por el mapa, equípate, compra o vende lo que necesites en las tiendas y se el último jugador con vida. "
                 + "Recuerda que los limites del mapa disminuyen y te pueden eliminar.§0"));
         meta.addPage(Metodos.colorizar("§7§l▶ DROPPER:§0\n\n"
-                + "Escoge uno de nuestros mapas y lánzate para conseguir llegar abajo sano y salvo, si aterrizas en un bloque antes de llegar al suelo del mapa volverás arriba."
+                + "Lánzate para conseguir llegar abajo sano y salvo, choca y volverás arriba.\n"
                 + "Cada mapa posee una insignia escondida que deberás encontrar.§0"));
         meta.addPage(Metodos.colorizar("Síguenos en Twitter:\n"
                 + "&8&l@UnderGames_info\n"

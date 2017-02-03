@@ -128,51 +128,66 @@ public class MySQL {
                 statementDatos.executeUpdate();
 
                 //Stats
-                PreparedStatement statementStats = openConnection().prepareStatement("UPDATE `fem_stats` SET `kills_tnt`=?,`kills_gh`=?,`kills_br`=?,`kills_lg`=?,`deaths_tnt`=?,"
-                        + "`deaths_gh`=?,`deaths_br`=?,`deaths_lg`=?,`deaths_dro`=?,`jugadas_tnt`=?,`jugadas_dod`=?,`jugadas_gh`=?,`jugadas_pic`=?,`jugadas_br`=?,`jugadas_lg`=?,"
-                        + "`jugadas_dro`=?,`ganadas_tnt`=?,`ganadas_dod`=?,`ganadas_gh`=?,`ganadas_pic`=?,`ganadas_br`=?,`ganadas_lg`=?,`ganadas_dro`=?,`tntPuestas`=?,"
-                        + "`tntQuitadas`=?,`tntExplotadas`=?,`genUpgraded`=?,`record_dod`=?,`rondas_dod`=?,`gemDestroyed`=?,`gemPlanted`=?,`picAcertadas`=?,`picDibujadas`=?,"
-                        + "`picPuntosTotales`=?,`brIntercambios`=?,`luckyRotos`=?,`timePlayed`=? "
+                PreparedStatement statementStats = openConnection().prepareStatement("UPDATE `fem_stats` SET `kills_tnt`=?,`kills_gh`=?,`kills_br`=?,`kills_lg`=?,`kills_ttnt`=?,"
+                        + "`deaths_tnt`=?,`deaths_gh`=?,`deaths_br`=?,`deaths_lg`=?,`deaths_dro`=?,`deaths_ttnt`=?,"
+                        + "`jugadas_tnt`=?,`jugadas_dod`=?,`jugadas_gh`=?,`jugadas_pic`=?,`jugadas_br`=?,`jugadas_lg`=?,`jugadas_dro`=?,`jugadas_tnt`=?,"
+                        + "`ganadas_tnt`=?,`ganadas_dod`=?,`ganadas_gh`=?,`ganadas_pic`=?,`ganadas_br`=?,`ganadas_lg`=?,`ganadas_dro`=?,`ganadas_tnt`=?,"
+                        + "`tntPuestas`=?,`tntQuitadas`=?,`tntExplotadas`=?,`genUpgraded`=?,"
+                        + "`record_dod`=?,`rondas_dod`=?,"
+                        + "`gemDestroyed`=?,`gemPlanted`=?,"
+                        + "`picAcertadas`=?,`picDibujadas`=?,`picPuntosTotales`=?,"
+                        + "`brIntercambios`=?,"
+                        + "`luckyRotos`=?,"
+                        + "`ttntPuestas`=?,`ttntQuitadas`=?,`ttntExplotadas`=?,`teamGenUpgraded`=?,"
+                        + "`timePlayed`=? "
                         + "WHERE `uuid`=?");
                 
                 statementStats.setInt(1, data.getKills(GameID.TNTWARS));
                 statementStats.setInt(2, data.getKills(GameID.GEMHUNTERS));
                 statementStats.setInt(3, data.getKills(GameID.BATTLEROYALE));
                 statementStats.setInt(4, data.getKills(GameID.LUCKYWARRIORS));
-                statementStats.setInt(5, data.getDeaths(GameID.TNTWARS));
-                statementStats.setInt(6, data.getDeaths(GameID.GEMHUNTERS));
-                statementStats.setInt(7, data.getDeaths(GameID.BATTLEROYALE));
-                statementStats.setInt(8, data.getDeaths(GameID.LUCKYWARRIORS));
-                statementStats.setInt(9, data.getDeaths(GameID.DROPPER));
-                statementStats.setInt(10, data.getPlays(GameID.TNTWARS));
-                statementStats.setInt(11, data.getPlays(GameID.DYEORDIE));
-                statementStats.setInt(12, data.getPlays(GameID.GEMHUNTERS));
-                statementStats.setInt(13, data.getPlays(GameID.PICTOGRAMA));
-                statementStats.setInt(14, data.getPlays(GameID.BATTLEROYALE));
-                statementStats.setInt(15, data.getPlays(GameID.LUCKYWARRIORS));
-                statementStats.setInt(16, data.getPlays(GameID.DROPPER));
-                statementStats.setInt(17, data.getWins(GameID.TNTWARS));
-                statementStats.setInt(18, data.getWins(GameID.DYEORDIE));
-                statementStats.setInt(19, data.getWins(GameID.GEMHUNTERS));
-                statementStats.setInt(20, data.getWins(GameID.PICTOGRAMA));
-                statementStats.setInt(21, data.getWins(GameID.BATTLEROYALE));
-                statementStats.setInt(22, data.getWins(GameID.LUCKYWARRIORS));
-                statementStats.setInt(23, data.getWins(GameID.DROPPER));
-                statementStats.setInt(24, data.getTntPuestas());
-                statementStats.setInt(25, data.getTntQuitadas());
-                statementStats.setInt(26, data.getTntExplotadas());
-                statementStats.setInt(27, data.getGenUpgraded());
-                statementStats.setInt(28, data.getRecord_dod());
-                statementStats.setInt(29, data.getRondas_dod());
-                statementStats.setInt(30, data.getGemDestroyed());
-                statementStats.setInt(31, data.getGemPlanted());
-                statementStats.setInt(32, data.getPicAcertadas());
-                statementStats.setInt(33, data.getPicDibujadas());
-                statementStats.setInt(34, data.getPicPuntosTotales());
-                statementStats.setInt(35, data.getBrIntercambios());
-                statementStats.setInt(36, data.getLuckyRotos());
-                statementStats.setLong(37, data.getTimePlayed());
-                statementStats.setString(38, u.getUuid().toString());
+                statementStats.setInt(5, data.getKills(GameID.TEAMTNT));
+                statementStats.setInt(6, data.getDeaths(GameID.TNTWARS));
+                statementStats.setInt(7, data.getDeaths(GameID.GEMHUNTERS));
+                statementStats.setInt(8, data.getDeaths(GameID.BATTLEROYALE));
+                statementStats.setInt(9, data.getDeaths(GameID.LUCKYWARRIORS));
+                statementStats.setInt(10, data.getDeaths(GameID.DROPPER));
+                statementStats.setInt(11, data.getDeaths(GameID.TEAMTNT));
+                statementStats.setInt(12, data.getPlays(GameID.TNTWARS));
+                statementStats.setInt(13, data.getPlays(GameID.DYEORDIE));
+                statementStats.setInt(14, data.getPlays(GameID.GEMHUNTERS));
+                statementStats.setInt(15, data.getPlays(GameID.PICTOGRAMA));
+                statementStats.setInt(16, data.getPlays(GameID.BATTLEROYALE));
+                statementStats.setInt(17, data.getPlays(GameID.LUCKYWARRIORS)); 
+                statementStats.setInt(18, data.getPlays(GameID.DROPPER));
+                statementStats.setInt(19, data.getPlays(GameID.TEAMTNT));
+                statementStats.setInt(20, data.getWins(GameID.TNTWARS));
+                statementStats.setInt(21, data.getWins(GameID.DYEORDIE));
+                statementStats.setInt(22, data.getWins(GameID.GEMHUNTERS));
+                statementStats.setInt(23, data.getWins(GameID.PICTOGRAMA));
+                statementStats.setInt(24, data.getWins(GameID.BATTLEROYALE));
+                statementStats.setInt(25, data.getWins(GameID.LUCKYWARRIORS));
+                statementStats.setInt(26, data.getWins(GameID.DROPPER));
+                statementStats.setInt(27, data.getWins(GameID.TEAMTNT));
+                statementStats.setInt(28, data.getTntPuestas());
+                statementStats.setInt(29, data.getTntQuitadas());
+                statementStats.setInt(30, data.getTntExplotadas());
+                statementStats.setInt(31, data.getGenUpgraded());
+                statementStats.setInt(32, data.getRecord_dod());
+                statementStats.setInt(33, data.getRondas_dod());
+                statementStats.setInt(34, data.getGemDestroyed());
+                statementStats.setInt(35, data.getGemPlanted());
+                statementStats.setInt(36, data.getPicAcertadas());
+                statementStats.setInt(37, data.getPicDibujadas());
+                statementStats.setInt(38, data.getPicPuntosTotales());
+                statementStats.setInt(39, data.getBrIntercambios());
+                statementStats.setInt(40, data.getLuckyRotos());
+                statementStats.setInt(41, data.getTeamTntPuestas());
+                statementStats.setInt(42, data.getTeamTntQuitadas());
+                statementStats.setInt(43, data.getTeamTntExplotadas());
+                statementStats.setInt(44, data.getTeamGenUpgraded());
+                statementStats.setLong(45, data.getTimePlayed());
+                statementStats.setString(46, u.getUuid().toString());
                 statementStats.executeUpdate();
 
                 for (Map.Entry<String, Integer> entry : data.getDropper().entrySet()) {
@@ -244,12 +259,14 @@ public class MySQL {
                 kills.put(GameID.GEMHUNTERS.getId(), rsStats.getInt("kills_gh"));
                 kills.put(GameID.BATTLEROYALE.getId(), rsStats.getInt("kills_br"));
                 kills.put(GameID.LUCKYWARRIORS.getId(), rsStats.getInt("kills_lg"));
+                kills.put(GameID.TEAMTNT.getId(), rsStats.getInt("kills_ttnt"));
                 
                 deaths.put(GameID.TNTWARS.getId(), rsStats.getInt("deaths_tnt"));
                 deaths.put(GameID.GEMHUNTERS.getId(), rsStats.getInt("deaths_gh"));
                 deaths.put(GameID.BATTLEROYALE.getId(), rsStats.getInt("deaths_br"));
                 deaths.put(GameID.LUCKYWARRIORS.getId(), rsStats.getInt("deaths_lg"));
                 deaths.put(GameID.DROPPER.getId(), rsStats.getInt("deaths_dro"));
+                deaths.put(GameID.TEAMTNT.getId(), rsStats.getInt("deaths_ttnt"));
                 
                 wins.put(GameID.TNTWARS.getId(), rsStats.getInt("ganadas_tnt"));
                 wins.put(GameID.DYEORDIE.getId(), rsStats.getInt("ganadas_dod"));
@@ -258,6 +275,7 @@ public class MySQL {
                 wins.put(GameID.BATTLEROYALE.getId(), rsStats.getInt("ganadas_br"));
                 wins.put(GameID.LUCKYWARRIORS.getId(), rsStats.getInt("ganadas_lg"));
                 wins.put(GameID.DROPPER.getId(), rsStats.getInt("ganadas_dro"));
+                wins.put(GameID.TEAMTNT.getId(), rsStats.getInt("ganadas_ttnt"));
                 
                 plays.put(GameID.TNTWARS.getId(), rsStats.getInt("jugadas_tnt"));
                 plays.put(GameID.DYEORDIE.getId(), rsStats.getInt("jugadas_dod"));
@@ -266,31 +284,43 @@ public class MySQL {
                 plays.put(GameID.BATTLEROYALE.getId(), rsStats.getInt("jugadas_br"));
                 plays.put(GameID.LUCKYWARRIORS.getId(), rsStats.getInt("jugadas_lg"));
                 plays.put(GameID.DROPPER.getId(), rsStats.getInt("jugadas_dro"));
+                plays.put(GameID.TEAMTNT.getId(), rsStats.getInt("jugadas_ttnt"));
                 
                 data.setKills(kills);
                 data.setDeaths(deaths);
                 data.setWins(wins);
                 data.setPlays(plays);
                 
+                //Tnt
                 data.setTntPuestas(rsStats.getInt("tntPuestas"));
                 data.setTntQuitadas(rsStats.getInt("tntQuitadas"));
                 data.setTntExplotadas(rsStats.getInt("tntExplotadas"));
-                
                 data.setGenUpgraded(rsStats.getInt("genUpgraded"));
                 
+                //Dye or die
                 data.setRecord_dod(rsStats.getInt("record_dod"));
                 data.setRondas_dod(rsStats.getInt("rondas_dod"));
                 
+                //Gem Hunters
                 data.setGemDestroyed(rsStats.getInt("gemDestroyed"));
                 data.setGemPlanted(rsStats.getInt("gemPlanted"));
                 
+                //Pictograma
                 data.setPicAcertadas(rsStats.getInt("picAcertadas"));
                 data.setPicDibujadas(rsStats.getInt("picDibujadas"));
                 data.setPicPuntosTotales(rsStats.getInt("picPuntosTotales"));
                 
+                //BattleRoyale
                 data.setBrIntercambios(rsStats.getInt("brIntercambios"));
                 
+                //LuckyWarriors
                 data.setLuckyRotos(rsStats.getInt("luckyRotos"));
+                
+                //TeamTnt
+                data.setTeamTntPuestas(rsStats.getInt("ttntPuestas"));
+                data.setTeamTntQuitadas(rsStats.getInt("ttntQuitadas"));
+                data.setTeamTntExplotadas(rsStats.getInt("ttntExplotadas"));
+                data.setGenUpgraded(rsStats.getInt("teamGenUpgraded"));
                 
                 data.setTimePlayed(rsStats.getLong("timePlayed"));
             }

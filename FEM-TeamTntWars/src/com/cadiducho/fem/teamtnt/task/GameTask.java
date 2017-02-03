@@ -47,7 +47,7 @@ public class GameTask extends BukkitRunnable {
                 final TntPlayer tp = TeamTntWars.getPlayer(p);
                 tp.setCleanPlayer(GameMode.SURVIVAL);
                 tp.setGameScoreboard();
-                tp.getUserData().addPlay(GameID.TNTWARS);
+                tp.getUserData().addPlay(GameID.TEAMTNT);
                 tp.save();
             }
             plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
@@ -76,7 +76,7 @@ public class GameTask extends BukkitRunnable {
                 TntPlayer tp = TeamTntWars.getPlayer(plugin.getServer().getPlayerExact(s));
                 
                 tp.getUserData().setCoins(tp.getUserData().getCoins() + 5);
-                tp.getUserData().addWin(GameID.TNTWARS);
+                tp.getUserData().addWin(GameID.TEAMTNT);
                 tp.save();
             });
             end();

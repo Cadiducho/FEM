@@ -54,7 +54,7 @@ public class FEMServer {
     @AllArgsConstructor
     public enum GameID {
 
-        TNTWARS(1), DYEORDIE(2), GEMHUNTERS(3), PICTOGRAMA(4), BATTLEROYALE(5), LUCKYWARRIORS(6), DROPPER(7);
+        TNTWARS(1), DYEORDIE(2), GEMHUNTERS(3), PICTOGRAMA(4), BATTLEROYALE(5), LUCKYWARRIORS(6), DROPPER(7), TEAMTNT(8);
         
         private final int id;
     }

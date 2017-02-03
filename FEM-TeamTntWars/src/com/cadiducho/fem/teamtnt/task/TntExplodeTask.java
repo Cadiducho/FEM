@@ -28,7 +28,7 @@ public class TntExplodeTask extends BukkitRunnable {
         final Team team = isla.getTeam();
         
         if (count == 10) {
-            tpExploder.getUserData().setTntPuestas(tpExploder.getUserData().getTntPuestas() + 1);
+            tpExploder.getUserData().setTeamTntPuestas(tpExploder.getUserData().getTeamTntPuestas() + 1);
             tpExploder.save();
             tpExploder.sendMessage("&aHas puesto la TNT y explotará en 10 segundos");
             team.getEntries().forEach(e -> Bukkit.getPlayer(e).sendMessage("&cTu isla explotará en 10 segundos si no lo evitas"));
@@ -37,7 +37,7 @@ public class TntExplodeTask extends BukkitRunnable {
             team.getEntries().forEach(e -> Bukkit.getPlayer(e).sendMessage("&c¡Tu isla explotará en " + count + " segundo" + (count == 1 ? "" : "s") + " si no lo evitas!"));
         } else if (count == 0) {
             isla.explode();
-            tpExploder.getUserData().setTntExplotadas(tpExploder.getUserData().getTntExplotadas() + 1);
+            tpExploder.getUserData().setTeamTntExplotadas(tpExploder.getUserData().getTeamTntExplotadas() + 1);
             tpExploder.save();
             TeamTntWars.getInstance().getMsg().sendBroadcast("&eLa isla de " + team.getName() + " ha sido destruida por " + tpExploder.getName());
             tpExploder.getUserData().setCoins(tpExploder.getUserData().getCoins() + 1);

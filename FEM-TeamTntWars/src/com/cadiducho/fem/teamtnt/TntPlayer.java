@@ -123,7 +123,7 @@ public class TntPlayer extends FEMUser {
         Title.sendTitle(getPlayer(), 1, 7, 1, "&b&l¡Has muerto!", "Puedes volver al lobby cuando desees, o ver la partida");
         sendMessage("Escribe &e/lobby &fpara volver al Lobby");
         repeatActionBar("Escribe &e/lobby &fpara volver al Lobby");
-        getUserData().addDeath(GameID.TNTWARS);
+        getUserData().addDeath(GameID.TEAMTNT);
         save();
     }
 

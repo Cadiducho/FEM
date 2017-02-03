@@ -81,7 +81,7 @@ public class WorldListener implements Listener {
                     for (Player p : plugin.getGm().getPlayersInGame()) {
                         p.playSound(isla.getBedrockCore().getLocation(), Sound.ANVIL_USE, 10F, 1F);
                     }
-                    pl.getUserData().setTntQuitadas(pl.getUserData().getTntQuitadas() + 1);
+                    pl.getUserData().setTeamTntQuitadas(pl.getUserData().getTeamTntQuitadas() + 1);
                     pl.save();
                 }
                 return;

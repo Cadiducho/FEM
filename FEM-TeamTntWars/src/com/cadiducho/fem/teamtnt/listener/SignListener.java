@@ -453,7 +453,7 @@ public class SignListener implements Listener {
             p.closeInventory();
             
             final TntPlayer tp = TeamTntWars.getPlayer(p);
-            tp.getUserData().setGenUpgraded(tp.getUserData().getGenUpgraded() + 1);
+            tp.getUserData().setTeamGenUpgraded(tp.getUserData().getTeamGenUpgraded() + 1);
             tp.save();
             Generador.getGenerador(clickedSign.get(p).clone().add(0, -1, 0)).setLevel(level);
             

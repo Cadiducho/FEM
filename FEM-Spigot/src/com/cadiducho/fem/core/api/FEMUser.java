@@ -243,6 +243,10 @@ public class FEMUser {
         Integer picPuntosTotales = 0;
         Integer brIntercambios = 0;
         Integer luckyRotos = 0;
+        Integer teamTntPuestas = 0;
+        Integer teamTntQuitadas = 0;
+        Integer teamTntExplotadas = 0;
+        Integer teamGenUpgraded = 0;
         HashMap<String, Integer> dropper = new HashMap<>();
         ArrayList<String> dropperInsignias = new ArrayList<>();
         
