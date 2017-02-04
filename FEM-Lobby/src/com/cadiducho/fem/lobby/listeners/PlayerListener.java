@@ -154,8 +154,8 @@ public class PlayerListener implements Listener, PluginMessageListener {
                     || e.getClickedBlock().getType() == Material.ANVIL || e.getClickedBlock().getType() == Material.DARK_OAK_FENCE_GATE
                     || e.getClickedBlock().getType() == Material.SPRUCE_FENCE_GATE || e.getClickedBlock().getType() == Material.FURNACE
                     || e.getClickedBlock().getType() == Material.BURNING_FURNACE || e.getClickedBlock().getType() == Material.HOPPER
-                    || e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE || e.getItem().getType() == Material.STONE_BUTTON
-                    || e.getItem().getType() == Material.WOOD_BUTTON) {
+                    || e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE || e.getClickedBlock().getType() == Material.STONE_BUTTON
+                    || e.getClickedBlock().getType() == Material.WOOD_BUTTON) {
 
                 e.setCancelled(true);
             }
