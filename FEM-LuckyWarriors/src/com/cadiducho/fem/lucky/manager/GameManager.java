@@ -66,7 +66,7 @@ public class GameManager {
                 lp.getUserData().setCoins(lp.getUserData().getCoins() + 10);
                 lp.save();
                         
-                new ShutdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
+                new ShutdownTask(plugin).runTaskTimer(plugin, 60l, 20l);
                 GameState.state = GameState.ENDING;
                 return true;
             }

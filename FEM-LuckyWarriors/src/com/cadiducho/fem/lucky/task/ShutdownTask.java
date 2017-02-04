@@ -11,16 +11,24 @@ public class ShutdownTask extends BukkitRunnable{
         plugin = instance;
     }
     
-    private int game = 9;
+    private int game = 10;
 
     @Override
     public void run() {
-        if(game == 5){
-            plugin.getServer().getOnlinePlayers().stream().forEach(p -> LuckyWarriors.getPlayer(p).sendToLobby());
-        } else if(game == 0){
-            plugin.getServer().shutdown();
-            cancel();            
+        switch (game) {
+            case 10:
+                plugin.getMsg().sendBroadcast("&aVolverás al lobby en &e10 &asegundos");
+                break;
+            case 5:
+                plugin.getServer().getOnlinePlayers().stream().forEach(p -> LuckyWarriors.getPlayer(p).sendToLobby());
+                break;
+            case 0:            
+                plugin.getServer().shutdown();
+                cancel();
+                break;
+            default:
+                break;
         }
-        -- game;
+        --game;
     } 
 }
