@@ -10,6 +10,7 @@ import org.bukkit.scoreboard.Team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.bukkit.GameMode;
 
 public class LobbyTask extends BukkitRunnable {
 
@@ -41,7 +42,7 @@ public class LobbyTask extends BukkitRunnable {
             GameState.state = GameState.GAME;
             plugin.getGm().getPlayersInGame().forEach(p -> {
                 randomTeam(p);
-                p.getInventory().clear();
+                TeamTntWars.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
                 p.closeInventory();
             });
             plugin.getTm().getTeams().keySet().forEach(t -> plugin.getAm().teleport(t));

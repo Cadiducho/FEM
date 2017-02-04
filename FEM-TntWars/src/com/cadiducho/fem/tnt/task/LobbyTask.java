@@ -2,6 +2,7 @@ package com.cadiducho.fem.tnt.task;
 
 import com.cadiducho.fem.tnt.TntWars;
 import com.cadiducho.fem.tnt.manager.GameState;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -33,7 +34,10 @@ public class LobbyTask extends BukkitRunnable {
             plugin.getMsg().sendBroadcast("&7El juego empezará en &c30 &7segundos");
         } else if (count == 5) {
             GameState.state = GameState.GAME;
-            plugin.getGm().getPlayersInGame().forEach(p -> plugin.getAm().teleport(p));
+            plugin.getGm().getPlayersInGame().forEach(p -> {
+                plugin.getAm().teleport(p);
+                TntWars.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
+            });
         } else if (count > 0 && count <= 4) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en &c" + count + " &7segundos");
             plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));

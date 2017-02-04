@@ -5,6 +5,7 @@ import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
 import com.cadiducho.fem.royale.manager.GameState;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -23,6 +24,7 @@ public class TeleportCountdown extends BukkitRunnable {
         if (count == 6) {
             plugin.getGm().getPlayersInGame().stream().forEach(p -> {
                 plugin.getAm().teleport(p);
+                BattleRoyale.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
                 Title.sendTitle(p, 1, 4, 1, "&b&l¡Ármate para la batalla!", "Recuerda que puedes comerciar con aldeanos");
             });
         } else if (count > 0 && count <= 5) {

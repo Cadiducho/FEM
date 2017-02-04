@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityCombustEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -76,6 +77,13 @@ public class PlayerListener implements Listener {
             plugin.getGm().removePlayerFromGame(player);
             plugin.getGm().checkWinner();
             plugin.getGm().checkDm();
+        }
+    }
+    
+    @EventHandler
+    public void onEntityFire(EntityCombustEvent e) {
+        if (plugin.getGm().acceptPlayers()) {
+            e.setCancelled(true);
         }
     }
 
