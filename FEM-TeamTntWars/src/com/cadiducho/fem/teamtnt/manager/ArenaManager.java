@@ -240,13 +240,16 @@ public class ArenaManager {
     }
     
     public void teleport(Team t) {
+        System.out.println("Teleportando al equipo " + t.getDisplayName());
         for (TntIsland i : unAssignedIslas) {
             t.getEntries().forEach(e -> {
                 Player p = Bukkit.getPlayer(e);
                 System.out.println("Asignando isla " + i.getId() + " (" + i.getColor() + ") a " + p.getName());
-                p.teleport(i.getSpawn());
-                unAssignedIslas.remove(i);
+                p.teleport(i.getSpawn()); 
             });
+            i.setTeam(t);
+            System.out.println("Eliminando isla " + i.getId() + " de las sin asignar");
+            unAssignedIslas.remove(i);
             break;
         }
     }

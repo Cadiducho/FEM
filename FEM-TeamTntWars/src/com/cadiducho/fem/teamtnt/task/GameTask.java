@@ -22,22 +22,20 @@ public class GameTask extends BukkitRunnable {
     }
 
     private static int count = 0;
-    private boolean timePlayed = false;
 
     @Override
     public void run() {
         instance = this;
         checkWinner();
         noPlayers();
-        if (timePlayed) {
-            plugin.getGm().getPlayersInGame().stream()
-                    .filter(p -> !TeamTntWars.getPlayer(p).isRespawning())
-                    .forEach(p -> plugin.getMsg().sendActionBar(p, "&a&lTiempo jugado: " + count)
-            );
-        }
+        plugin.getGm().getPlayersInGame().stream()
+                .filter(p -> !TeamTntWars.getPlayer(p).isRespawning())
+                .forEach(p -> plugin.getMsg().sendActionBar(p, "&a&lTiempo jugado: " + count)
+        );
+            
         if (count == 0) {
             plugin.getGm().getPlayersInGame().forEach(p -> { 
-                TntIsland  isla = TntIsland.getIsland(plugin.getTm().getTeam(p));
+                TntIsland isla = TntIsland.getIsland(plugin.getTm().getTeam(p));
                 Title.sendTitle(p, 1, 5, 1, "", isla.getColor() + "¡Destruye el resto de islas!");
                 p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
@@ -49,7 +47,6 @@ public class GameTask extends BukkitRunnable {
                 tp.save();
             });
             plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
-            timePlayed = true;
         }
         if (count == 5) { //Desactivar a los 5 segundos la inmunidad por caidas
             plugin.getGm().setDañoEnCaida(true);

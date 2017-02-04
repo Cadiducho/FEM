@@ -34,7 +34,7 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerInteract(PlayerInteractEntityEvent e) {
+    public void onPlayerInteractEntity(PlayerInteractEntityEvent e) {
         if (e.getRightClicked() instanceof Villager) {
             if (GameState.state == GameState.GAME) {
                 e.setCancelled(true);
@@ -130,12 +130,12 @@ public class PlayerListener implements Listener {
                         tm.asingTeam(tm.morado, p);
                         break;
                     case 7:
-                    if (tm.isFilled(tm.gris)){
-                        p.sendMessage(ChatColor.RED + "El equipo está lleno");
-                        return;
-                    }
-                    tm.asingTeam(tm.gris, p);
-                    break;
+                        if (tm.isFilled(tm.gris)){
+                            p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                            return;
+                        }
+                        tm.asingTeam(tm.gris, p);
+                        break;
                     default:
                         break;
                 }

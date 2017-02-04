@@ -21,19 +21,17 @@ public class GameTask extends BukkitRunnable {
     }
 
     private static int count = 0;
-    private boolean timePlayed = false;
 
     @Override
     public void run() {
         instance = this;
         checkWinner();
         noPlayers();
-        if (timePlayed) {
-            plugin.getGm().getPlayersInGame().stream()
-                    .filter(p -> !TntWars.getPlayer(p).isRespawning())
-                    .forEach(p -> plugin.getMsg().sendActionBar(p, "&a&lTiempo jugado: " + count)
-            );
-        }
+        plugin.getGm().getPlayersInGame().stream()
+                .filter(p -> !TntWars.getPlayer(p).isRespawning())
+                .forEach(p -> plugin.getMsg().sendActionBar(p, "&a&lTiempo jugado: " + count)
+        );
+        
         if (count == 0) {
             plugin.getGm().getPlayersInGame().forEach(p -> {
                 TntIsland isla = TntIsland.getIsland(p.getUniqueId());
@@ -48,7 +46,6 @@ public class GameTask extends BukkitRunnable {
                 tp.save();
             });
             plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
-            timePlayed = true;
         }
         if (count == 5) { //Desactivar a los 5 segundos la inmunidad por caidas
             plugin.getGm().setDañoEnCaida(true);

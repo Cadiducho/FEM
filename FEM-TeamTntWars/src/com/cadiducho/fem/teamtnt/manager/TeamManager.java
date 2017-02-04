@@ -100,7 +100,8 @@ public class TeamManager {
         getTeam(p).removeEntry(p.getName());
     }
 
-    public void asingTeam(Team team, Player p){
+    public void asingTeam(Team team, Player p) {
+        System.out.println(p.getName() + " asignado a " + team.getDisplayName());
         team.addEntry(p.getName());
         p.setScoreboard(board);
     }
