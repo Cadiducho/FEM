@@ -27,7 +27,7 @@ import java.util.logging.Level;
 public class BattleRoyale extends JavaPlugin {
 
     @Getter private static BattleRoyale instance;
-    private static final String packUrl = "http://undergames.es/dl/Royale.zip"; //TODO: Mantener actualizado
+    private static final String packUrl = "https://undergames.es/dl/Royale.zip"; //TODO: Mantener actualizado
     
     public static ArrayList<BattlePlayer> players = new ArrayList<>();
     

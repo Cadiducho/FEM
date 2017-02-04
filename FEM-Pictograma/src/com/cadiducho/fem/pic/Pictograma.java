@@ -25,7 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Pictograma extends JavaPlugin {
 
     @Getter private static Pictograma instance;
-    private static final String packUrl = "http://undergames.es/dl/PictogramaResourcePack.zip"; //TODO: Mantener actualizado
+    private static final String packUrl = "https://undergames.es/dl/PictogramaResourcePack.zip"; //TODO: Mantener actualizado
     
     public static ArrayList<PicPlayer> players = new ArrayList<>();
 

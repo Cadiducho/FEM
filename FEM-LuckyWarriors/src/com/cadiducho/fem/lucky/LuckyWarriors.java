@@ -23,7 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class LuckyWarriors extends JavaPlugin {
 
     @Getter private static LuckyWarriors instance;
-    private static final String packUrl = "http://undergames.es/dl/Lucky-Pack.zip"; //TODO: Mantener actualizado
+    private static final String packUrl = "https://undergames.es/dl/Lucky-Pack.zip"; //TODO: Mantener actualizado
     
     public static ArrayList<LuckyPlayer> players = new ArrayList<>();
     
