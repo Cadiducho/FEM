@@ -26,6 +26,7 @@ public class RespawnTask extends BukkitRunnable {
         
         TntWars.getInstance().getMsg().sendActionBar(player.getPlayer(), "&a&lReaparecerás en: " + count);
         if (count == 9) {
+            player.setRespawning(true);
             Title.sendTitle(player.getPlayer(), 1, 7, 1, "&b&l¡Has muerto!", "Reaparecerás al estar tu isla intacta");
             player.getUserData().addDeath(GameID.TNTWARS);
             player.save();

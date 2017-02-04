@@ -33,23 +33,22 @@ public class LobbyTask extends BukkitRunnable {
         }
         
         plugin.getGm().getPlayersInGame().stream().forEach(players -> {
-            plugin.getMsg().sendActionBar(players, "&a&lEl juego empieza en: " + (count + 4));
+            plugin.getMsg().sendActionBar(players, "&a&lEl juego empieza en: " + count);
         });
         if (count == 30) {
             plugin.getMsg().sendBroadcast("&7El juego empezará en 30 segundos");
-        } else if (count > 0 && count <= 2) {
-            plugin.getMsg().sendBroadcast("&7El juego empezará en " + (count + 3) + " segundos");
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
-        } else if (count == 0) {
+        } else if (count == 5) {
             GameState.state = GameState.GAME;
-            plugin.getMsg().sendBroadcast("&7El juego empezará en 3 segundos");
             plugin.getGm().getPlayersInGame().forEach(p -> {
                 randomTeam(p);
-                p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F);
                 p.getInventory().clear();
                 p.closeInventory();
             });
             plugin.getTm().getTeams().keySet().forEach(t -> plugin.getAm().teleport(t));
+        } else if (count > 0 && count <= 4) {
+            plugin.getMsg().sendBroadcast("&7El juego empezará en &c" + count + " &7segundos"); 
+            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
+        } else if (count == 0) { 
             plugin.getGm().setDañoEnCaida(false);
 
             new GameTask(plugin).runTaskTimer(plugin, 20l, 20l);

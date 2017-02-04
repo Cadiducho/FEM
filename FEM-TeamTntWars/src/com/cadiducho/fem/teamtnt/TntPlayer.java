@@ -12,10 +12,13 @@ import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
 public class TntPlayer extends FEMUser {
 
     private final TeamTntWars plugin = TeamTntWars.getInstance();
+    @Getter @Setter private boolean respawning = false;
 
     public TntPlayer(UUID id) {
         super(id);

@@ -26,6 +26,7 @@ public class RespawnTask extends BukkitRunnable {
 
         TeamTntWars.getInstance().getMsg().sendActionBar(player.getPlayer(), "&a&lReaparecerás en: " + count);
         if (count == 9) {
+            player.setRespawning(true);
             Title.sendTitle(player.getPlayer(), 1, 7, 1, "&b&l¡Has muerto!", "Reaparecerás al estar tu isla intacta");
             player.getUserData().addDeath(GameID.TEAMTNT);
             player.save();
@@ -36,6 +37,7 @@ public class RespawnTask extends BukkitRunnable {
             player.spawn();
             player.setCleanPlayer(GameMode.SURVIVAL);
             player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 3*20, 5));
+            player.setRespawning(false);
             cancel();
         }
         

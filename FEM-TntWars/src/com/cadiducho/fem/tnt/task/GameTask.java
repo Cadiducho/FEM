@@ -16,8 +16,8 @@ public class GameTask extends BukkitRunnable {
     private final TntWars plugin;
     public static GameTask instance;
     
-    public GameTask(TntWars plugin) {
-        this.plugin = plugin;
+    public GameTask(TntWars instance) {
+        plugin = instance;
     }
 
     private static int count = 0;
@@ -31,16 +31,13 @@ public class GameTask extends BukkitRunnable {
         if (timePlayed) {
             plugin.getGm().getPlayersInGame().stream()
                     .filter(p -> !TntWars.getPlayer(p).isRespawning())
-                    .forEach(p -> plugin.getMsg().sendActionBar(p, "&a&lTiempo jugado: " + (count - 3))
+                    .forEach(p -> plugin.getMsg().sendActionBar(p, "&a&lTiempo jugado: " + count)
             );
         }
-        if (count >= 0 && count < 2) {
-            plugin.getMsg().sendBroadcast("&7El juego empezará en " + (count == 0 ? "2" : "1") + " segundos");
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
-        } else if (count == 2) {
-            for (Player p : plugin.getGm().getPlayersInGame()) {
+        if (count == 0) {
+            plugin.getGm().getPlayersInGame().forEach(p -> {
                 TntIsland isla = TntIsland.getIsland(p.getUniqueId());
-                Title.sendTitle(p, 1, 7, 1, "", isla.getColor() + "¡Destruye el resto de islas!");
+                Title.sendTitle(p, 1, 5, 1, "", isla.getColor() + "¡Destruye el resto de islas!");
                 p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 
@@ -49,11 +46,11 @@ public class GameTask extends BukkitRunnable {
                 tp.setGameScoreboard();
                 tp.getUserData().addPlay(GameID.TNTWARS);
                 tp.save();
-            }
+            });
             plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
             timePlayed = true;
         }
-        if (count == 7) { //Desactivar a los 5 segundos la inmunidad por caidas
+        if (count == 5) { //Desactivar a los 5 segundos la inmunidad por caidas
             plugin.getGm().setDañoEnCaida(true);
             plugin.getAm().getGeneradores().forEach(gen -> gen.init());
         }

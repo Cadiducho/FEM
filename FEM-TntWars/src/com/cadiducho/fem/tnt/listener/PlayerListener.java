@@ -151,7 +151,6 @@ public class PlayerListener implements Listener {
                 e.getEntity().getWorld().strikeLightningEffect(e.getEntity().getLocation());
                 plugin.getMsg().sendBroadcast("&e" + p.getDisplayName() + " &7ha muerto!");
                 if (!TntIsland.getIsland(p.getUniqueId()).getDestroyed()) {
-                    pl.setRespawning(true);
                     new RespawnTask(pl).runTaskTimer(plugin, 20L, 20L);
                 } else {
                     pl.fullDeath();
