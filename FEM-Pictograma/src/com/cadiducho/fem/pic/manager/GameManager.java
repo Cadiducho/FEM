@@ -36,8 +36,10 @@ public class GameManager {
     private int playerFound = 0;
     @Getter private Scoreboard board;
     @Getter private Objective objective;
+    
     //¿Ha de comprobar el inicio del juego?
     @Getter @Setter private boolean checkStart = true;
+    
     public GameManager(Pictograma instance) {
         plugin = instance;
     }
@@ -131,19 +133,25 @@ public class GameManager {
             scoreBoard.setScore((score.get(p)));
         }
     }
-
-    public List<Player> get3() {
-        List<Player> top = new ArrayList<>();
-
-        List<Integer> list = new ArrayList<>(getScore().values());
-        Collections.sort(list, Collections.reverseOrder());
-
-        getScore().keySet().forEach(k -> list.subList(0, 3).forEach(v -> {
-            if (getScore().get(k).equals(v)) {
-                top.add(k);
+    
+    public ArrayList<Player> get3() {
+        ArrayList top = new ArrayList<>();
+        HashMap<Player, Integer> clon = (HashMap) score.clone();
+        
+        for (int i = 0; i < 3; i++) {
+            int max = 0;
+            Player mejor = null;
+            for (Map.Entry<Player, Integer> entry : clon.entrySet()) {
+                Player player = entry.getKey();
+                Integer puntos = entry.getValue();
+                if (puntos > max) {
+                    max = puntos;
+                    mejor = player;
+                }
             }
-        }));
-
+            top.add(i, mejor);
+            clon.remove(mejor);
+        }
         return top;
     }
 
