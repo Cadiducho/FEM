@@ -7,13 +7,14 @@ import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.teamtnt.manager.GameState;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scoreboard.Team;
 
 import java.util.UUID;
-import lombok.Getter;
-import lombok.Setter;
 
 public class TntPlayer extends FEMUser {
 
@@ -65,6 +66,7 @@ public class TntPlayer extends FEMUser {
                     int i = 4; //Int para ir aumentando en la posición del scoreboard
                     for (TntIsland isla : plugin.getAm().getIslas()) {
                         if (!"centro".equals(isla.getId()) && !isla.getTeam().getEntries().isEmpty()) { //Solo islas con jugadores en juego
+                            if (isla.getTeam().getEntries().isEmpty()) continue;
                             String prefijo = "&a✔  ";
                             String interfijo = isla.getTeam().getName().equalsIgnoreCase(plugin.getTm().getTeam(getPlayer()).getName()) ? "&o" : "";
                             if (isla.getDestroyed()) {
@@ -75,7 +77,7 @@ public class TntPlayer extends FEMUser {
                                 prefijo = "&c✘  ";
                             }
 
-                            board.text(i, Metodos.colorizar(prefijo + isla.getColor() + interfijo) + isla.getTeam().getName());
+                            board.text(i, Metodos.colorizar(prefijo + isla.getColor() + interfijo) + isla.getTeam().getDisplayName());
                             i++;    
                         }
                     }

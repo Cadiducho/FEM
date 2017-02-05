@@ -60,7 +60,6 @@ public class TeamManager {
         amarillo.setDisplayName("§eAmarillo");
         morado.setPrefix("§d");
         morado.setDisplayName("§dMorado");
-        gris.setPrefix("§8");
         gris.setDisplayName("§8Gris");
         dead.setPrefix("§o");
         
@@ -101,6 +100,7 @@ public class TeamManager {
     }
 
     public void removeTeam(Player p){
+        if (getTeam(p) == null) return;
         getTeam(p).removeEntry(p.getName());
     }
 
