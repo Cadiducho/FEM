@@ -2,7 +2,7 @@ package com.cadiducho.fem.royale.listeners;
 
 import com.cadiducho.fem.royale.BattlePlayer;
 import com.cadiducho.fem.royale.BattleRoyale;
-import com.cadiducho.fem.royale.task.LobbyTask;
+import com.cadiducho.fem.royale.manager.GameState;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -89,7 +89,7 @@ public class PlayerListener implements Listener {
     
     @EventHandler
     public void onEntityFire(EntityCombustEvent e) {
-        if (plugin.getGm().acceptPlayers()) {
+        if (!(GameState.state == GameState.GAME || GameState.state == GameState.PVE || GameState.state == GameState.DEATHMATCH)) {
             e.setCancelled(true);
         }
     }

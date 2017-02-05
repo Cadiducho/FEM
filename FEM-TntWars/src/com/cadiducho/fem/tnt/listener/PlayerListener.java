@@ -224,7 +224,7 @@ public class PlayerListener implements Listener {
     
     @EventHandler
     public void onEntityFire(EntityCombustEvent e) {
-        if (plugin.getGm().acceptPlayers()) {
+        if (GameState.state != GameState.GAME) {
             e.setCancelled(true);
         }
     }
