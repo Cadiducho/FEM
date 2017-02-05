@@ -127,7 +127,7 @@ public class GameListener implements Listener {
         }
     }
     
-    ArrayList<Material> permitidos = Lists.newArrayList(Material.WORKBENCH);
+    ArrayList<Material> permitidos = Lists.newArrayList(Material.WORKBENCH, Material.FIRE);
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent e) {
