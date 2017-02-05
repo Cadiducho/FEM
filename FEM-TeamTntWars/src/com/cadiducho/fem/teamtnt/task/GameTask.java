@@ -64,9 +64,9 @@ public class GameTask extends BukkitRunnable {
 
             for (Player p : plugin.getGm().getPlayersInGame()) {
                 p.playSound(p.getLocation(), Sound.LEVEL_UP, 1F, 1F);
-                Title.sendTitle(winner, 1, 7, 1, "&a" + p.getName(), "&aha ganado la partida!");
+                Title.sendTitle(winner, 1, 7, 1, team.getPrefix() + team.getDisplayName(), " &aha ganado la partida!");
             }
-            plugin.getMsg().sendBroadcast("El equipo" + team.getPrefix() + team.getName() + "&r ha ganado la partida!");
+            plugin.getMsg().sendBroadcast("El equipo " + team.getPrefix() + team.getDisplayName() + "&r ha ganado la partida!");
 
             team.getEntries().forEach(s -> {
                 TntPlayer tp = TeamTntWars.getPlayer(plugin.getServer().getPlayerExact(s));

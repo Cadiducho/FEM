@@ -39,7 +39,7 @@ public class TntExplodeTask extends BukkitRunnable {
             isla.explode();
             tpExploder.getUserData().setTeamTntExplotadas(tpExploder.getUserData().getTeamTntExplotadas() + 1);
             tpExploder.save();
-            TeamTntWars.getInstance().getMsg().sendBroadcast("&eLa isla de " + team.getName() + " ha sido destruida por " + tpExploder.getName());
+            TeamTntWars.getInstance().getMsg().sendBroadcast("&eLa isla de " + team.getPrefix() + team.getDisplayName() + " ha sido destruida por " + tpExploder.getName());
             tpExploder.getUserData().setCoins(tpExploder.getUserData().getCoins() + 1);
             tpExploder.save();
             cancel();
