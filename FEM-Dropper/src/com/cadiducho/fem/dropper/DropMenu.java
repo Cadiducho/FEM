@@ -43,7 +43,19 @@ public class DropMenu {
         u.getUserData().getDropper().forEach((m, v) -> {
             inv.addItem(ItemUtil.createItem(Material.DIAMOND, v, "&d" + m, "&a" + v + " &eveces superado"));
         });
+        
+        inv.setItem(35, ItemUtil.createItem(Material.BARRIER, "&cBorrar mapas", "Selecciona los registros de mapas que quieras borrar"));
 
+        u.getPlayer().openInventory(inv);
+    }
+    
+    public static void openBorarMapa(DropPlayer u) {
+        Inventory inv = Bukkit.createInventory(null, 36, Metodos.colorizar("&l&cBorrar &l&2Mapas"));
+
+        u.getUserData().getDropper().forEach((m, v) -> {
+            inv.addItem(ItemUtil.createItem(Material.DIAMOND, v, "&d" + m, "&a" + v + " &eveces superado"));
+        });
+        
         u.getPlayer().openInventory(inv);
     }
 }
