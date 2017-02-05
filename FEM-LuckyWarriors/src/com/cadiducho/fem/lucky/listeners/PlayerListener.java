@@ -2,8 +2,10 @@ package com.cadiducho.fem.lucky.listeners;
 
 import com.cadiducho.fem.lucky.LuckyPlayer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
+import com.cadiducho.fem.lucky.manager.GameState;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -53,6 +55,14 @@ public class PlayerListener implements Listener {
     
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent e) {
+        if (GameState.state == GameState.LUCKY) {
+            if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (e.getClickedBlock().getType().equals(Material.SPONGE) && e.getItem().getType().equals(Material.WATER_BUCKET)) {
+                    e.setCancelled(true);
+                }
+            }
+        }
+        
         if (plugin.getGm().acceptPlayers()) {
             e.setCancelled(true);
             if (e.getItem() != null) {
