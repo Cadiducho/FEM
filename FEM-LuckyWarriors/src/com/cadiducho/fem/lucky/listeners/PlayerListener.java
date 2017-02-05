@@ -57,7 +57,7 @@ public class PlayerListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (GameState.state == GameState.LUCKY) {
             if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (e.getClickedBlock().getType().equals(Material.SPONGE) && e.getItem().getType().equals(Material.WATER_BUCKET)) {
+                if (e.getItem().getType().equals(Material.WATER_BUCKET) || e.getItem().getType().equals(Material.LAVA_BUCKET)) {
                     e.setCancelled(true);
                 }
             }
