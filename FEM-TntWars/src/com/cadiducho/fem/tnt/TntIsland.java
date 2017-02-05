@@ -57,7 +57,7 @@ public class TntIsland {
     public static TntIsland getIsland(UUID uuid) {
         if (TntWars.getInstance().getAm().getIslas() != null || !TntWars.getInstance().getAm().getIslas().isEmpty()) {
             for (TntIsland i : TntWars.getInstance().getAm().getIslas()) {
-                if (i.getOwner() != null) {
+                if (i.getOwner() != null) { // != null, != isla centro
                     if (i.getOwner() == uuid) {
                         return i;
                     }

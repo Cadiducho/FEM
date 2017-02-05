@@ -58,8 +58,10 @@ public class TntIsland {
     public static TntIsland getIsland(Team team) {
         if (TeamTntWars.getInstance().getAm().getIslas() != null || !TeamTntWars.getInstance().getAm().getIslas().isEmpty()) {
             for (TntIsland i : TeamTntWars.getInstance().getAm().getIslas()) {
-                if (i.getTeam().equals(team)) {
-                    return i;
+                if (i.getTeam() != null) { //no es la isla centro
+                    if (i.getTeam().equals(team)) {
+                        return i;
+                    }
                 }
             }
         }

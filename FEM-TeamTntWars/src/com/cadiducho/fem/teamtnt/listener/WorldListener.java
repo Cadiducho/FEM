@@ -107,7 +107,7 @@ public class WorldListener implements Listener {
     public TntIsland checkBedrock(Block b) {
         if (TeamTntWars.getInstance().getAm().getIslas() != null || !TeamTntWars.getInstance().getAm().getIslas().isEmpty()) {
             for (TntIsland i : TeamTntWars.getInstance().getAm().getIslas()) {
-                if (i.getTeam().getEntries() != null) {
+                if (!"centro".equals(i.getId()) && !i.getTeam().getEntries().isEmpty()) {
                     if (i.getBedrockCore() != null) {
                         if (i.getBedrockCore().getLocation().getBlockX() == b.getLocation().getBlockX() &&
                                 i.getBedrockCore().getLocation().getBlockY() == b.getLocation().getBlockY() &&

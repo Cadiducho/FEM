@@ -1,6 +1,7 @@
 package com.cadiducho.fem.teamtnt.manager;
 
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.teamtnt.TeamTntWars;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -20,7 +21,8 @@ public class TeamManager {
         plugin = instance;
     }
 
-    @Getter public Scoreboard board;
+    @Getter ScoreboardUtil boardUtil;
+    Scoreboard board;
 
     public Team rojo;
     public Team azul;
@@ -36,7 +38,8 @@ public class TeamManager {
     @Getter private final HashMap<Team, Location> teams = new HashMap<>();
 
     public void initTeams() {
-        board = plugin.getGameBoard().getScoreboard();
+        boardUtil = new ScoreboardUtil(TeamTntWars.getPrefix(), "game");
+        board = boardUtil.getScoreboard();
         cleanTeams();
         
         rojo = board.getTeam("1tnt_rojo") == null ? board.registerNewTeam("1tnt_rojo") : board.getTeam("1tnt_rojo");
@@ -44,19 +47,21 @@ public class TeamManager {
         verde = board.getTeam("3tnt_verde") == null ? board.registerNewTeam("3tnt_verde") : board.getTeam("3tnt_verde");
         amarillo = board.getTeam("4tnt_amarillo") == null ? board.registerNewTeam("4tnt_amarillo") : board.getTeam("4tnt_amarillo");
         morado = board.getTeam("5tnt_morado") == null ? board.registerNewTeam("5tnt_morado") : board.getTeam("5tnt_morado");
-
         gris = board.getTeam("6tnt_gris") == null ? board.registerNewTeam("6tnt_gris") : board.getTeam("6tnt_gris");
-
         dead = board.getTeam("7tnt_dead") == null ? board.registerNewTeam("7tnt_dead") : board.getTeam("7tnt_dead");
 
         rojo.setPrefix("§c");
+        rojo.setDisplayName("§cRojo");
         azul.setPrefix("§b");
+        azul.setDisplayName("§bAzul");
         verde.setPrefix("§a");
+        verde.setDisplayName("§aVerde");
         amarillo.setPrefix("§e");
+        amarillo.setDisplayName("§eAmarillo");
         morado.setPrefix("§d");
-
+        morado.setDisplayName("§dMorado");
         gris.setPrefix("§8");
-
+        gris.setDisplayName("§8Gris");
         dead.setPrefix("§o");
         
         rojo.setAllowFriendlyFire(false);
@@ -82,7 +87,6 @@ public class TeamManager {
         teams.put(verde, Metodos.stringToLocation(plugin.getConfig().getString("TeamTntWars.Arena.Spawn.verde")));
         teams.put(amarillo, Metodos.stringToLocation(plugin.getConfig().getString("TeamTntWars.Arena.Spawn.amarillo")));
         teams.put(morado, Metodos.stringToLocation(plugin.getConfig().getString("TeamTntWars.Arena.Spawn.morado")));
-
         teams.put(gris, Metodos.stringToLocation(plugin.getConfig().getString("TeamTntWars.Arena.Spawn.gris")));
     }
 

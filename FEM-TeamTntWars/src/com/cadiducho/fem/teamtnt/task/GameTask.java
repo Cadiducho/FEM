@@ -35,6 +35,7 @@ public class GameTask extends BukkitRunnable {
             
         if (count == 0) {
             plugin.getGm().getPlayersInGame().forEach(p -> { 
+                System.out.println("getIsland de " + p.getName() + " (" + plugin.getTm().getTeam(p).getDisplayName() + ")");
                 TntIsland isla = TntIsland.getIsland(plugin.getTm().getTeam(p));
                 Title.sendTitle(p, 1, 5, 1, "", isla.getColor() + "¡Destruye el resto de islas!");
                 p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);

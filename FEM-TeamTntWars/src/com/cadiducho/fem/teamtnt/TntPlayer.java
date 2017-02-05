@@ -49,7 +49,7 @@ public class TntPlayer extends FEMUser {
     }
 
     public void setGameScoreboard() {
-        ScoreboardUtil board = new ScoreboardUtil(TeamTntWars.getPrefix(), "game");
+        ScoreboardUtil board = plugin.getTm().getBoardUtil();
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -64,12 +64,12 @@ public class TntPlayer extends FEMUser {
                     
                     int i = 4; //Int para ir aumentando en la posición del scoreboard
                     for (TntIsland isla : plugin.getAm().getIslas()) {
-                        if (!"centro".equals(isla.getId()) && isla.getTeam().getEntries() != null) { //Solo islas con jugadores en juego
+                        if (!"centro".equals(isla.getId()) && !isla.getTeam().getEntries().isEmpty()) { //Solo islas con jugadores en juego
                             String prefijo = "&a✔  ";
                             String interfijo = isla.getTeam().getName().equalsIgnoreCase(plugin.getTm().getTeam(getPlayer()).getName()) ? "&o" : "";
                             if (isla.getDestroyed()) {
                                 //Tachar si ha sido eliminado, si no solo mostrar la cruz roja
-                                if (isla.getTeam().getEntries() != null) {
+                                if (isla.getTeam().getEntries().isEmpty()) {
                                     interfijo = interfijo + "&m";
                                 }
                                 prefijo = "&c✘  ";
