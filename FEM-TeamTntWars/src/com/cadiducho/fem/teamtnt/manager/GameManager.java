@@ -40,8 +40,6 @@ public class GameManager {
         TntIsland isla = TntIsland.getIsland(plugin.getTm().getTeam(p));
         if (isla != null && plugin.getTm().getTeam(p).getEntries().isEmpty()) plugin.getAm().getUnAssignedIslas().add(isla);
         playersInGame.remove(p);
-        plugin.getTm().deadPlayer(p);
-        plugin.getTm().removeTeam(p);
     }
 
     public boolean acceptPlayers() {

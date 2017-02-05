@@ -11,8 +11,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class TntPlayer extends FEMUser {
@@ -69,7 +72,9 @@ public class TntPlayer extends FEMUser {
                             String interfijo = isla.getTeam().getName().equalsIgnoreCase(plugin.getTm().getTeam(getPlayer()).getName()) ? "&o" : "";
                             if (isla.getDestroyed()) {
                                 //Tachar si ha sido eliminado, si no solo mostrar la cruz roja
-                                if (isla.getTeam().getEntries().isEmpty()) {
+                                List<Player> players = new ArrayList<>();
+                                isla.getTeam().getEntries().forEach(s -> players.add(plugin.getServer().getPlayer(s)));
+                                if (plugin.getGm().getSpectators().containsAll(players)){
                                     interfijo = interfijo + "&m";
                                 }
                                 prefijo = "&c✘  ";
@@ -103,7 +108,7 @@ public class TntPlayer extends FEMUser {
     public void setSpectator() {
         setCleanPlayer(GameMode.SPECTATOR);
         plugin.getGm().getSpectators().add(getPlayer());
-        plugin.getGm().getPlayersInGame().stream().forEach(ig -> ig.hidePlayer(getPlayer()));
+        plugin.getGm().getPlayersInGame().forEach(ig -> ig.hidePlayer(getPlayer()));
     }
 
     public void setCleanPlayer(GameMode gameMode) {
@@ -122,7 +127,6 @@ public class TntPlayer extends FEMUser {
     public void death() {
         getPlayer().getInventory().clear();
         setSpectator();
-        plugin.getTm().deadPlayer(getPlayer());
         plugin.getGm().removePlayerFromGame(getPlayer());
         Title.sendTitle(getPlayer(), 1, 7, 1, "&b&l¡Has muerto!", "Puedes volver al lobby cuando desees, o ver la partida");
         sendMessage("Escribe &e/lobby &fpara volver al Lobby");
