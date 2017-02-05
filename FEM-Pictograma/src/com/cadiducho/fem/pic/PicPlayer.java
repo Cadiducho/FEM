@@ -53,10 +53,10 @@ public class PicPlayer extends FEMUser {
                 if (plugin.getGm().builder != null) name = plugin.getGm().builder.getName();
 
                 board.text(8, "Artista: §b" + name);
-                board.text(7, "§a ");
+                board.text(7, "§e ");
                 board.text(6, plugin.getGm().getTop().get(0).getName() + ":§a " + plugin.getGm().getScore().get(plugin.getGm().getTop().get(0)));
                 board.text(5, plugin.getGm().getTop().get(1).getName() + ":§a " + plugin.getGm().getScore().get(plugin.getGm().getTop().get(1)));
-                if (plugin.getGm().getTop().size() == 3) board.text(4, plugin.getGm().getTop().get(2).getName() + ":§a " + plugin.getGm().getScore().get(plugin.getGm().getTop().get(2)));
+                if (plugin.getGm().getTop().size() >= 3) board.text(4, plugin.getGm().getTop().get(2).getName() + ":§a " + plugin.getGm().getScore().get(plugin.getGm().getTop().get(2)));
                 board.text(3, "§a ");
                 board.text(2, "Tus puntos: §a" + plugin.getGm().getScore().get(getPlayer()));
                 board.text(1, "§e ");
