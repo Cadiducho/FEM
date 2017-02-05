@@ -34,6 +34,7 @@ public class LobbyTask extends BukkitRunnable {
         plugin.getGm().getPlayersInGame().forEach(pl -> {
             pl.setLevel(count);
             pl.setFireTicks(0);
+            pl.setHealth(pl.getMaxHealth());
         });
         
         switch (count) {
