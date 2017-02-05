@@ -64,8 +64,7 @@ public class TntPlayer extends FEMUser {
                     
                     int i = 4; //Int para ir aumentando en la posición del scoreboard
                     for (TntIsland isla : plugin.getAm().getIslas()) {
-                        if (!"centro".equals(isla.getId()) && !isla.getTeam().getEntries().isEmpty()) { //Solo islas con jugadores en juego
-                            if (isla.getTeam().getEntries().isEmpty()) continue;
+                        if (!"centro".equals(isla.getId()) && isla.getTeam() != null) { //Solo islas con jugadores en juego
                             String prefijo = "&a✔  ";
                             String interfijo = isla.getTeam().getName().equalsIgnoreCase(plugin.getTm().getTeam(getPlayer()).getName()) ? "&o" : "";
                             if (isla.getDestroyed()) {

@@ -241,6 +241,8 @@ public class ArenaManager {
     
     public void teleport(Team t) {
         System.out.println("Teleportando al equipo " + t.getDisplayName());
+        if (t.getEntries().isEmpty()) return;
+        
         for (TntIsland i : unAssignedIslas) {
             t.getEntries().forEach(e -> {
                 Player p = Bukkit.getPlayer(e);
