@@ -443,6 +443,19 @@ public class MySQL {
             }
         });
     }
+    
+    public void removeDropperMap(FEMUser uuid, String mapa) {
+        FEMCore.getInstance().getServer().getScheduler().runTaskAsynchronously(FEMCore.getInstance(), () -> {
+            try {
+                PreparedStatement statementAmigos = openConnection().prepareStatement("DELETE FROM `fem_dropper` WHERE `uuid`=? AND `mapa`=?");
+                statementAmigos.setString(1, uuid.getUuid().toString());
+                statementAmigos.setString(2, mapa);
+                statementAmigos.executeUpdate();
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(MySQL.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+    }
 
     public HashMap<FEMUser, Integer> get10Top(String search){
         HashMap<FEMUser, Integer> winners = new HashMap<>();

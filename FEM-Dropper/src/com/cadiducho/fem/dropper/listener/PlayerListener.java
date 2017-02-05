@@ -117,6 +117,7 @@ public class PlayerListener implements Listener {
         
         DropPlayer dp = Dropper.getPlayer((Player) e.getWhoClicked());
         
+        String mapa = "";
         switch (ChatColor.stripColor(e.getClickedInventory().getTitle())) {
             case "UnderGames - Insignias":
                 if (e.getSlot() == 35) {
@@ -128,10 +129,28 @@ public class PlayerListener implements Listener {
             case "Borrar Insignias":
                 if (!e.getCurrentItem().hasItemMeta()) break;
                 
-                String mapa = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).replace("Insignia oculta del mapa ", "");
+                mapa = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName()).replace("Insignia oculta del mapa ", "");
                 dp.sendMessage("&aHas eliminado la insignia del mapa &e" + mapa);
                 dp.getUserData().getDropperInsignias().remove(mapa);
                 FEMCore.getInstance().getMysql().removeInsignia(dp, mapa);
+                dp.getPlayer().playSound(dp.getPlayer().getLocation(), Sound.CLICK, 1f, 1f);
+                dp.getPlayer().closeInventory();
+                dp.save();
+                break;
+            case "UnderGames - Mapas superados":
+                if (e.getSlot() == 35) {
+                    dp.getPlayer().closeInventory();
+                    DropMenu.openBorarMapa(dp);
+                    dp.getPlayer().playSound(dp.getPlayer().getLocation(), Sound.CLICK, 1f, 1f);
+                }
+                break;
+            case "Borrar Mapas":
+                if (!e.getCurrentItem().hasItemMeta()) break;
+                
+                mapa = ChatColor.stripColor(e.getCurrentItem().getItemMeta().getDisplayName());
+                dp.sendMessage("&aHas eliminado los registros del mapa &e" + mapa);
+                dp.getUserData().getDropper().remove(mapa);
+                FEMCore.getInstance().getMysql().removeDropperMap(dp, mapa);
                 dp.getPlayer().playSound(dp.getPlayer().getLocation(), Sound.CLICK, 1f, 1f);
                 dp.getPlayer().closeInventory();
                 dp.save();
