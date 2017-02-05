@@ -20,8 +20,7 @@ public class RespawnTask extends BukkitRunnable {
         if (player.getPlayer() == null) cancel();
         
         if (count == 5) {
-            player.sendMessage("Respawnearás en 5 segundos");
-            player.sendMessage("En 5 segundos serás enviado al Lobby");
+            player.sendMessage("&aRespawnearás en 5 segundos");
             player.getUserData().addDeath(GameID.GEMHUNTERS);
             player.save();
         } else if (count == 0) {
