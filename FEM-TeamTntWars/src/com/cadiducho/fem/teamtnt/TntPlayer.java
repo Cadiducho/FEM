@@ -122,6 +122,7 @@ public class TntPlayer extends FEMUser {
     public void death() {
         getPlayer().getInventory().clear();
         setSpectator();
+        plugin.getTm().deadPlayer(getPlayer());
         plugin.getGm().removePlayerFromGame(getPlayer());
         Title.sendTitle(getPlayer(), 1, 7, 1, "&b&l¡Has muerto!", "Puedes volver al lobby cuando desees, o ver la partida");
         sendMessage("Escribe &e/lobby &fpara volver al Lobby");

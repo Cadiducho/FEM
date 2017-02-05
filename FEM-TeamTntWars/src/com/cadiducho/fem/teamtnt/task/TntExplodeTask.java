@@ -1,5 +1,6 @@
 package com.cadiducho.fem.teamtnt.task;
 
+import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.teamtnt.TeamTntWars;
 import com.cadiducho.fem.teamtnt.TntIsland;
 import com.cadiducho.fem.teamtnt.TntPlayer;
@@ -31,10 +32,10 @@ public class TntExplodeTask extends BukkitRunnable {
             tpExploder.getUserData().setTeamTntPuestas(tpExploder.getUserData().getTeamTntPuestas() + 1);
             tpExploder.save();
             tpExploder.sendMessage("&aHas puesto la TNT y explotará en 10 segundos");
-            team.getEntries().forEach(e -> Bukkit.getPlayer(e).sendMessage("&cTu isla explotará en 10 segundos si no lo evitas"));
+            team.getEntries().forEach(e -> Bukkit.getPlayer(e).sendMessage(Metodos.colorizar("&cTu isla explotará en 10 segundos si no lo evitas")));
         } else if (count > 0 && count < 4) {
             TeamTntWars.getInstance().getGm().getPlayersInGame().forEach(p -> p.playSound(isla.getBedrockCore().getLocation(), Sound.ANVIL_LAND, (9F + count), 1F));
-            team.getEntries().forEach(e -> Bukkit.getPlayer(e).sendMessage("&c¡Tu isla explotará en " + count + " segundo" + (count == 1 ? "" : "s") + " si no lo evitas!"));
+            team.getEntries().forEach(e -> Bukkit.getPlayer(e).sendMessage(Metodos.colorizar("&c¡Tu isla explotará en " + count + " segundo" + (count == 1 ? "" : "s") + " si no lo evitas!")));
         } else if (count == 0) {
             isla.explode();
             tpExploder.getUserData().setTeamTntExplotadas(tpExploder.getUserData().getTeamTntExplotadas() + 1);
