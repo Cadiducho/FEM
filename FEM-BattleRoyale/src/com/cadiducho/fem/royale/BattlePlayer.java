@@ -48,10 +48,10 @@ public class BattlePlayer extends FEMUser {
                 if (getPlayer() == null) cancel();
                 
                 board.text(10, "§c "); 
-                board.text(9, "Jugadores"); 
+                board.text(9, "§7Jugadores"); 
                 board.text(8, "§f" + plugin.getGm().getPlayersInGame().size() + "/" + plugin.getAm().getMaxPlayers()); 
                 board.text(7, "§3 "); 
-                board.text(6, "Asesinatos"); 
+                board.text(6, "§aAsesinatos"); 
                 board.text(5, "§f" + getKillsToString());
                 board.text(3, "§cmc.undergames.es");
  
