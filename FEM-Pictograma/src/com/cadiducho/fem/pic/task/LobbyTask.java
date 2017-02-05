@@ -39,7 +39,7 @@ public class LobbyTask extends BukkitRunnable {
                 p.playSound(p.getLocation(), Sound.CLICK, 1f, 1f);
             });
         } else if(count == 0){
-            
+            plugin.getGm().getPlayersInGame().stream().forEach(p -> p.getInventory().clear());
             new CountdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
             GameState.state = GameState.COUNTDOWN;
             this.cancel();

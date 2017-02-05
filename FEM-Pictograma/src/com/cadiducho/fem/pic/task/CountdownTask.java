@@ -45,7 +45,6 @@ public class CountdownTask extends BukkitRunnable {
                 //Ajustar puntuaciones y scoreboard
                 plugin.getGm().getScore().put(p, 0);
                 plugin.getGm().increaseScore(p, 0);
-                p.setScoreboard(plugin.getGm().getBoard());
                 
                 final PicPlayer pp = Pictograma.getPlayer(p);
                 pp.setGameScoreboard();

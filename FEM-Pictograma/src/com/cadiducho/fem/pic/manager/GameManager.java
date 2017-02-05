@@ -1,7 +1,6 @@
 package com.cadiducho.fem.pic.manager;
 
 import com.cadiducho.fem.core.api.FEMServer.GameID;
-import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.pic.PicPlayer;
 import com.cadiducho.fem.pic.Pictograma;
@@ -14,10 +13,6 @@ import org.bukkit.DyeColor;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.*;
 
@@ -34,8 +29,6 @@ public class GameManager {
     public Boolean acceptWords = true;
     public Player builder = null;
     private int playerFound = 0;
-    @Getter private Scoreboard board;
-    @Getter private Objective objective;
     
     //¿Ha de comprobar el inicio del juego?
     @Getter @Setter private boolean checkStart = true;
@@ -48,10 +41,6 @@ public class GameManager {
         if (checkStart == true && playersInGame.size() >= plugin.getAm().getMinPlayers()) {
             checkStart = false;
             new LobbyTask(plugin).runTaskTimer(plugin, 1l, 20l);
-            board = plugin.getServer().getScoreboardManager().getNewScoreboard();
-            objective = board.registerNewObjective("puntos", "dummy");
-            objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-            objective.setDisplayName(Metodos.colorizar("&3&lPictograma"));
             plugin.getAm().getBuildZone().clear();
             plugin.getAm().getBuildZone().setWool(DyeColor.WHITE);
         }
@@ -129,22 +118,23 @@ public class GameManager {
     public void increaseScore(Player p, int value) {
         if (score.containsKey(p)) {
             score.put(p, (score.get(p)) + value);
-            Score scoreBoard = objective.getScore(p.getName());
-            scoreBoard.setScore((score.get(p)));
         }
     }
     
-    public ArrayList<Player> get3() {
+    public ArrayList<Player> getTop() {
         ArrayList top = new ArrayList<>();
         HashMap<Player, Integer> clon = (HashMap) score.clone();
+        int times = 3;
+
+        if (clon.keySet().size() == 2) times = 2;
         
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < times; i++) {
             int max = 0;
             Player mejor = null;
             for (Map.Entry<Player, Integer> entry : clon.entrySet()) {
                 Player player = entry.getKey();
                 Integer puntos = entry.getValue();
-                if (puntos > max) {
+                if (puntos >= max) {
                     max = puntos;
                     mejor = player;
                 }
@@ -237,7 +227,6 @@ public class GameManager {
 
         //Eliminar sus puntos
         if (score != null) score.remove(player);
-        if (board != null) board.resetScores(player.getName());
     }
 
     public boolean acceptPlayers() {
