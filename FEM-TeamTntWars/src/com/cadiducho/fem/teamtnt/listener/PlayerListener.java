@@ -93,52 +93,95 @@ public class PlayerListener implements Listener {
 
                 if (e.getCurrentItem() == null) return;
                 if (tm.getTeam(p) != null) tm.removeTeam(p);
+                int players = Bukkit.getOnlinePlayers().size();
 
-                switch (e.getCurrentItem().getDurability()) {
-                    case 14:
-                        if (tm.isFilled(tm.rojo)){
-                            p.sendMessage(ChatColor.RED + "El equipo está lleno");
-                            return;
-                        }
-                        tm.asingTeam(tm.rojo, p);
-                        break;
-                    case 11:
-                        if (tm.isFilled(tm.azul)){
-                            p.sendMessage(ChatColor.RED + "El equipo está lleno");
-                            return;
-                        }
-                        tm.asingTeam(tm.azul, p);
-                        break;
-                    case 13:
-                        if (tm.isFilled(tm.verde)){
-                            p.sendMessage(ChatColor.RED + "El equipo está lleno");
-                            return;
-                        }
-                        tm.asingTeam(tm.verde, p);
-                        break;
-                    case 4:
-                        if (tm.isFilled(tm.amarillo)){
-                            p.sendMessage(ChatColor.RED + "El equipo está lleno");
-                            return;
-                        }
-                        tm.asingTeam(tm.amarillo, p);
-                        break;
-                    case 2:
-                        if (tm.isFilled(tm.morado)){
-                            p.sendMessage(ChatColor.RED + "El equipo está lleno");
-                            return;
-                        }
-                        tm.asingTeam(tm.morado, p);
-                        break;
-                    case 7:
-                        if (tm.isFilled(tm.gris)){
-                            p.sendMessage(ChatColor.RED + "El equipo está lleno");
-                            return;
-                        }
-                        tm.asingTeam(tm.gris, p);
-                        break;
-                    default:
-                        break;
+                if (players <= 5){
+                    switch (e.getSlot()) {
+                        case 2:
+                            if (tm.isFilled(tm.rojo)){
+                                p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                                return;
+                            }
+                            tm.asingTeam(tm.rojo, p);
+                            break;
+                        case 3:
+                            if (tm.isFilled(tm.azul)){
+                                p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                                return;
+                            }
+                            tm.asingTeam(tm.azul, p);
+                            break;
+                        case 4:
+                            if (tm.isFilled(tm.verde)){
+                                p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                                return;
+                            }
+                            tm.asingTeam(tm.verde, p);
+                            break;
+                        case 5:
+                            if (tm.isFilled(tm.amarillo)){
+                                p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                                return;
+                            }
+                            tm.asingTeam(tm.amarillo, p);
+                            break;
+                        case 6:
+                            if (tm.isFilled(tm.morado)){
+                                p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                                return;
+                            }
+                            tm.asingTeam(tm.morado, p);
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    switch (e.getSlot()) {
+                        case 1:
+                            if (tm.isFilled(tm.rojo)){
+                                p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                                return;
+                            }
+                            tm.asingTeam(tm.rojo, p);
+                            break;
+                        case 2:
+                            if (tm.isFilled(tm.azul)){
+                                p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                                return;
+                            }
+                            tm.asingTeam(tm.azul, p);
+                            break;
+                        case 3:
+                            if (tm.isFilled(tm.verde)){
+                                p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                                return;
+                            }
+                            tm.asingTeam(tm.verde, p);
+                            break;
+                        case 5:
+                            if (tm.isFilled(tm.amarillo)){
+                                p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                                return;
+                            }
+                            tm.asingTeam(tm.amarillo, p);
+                            break;
+                        case 6:
+                            if (tm.isFilled(tm.morado)){
+                                p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                                return;
+                            }
+                            tm.asingTeam(tm.morado, p);
+                            break;
+                        case 7:
+                            if (tm.isFilled(tm.gris)){
+                                p.sendMessage(ChatColor.RED + "El equipo está lleno");
+                                return;
+                            }
+                            tm.asingTeam(tm.gris, p);
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 p.closeInventory();
                 p.playSound(u.getPlayer().getLocation(), Sound.CLICK, 1F, 1F);

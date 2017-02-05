@@ -29,7 +29,7 @@ public class TeamSelector {
             inv.setItem(3, ItemUtil.createGlass("Equipo &aVerde", "", DyeColor.GREEN));
             inv.setItem(5, ItemUtil.createGlass("Equipo &eAmarillo", "", DyeColor.YELLOW));
             inv.setItem(6, ItemUtil.createGlass("Equipo &dMorado", "", DyeColor.PURPLE));
-            inv.setItem(7, ItemUtil.createGlass("Equipo &7Gris", "", DyeColor.GRAY));
+            inv.setItem(7, ItemUtil.createGlass("Equipo &7Gris", "", DyeColor.BLACK));
         }
 
         p.openInventory(inv);
