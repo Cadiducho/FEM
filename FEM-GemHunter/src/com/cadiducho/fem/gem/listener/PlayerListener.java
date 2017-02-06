@@ -7,6 +7,7 @@ import com.cadiducho.fem.gem.task.GameTask;
 import com.cadiducho.fem.gem.task.RespawnTask;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -70,6 +71,13 @@ public class PlayerListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent e) {
+        if (e.getClickedBlock() != null) {
+            if (e.getClickedBlock().getType().equals(Material.CHEST) || e.getClickedBlock().getType().equals(Material.TRAPPED_CHEST)) {
+                e.setCancelled(true);
+                return;
+            }
+        }
+        
         if (plugin.getGm().isInLobby()) {
             e.setCancelled(true);
             if (e.getItem() != null) {
@@ -83,7 +91,7 @@ public class PlayerListener implements Listener {
             }
         }
     }
-   
+        
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent e) {
         if (e instanceof LivingEntity) {
