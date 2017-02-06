@@ -1,6 +1,7 @@
 package com.cadiducho.fem.teamtnt.task;
 
 import com.cadiducho.fem.core.api.FEMServer.GameID;
+import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.core.util.Title;
 import com.cadiducho.fem.teamtnt.TeamTntWars;
 import com.cadiducho.fem.teamtnt.TntIsland;
@@ -36,7 +37,8 @@ public class GameTask extends BukkitRunnable {
         if (count == 0) {
             plugin.getGm().getPlayersInGame().forEach(p -> { 
                 System.out.println("getIsland de " + p.getName() + " (" + plugin.getTm().getTeam(p).getDisplayName() + ")");
-                TntIsland isla = TntIsland.getIsland(plugin.getTm().getTeam(p));
+                Team t = plugin.getTm().getTeam(p);
+                TntIsland isla = TntIsland.getIsland(t);
                 Title.sendTitle(p, 1, 5, 1, "", isla.getColor() + "¡Destruye el resto de islas!");
                 p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
                 p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
@@ -46,6 +48,9 @@ public class GameTask extends BukkitRunnable {
                 tp.setGameScoreboard();
                 tp.getUserData().addPlay(GameID.TEAMTNT);
                 tp.save();
+                
+                
+                p.sendMessage(Metodos.colorizar(t.getPrefix() + "Estás en el equipo a " + plugin.getTm().getTeam(p).getDisplayName()));
             });
             plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
         }

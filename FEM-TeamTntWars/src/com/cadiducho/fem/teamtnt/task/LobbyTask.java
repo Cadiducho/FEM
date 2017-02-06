@@ -1,6 +1,8 @@
 package com.cadiducho.fem.teamtnt.task;
 
+import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.teamtnt.TeamTntWars;
+import com.cadiducho.fem.teamtnt.TntPlayer;
 import com.cadiducho.fem.teamtnt.manager.GameState;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
