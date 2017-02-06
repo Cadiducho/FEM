@@ -1,5 +1,6 @@
 package com.cadiducho.fem.gem.listener;
 
+import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.gem.GemHunters;
 import com.cadiducho.fem.gem.GemPlayer;
 import com.cadiducho.fem.gem.manager.GameState;
@@ -29,8 +30,13 @@ public class WorldListener implements Listener {
         Block b = e.getBlock();
         if (b.getType() == plugin.getAm().getTypeGema()) {
             if (plugin.getGm().isHidding()) {
-                e.getPlayer().sendMessage("Has puesto tu gema");
-                plugin.getMsg().sendBroadcast(plugin.getTm().getTeam(e.getPlayer()).getPrefix() + e.getPlayer().getName() + " &eha puesto su gema");
+                if (e.getPlayer().getLocation().getBlockY() == e.getPlayer().getLocation().getY()) {
+                    e.getPlayer().sendMessage(Metodos.colorizar("&c¡No puedes colocar tu gema saltando!"));
+                    e.setCancelled(true);
+                    return;
+                }
+                e.getPlayer().sendMessage(Metodos.colorizar("&aHas colocado tu gema"));
+                plugin.getMsg().sendBroadcast(plugin.getTm().getTeam(e.getPlayer()).getPrefix() + e.getPlayer().getName() + " &eha colocado su gema");
                 
                 final GemPlayer gp = GemHunters.getPlayer(e.getPlayer());
                 gp.getUserData().setGemPlanted(gp.getUserData().getGemPlanted() + 1);

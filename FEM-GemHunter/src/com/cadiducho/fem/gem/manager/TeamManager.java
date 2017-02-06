@@ -120,11 +120,7 @@ public class TeamManager {
     }
     
     public void cleanTeams() {
-        for (Team t : teams.keySet()) {
-            for (String str : t.getEntries()) {
-                t.removeEntry(str);
-            }
-        }  
+        teams.keySet().forEach(t -> t.getEntries().forEach(str -> t.removeEntry(str)));  
     }
     
     public void drawTeams(ArrayList<Player> pls) {
