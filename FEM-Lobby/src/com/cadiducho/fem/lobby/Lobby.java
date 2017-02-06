@@ -20,7 +20,7 @@ import java.util.logging.Level;
 public class Lobby extends JavaPlugin {
 
     @Getter private static Lobby instance;
-    private static final String packUrl = "http://undergames.es/dl/nada.zip"; //TODO: Mantener actualizado
+    private static final String packUrl = "http://undergames.es/dl/nada2.zip"; //TODO: Mantener actualizado
 
     @Getter @Setter private ArrayList<FEMServerInfo> servers;
 
