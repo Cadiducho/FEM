@@ -26,7 +26,12 @@ public class TeleportSignLayout implements SignLayout {
 	public String[] renderLayoutFor(GameServer sinfo) {
 		String[] laa = new String[layout.length];
 		int motdCount = 0;
-		String tempMotd = sinfo.getMotd() == null ? "" : sinfo.getMotd();
+		String rawMotd = sinfo.getMotd() == null ? "" : sinfo.getMotd();
+		String tempMotd = rawMotd.split("#")[0];
+                String worldname = "world";
+                if (rawMotd.contains("#")) { //Evitar ArrayIndexOutOfBounds
+                    worldname = rawMotd.split("#")[1];
+                }
 		String[] splitMotd = tempMotd.split("(?<=\\G.{15})");
 		for (int i = 0; i < layout.length; i++) {
 			String line = layout[i];
@@ -35,6 +40,7 @@ public class TeleportSignLayout implements SignLayout {
 				line = line.replace("%isonline%", online);
 				line = line.replace("%numpl%", String.valueOf(sinfo.getPlayersOnline()));
 				line = line.replace("%maxpl%", String.valueOf(sinfo.getMaxPlayers()));
+				line = line.replace("%world%", worldname);
 				if (line.contains("%motd%")) {
 					if (motdCount < splitMotd.length) {
 						String motd = splitMotd[motdCount];
@@ -51,6 +57,7 @@ public class TeleportSignLayout implements SignLayout {
 				line = line.replace("%numpl%", numberPlaceHolder);
 				line = line.replace("%maxpl%", numberPlaceHolder);
 				line = line.replace("%motd%", "");
+				line = line.replace("%world%", worldname);
 			}
 			laa[i] = ChatColor.translateAlternateColorCodes('&', line);
 		}

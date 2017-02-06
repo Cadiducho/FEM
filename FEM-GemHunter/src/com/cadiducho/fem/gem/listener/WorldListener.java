@@ -59,6 +59,6 @@ public class WorldListener implements Listener {
     
     @EventHandler
     public void onMotdChange(ServerListPingEvent e){
-        e.setMotd(GameState.getParsedStatus());
+        e.setMotd(GameState.getParsedStatus() + "#" + plugin.getAm().getPos1().getWorld().getName());
     }
 }

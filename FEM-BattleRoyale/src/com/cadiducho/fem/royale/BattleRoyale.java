@@ -40,6 +40,7 @@ public class BattleRoyale extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        GameState.state = GameState.PREPARING;
         
         File fConf = new File(getDataFolder(), "config.yml");
         if (!fConf.exists()) {
@@ -64,7 +65,7 @@ public class BattleRoyale extends JavaPlugin {
         pm.registerEvents(new TeleportFix(instance), instance);
         pm.registerEvents(new ResourcePackManager(instance, packUrl), instance);
         
-        GameState.state = GameState.PREPARING;
+        GameState.state = GameState.LOBBY;
         getServer().getLogger().log(Level.INFO, "BattleRoyale: Activado");
         world.setAutoSave(false);
     }

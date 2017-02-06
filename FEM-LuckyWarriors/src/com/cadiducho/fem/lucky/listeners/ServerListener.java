@@ -19,7 +19,7 @@ public class ServerListener implements Listener {
     
     @EventHandler
     public void onMotd(ServerListPingEvent e) {
-        e.setMotd(GameState.getParsedStatus());
+        e.setMotd(GameState.getParsedStatus() + "#" + plugin.getWorld().getName());
     }
 
     @EventHandler
