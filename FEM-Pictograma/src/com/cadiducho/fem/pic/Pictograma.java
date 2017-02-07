@@ -3,17 +3,14 @@ package com.cadiducho.fem.pic;
 import com.cadiducho.fem.core.listeners.ResourcePackManager;
 import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.core.util.ItemUtil;
-import com.cadiducho.fem.pic.listener.*;
+import com.cadiducho.fem.core.util.Messages;
+import com.cadiducho.fem.pic.listener.GameListener;
+import com.cadiducho.fem.pic.listener.PlayerListener;
+import com.cadiducho.fem.pic.listener.WorldListener;
 import com.cadiducho.fem.pic.manager.ArenaManager;
 import com.cadiducho.fem.pic.manager.GameManager;
 import com.cadiducho.fem.pic.manager.GameState;
 import com.cadiducho.fem.pic.tick.Ticker;
-import com.cadiducho.fem.core.util.Messages;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.logging.Level;
 import lombok.Getter;
 import org.bukkit.DyeColor;
 import org.bukkit.OfflinePlayer;
@@ -22,10 +19,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.logging.Level;
+
 public class Pictograma extends JavaPlugin {
 
     @Getter private static Pictograma instance;
-    private static final String packUrl = "http://undergames.es/dl/PictogramaResourcePack2.zip"; //TODO: Mantener actualizado
     
     public static ArrayList<PicPlayer> players = new ArrayList<>();
 
@@ -62,7 +64,7 @@ public class Pictograma extends JavaPlugin {
         pm.registerEvents(new WorldListener(instance), instance);
         pm.registerEvents(new GameListener(instance), instance);
         pm.registerEvents(new TeleportFix(instance), instance);
-        pm.registerEvents(new ResourcePackManager(instance, packUrl), instance);
+        pm.registerEvents(new ResourcePackManager(instance, ResourcePackManager.Games.PICTOGRAMA), instance);
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Ticker(this), 1L, 1L);
         
         colorPicker = getServer().createInventory(null, 9, "Escoge el color del pincel");

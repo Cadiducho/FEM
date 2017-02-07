@@ -3,7 +3,6 @@ package com.cadiducho.fem.lucky;
 import com.cadiducho.fem.core.listeners.ResourcePackManager;
 import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.core.util.Messages;
-import java.util.logging.Level;
 import com.cadiducho.fem.lucky.listeners.GameListener;
 import com.cadiducho.fem.lucky.listeners.PlayerListener;
 import com.cadiducho.fem.lucky.listeners.ServerListener;
@@ -11,8 +10,6 @@ import com.cadiducho.fem.lucky.manager.ArenaManager;
 import com.cadiducho.fem.lucky.manager.GameManager;
 import com.cadiducho.fem.lucky.manager.GameState;
 import com.cadiducho.fem.lucky.utils.LuckyPacks;
-import java.io.File;
-import java.util.ArrayList;
 import lombok.Getter;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -20,10 +17,13 @@ import org.bukkit.WorldCreator;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.logging.Level;
+
 public class LuckyWarriors extends JavaPlugin {
 
     @Getter private static LuckyWarriors instance;
-    private static final String packUrl = "http://undergames.es/dl/Lucky-Pack2.zip"; //TODO: Mantener actualizado
     
     public static ArrayList<LuckyPlayer> players = new ArrayList<>();
     
@@ -58,7 +58,7 @@ public class LuckyWarriors extends JavaPlugin {
         plugm.registerEvents(new GameListener(instance), instance);
         plugm.registerEvents(new ServerListener(instance), instance);
         plugm.registerEvents(new TeleportFix(instance), instance);
-        plugm.registerEvents(new ResourcePackManager(instance, packUrl), instance);
+        plugm.registerEvents(new ResourcePackManager(instance, ResourcePackManager.Games.LUCKY_WARRIORS), instance);
         
         GameState.state = GameState.PREPARING;
         getServer().getLogger().log(Level.INFO, "LuckyWarriors: Juego activado");

@@ -42,7 +42,7 @@ public class DropPlayer extends FEMUser {
         setCleanPlayer(GameMode.SURVIVAL);
         
         String world = getPlayer().getWorld().getName();
-        getPlayer().getInventory().addItem(ItemUtil.createItem(Material.BED, "&aRendirse", "&aMapa actual: &e" + world));
+        getPlayer().getInventory().addItem(ItemUtil.createItem(Material.BED, "&aVuelve al Lobby de Dropper", "&aMapa actual: &e" + world));
         if (getUserData().getDropperInsignias().contains(world)) {
             if (plugin.getConfig().getStringList("Dropper.mapas").size() == getUserData().getDropperInsignias().size()) {
                 getPlayer().getInventory().addItem(ItemUtil.createItem(Material.NETHER_STAR, "&l&6Trofeo de Todos los mapas"));

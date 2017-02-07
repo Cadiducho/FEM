@@ -27,7 +27,6 @@ import java.util.logging.Level;
 public class BattleRoyale extends JavaPlugin {
 
     @Getter private static BattleRoyale instance;
-    private static final String packUrl = "http://undergames.es/dl/Royale2.zip"; //TODO: Mantener actualizado
     
     public static ArrayList<BattlePlayer> players = new ArrayList<>();
     
@@ -63,7 +62,7 @@ public class BattleRoyale extends JavaPlugin {
         pm.registerEvents(new GameListener(instance), instance);
         pm.registerEvents(new ServerListener(instance), instance);
         pm.registerEvents(new TeleportFix(instance), instance);
-        pm.registerEvents(new ResourcePackManager(instance, packUrl), instance);
+        pm.registerEvents(new ResourcePackManager(instance, ResourcePackManager.Games.BATTLE_ROYALE), instance);
         
         GameState.state = GameState.LOBBY;
         getServer().getLogger().log(Level.INFO, "BattleRoyale: Activado");

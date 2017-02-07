@@ -20,7 +20,6 @@ import java.util.logging.Level;
 public class Lobby extends JavaPlugin {
 
     @Getter private static Lobby instance;
-    private static final String packUrl = "http://undergames.es/dl/nada2.zip"; //TODO: Mantener actualizado
 
     @Getter @Setter private ArrayList<FEMServerInfo> servers;
 
@@ -42,7 +41,7 @@ public class Lobby extends JavaPlugin {
         PlayerListener pl = new PlayerListener(instance);
         pluginManager.registerEvents(pl, instance);
         pluginManager.registerEvents(new WorldListener(instance), instance);
-        pluginManager.registerEvents(new ResourcePackManager(instance, packUrl), instance);
+        pluginManager.registerEvents(new ResourcePackManager(instance, ResourcePackManager.Games.LOBBY), instance);
 
         getServer().getMessenger().registerOutgoingPluginChannel(instance, "BungeeCord");
         getServer().getMessenger().registerOutgoingPluginChannel(instance, "FEM");
@@ -67,7 +66,7 @@ public class Lobby extends JavaPlugin {
         //TODO: Mover a otras clases
         //Mini task para que los usuarios no caigan al vacío
         getServer().getScheduler().runTaskTimer(instance, () -> {
-            getServer().getOnlinePlayers().stream().forEach(p -> {
+            getServer().getOnlinePlayers().forEach(p -> {
                 if (p.getFireTicks() != 0) p.setFireTicks(0);
                 if (p.getLocation().getBlockY() < 0) {
                     p.teleport(p.getWorld().getSpawnLocation());
