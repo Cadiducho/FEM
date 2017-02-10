@@ -8,7 +8,6 @@ import org.bukkit.inventory.Inventory;
 
 public class DropMenu {
 
-    //TODO: Cambiar
     private static final Dropper plugin = Dropper.getInstance();
 
     public static void openIngInv(DropPlayer u) {

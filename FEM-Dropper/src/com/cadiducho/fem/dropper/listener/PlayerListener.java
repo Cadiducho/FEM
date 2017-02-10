@@ -7,6 +7,7 @@ import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.dropper.DropMenu;
 import com.cadiducho.fem.dropper.DropPlayer;
 import com.cadiducho.fem.dropper.Dropper;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -19,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
@@ -51,6 +53,46 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
+    public void onPlayerMove(PlayerMoveEvent e){
+        Player p = e.getPlayer();
+
+        if (p.getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) {
+            e.setCancelled(true);
+            return;
+        }
+        Material m = e.getPlayer().getLocation().getBlock().getType();
+        if (m == Material.STATIONARY_WATER || m == Material.WATER) {
+            Dropper.getPlayer(p).endMap();
+        }
+    }
+
+    @EventHandler
+    public void onSignCreate(SignChangeEvent e){
+        String[] lines = e.getLines();
+
+        if (!Dropper.getPlayer(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)) return;
+
+        if (lines[0] != null && lines[0].equalsIgnoreCase("Dropper") && lines[1] != null && lines[2] != null){
+            e.setLine(0, Metodos.colorizar("&e<<&2Dropper&e>>"));
+            e.setLine(1, Metodos.colorizar("&3&l" + lines[1]));
+            switch (lines[2]){
+                case "facil":
+                    e.setLine(2, Metodos.colorizar("&2" + lines[2]));
+                    break;
+                case "medio":
+                    e.setLine(2, Metodos.colorizar("&6" + lines[2]));
+                    break;
+                case "dificil":
+                    e.setLine(2, Metodos.colorizar("&c" + lines[2]));
+                    break;
+                case "imposible":
+                    e.setLine(2, Metodos.colorizar("&4&l" + lines[2]));
+                    break;
+            }
+        }
+    }
+
+    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         DropPlayer dp = Dropper.getPlayer(e.getPlayer());
         if (e.getAction() == Action.RIGHT_CLICK_BLOCK || e.getAction() == Action.LEFT_CLICK_BLOCK) {
@@ -59,8 +101,8 @@ public class PlayerListener implements Listener {
             if (e.getClickedBlock().getType() == Material.WALL_SIGN || e.getClickedBlock().getType() == Material.SIGN_POST) {
                 Sign sign = (Sign) e.getClickedBlock().getState();
 
-                if (ChatColor.stripColor(sign.getLine(0)).equalsIgnoreCase("[dropper]")) {
-                    String mapa = sign.getLine(1);
+                if (ChatColor.stripColor(sign.getLine(0)).equalsIgnoreCase("<<Dropper>>")) {
+                    String mapa = ChatColor.stripColor(sign.getLine(1));
                     dp.sendToDropper(mapa);
                     dp.setMapInventory();
                     e.setCancelled(true);
@@ -104,7 +146,9 @@ public class PlayerListener implements Listener {
 
         if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.GOLD_PLATE) {
             if (!dp.getPlayer().getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) {
-                dp.endMap();
+                dp.getPlayer().teleport(Dropper.getInstance().getAm().getLobby());
+                dp.setLobbyInventory();
+                dp.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
                 e.setCancelled(true);
             }
         }
@@ -174,7 +218,7 @@ public class PlayerListener implements Listener {
         }
 
         if (e.getEntity() instanceof Player) {
-            if (e.getDamage() > 3) {
+            if (e.getDamage() > 5) { //Por si acaso, caidas tontas
                 Player p = (Player) e.getEntity();
                 
                 if (p.getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) {
