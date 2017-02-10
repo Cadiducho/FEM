@@ -179,6 +179,10 @@ public class PlayerListener implements Listener, PluginMessageListener {
                 }
             }
         }
+
+        if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.GOLD_PLATE){
+            u.getPlayer().setVelocity(u.getPlayer().getLocation().getDirection().multiply(3));
+        }
     }
 
     @EventHandler
