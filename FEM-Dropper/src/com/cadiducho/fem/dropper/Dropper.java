@@ -2,13 +2,16 @@ package com.cadiducho.fem.dropper;
 
 import com.cadiducho.fem.core.listeners.TeleportFix;
 import com.cadiducho.fem.core.util.Messages;
-import com.cadiducho.fem.dropper.listener.*;
+import com.cadiducho.fem.dropper.listener.PlayerListener;
+import com.cadiducho.fem.dropper.listener.WorldListener;
 import com.cadiducho.fem.dropper.manager.ArenaManager;
 import lombok.Getter;
+import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.WorldCreator;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,6 +47,20 @@ public class Dropper extends JavaPlugin {
         pm.registerEvents(new PlayerListener(instance), instance);
         pm.registerEvents(new WorldListener(instance), instance);
         pm.registerEvents(new TeleportFix(instance), instance);
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                getServer().getOnlinePlayers().forEach(p -> {
+                    if (p.getWorld().getName().equals(getAm().getLobby().getWorld().getName())) return;
+
+                    Material m = p.getLocation().getBlock().getType();
+                    if (m == Material.STATIONARY_WATER || m == Material.WATER) {
+                        Dropper.getPlayer(p).endMap();
+                    }
+                });
+            }
+        }.runTaskTimer(this, 0, 60); //Cada 3 segundos
 
         getLogger().log(Level.INFO, "Dropper: Activado correctamente");
     }

@@ -7,7 +7,6 @@ import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.dropper.DropMenu;
 import com.cadiducho.fem.dropper.DropPlayer;
 import com.cadiducho.fem.dropper.Dropper;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -53,20 +52,6 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent e){
-        Player p = e.getPlayer();
-
-        if (p.getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) {
-            e.setCancelled(true);
-            return;
-        }
-        Material m = e.getPlayer().getLocation().getBlock().getType();
-        if (m == Material.STATIONARY_WATER || m == Material.WATER) {
-            Dropper.getPlayer(p).endMap();
-        }
-    }
-
-    @EventHandler
     public void onSignCreate(SignChangeEvent e){
         String[] lines = e.getLines();
 
@@ -109,6 +94,12 @@ public class PlayerListener implements Listener {
                 }
             }
 
+            if (dp.getPlayer().getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) {
+                if (e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.GOLD_PLATE) {
+                    dp.getPlayer().setVelocity(dp.getPlayer().getLocation().getDirection().multiply(3));
+                }
+            }
+
             if (e.getClickedBlock().getType() == Material.SKULL) {
                 if (dp.getPlayer().getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) {
                     e.setCancelled(true);
@@ -148,7 +139,7 @@ public class PlayerListener implements Listener {
             if (!dp.getPlayer().getWorld().getName().equals(plugin.getAm().getLobby().getWorld().getName())) {
                 dp.getPlayer().teleport(Dropper.getInstance().getAm().getLobby());
                 dp.setLobbyInventory();
-                dp.getPlayer().setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
+                dp.getPlayer().setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 e.setCancelled(true);
             }
         }
