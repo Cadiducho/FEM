@@ -78,7 +78,7 @@ public class PlayerListener implements Listener {
         
         //Hud
         BossBarAPI.removeAllBars(e.getPlayer());
-        BossBarAPI.addBar(e.getPlayer(), new TextComponent(Metodos.colorizar("&6&lUnder&e&lGames&7 &c- &emc.undergames.es")), BossBarAPI.Color.BLUE, BossBarAPI.Style.PROGRESS, 1.0f);
+        BossBarAPI.addBar(e.getPlayer(), new TextComponent(Metodos.colorizar("&ePowered by &2&lNVIDIA&7 &c- &emc.undergames.es")), BossBarAPI.Color.BLUE, BossBarAPI.Style.PROGRESS, 1.0f);
     }
      
     @EventHandler(priority = EventPriority.LOW)
