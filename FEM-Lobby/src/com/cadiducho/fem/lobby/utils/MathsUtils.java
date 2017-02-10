@@ -1,13 +1,19 @@
 package com.cadiducho.fem.lobby.utils;
 
+import com.cadiducho.fem.core.api.FEMUser;
+import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.inventivetalent.particle.ParticleEffect;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 public class MathsUtils {
+
+    @Getter private HashMap<FEMUser, BukkitRunnable> particles;
 
     private Collection<? extends Player> players = Bukkit.getOnlinePlayers();
 
@@ -15,6 +21,10 @@ public class MathsUtils {
     private double x;
     private double y;
     private double z;
+
+    public MathsUtils(){
+        particles = new HashMap<>();
+    }
 
     public void drawParticles(final Player p, final ParticleType pt){
         world = p.getWorld();

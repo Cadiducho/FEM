@@ -41,15 +41,14 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.awt.*;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class PlayerListener implements Listener, PluginMessageListener {
 
     private final Lobby plugin;
-    private HashMap<FEMUser, BukkitRunnable> particles = new HashMap<>();
 
     public PlayerListener(Lobby instance) {
         plugin = instance;
@@ -135,13 +134,13 @@ public class PlayerListener implements Listener, PluginMessageListener {
         FEMUser u = FEMServer.getUser(e.getPlayer());
         //Sin interacción
 
-/*        if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE){
+        if (e.getClickedBlock() != null && e.getClickedBlock().getType() == Material.ENCHANTMENT_TABLE){
             if (e.getClickedBlock().getLocation().equals(Metodos.stringToLocation(plugin.getConfig().getString("nvidia")))){
                 if (!u.isOnRank(FEMCmd.Grupo.Moderador)) return;
                 LobbyMenu.openMenu(u, LobbyMenu.Menu.PARTICULAS); //test
                 return;
             }
-        }*/
+        }
 
         if (e.getClickedBlock() != null) {
             if (e.getClickedBlock().getType().equals(Material.TRAP_DOOR) || e.getClickedBlock().getType().equals(Material.IRON_TRAPDOOR)
@@ -277,14 +276,21 @@ public class PlayerListener implements Listener, PluginMessageListener {
                     case 30:
                         try {
                             Desktop.getDesktop().browse(new URI("http://www.nvidia.es/page/home.html"));
-                        } catch (Exception ex){}
+                        } catch (Exception ex){
+                            plugin.getLogger().log(Level.WARNING, "Imposible abrir web NVIDIA");
+                        }
                         break;
                     case 32:
-                        if (particles.containsKey(u)) particles.get(u).cancel();
+                        if (plugin.getMathsUtils().getParticles().containsKey(u)) plugin.getMathsUtils().getParticles().get(u).cancel();
                         break;
                     default:
-                        BukkitRunnable b = new TaskParticles(p, ParticleType.values()[e.getSlot()]);
-                        particles.put(u, b);
+                        if (ParticleType.values()[e.getSlot()] == null) return;
+                        if (plugin.getMathsUtils().getParticles().containsKey(u)) plugin.getMathsUtils().getParticles().get(u).cancel();
+
+                        BukkitRunnable b = new TaskParticles(plugin, p, ParticleType.values()[e.getSlot()]);
+                        b.runTaskTimer(plugin, 0, 20);
+
+                        plugin.getMathsUtils().getParticles().put(u, b);
                         break;
                 }
             default:

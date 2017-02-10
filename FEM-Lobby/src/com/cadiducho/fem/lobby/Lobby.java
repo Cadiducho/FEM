@@ -6,6 +6,7 @@ import com.cadiducho.fem.core.listeners.ResourcePackManager;
 import com.cadiducho.fem.lobby.cmds.*;
 import com.cadiducho.fem.lobby.listeners.PlayerListener;
 import com.cadiducho.fem.lobby.listeners.WorldListener;
+import com.cadiducho.fem.lobby.utils.MathsUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -23,10 +24,14 @@ public class Lobby extends JavaPlugin {
 
     @Getter @Setter private ArrayList<FEMServerInfo> servers;
 
+    @Getter private MathsUtils mathsUtils;
+
     @Override
     public void onEnable() {
         instance = this;
         servers = new ArrayList<>();
+
+        mathsUtils = new MathsUtils();
 
         File fConf = new File(getDataFolder(), "config.yml");
         if (!fConf.exists()) {
@@ -63,7 +68,6 @@ public class Lobby extends JavaPlugin {
 
         FEMServer.setEnableParkour(false); //Activar parkour siempre -> JAJA not yet
 
-        //TODO: Mover a otras clases
         //Mini task para que los usuarios no caigan al vacío
         getServer().getScheduler().runTaskTimer(instance, () -> {
             getServer().getOnlinePlayers().forEach(p -> {
