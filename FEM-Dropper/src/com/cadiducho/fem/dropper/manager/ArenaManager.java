@@ -1,7 +1,8 @@
 package com.cadiducho.fem.dropper.manager;
 
-import com.cadiducho.fem.dropper.Dropper;
 import com.cadiducho.fem.core.util.Metodos;
+import com.cadiducho.fem.dropper.DropPlayer;
+import com.cadiducho.fem.dropper.Dropper;
 import lombok.Getter;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
@@ -9,13 +10,18 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.entity.EntityType;
 
+import java.util.ArrayList;
+
 public class ArenaManager {
 
     private final Dropper plugin;
     @Getter private final Location lobby;
 
+    @Getter private ArrayList<DropPlayer> completed;
+
     public ArenaManager(Dropper instance) {
         plugin = instance;
+        completed = new ArrayList<>();
 
         lobby = Metodos.stringToLocation(plugin.getConfig().getString("Dropper.lobby"));
         prepareWorld(plugin.getConfig().getString("Dropper.lobby").split("%")[0]);

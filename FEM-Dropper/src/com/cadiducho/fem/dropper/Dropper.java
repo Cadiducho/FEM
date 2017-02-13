@@ -56,11 +56,13 @@ public class Dropper extends JavaPlugin {
 
                     Material m = p.getLocation().getBlock().getType();
                     if (m == Material.STATIONARY_WATER || m == Material.WATER) {
+                        if (getAm().getCompleted().contains(getPlayer(p))) return;
+                        getAm().getCompleted().add(getPlayer(p));
                         Dropper.getPlayer(p).endMap();
                     }
                 });
             }
-        }.runTaskTimer(this, 0, 60); //Cada 3 segundos
+        }.runTaskTimer(this, 0, 15);
 
         getLogger().log(Level.INFO, "Dropper: Activado correctamente");
     }

@@ -58,8 +58,8 @@ public class PlayerListener implements Listener {
         if (!Dropper.getPlayer(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)) return;
 
         if (lines[0] != null && lines[0].equalsIgnoreCase("Dropper") && lines[1] != null && lines[2] != null){
-            e.setLine(0, Metodos.colorizar("&e<<&2Dropper&e>>"));
-            e.setLine(1, Metodos.colorizar("&3&l" + lines[1]));
+            e.setLine(0, Metodos.colorizar("&e<<&5Dropper&e>>"));
+            e.setLine(1, Metodos.colorizar("&4&l" + lines[1]));
             switch (lines[2]){
                 case "facil":
                     e.setLine(2, Metodos.colorizar("&2" + lines[2]));
@@ -141,6 +141,7 @@ public class PlayerListener implements Listener {
                 dp.setLobbyInventory();
                 dp.getPlayer().setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
                 e.setCancelled(true);
+                if (plugin.getAm().getCompleted().contains(dp)) plugin.getAm().getCompleted().remove(dp);
             }
         }
     }

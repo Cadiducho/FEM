@@ -1,5 +1,7 @@
 package com.cadiducho.fem.dropper.listener;
 
+import com.cadiducho.fem.core.api.FEMServer;
+import com.cadiducho.fem.core.cmds.FEMCmd;
 import com.cadiducho.fem.dropper.Dropper;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,13 +24,17 @@ public class WorldListener implements Listener {
     }
 
     @EventHandler
-    public void onBlockPlace(BlockPlaceEvent e) {
-        e.setCancelled(true);
+    public void onPlayerBreak(BlockBreakEvent e) {
+        if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent e) {
-        e.setCancelled(true);
+    public void onPlayerPlace(BlockPlaceEvent e) {
+        if (!FEMServer.getUser(e.getPlayer()).isOnRank(FEMCmd.Grupo.Admin)) {
+            e.setCancelled(true);
+        }
     }
     
     @EventHandler
