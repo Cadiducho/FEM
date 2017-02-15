@@ -25,22 +25,30 @@ public class RespawnTask extends BukkitRunnable {
         if (player.getPlayer() == null) cancel();
 
         TeamTntWars.getInstance().getMsg().sendActionBar(player.getPlayer(), "&a&lReaparecerás en: " + count);
-        if (count == 9) {
-            player.setRespawning(true);
-            Title.sendTitle(player.getPlayer(), 1, 7, 1, "&b&l¡Has muerto!", "Reaparecerás al estar tu isla intacta");
-            player.getUserData().addDeath(GameID.TEAMTNT);
-            player.save();
-            player.sendMessage("Reaparecerás en 9 segundos");
-        } else if (count > 0 && count <= 5) {
-            player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.NOTE_PLING, 1F, 1F);
-        } else if (count == 0) {
-            player.spawn();
-            player.setCleanPlayer(GameMode.SURVIVAL);
-            player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 3*20, 5));
-            player.setRespawning(false);
-            cancel();
+
+        switch (count){
+            case 9:
+                player.setRespawning(true);
+                Title.sendTitle(player.getPlayer(), 1, 3, 1, "&b&l¡Has muerto!", "Reaparecerás al estar tu isla intacta");
+                player.getUserData().addDeath(GameID.TEAMTNT);
+                player.save();
+                player.sendMessage("Reaparecerás en 9 segundos");
+                break;
+            case 5:
+            case 4:
+            case 3:
+            case 2:
+            case 1:
+                player.getPlayer().playSound(player.getPlayer().getLocation(), Sound.NOTE_PLING, 1F, 1F);
+                break;
+            case 0:
+                player.spawn();
+                player.setCleanPlayer(GameMode.SURVIVAL);
+                player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 3*20, 5));
+                player.setRespawning(false);
+                cancel();
+                break;
         }
-        
         count--;
     }
     

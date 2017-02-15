@@ -33,32 +33,34 @@ public class GameTask extends BukkitRunnable {
                 .filter(p -> !TeamTntWars.getPlayer(p).isRespawning())
                 .forEach(p -> plugin.getMsg().sendActionBar(p, "&a&lTiempo jugado: " + count)
         );
-            
-        if (count == 0) {
-            plugin.getGm().getPlayersInGame().forEach(p -> { 
-                System.out.println("getIsland de " + p.getName() + " (" + plugin.getTm().getTeam(p).getDisplayName() + ")");
-                Team t = plugin.getTm().getTeam(p);
-                TntIsland isla = TntIsland.getIsland(t);
-                Title.sendTitle(p, 1, 5, 1, "", isla.getColor() + "¡Destruye el resto de islas!");
-                p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
-                p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
-                
-                final TntPlayer tp = TeamTntWars.getPlayer(p);
-                tp.setCleanPlayer(GameMode.SURVIVAL);
-                tp.setGameScoreboard();
-                tp.getUserData().addPlay(GameID.TEAMTNT);
-                tp.save();
-                
-                
-                p.sendMessage(Metodos.colorizar(t.getPrefix() + "Estás en el equipo a " + plugin.getTm().getTeam(p).getDisplayName()));
-            });
-            plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
-        }
-        if (count == 5) { //Desactivar a los 5 segundos la inmunidad por caidas
-            plugin.getGm().setDañoEnCaida(true);
-            plugin.getAm().getGeneradores().forEach(gen -> gen.init());
-        }
 
+
+        switch (count){
+            case 0:
+                plugin.getGm().getPlayersInGame().forEach(p -> {
+                    System.out.println("getIsland de " + p.getName() + " (" + plugin.getTm().getTeam(p).getDisplayName() + ")");
+                    Team t = plugin.getTm().getTeam(p);
+                    TntIsland isla = TntIsland.getIsland(t);
+                    Title.sendTitle(p, 1, 5, 1, "", isla.getColor() + "¡Destruye el resto de islas!");
+                    p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
+                    p.setScoreboard(plugin.getServer().getScoreboardManager().getNewScoreboard());
+
+                    final TntPlayer tp = TeamTntWars.getPlayer(p);
+                    tp.setCleanPlayer(GameMode.SURVIVAL);
+                    tp.setGameScoreboard();
+                    tp.getUserData().addPlay(GameID.TEAMTNT);
+                    tp.save();
+
+
+                    p.sendMessage(Metodos.colorizar(t.getPrefix() + "Estás en el equipo a " + plugin.getTm().getTeam(p).getDisplayName()));
+                });
+                plugin.getAm().getIslas().forEach(i -> i.destroyCapsule());
+                break;
+            case 5: //Desactivar a los 5 segundos la inmunidad por caidas
+                plugin.getGm().setDañoEnCaida(true);
+                plugin.getAm().getGeneradores().forEach(gen -> gen.init());
+                break;
+        }
         ++count;
     }
     

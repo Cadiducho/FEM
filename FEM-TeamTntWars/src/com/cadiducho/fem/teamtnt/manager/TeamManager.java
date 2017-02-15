@@ -5,12 +5,13 @@ import com.cadiducho.fem.core.util.ScoreboardUtil;
 import com.cadiducho.fem.teamtnt.TeamTntWars;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TeamManager {
@@ -33,8 +34,7 @@ public class TeamManager {
     public Team gris;
 
     public Team dead;
-    
-    @Getter private final HashMap<Team,  ArrayList<Player>> jugadores = new HashMap<>();
+
     @Getter private final HashMap<Team, Location> teams = new HashMap<>();
 
     public void initTeams() {
@@ -71,16 +71,6 @@ public class TeamManager {
 
         gris.setAllowFriendlyFire(false);
         
-        jugadores.put(rojo, new ArrayList<>());
-        jugadores.put(azul, new ArrayList<>());
-        jugadores.put(verde, new ArrayList<>());
-        jugadores.put(amarillo, new ArrayList<>());
-        jugadores.put(morado, new ArrayList<>());
-
-        jugadores.put(gris, new ArrayList<>());
-
-        jugadores.put(dead, new ArrayList<>());
-        
         teams.put(rojo, Metodos.stringToLocation(plugin.getConfig().getString("TeamTntWars.Arena.Spawn.rojo")));
         teams.put(azul, Metodos.stringToLocation(plugin.getConfig().getString("TeamTntWars.Arena.Spawn.azul")));
         teams.put(verde, Metodos.stringToLocation(plugin.getConfig().getString("TeamTntWars.Arena.Spawn.verde")));
@@ -105,9 +95,28 @@ public class TeamManager {
     }
 
     public void asingTeam(Team team, Player p) {
+        if (isFilled(team)){
+            p.sendMessage(ChatColor.RED + "El equipo " + team.getPrefix() + team.getDisplayName() + ChatColor.RED + " está lleno");
+            return;
+        }
+        teams.keySet().forEach(t -> {
+            if (t.getEntries().isEmpty()){
+                System.out.println(p.getName() + " asignado a " + t.getDisplayName());
+                team.addEntry(p.getName());
+                p.setScoreboard(board);
+
+                p.playSound(p.getLocation(), Sound.CLICK, 1F, 1F);
+                p.sendMessage(ChatColor.GREEN + "Asignado al equipo " + t.getPrefix() + t.getDisplayName() + ChatColor.GREEN + " para balancear el juego");
+                return;
+            }
+        });
+
         System.out.println(p.getName() + " asignado a " + team.getDisplayName());
         team.addEntry(p.getName());
         p.setScoreboard(board);
+
+        p.playSound(p.getLocation(), Sound.CLICK, 1F, 1F);
+        p.sendMessage(ChatColor.GREEN + "Asignado al equipo " + team.getPrefix() + team.getDisplayName());
     }
 
     public boolean hasTeam(Player p){

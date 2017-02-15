@@ -1,9 +1,8 @@
 package com.cadiducho.fem.teamtnt.task;
 
-import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.teamtnt.TeamTntWars;
-import com.cadiducho.fem.teamtnt.TntPlayer;
 import com.cadiducho.fem.teamtnt.manager.GameState;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -12,7 +11,6 @@ import org.bukkit.scoreboard.Team;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import org.bukkit.GameMode;
 
 public class LobbyTask extends BukkitRunnable {
 
@@ -38,27 +36,35 @@ public class LobbyTask extends BukkitRunnable {
         plugin.getGm().getPlayersInGame().stream().forEach(players -> {
             plugin.getMsg().sendActionBar(players, "&a&lEl juego empieza en: " + count);
         });
-        if (count == 30) {
-            plugin.getMsg().sendBroadcast("&7El juego empezará en 30 segundos");
-        } else if (count == 5) {
-            GameState.state = GameState.GAME;
-            plugin.getGm().getPlayersInGame().forEach(p -> {
-                randomTeam(p);
-                TeamTntWars.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
-                p.closeInventory();
-            });
-            plugin.getTm().getTeams().keySet().forEach(t -> plugin.getAm().teleport(t));
-        } else if (count > 0 && count <= 4) {
-            plugin.getMsg().sendBroadcast("&7El juego empezará en &c" + count + " &7segundos"); 
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
-        } else if (count == 0) { 
-            plugin.getGm().setDañoEnCaida(false);
 
-            new GameTask(plugin).runTaskTimer(plugin, 20l, 20l);
-            cancel();
+        switch (count){
+            case 30:
+                plugin.getMsg().sendBroadcast("&7El juego empezará en 30 segundos");
+                break;
+            case 5:
+                GameState.state = GameState.GAME;
+                plugin.getGm().getPlayersInGame().forEach(p -> {
+                    randomTeam(p);
+                    TeamTntWars.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
+                    p.closeInventory();
+                });
+                plugin.getTm().getTeams().keySet().forEach(t -> plugin.getAm().teleport(t));
+                break;
+            case 4:
+            case 3:
+            case 2:
+            case 1:
+                plugin.getMsg().sendBroadcast("&7El juego empezará en &c" + count + " &7segundos");
+                plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
+                break;
+            case 0:
+                plugin.getGm().setDañoEnCaida(false);
+
+                new GameTask(plugin).runTaskTimer(plugin, 20l, 20l);
+                cancel();
+                break;
         }
-
-        --count;      
+        --count;
     }
 
 
