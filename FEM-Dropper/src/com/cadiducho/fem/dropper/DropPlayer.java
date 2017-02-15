@@ -51,15 +51,16 @@ public class DropPlayer extends FEMUser {
         }
     }
 
-    public void sendToDropper(String id) {
+    public void sendToDropper(String id, String diff) {
         getPlayer().teleport(Metodos.stringToLocation(plugin.getConfig().getString("Dropper.spawns." + id)));
         sendMessage("Estás en el mapa " + id);
+        sendMessage("Dificultad " + diff);
         sendMessage("&a¡Suerte!");
-        setGameScoreboard(id);
+        setGameScoreboard(id, diff);
         getUserData().addPlay(GameID.DROPPER);
     }
 
-    private void setGameScoreboard(String id) {
+    private void setGameScoreboard(String id, String diff) {
         ScoreboardUtil board = new ScoreboardUtil("§aDropper", "game");
         new BukkitRunnable() {
             @Override
@@ -70,7 +71,8 @@ public class DropPlayer extends FEMUser {
                 String map = getPlayer().getWorld().getName();
                 int comple = (getUserData().getDropper().get(map) != null) ? getUserData().getDropper().get(map) : 0;
  
-                board.text(3, "§dMapa: §b" + id);
+                board.text(4, "§dMapa: §b" + id);
+                board.text(3, "§dDificultad: " + diff);
                 board.text(2, (comple > 0) ? "§a✔ Mapa completado (§e" + comple + "§a)" : "§c✘ Mapa no completado");
                 board.text(1, (getUserData().getDropperInsignias().contains(map)) ? "§a✔ Insignia conseguida" : "§c✘ No tienes la insignia");
                 board.text(0, "§cmc.undergames.es");

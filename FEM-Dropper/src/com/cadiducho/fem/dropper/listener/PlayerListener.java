@@ -88,7 +88,8 @@ public class PlayerListener implements Listener {
 
                 if (ChatColor.stripColor(sign.getLine(0)).equalsIgnoreCase("<<Dropper>>")) {
                     String mapa = ChatColor.stripColor(sign.getLine(1));
-                    dp.sendToDropper(mapa);
+                    String diff = ChatColor.stripColor(sign.getLine(2));
+                    dp.sendToDropper(mapa, diff);
                     dp.setMapInventory();
                     e.setCancelled(true);
                 }
