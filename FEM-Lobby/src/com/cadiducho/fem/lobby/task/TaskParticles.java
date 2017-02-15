@@ -23,9 +23,10 @@ public class TaskParticles extends BukkitRunnable{
     @Override
     public void run() {
         if (!p.isOnline()) {
+            plugin.getMathsUtils().getParticles().remove(p);
             cancel();
             return;
         }
-        plugin.getMathsUtils().drawParticles(p, pt);
+        plugin.getMathsUtils().drawParticles(p, pt, plugin);
     }
 }

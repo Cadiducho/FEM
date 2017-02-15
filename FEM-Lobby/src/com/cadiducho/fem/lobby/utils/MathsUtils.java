@@ -1,6 +1,7 @@
 package com.cadiducho.fem.lobby.utils;
 
 import com.cadiducho.fem.core.api.FEMUser;
+import com.cadiducho.fem.lobby.Lobby;
 import lombok.Getter;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -13,9 +14,11 @@ import java.util.HashMap;
 
 public class MathsUtils {
 
+    private Lobby plugin;
+
     @Getter private HashMap<FEMUser, BukkitRunnable> particles;
 
-    private Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+    private Collection<? extends Player> players = plugin.getServer().getOnlinePlayers();
 
     private World world;
     private double x;
@@ -26,11 +29,13 @@ public class MathsUtils {
         particles = new HashMap<>();
     }
 
-    public void drawParticles(final Player p, final ParticleType pt){
+    public void drawParticles(final Player p, final ParticleType pt, Lobby plugin){
         world = p.getWorld();
         x = p.getLocation().getX();
         y = p.getLocation().getY();
         z = p.getLocation().getZ();
+
+        this.plugin = plugin;
 
         switch (pt.getPid()){
             case NONE:
@@ -73,7 +78,7 @@ public class MathsUtils {
     }
 
     private void drawFollowParticles(final ParticleEffect pe, final Color color){
-        pe.sendColor(players, x, y, z, color);
+        pe.sendColor(players, x, y + 2, z, color);
     }
 
     private void drawSpiral(final ParticleEffect pe, final Color color){
@@ -131,9 +136,10 @@ public class MathsUtils {
         }
     }
 
+    private float j;
     private void drawTornado(final ParticleEffect pe, final Color color){
         float lineNumber = 3.0F;
-        float j = 0.0F;
+        j = 0.0F;
         float radius = 0.3F;
         float heightEcart = 0.01F;
         Location l = new Location(world, x, y, z);
@@ -190,12 +196,11 @@ public class MathsUtils {
             t++;
 
             if (t == 6){
-                for (int r = 0; r < 6; r++) {
+                for (int r = 0; r < 7; r++) {
                     drawCircle(pe, color, r);
-                    Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.FUSE, 1F, 1F));
+                    plugin.getServer().getOnlinePlayers().forEach(p -> p.playSound(l, Sound.FUSE, 1F, 1F));
 
-                    if (r == 6)
-                        Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.EXPLODE, 1F, 1F));
+                    if (r == 6) plugin.getServer().getOnlinePlayers().forEach(p -> p.playSound(l, Sound.EXPLODE, 1F, 1F));
                 }
             }
         }
@@ -231,12 +236,11 @@ public class MathsUtils {
             t++;
 
             if (t == 6){
-                for (int r = 0; r < 6; r++) {
+                for (int r = 0; r < 7; r++) {
                     drawCircle(pe, color, r);
-                    Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.FUSE, 1F, 1F));
+                    plugin.getServer().getOnlinePlayers().forEach(p -> p.playSound(l, Sound.FUSE, 1F, 1F));
 
-                    if (r == 6)
-                        Bukkit.getOnlinePlayers().forEach(p -> p.playSound(l, Sound.EXPLODE, 1F, 1F));
+                    if (r == 6) plugin.getServer().getOnlinePlayers().forEach(p -> p.playSound(l, Sound.EXPLODE, 1F, 1F));
                 }
             }
         }
