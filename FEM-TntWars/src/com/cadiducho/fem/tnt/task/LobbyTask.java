@@ -30,25 +30,33 @@ public class LobbyTask extends BukkitRunnable {
         plugin.getGm().getPlayersInGame().stream().forEach(players -> {
             plugin.getMsg().sendActionBar(players, "&a&lEl juego empieza en: " + count);
         });
-        if (count == 30) {
-            plugin.getMsg().sendBroadcast("&7El juego empezará en &c30 &7segundos");
-        } else if (count == 5) {
-            GameState.state = GameState.GAME;
-            plugin.getGm().getPlayersInGame().forEach(p -> {
-                plugin.getAm().teleport(p);
-                TntWars.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
-            });
-        } else if (count > 0 && count <= 4) {
-            plugin.getMsg().sendBroadcast("&7El juego empezará en &c" + count + " &7segundos");
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
-        } else if (count == 0) {
-            plugin.getGm().setDañoEnCaida(false);
-            
-            //Iniciar hilo de la fase de esconder
-            new GameTask(plugin).runTaskTimer(plugin, 20l, 20l);
-            cancel();
-        }
 
+        switch (count){
+            case 30:
+                plugin.getMsg().sendBroadcast("&7El juego empezará en &c30 &7segundos");
+                break;
+            case 5:
+                GameState.state = GameState.GAME;
+                plugin.getGm().getPlayersInGame().forEach(p -> {
+                    plugin.getAm().teleport(p);
+                    TntWars.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
+                });
+                break;
+            case 4:
+            case 3:
+            case 2:
+            case 1:
+                plugin.getMsg().sendBroadcast("&7El juego empezará en &c" + count + " &7segundos");
+                plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
+                 break;
+            case 0:
+                plugin.getGm().setDañoEnCaida(false);
+
+                //Iniciar hilo de la fase de esconder (Ja, still nope)
+                new GameTask(plugin).runTaskTimer(plugin, 20, 20);
+                cancel();
+                break;
+        }
         --count;      
     }
 

@@ -15,11 +15,14 @@ public class WinnerCountdown extends BukkitRunnable {
 
     @Override
     public void run() {
-        if(game == 5){
-            plugin.getServer().getOnlinePlayers().stream().forEach(p -> BattleRoyale.getPlayer(p).sendToLobby());
-        } else if(game == 0){
-            plugin.getServer().shutdown();
-            cancel();            
+        switch (game){
+            case 5:
+                plugin.getServer().getOnlinePlayers().stream().forEach(p -> BattleRoyale.getPlayer(p).sendToLobby());
+                break;
+            case 0:
+                plugin.getServer().shutdown();
+                cancel();
+                break;
         }
         -- game;
     }

@@ -28,21 +28,30 @@ public class LobbyTask extends BukkitRunnable {
         }
         
         plugin.getGm().getPlayersInGame().forEach(pl ->  pl.setLevel(count));
-        if (count == 10) {
-            plugin.getMsg().sendBroadcast("10 segundos para comenzar");
-            plugin.getGm().getPlayersInGame().forEach((players) -> {
-                players.playSound(players.getLocation(), Sound.CLICK, 1f, 1f);
-            });
-        } else if (count > 0 && count <= 5) {
-            plugin.getGm().getPlayersInGame().stream().forEach(p -> {
-                Title.sendTitle(p, 0, 5, 0, "&c&l" + count, "");
-                p.playSound(p.getLocation(), Sound.CLICK, 1f, 1f);
-            });
-        } else if(count == 0){
-            plugin.getGm().getPlayersInGame().stream().forEach(p -> p.getInventory().clear());
-            new CountdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
-            GameState.state = GameState.COUNTDOWN;
-            this.cancel();
+
+        switch (count){
+            case 10:
+                plugin.getMsg().sendBroadcast("10 segundos para comenzar");
+                plugin.getGm().getPlayersInGame().forEach((players) -> {
+                    players.playSound(players.getLocation(), Sound.CLICK, 1f, 1f);
+                });
+                break;
+            case 5:
+            case 4:
+            case 3:
+            case 2:
+            case 1:
+                plugin.getGm().getPlayersInGame().stream().forEach(p -> {
+                    Title.sendTitle(p, 0, 5, 0, "&c&l" + count, "");
+                    p.playSound(p.getLocation(), Sound.CLICK, 1f, 1f);
+                });
+                break;
+            case 0:
+                plugin.getGm().getPlayersInGame().stream().forEach(p -> p.getInventory().clear());
+                new CountdownTask(plugin).runTaskTimer(plugin, 20l, 20l);
+                GameState.state = GameState.COUNTDOWN;
+                this.cancel();
+                break;
         }
         --count;
     }

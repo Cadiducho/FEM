@@ -32,7 +32,7 @@ public class GameTask extends BukkitRunnable {
             }
         });
         switch (count) {
-            case 75:
+            case 100:
                 gameInstance = this;
                 break;
             case 30:

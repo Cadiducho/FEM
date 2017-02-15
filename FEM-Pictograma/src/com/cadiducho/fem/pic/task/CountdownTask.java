@@ -24,39 +24,47 @@ public class CountdownTask extends BukkitRunnable {
     @Override
     public void run() {
         plugin.getGm().getPlayersInGame().forEach(pl -> pl.setLevel(count));
-        if (count == 7) {            
-            //Colocar jugadores
-            plugin.getGm().getPlayersInGame().forEach(p -> Pictograma.getPlayer(p).spawn());
-            
-            //Si son 6 jugadores, jugar dos rondas por cabeza. Si son más solo una:
-            plugin.getAm().setColaPintar((ArrayList<Player>) plugin.getGm().getPlayersInGame().clone());
-            
-            if (plugin.getGm().getPlayersInGame().size() < 7) {
-                plugin.getAm().getColaPintar().addAll(plugin.getGm().getPlayersInGame()); //Dos veces, dos rondas por cabeza
-            }
-        } else if (count > 0 && count <= 5) {
-            plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
-        } else if (count == 0) {
-            GameState.state = GameState.GAME;
-            for (Player p : plugin.getGm().getPlayersInGame()) {
-                p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
-                Pictograma.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
-                
-                //Ajustar puntuaciones y scoreboard
-                plugin.getGm().getScore().put(p, 0);
-                plugin.getGm().increaseScore(p, 0);
-                
-                final PicPlayer pp = Pictograma.getPlayer(p);
-                pp.setGameScoreboard();
-                pp.getUserData().addPlay(GameID.PICTOGRAMA);
-                pp.save();
-            }
-            
-            //Iniciar hilo de la fase de esconder
-            plugin.getGm().startRound();
-            cancel();
-        }
 
+        switch (count){
+            case 7:
+                //Colocar jugadores
+                plugin.getGm().getPlayersInGame().forEach(p -> Pictograma.getPlayer(p).spawn());
+
+                //Si son 6 jugadores, jugar dos rondas por cabeza. Si son más solo una:
+                plugin.getAm().setColaPintar((ArrayList<Player>) plugin.getGm().getPlayersInGame().clone());
+
+                if (plugin.getGm().getPlayersInGame().size() < 7) {
+                    plugin.getAm().getColaPintar().addAll(plugin.getGm().getPlayersInGame()); //Dos veces, dos rondas por cabeza
+                }
+                break;
+            case 5:
+            case 4:
+            case 3:
+            case 2:
+            case 1:
+                plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
+                break;
+            case 0:
+                GameState.state = GameState.GAME;
+                for (Player p : plugin.getGm().getPlayersInGame()) {
+                    p.playSound(p.getLocation(), Sound.EXPLODE, 1F, 1F);
+                    Pictograma.getPlayer(p).setCleanPlayer(GameMode.SURVIVAL);
+
+                    //Ajustar puntuaciones y scoreboard
+                    plugin.getGm().getScore().put(p, 0);
+                    plugin.getGm().increaseScore(p, 0);
+
+                    final PicPlayer pp = Pictograma.getPlayer(p);
+                    pp.setGameScoreboard();
+                    pp.getUserData().addPlay(GameID.PICTOGRAMA);
+                    pp.save();
+                }
+
+                //Iniciar hilo de la fase de esconder (Ja, no, empezar ronda)
+                plugin.getGm().startRound();
+                cancel();
+            break;
+        }
         --count;
     }
 }

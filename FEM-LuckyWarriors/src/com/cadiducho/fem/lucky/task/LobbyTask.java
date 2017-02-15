@@ -1,6 +1,6 @@
 package com.cadiducho.fem.lucky.task;
 
-import com.cadiducho.fem.core.api.FEMServer.GameID;
+import com.cadiducho.fem.core.api.FEMServer;
 import com.cadiducho.fem.lucky.LuckyPlayer;
 import com.cadiducho.fem.lucky.LuckyWarriors;
 import com.cadiducho.fem.lucky.manager.GameState;
@@ -33,23 +33,31 @@ public class LobbyTask extends BukkitRunnable {
         plugin.getGm().getPlayersInGame().stream().forEach((players) -> {
             players.setLevel(count);
         });
-        if (count > 0 && count <= 5) {
-            plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
-            plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
-        } else if (count == 0) {
-            plugin.getGm().getPlayersInGame().forEach(p -> {
-                plugin.getAm().teleportLucky(p);
-                plugin.getAm().fixPlayer(p.getLocation());
-                p.setHealth(p.getMaxHealth());
-                p.setFoodLevel(20);
 
-                final LuckyPlayer lp = LuckyWarriors.getPlayer(p);
-                lp.setCleanPlayer(GameMode.SURVIVAL);
-                lp.getUserData().addPlay(GameID.LUCKYWARRIORS);
-                lp.save();
-            });
-            new BreakLuckyTask(plugin).runTaskTimer(plugin, 1l, 20l);
-            cancel();
+        switch (count){
+            case 5:
+            case 4:
+            case 3:
+            case 2:
+            case 1:
+                plugin.getMsg().sendBroadcast("&7El juego empezará en " + count);
+                plugin.getGm().getPlayersInGame().forEach(p -> p.playSound(p.getLocation(), Sound.NOTE_PLING, 1F, 1F));
+                break;
+            case 0:
+                plugin.getGm().getPlayersInGame().forEach(p -> {
+                    plugin.getAm().teleportLucky(p);
+                    plugin.getAm().fixPlayer(p.getLocation());
+                    p.setHealth(p.getMaxHealth());
+                    p.setFoodLevel(20);
+
+                    final LuckyPlayer lp = LuckyWarriors.getPlayer(p);
+                    lp.setCleanPlayer(GameMode.SURVIVAL);
+                    lp.getUserData().addPlay(FEMServer.GameID.LUCKYWARRIORS);
+                    lp.save();
+                });
+                new BreakLuckyTask(plugin).runTaskTimer(plugin, 1l, 20l);
+                cancel();
+                break;
         }
         --count;
     }

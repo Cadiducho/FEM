@@ -16,14 +16,19 @@ public class ShutdownTask extends BukkitRunnable {
     public void run() {
         
         plugin.getServer().getOnlinePlayers().stream().forEach(pl -> pl.sendMessage("Volverás al lobby en: " + count));
-        if (count == 0) {            
-            plugin.getServer().getOnlinePlayers().stream().forEach(p -> {
-                p.sendMessage("Servidor desconectado");
-                TntWars.getPlayer(p).sendToLobby();
-            });
-            plugin.getServer().unloadWorld(plugin.getServer().getWorlds().get(0), false);
-            plugin.getServer().shutdown();
-            cancel();
+
+        switch (count){
+            case 1:
+                plugin.getServer().getOnlinePlayers().stream().forEach(p -> {
+                    p.sendMessage("Servidor desconectado");
+                    TntWars.getPlayer(p).sendToLobby();
+                });
+                break;
+            case 0:
+                plugin.getServer().unloadWorld(plugin.getServer().getWorlds().get(0), false);
+                plugin.getServer().shutdown();
+                cancel();
+                break;
         }
         --count;
     }

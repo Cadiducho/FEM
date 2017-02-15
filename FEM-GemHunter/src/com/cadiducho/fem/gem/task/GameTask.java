@@ -49,7 +49,6 @@ public class GameTask extends BukkitRunnable {
             default:
                 break;
         }
-
         --count;
         noPlayers();
     }

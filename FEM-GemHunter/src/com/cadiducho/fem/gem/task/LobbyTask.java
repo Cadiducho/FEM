@@ -28,21 +28,30 @@ public class LobbyTask extends BukkitRunnable {
             return;
         }
         plugin.getGm().getPlayersInGame().stream().forEach(pl ->  pl.setLevel(count));
-        if (count == 10) {
-            plugin.getMsg().sendBroadcast("10 segundos para crear equipos");
-            plugin.getGm().getPlayersInGame().stream().forEach((players) -> {
-                players.playSound(players.getLocation(), Sound.CLICK, 1f, 1f);
-            });
-        } else if (count > 0 && count <= 5) {
-            plugin.getGm().getPlayersInGame().forEach(p -> {
-                Title.sendTitle(p, 1, 3, 1, "&c&l" + count, "");
-                p.playSound(p.getLocation(), Sound.CLICK, 1f, 1f);
-            });
-        } else if(count == 0) {
-            plugin.getGm().getPlayersInGame().forEach(p -> GemHunters.getPlayer(p).setCleanPlayer(GameMode.ADVENTURE));
-            new CountdownTask(plugin).runTaskTimer(plugin, 1l, 20l);
-            GameState.state = GameState.COUNTDOWN;
-            cancel();
+
+        switch (count){
+            case 10:
+                plugin.getMsg().sendBroadcast("10 segundos para crear equipos");
+                plugin.getGm().getPlayersInGame().stream().forEach((players) -> {
+                    players.playSound(players.getLocation(), Sound.CLICK, 1f, 1f);
+                });
+                break;
+            case 5:
+            case 4:
+            case 3:
+            case 2:
+            case 1:
+                plugin.getGm().getPlayersInGame().forEach(p -> {
+                    Title.sendTitle(p, 1, 3, 1, "&c&l" + count, "");
+                    p.playSound(p.getLocation(), Sound.CLICK, 1f, 1f);
+                });
+                break;
+            case 0:
+                plugin.getGm().getPlayersInGame().forEach(p -> GemHunters.getPlayer(p).setCleanPlayer(GameMode.ADVENTURE));
+                new CountdownTask(plugin).runTaskTimer(plugin, 1l, 20l);
+                GameState.state = GameState.COUNTDOWN;
+                cancel();
+                break;
         }
         --count;
     }
