@@ -35,7 +35,7 @@ public class ResourcePackManager implements Listener {
     private final Plugin plugin;
     private String name; // Nombre del pack sin .zip
 
-    private String host = "http://cadox8.ga/ug/";
+    private String host = "http://cadox8.cf/ug/";
 
     //
     
