@@ -13,12 +13,12 @@ FEM fue el nombre en clave que dí al proyecto antes de saber el nombre de Under
 
 ## Características
   - Sistema de rangos integrado. Es básico, si un comando es de rango 3 y tú eres 3 o más te dejará.
-  - Un plugin que se tiene que ejecutar en todos los servidores para el manejo de su API interna y control de usuarios
-  - Plugin de BungeeCord que actúa como 'satélite', rebotando datos de los plugins de Spigot
+  - Un plugin que se tiene que ejecutar en todos los servidores para el manejo de su API interna y control de usuarios (FEM-Spigot)
+  - Plugin de BungeeCord que actúa como 'satélite', rebotando datos de los plugins de Spigot.
   - Sistema de chat cross-server para los Lobby. El AdminChat va integrado en el lobby para que sea visible en TODOS los servidores. Los /tell son también cross-server. Estos pueden ser desactivados en tus ajustes del lobby.
   - Amistades estilo twitter. X eliges a quién seguir y a Y se le notifica que le sigues (a no ser que Y desactive esta notificación), pero no necesariamente Y va a seguir a X.
   - Ocultar jugadores y demás en base a amigos en el lobby... lo típico.
-  - Sistema de carteles en el lobby para entrar, basado en [TeleportSigns](https://github.com/zh32/TeleportSigns) y modificado para nuestro uso
+  - Sistema de carteles en el lobby para entrar, basado en [TeleportSigns](https://github.com/zh32/TeleportSigns) y modificado para nuestro uso.
   - *Nueve minijuegos*
     - GemHunter: Busca y destruye gemas por equipos
     - DyeOrDie: Corre por la plataforma buscando el color indicado, o muere cayendo al vacío
@@ -68,13 +68,13 @@ Para su ejecución
  - Mejorar el código internamente... la idea era hacerlo todo objetos, incluso las fases de los juegos
  - Terminar el Protections y el servidor survival en sí mismo
  - Unificar la estructura del código... tantos meses cambia mucho el código de un plugin antiguo a uno más moderno
- - Soporte para multiples idioma, brevemente programado.
+ - Soporte para multiples idiomas, brevemente programado.
  - Hacer todos los ´team´ como una opción dentro del mismo plugin del individual
  - Demasiados cambios internos que ya se me han olvidado
 
 ## Licencias de terceros
 
-FEM Fue desarrollado con la ayuda y uso de:
+FEM fue desarrollado con la ayuda y uso de:
 * [BungeeCoord](https://github.com/SpigotMC/BungeeCord) - [BSD 3-clause](https://github.com/SpigotMC/BungeeCord/blob/master/LICENSE) - The Spigot Team
 * [Bukkit/Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT) - [GPL](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit/browse/LICENCE.txt) - The Bukkit and Spigot Team
 * [TeleportSigns](https://github.com/zh32/TeleportSigns) - [MIT](https://github.com/zh32/TeleportSigns/blob/development/LICENSE) - [zh32](https://github.com/zh32/)
@@ -89,6 +89,7 @@ FEM Fue desarrollado con la ayuda y uso de:
 ## Comentarios de los desarrolladores
 
 > Fueron unos buenos meses desarrollando este proyecto que finalmente no pudo salir adelante. Esperamos que a alguien le sirvan nuestros códigos e ideas. Estaríamos encantados de que nos contacteis con los usos que le déis, ya sea en algún plugin vuestro, un servidor o que hacéis un fork y continuáis el proyecto.
+> Algunas partes del código pueden ser muy toscas y mejorables. Pido perdón por eso, ya que al empezar, con el poco tiempo que teníamos y todos los cambios que nos tocó hacer, no nos paramos a pensar mucho en la forma de hacerlo eficiente, solo en que funcionara.
 
 # Contacto
 * [Cadiducho](https://github.com/Cadiducho) - Desarrollador principal - cadiducho@gmail.com - [@Cadiducho](https://twitter.com/Cadiducho)
