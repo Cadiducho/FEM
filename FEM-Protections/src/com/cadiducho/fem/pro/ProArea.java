@@ -1,6 +1,5 @@
 package com.cadiducho.fem.pro;
 
-import com.cadiducho.fem.core.particles.ParticleEffect;
 import com.cadiducho.fem.core.util.Metodos;
 import com.cadiducho.fem.pro.utils.CuboidRegion;
 import com.cadiducho.fem.pro.utils.ProType;
@@ -67,7 +66,7 @@ public class ProArea {
     }
 
     public void showArea(){
-        getSquareLocations().forEach(l -> ParticleEffect.REDSTONE.display(new ParticleEffect.OrdinaryColor(255, 0, 255), l, proPlayer.getPlayer()));
+        //getSquareLocations().forEach(l -> ParticleEffect.REDSTONE.display(new ParticleEffect.OrdinaryColor(255, 0, 255), l, proPlayer.getPlayer()));
     }
 
     public void removeArena(Material m){
