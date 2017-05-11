@@ -92,5 +92,5 @@ FEM Fue desarrollado con la ayuda y uso de:
 
 # Contacto
 * [Cadiducho](https://github.com/Cadiducho) - Desarrollador principal - cadiducho@gmail.com - [@Cadiducho](https://twitter.com/Cadiducho)
-* [Cadox](https://github.com/cadox8) - Desarrollador durante los últimos meses - [Web](https://projectalpha.es/cadox8/) - [@cadox8](https://twitter.com/cadox8)
+* [Cadox](https://github.com/cadox8) - Desarrollador durante los últimos meses - cadox8@gmail.com - [Web](http://cadox8.me) - [@cadox8](https://twitter.com/cadox8)
 
