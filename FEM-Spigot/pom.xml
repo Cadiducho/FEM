@@ -55,7 +55,7 @@
         </repository>
         <repository>
             <id>cadiducho-repo</id>
-            <url>http://repo.cadiduchsz.cluster005.ovh.net/</url>
+            <url>https://cadiducho.com/repo/</url>
         </repository>
         <repository>
             <id>viaversion-repo</id>
