@@ -45,7 +45,7 @@ FEM fue el nombre en clave que dí al proyecto antes de saber el nombre de Under
 Instala dependencias, inicia módulos y compila.
 
 ```sh
-$ mvn clean build
+$ mvn clean install
 ```
 
 Y carga el esquema de la base de datos en tu servidor.

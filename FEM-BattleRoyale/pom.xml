@@ -33,7 +33,7 @@
         </repository>
         <repository>
             <id>cadi-repo</id>
-            <url>http://cadiduchsz.cluster005.ovh.net/repo/</url>
+            <url>https://cadiducho.com/repo/</url>
         </repository>  
     </repositories>
     <dependencies>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>com.cadiducho</groupId>
             <artifactId>FEM-Spigot</artifactId>
-            <version>LATEST</version>
+            <version>1.1</version>
             <type>jar</type>
         </dependency>
         <dependency>
